@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留给以宁的信</title>
+    <!-- 引入高品质手写风格字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* 沉稳暗淡的深色背景，模拟桌案场景 */
+            background-color: #070706;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5rem 1.5rem 2.5rem 1.5rem;
+        }
+
+        /* 桌面构图场景（信纸容器） */
+        .desk-scene {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            /* 顶部预留合适空间 */
+            padding: 4.8rem 3.2rem 3rem 3.2rem;
+            /* 信纸基础外观：复古微黄便笺纸，带有自然行线 */
+            background-color: #fdfbf7;
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 31px,
+                #ebdccb 31px,
+                #ebdccb 32px
+            );
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), 
+                        0 2px 8px rgba(0, 0, 0, 0.2);
+            /* 边缘微微卷起倾斜感 */
+            transform: rotate(-0.6deg);
+        }
+
+        /* 尺寸保持 293px * 173px 的奖学金联名银行卡 */
+        .scholarship-card {
+            position: absolute;
+            top: -65px;
+            right: 18px;
+            width: 293px;
+            height: 173px;
+            /* 高级尊贵蓝金渐变背景 */
+            background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 60%, #415a77 100%);
+            border-radius: 12px;
+            box-shadow: 6px 14px 28px rgba(0, 0, 0, 0.45);
+            padding: 1.1rem 1.3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transform: rotate(3.8deg);
+            z-index: 10;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .scholarship-card:hover {
+            transform: rotate(1deg) scale(1.03) translateY(-4px);
+            box-shadow: 9px 18px 34px rgba(0, 0, 0, 0.55);
+        }
+
+        /* 银行卡暗纹水纹/光芒 SVG 背景 */
+        .card-pattern-overlay {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(255,255,255,0) 70%);
+            pointer-events: none;
+        }
+
+        /* 1. 卡片顶部：发卡机构与奖学金名称 */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-bank-name {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #f3d58c;
+            letter-spacing: 1px;
+        }
+
+        .card-type-tag {
+            font-size: 0.55rem;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid #d4af37;
+            color: #f3d58c;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+        }
+
+        /* 2. 中层：金属芯片与感应标志 */
+        .card-chip-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 仿真金属芯片 */
+        .card-chip {
+            width: 34px;
+            height: 26px;
+            background: linear-gradient(135deg, #e0aa3e 0%, #f9f59f 50%, #b8860b 100%);
+            border-radius: 5px;
+            position: relative;
+            border: 1px solid #996515;
+            box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
+        }
+
+        .card-chip::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* 无接触支付/感应图标 */
+        .card-contactless {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            transform: rotate(90deg);
+        }
+
+        /* 3. 卡号区域 */
+        .card-number {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            margin: 4px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 4. 卡片底部：持卡人与联名 Logo */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-holder-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-holder-label {
+            font-size: 0.45rem;
+            color: #a0aab2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-holder-name {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #f3d58c;
+            letter-spacing: 1px;
+        }
+
+        .card-logo-union {
+            font-size: 0.75rem;
+            font-weight: 900;
+            font-style: italic;
+            background: linear-gradient(90deg, #ff4e50, #f9d423);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        /* 父亲的手写信内容 */
+        .letter-content {
+            margin-top: 0.5rem;
+            font-family: "Ma Shan Zheng", "Zhi Mang Xing", "Kaiti", "STKaiti", "楷体", serif;
+            font-size: 1.45rem;
+            line-height: 32px;
+            color: #23201e;
+            letter-spacing: 1.5px;
+        }
+
+        .letter-content p {
+            margin-bottom: 0;
+            text-indent: 0;
+        }
+
+        .letter-content p.indent {
+            text-indent: 2em;
+        }
+
+        .letter-signature {
+            margin-top: 1rem;
+            text-align: right;
+            font-weight: bold;
+            font-size: 1.6rem;
+            padding-right: 1.5rem;
+        }
+
+        /* 适应移动端屏幕 */
+        @media (max-width: 600px) {
+            .desk-scene {
+                padding: 4rem 1.2rem 2rem 1.2rem;
+            }
+            .scholarship-card {
+                width: 200px;
+                height: 118px;
+                top: -45px;
+                right: 10px;
+                padding: 0.7rem;
+            }
+            .card-bank-name {
+                font-size: 0.65rem;
+            }
+            .card-type-tag {
+                font-size: 0.45rem;
+                padding: 1px 3px;
+            }
+            .card-chip {
+                width: 24px;
+                height: 18px;
+            }
+            .card-number {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+                margin: 2px 0;
+            }
+            .card-holder-name {
+                font-size: 0.6rem;
+            }
+            .card-logo-union {
+                font-size: 0.55rem;
+            }
+            .letter-content {
+                font-size: 1.2rem;
+                line-height: 32px;
+            }
+        }
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">29/38</div></head>
+<body>
+
+    <div class="desk-scene">
+        <!-- 奖学金联名银行卡 -->
+        <div class="scholarship-card">
+            <div class="card-pattern-overlay"></div>
+            
+            <!-- 页头：银行与奖学金标识 -->
+            <div class="card-header">
+                <span class="card-bank-name">青州商业银行</span>
+     
+            </div>
+
+            <!-- 中部：芯片 -->
+            <div class="card-chip-row">
+                <div class="card-chip"></div>
+                <span class="card-contactless">)))</span>
+            </div>
+
+            <!-- 卡号 -->
+            <div class="card-number">
+                6222 **** **** 0112
+            </div>
+
+            <!-- 页脚：持卡人与 UnionPay/银联 样式 -->
+            <div class="card-footer">
+                <div class="card-holder-group">
+                    <span class="card-holder-label">CARD HOLDER</span>
+                    <span class="card-holder-name">SONG YINING</span>
+                </div>
+                <div class="card-logo-union">
+                    UnionPay 银联
+                </div>
+            </div>
+        </div>
+
+        <!-- 手写信主体 -->
+        <div class="letter-content">
+            <p>以宁：</p>
+<p class="indent">这一年来，你一个人在学校，辛苦你了。爸爸妈妈知道，你一直都很懂事，总是报喜不报忧。</p>
+<p class="indent">这次拿到奖学金，我们都为你骄傲。这是你自己努力得来的，你安心收着。姐姐这次手术很顺利，后面应该也不会再有太多花费了。</p>
+<p class="indent">等姐姐恢复得再好一些，爸爸就接你回家走读。</p>
+<p class="indent">这周晚点回学校，我们一家好好吃顿饭。</p>
+
+
+            <div class="letter-signature">
+                爸爸<br>
+                2019.03.29
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

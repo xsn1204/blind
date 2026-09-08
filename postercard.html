@@ -1,149 +1,93 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="mobile.css">
     <title>明信片</title>
-    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&family=Long+Cang&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&family=Long+Cang&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            background: #1a1a1a;
+            background: #0a0a12;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            font-family: 'Noto Serif TC', serif;
+            font-family: 'Noto Serif SC', serif;
             overflow: hidden;
         }
 
-        /* --- 密码验证层 (Mask) --- */
-        #password-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(15px); /* 强力模糊 */
-            -webkit-backdrop-filter: blur(15px);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: all 1s ease-in-out;
-        }
-
-        .auth-container {
-            text-align: center;
-            color: #d4af37; /* 復古金 */
-            font-family: 'Long Cang', cursive;
-        }
-
-        .auth-container h2 {
-            font-size: 2rem;
-            letter-spacing: 4px;
-            margin-bottom: 20px;
-            color: #eee;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        #pw-input {
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid #d4af37;
-            color: white;
-            padding: 10px;
-            font-size: 1.2rem;
-            text-align: center;
-            outline: none;
-            width: 150px;
-            letter-spacing: 5px;
-        }
-
-        #unlock-btn {
-            background: transparent;
-            border: 1px solid #d4af37;
-            color: #d4af37;
-            padding: 5px 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Noto Serif TC', serif;
-        }
-
-        #unlock-btn:hover {
-            background: #d4af37;
-            color: #000;
-        }
-
-        /* 验证通过后的隐藏动画 */
-        .access-granted {
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(1.1);
-        }
-
-        /* --- 明信片原有样式 --- */
+        /* --- 明信片整体容器 --- */
         .postcard {
-            width: 800px;
-            height: 500px;
-            background-color: #0d0d0d;
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), 
-                              url('poster.jpg'); 
+            width: 860px;
+            height: 520px;
+            background-color: #0d0d15;
+            /* 银河背景，叠加遮罩保证可读性 */
+            background-image: linear-gradient(135deg, rgba(5, 7, 20, 0.8), rgba(15, 10, 25, 0.85)), 
+                              url(' mountain.png'); 
             background-size: cover;
             background-position: center;
             display: flex;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(100, 150, 255, 0.1);
             position: relative;
-            border: 1px solid #333;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
         }
 
+        /* 中间分隔线，位置右移适应左侧拉大 */
         .postcard::before {
             content: "";
             position: absolute;
-            left: 50%;
-            top: 15%;
-            bottom: 15%;
+            left: 58%;
+            top: 10%;
+            bottom: 10%;
             width: 1px;
-            background: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.25), transparent);
         }
 
+        /* --- 左侧手写信正文（已放大区域） --- */
         .message-side {
-            flex: 1;
-            padding: 40px;
-            color: #e0e0e0;
+            flex: 1.35;
+            padding: 30px 25px 30px 35px;
+            color: #f0f0f5;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            font-family: 'Ma Shan Zheng', cursive;
+            justify-content: space-between;
+            font-family: 'Long Cang', cursive;
         }
 
-        .message-side p {
-            font-size: 1.4rem;
-            line-height: 1.8;
-            margin: 0;
-            letter-spacing: 2px;
+        .message-content p {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin: 0 0 8px 0;
+            letter-spacing: 1px;
+            color: #e6e6fa;
+            text-shadow: 0 0 2px rgba(0,0,0,0.8);
+                 font-family: 'Ma Shan Zheng', 'STXingkai', cursive;
         }
 
         .signature {
-            margin-top: 30px;
             text-align: right;
-            font-size: 1.6rem;
-            color: #ffffff;
+            font-size: 1.25rem;
+            color: #d4af37;
+              font-family: 'Ma Shan Zheng', 'STXingkai', cursive;
+            line-height: 1.2;
+            margin-top: 4px;
         }
 
+        /* --- 右侧地址栏与邮戳 --- */
         .address-side {
-            flex: 1;
-            padding: 40px;
+            flex: 0.9;
+            padding: 35px 30px 35px 25px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -152,182 +96,99 @@
 
         .stamp {
             position: absolute;
-            top: 40px;
-            right: 40px;
-            width: 90px;
+            top: 35px;
+            right: 30px;
+            width: 80px;
             height: 90px;
-            border: 2px dashed rgba(255,255,255,0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: rgba(255,255,255,0.3);
-            font-size: 0.8rem;
-        }
-
-        .address-lines { margin-bottom: 40px; }
-
-        .line {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            height: 40px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: flex-end;
-            color: #999;
-            font-size: 0.9rem;
-            padding-left: 10px;
-        }
-
-        .musical-tag {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 10px;
-            color: rgba(255,255,255,0.2);
-            letter-spacing: 5px;
-            text-transform: uppercase;
-        }
-
-        .handwriting-3 {
-            font-family: 'Long Cang', cursive;
-            color: #ffffff;
-        }
-        /* 针对音符标题的专属样式 */
-    .musical-notes {
-        font-family: 'Poiret One', cursive;
-        font-size: 2.2rem;
-        line-height: 1.2;
-        letter-spacing: 8px;
-        color: rgba(212, 175, 55, 0.9); /* 柔和的金色 */
-        margin-bottom: 30px;
-        text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
-        font-weight: 100;
-    }
-    
-    /* 让升号 # 稍微缩小并上浮，更像乐谱符号 */
-    .musical-notes b {
-        font-size: 1.4rem;
-        vertical-align: super;
-        margin-left: -4px;
-        margin-right: 2px;
-        font-weight: normal;
-    }
-                    .progress-indicator {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-        
-        /* 投递失败邮戳样式 */
-        .delivery-failed-stamp {
-            position: absolute;
-            top: 150px;
-            right: 50px;
-            width: 150px;
-            height: 60px;
-            border: 3px solid rgba(200, 50, 50, 0.7); /* 红褐色，带透明度 */
-            color: rgba(200, 50, 50, 0.8);
-            border-radius: 10px;
+            border: 2px dashed rgba(212, 175, 55, 0.5);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transform: rotate(-15deg); /* 倾斜 */
-            font-family: 'Noto Serif TC', serif;
-            font-weight: bold;
-            text-transform: uppercase;
+            color: rgba(212, 175, 55, 0.6);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        /* 正文中的金色地名高亮 */
+        .highlight-gold {
+            color: #d4af37;
+            font-weight: normal;
+        }
+
+        .address-lines { 
+            margin-bottom: 20px; 
+        }
+
+        .line {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            height: 40px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-end;
+            color: #cccccc;
+            font-size: 0.9rem;
+            padding-left: 5px;
+            font-family: 'Noto Serif SC', serif;
             letter-spacing: 1px;
-            z-index: 10;
-            pointer-events: none; /* 防止遮挡下方交互 */
-            background-color: rgba(13, 13, 13, 0.5); /* 略微遮挡背景 */
         }
-        
-        .delivery-failed-stamp .main-text {
-            font-size: 1rem;
-            margin-bottom: 2px;
+
+        .line strong {
+            color: #d4af37;
+            font-weight: 600;
+            margin-left: 5px;
         }
-        
-        .delivery-failed-stamp .sub-text {
-            font-size: 0.7rem;
+
+        .progress-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
         }
-        
-    </style> <div class="progress-indicator">37/37</div>
+    </style>
 </head>
 <body>
 
-<div id="password-overlay">
-    <div class="auth-container">
-        <div class="musical-notes">
-            F<b>♯</b>FG<br>
-            G<b>♯</b>GAA<b>♯</b><br>
-            C<b>♯</b>DD<b>♯</b>
-        </div>
-        <div class="input-group">
-            <input type="password" id="pw-input" placeholder="KEY" maxlength="3">
-            <button id="unlock-btn" onclick="checkPassword()">OPEN</button>
-        </div>
-        <p id="error-msg" style="color: #fbfbfb; font-size: 0.9rem; margin-top: 15px; display: none; font-family: sans-serif;">密码错误</p>
-    </div>
-</div>
+<div class="progress-indicator">36/38</div>
 
 <div class="postcard">
-    <div class="note handwriting-3 message-side">
-        <p>好久不見，向晴</p>
-        <p>即使家里不支持，我也會努力追求自己的夢想。</p>
-        <p>記得初相識時，你曾說這部音樂劇是你心中的最愛。</p>
-        <p>在店裡見到這张劇照明信片，瞬間就想到了你，特意買下。</p>
-        <p>希望這份遙遠的祝福，你會喜歡。生日快樂！</p>
-        <div class="signature">Eden Duan<br>2013/3/25</div>
+    <div class="message-side">
+        <div class="message-content">
+        <p>好久不见，以宁</p>
+
+
+<p>在<span class="highlight-gold">【波士顿】</span>的小店看到这张明信片时，脑海里瞬间浮现出你的样子，便毫不犹豫地买了下来。</p>
+
+
+
+<p>还记得被困山上的那晚，你冻得瑟瑟发抖，却轻描淡写地说“并不是特意来找你，只是找机会溜出来看看有没有流星”。</p><p>后来我才知道，以你的视力根本看不清那片夜空。</p>
+
+
+
+<p>在那段无比迷茫的时间里，是你让我想清楚，什么才是真正属于我的梦想。在这个不常看到流星雨的城市里，每当我想放弃时，想起你和那晚的星空，就又有了继续前行的勇气。</p>
+
+
+
+<p>希望这份遥远的祝福，你会喜欢。生日快乐！</p>
+        </div>
+
+        <div class="signature">Eden Duan<br>2020/1/12</div>
     </div>
 
     <div class="address-side">
-        <div class="stamp">Postage</div>
-        <div class="address-lines">
-            <div class="line">TO: Qingzhou, Linyuan</div>
-            <div class="line">From: Taipei City</div>
-        </div>
-        <div class="musical-tag">Memories of Our Days</div>
-        
-        <div class="delivery-failed-stamp">
-            <div class="main-text">投递失败</div>
-            <div class="sub-text">无法联系收件人</div>
+        <div class="stamp">POSTAGE</div>
+  <div class="line">TO: Qingzhou, Linyuan</div>
+
+<div class="line">From: Boston, MA, USA</div>
         </div>
     </div>
 </div>
-
-<script>
-    function checkPassword() {
-        const input = document.getElementById('pw-input').value;
-        const overlay = document.getElementById('password-overlay');
-        const errorMsg = document.getElementById('error-msg');
-
-        if (input.toUpperCase() === "LUV") {
-            // 验证通过
-            overlay.classList.add('access-granted');
-            // 延迟彻底从DOM移除，防止遮挡交互
-            setTimeout(() => overlay.style.display = 'none', 1000);
-        } else {
-            // 验证失败
-            errorMsg.style.display = 'block';
-            document.getElementById('pw-input').value = "";
-        }
-    }
-
-    // 支持回车键提交
-    document.getElementById('pw-input').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            checkPassword();
-        }
-    });
-</script>
-
-
 
 </body>
 </html>

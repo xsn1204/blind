@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>青州大学附属高中校刊</title>
+    <!-- 引入便签手写字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #f4f3ef; /* 模拟画报略微泛黄的纸质感 */
@@ -11,16 +15,87 @@
             padding: 40px 0;
             display: flex;
             justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
 
-        .magazine-page {
+        /* 3D 翻转卡片总容器 */
+        .flip-container {
+            perspective: 1500px;
+            width: 820px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* 翻转主体 */
+        .flipper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* 点击状态切换 */
+        .flip-container.flipped .flipper {
+            transform: rotateY(180deg);
+        }
+
+        /* 正面与背面共享基本属性 */
+        .magazine-front, .magazine-back {
+            width: 100%;
+            backface-visibility: hidden;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* ==================== 正面：校刊页面 ==================== */
+        .magazine-front {
+            position: relative;
             background-color: #fdfcf7; /* 纸张亮色 */
-            width: 820px; /* 略微加宽以容纳更多文字 */
             padding: 50px 50px 40px 50px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            position: relative;
-            box-sizing: border-box;
             color: #222;
+            z-index: 2;
+            transform: rotateY(0deg);
+            /* 右下角65px三角镂空，与折角匹配 */
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 65px), calc(100% - 65px) 100%, 0 100%);
+        }
+
+        /* 右下角独立折角组件 */
+        .page-curl {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 65px;
+            height: 65px;
+            z-index: 10; 
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+
+        .page-curl::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                transparent 0%, 
+                transparent 49.8%, 
+                #e2dfd2 50%,
+                #d3c8b1 72%,
+                #bdae93 100%
+            );
+            filter: drop-shadow(-3px -3px 4px rgba(0,0,0,0.15));
+            border-radius: 0 0 4px 0;
+        }
+
+        /* 悬停折角轻微抬起动效 */
+        .flip-container:hover .page-curl {
+            transform: translate(-2px, -2px) scale(1.04);
         }
 
         /* 左上角版头 青春纪 */
@@ -140,14 +215,6 @@
             color: #2a3a57;
         }
 
-        /* 还原图片中的特殊首字或小标题前缀效果 */
-        .special-prefix {
-            font-family: sans-serif;
-            color: #b05139;
-            font-weight: bold;
-            margin-right: 2px;
-        }
-
         /* 底部页码与版权信息栏 */
         .magazine-footer {
             margin-top: 40px;
@@ -177,7 +244,75 @@
         .footer-quote {
             color: #555;
         }
-        
+
+        /* ==================== 背面：纸张背面与小纸条 ==================== */
+        .magazine-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #96814b;
+            background-image: linear-gradient(rgba(0,0,0,0.01) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0,0,0,0.01) 1px, transparent 1px);
+            background-size: 20px 20px;
+            transform: rotateY(180deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            box-sizing: border-box;
+            clip-path: polygon(
+                0 0,
+                100% 0,
+                100% 100%,
+                65px 100%,
+                0 calc(100% - 65px)
+            );
+        }
+
+        /* 黄便签卡片组件 */
+        .memo-pad {
+            background-color: #fff9d7; 
+            width: 340px;
+            padding: 30px 35px;
+            box-shadow: 4px 6px 15px rgba(0,0,0,0.15);
+            border-left: 6px solid #e6b800; 
+            transform: rotate(-2.5deg); 
+            font-family: "Microsoft YaHei", "Lucida Sans Unicode", sans-serif;
+            cursor: default;
+            pointer-events: none; 
+        }
+
+        .memo-content {
+            font-size: 14px;
+            line-height: 1.9;
+            color: #111;
+            letter-spacing: 0.5px;
+        }
+
+        .memo-content p {
+            margin: 0 0 15px 0;
+            text-align: justify;
+            font-family: 'Ma Shan Zheng', 'STXingkai', cursive;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        .memo-signature {
+            text-align: right;
+            margin-top: 35px;
+            font-size: 26px;
+            font-weight: bold;
+            color: #222;
+            font-family: 'Ma Shan Zheng', 'STXingkai', cursive;
+            letter-spacing: 1px;
+        }
+
+        .highlight-line {
+            border-bottom: 2px solid #1a53ff;
+            padding-bottom: 1px;
+        }
+
         .progress-indicator {
             position: fixed;
             bottom: 20px;
@@ -191,83 +326,105 @@
             z-index: 9999;
         }
     </style>
-    <div class="progress-indicator">22/37</div>
 </head>
 <body>
 
-<div class="magazine-page">
-    
-    <!-- 版头区 -->
-    <div class="magazine-header">
-        <div class="header-tag-red">青甸</div>
-        <div class="header-meta">
-            <strong>青春纪</strong> / <span style="color:#b32424;">■</span><br>
-            成长纪念册
-        </div>
-        <div style="margin-left: auto; text-align: right; font-size: 11px; color: #888;">
-            青州大学附属高中校刊《青甸》 · 2018年10月刊 
-        </div>
-    </div>
+<div class="progress-indicator">22/38</div>
 
-    <!-- 插画区 -->
-    <div class="illustration-placeholder" style="border: none; padding: 0; overflow: hidden; box-shadow: inset 0 0 20px rgba(0,0,0,0.05);">
-        <img src="film.png" alt="校刊配图" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-    </div>
-    
-    <div class="author-sign">◎ 文 / 宋以宁</div>
+<div class="flip-container" onclick="this.classList.toggle('flipped')">
+    <div class="flipper">
+        
+        <!-- 正面：校刊 -->
+        <div class="magazine-front">
+            <!-- 折角元素 -->
+            <div class="page-curl"></div>
 
-    <!-- 大标题区 -->
-    <div class="title-container">
-        <div class="main-title-line1">我们不降落</div>
-        <div class="main-title-line2">——电影《白日梦想家》观影后记</div>
-    </div>
+            <!-- 版头区 -->
+            <div class="magazine-header">
+                <div class="header-tag-red">青甸</div>
+                <div class="header-meta">
+                    <strong>青春纪</strong> / <span style="color:#b32424;">■</span><br>
+                    成长纪念册
+                </div>
+                <div style="margin-left: auto; text-align: right; font-size: 11px; color: #888;">
+                    青州大学附属高中校刊《青甸》 · 2018年10月刊 
+                </div>
+            </div>
 
-    <!-- 三栏文章主体 -->
-    <div class="magazine-body">
-        <!-- 第一栏 -->
-        <div class="article-column">
-            <p>我偶尔会很羡慕那些没有梦想的人，我想迷茫总是比注定不可及更幸运。</p>
-            <p>小时候，我也有过一个极其具体的梦想——成为一名飞行员。</p><p>我迷恋天空。迷恋飞机划过云层时留下的痕迹，喜欢夜航时舷窗外漫无边际的黑暗。在几万英尺的高空，世界会变得格外安静，只剩下一架飞机，朝着一个光点不断飞去。</p>
-         <p>那是一种我无法准确描述的浪漫。</p>
-            <div class="section-title"><span>■</span> 一、视野与盲区</div>
-            <p>好巧不巧，我患有夜盲症。</p><p>每当黄昏退潮，我的视线就会陷入失焦。</p>
-            <p>对于飞行而言，这几乎是一道无法逾越的鸿沟。懂事后，严肃思考未来的我意识到：有些事情，并不会因为足够热爱，就拥有实现的资格。</p>
-              <p>我当然遗憾过，像电影里那张丢失的第25号底片；也曾反复想，如果能够通过体检，如果真的坐进驾驶舱，那会不会就是我最想要的一生。</p>
-        </div>
-
-        <!-- 第二栏 -->
-        <div class="article-column">
+            <!-- 插画区 -->
+            <div class="illustration-placeholder" style="border: none; padding: 0; overflow: hidden; box-shadow: inset 0 0 20px rgba(0,0,0,0.05);">
+                <img src="film.png" alt="校刊配图" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            </div>
             
-              
-            <p>我没有答案。</p>
-                <div class="section-title"><span>■</span> 二、世界本辽阔</div>
-            <p>但我渐渐接受了一件事情：梦想不是用“能不能做到”来衡量的。</p>
-                <p>它更像是人生航线上的灯塔，不一定能保证你最终在此降落，却会在无数个需要抉择的时候，提醒你应该朝着哪里前进。</p>
-            <p>因为热爱天空，我习惯了在每一个晴朗的日子抬起头，去捕捉云层的形状、晚霞的饱和度，还有光线穿透大气层时的色调变化。</p><p>这些画面越过我视网膜的缺陷，在我的精神世界里重构了一片不受夜盲限制的辽阔。</p>
-                        <p>因为向往飞行，那些关于责任、冷静与自律的要求，润物无声地折射进了我的日常。我没有飞上三万英尺的高空，但我看待世界的视角，却因为这段憧憬，拥有了俯瞰的辽阔与从容。</p>
+            <div class="author-sign">◎ 文 / 宋以宁</div>
+
+            <!-- 大标题区 -->
+            <div class="title-container">
+                <div class="main-title-line1">我们不降落</div>
+                <div class="main-title-line2">——电影《白日梦想家》观影后记</div>
+            </div>
+
+            <!-- 三栏文章主体 -->
+            <div class="magazine-body">
+                <!-- 第一栏 -->
+                <div class="article-column">
+                    <p>我偶尔会很羡慕那些没有梦想的人，我想迷茫总是比注定不可及更幸运。</p>
+                    <p>小时候，我也有过一个极其具体的梦想——成为一名飞行员。</p>
+                    <p>我迷恋天空。迷恋飞机划过云层时留下的痕迹，喜欢夜航时舷窗外漫无边际的黑暗。在几万英尺的高空，世界会变得格外安静，只剩下一架飞机，朝着一个光点不断飞去。</p>
+                    <p>那是一种我无法准确描述的浪漫。</p>
+                    <div class="section-title"><span>■</span> 一、视野与盲区</div>
+                    <p>好巧不巧，我患有夜盲症。</p>
+                    <p>每当黄昏退潮，我的视线就会陷入失焦。</p>
+                    <p>对于飞行而言，这几乎是一道无法逾越的鸿沟。懂事后，严肃思考未来的我意识到：有些事情，并不会因为足够热爱，就拥有实现的资格。</p>
+                    <p>我当然遗憾过，像电影里那张丢失的第25号底片；也曾反复想，如果能够通过体检，如果真的坐进驾驶舱，那会不会就是我最想要的一生。</p>
+                </div>
+
+                <!-- 第二栏 -->
+                <div class="article-column">
+                    <p>我没有答案。</p>
+                    <div class="section-title"><span>■</span> 二、世界本辽阔</div>
+                    <p>但我渐渐接受了一件事情：梦想不是用“能不能做到”来衡量的。</p>
+                    <p>它更像是人生航线上的灯塔，不一定能保证你最终在此降落，却会在无数个需要抉择的时候，提醒你应该朝着哪里前进。</p>
+                    <p>因为热爱天空，我习惯了在每一个晴朗的日子抬起头，去捕捉云层的形状、晚霞的饱和度，还有光线穿透大气层时的色调变化。</p>
+                    <p>这些画面越过我视网膜的缺陷，在我的精神世界里重构了一片不受夜盲限制的辽阔。</p>
+                    <p>因为向往飞行，那些关于责任、冷静与自律的要求，润物无声地折射进了我的日常。我没有飞上三万英尺的高空，但我看待世界的视角，却因为这段憧憬，拥有了俯瞰的辽阔与从容。</p>
+                </div>
+
+                <!-- 第三栏 -->
+                <div class="article-column">
+                    <div class="section-title"><span>■</span> 三、起飞，永不降落</div>
+                    <p>电影里有一个极具张力的场景：沃特在格陵兰岛跳上机长的直升机，机身在汹涌的海面上空盘旋，他惊慌地问机长：“我们要在哪里降落？”</p>
+                    <p>而机长回答了两次：</p>
+                    <p>“我们不降落。”</p>
+                    <p>“我们不降落。”</p>
+                    <p>银幕前的我，无法描述心灵在那一刻的震颤。在那个瞬间，我好像终于和自己那双无法夜航的眼睛达成了和解。</p>
+                    <p>何必执着于目的地的到达？只要还在起飞，没有降落点的人生，反而让我们拥有了无限的方向和整个天空。</p>
+                    <p>这就是我的人生信条。</p>
+                    <p>“我们不降落。”</p>
+                </div>
+            </div>
+
+            <!-- 页脚版权区 -->
+            <div class="magazine-footer">
+                <div class="footer-left">
+                    <span class="page-number">43</span>
+                    <span class="footer-quote">“开拓视野，冲破艰险，看见世界，身临其境，贴近彼此，感受生活，这就是生活的目的。” —— 《白日梦想家》</span>
+                </div>
+            </div>
 
         </div>
 
-        <!-- 第三栏 -->
-        <div class="article-column">
-            <div class="section-title"><span>■</span> 三、起飞，永不降落</div>
-            <p>电影里有一个极具张力的场景：沃特在格陵兰岛跳上机长的直升机，机身在汹涌的海面上空盘旋，他惊慌地问机长：“我们要在哪里降落？”</p>
-                <p>而机长回答了两次：</p>
-                  <p>“我们不降落。”</p>
-            <p>“我们不降落。”</p><p>银幕前的我，无法描述心灵在那一刻的震颤。在那个瞬间，我好像终于和自己那双无法夜航的眼睛达成了和解。</p><p>何必执着于目的地的到达？只要还在起飞，没有降落点的人生，反而让我们拥有了无限的方向和整个天空。</p>
-            <p>这就是我的人生信条。</p>
-                  <p>“我们不降落。”</p>
+        <!-- 背面：小纸条 -->
+        <div class="magazine-back">
+            <div class="memo-pad">
+                <div class="memo-content">
+                    <p><span class="highlight-line">To 盛妙<br>今天的<strong>【青附之声】</strong></span>，可以帮我匿名点一首歌吗？</p>
+                </div>
+                <div class="memo-signature">—— 段宜廷</div>
+            </div>
         </div>
+
     </div>
-
-    <!-- 页脚版权区 -->
-    <div class="magazine-footer">
-        <div class="footer-left">
-            <span class="page-number">43</span>
-            <span class="footer-quote">“开拓视野，冲破艰险，看见世界，身临其境，贴近彼此，感受生活，这就是生活的目的。” —— 《白日梦想家》</span>
-        </div>
-    </div>
-
 </div>
 
 </body>

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- 以 Caveat 手写体为例 -->
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- 引入 Ma Shan Zheng (芝茫星草书体) -->
-<link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- 引入 Ma Shan Zheng (马善政行楷/毛笔手写体) -->
-<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 以 Caveat 手写体为例 -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 引入 Ma Shan Zheng (芝茫星草书体) -->
+    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 引入 Ma Shan Zheng (马善政行楷/毛笔手写体) -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <title>电影鉴赏社海报</title>
     <style>
@@ -28,38 +28,10 @@
             box-sizing: border-box;
         }
 
-        /* 3D 翻转卡片总容器 */
-        .flip-container {
-            perspective: 1500px;
+        /* 海报主体卡片 */
+        .poster-card {
             width: 640px;
-            position: relative;
-        }
-
-        /* 翻转主体 */
-        .flipper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        /* 点击状态切换 */
-        .flip-container.flipped .flipper {
-            transform: rotateY(180deg);
-        }
-
-        /* 正面与背面共享基本属性 */
-        .poster-front, .poster-back {
-            width: 100%;
             min-height: 890px;
-            backface-visibility: hidden;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        /* ==================== 正面：老海报样式 ==================== */
-        .poster-front {
             position: relative;
             background-color: #eae1cc; 
             background-image: radial-gradient(rgba(0,0,0,0.03) 15%, transparent 15%),
@@ -69,47 +41,8 @@
             padding: 45px 45px 50px 45px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.18), inset 0 0 50px rgba(180,160,130,0.25);
             color: #3d3528; 
-            z-index: 2;
-            transform: rotateY(0deg);
-            /* 右下角65px三角镂空，和折角尺寸严格匹配 */
-            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 65px), calc(100% - 65px) 100%, 0 100%);
-        }
-
-        /* 右下角独立折角组件 核心修复 */
-        .page-curl {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 65px;
-            height: 65px;
-            z-index: 10; 
-            pointer-events: none;
-            transition: transform 0.3s ease;
-            /* 无底层铺垫，完全贴合镂空缺口 */
-        }
-
-        .page-curl::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* 纯平滑背光渐变，无白色分割线 */
-            background: linear-gradient(135deg, 
-                transparent 0%, 
-                transparent 49.8%, 
-                #d3c8b1 50%,
-                #bdae93 72%,
-                #918369 100%
-            );
-            filter: drop-shadow(-3px -3px 4px rgba(0,0,0,0.18));
-            border-radius: 0 0 4px 0;
-        }
-
-        /* 悬停折角轻微抬起动效 */
-        .flip-container:hover .page-curl {
-            transform: translate(-2px, -2px) scale(1.04);
+            border-radius: 4px;
+            box-sizing: border-box;
         }
 
         /* 海报装饰元素 */
@@ -195,171 +128,66 @@
             position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.6); color: #fff;
             padding: 6px 10px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; z-index: 9999;
         }
-
-        /* ==================== 背面：无多余底层铺垫，仅便签 ==================== */
-        .poster-back {
-            position: absolute;
-            top: 0;
-            left: 0;
-            /* 移除厚重底层铺垫色，仅极淡网格纹理，无衬底感 */
-            background-color: #96814b;; 
-            background-image: linear-gradient(rgba(0,0,0,0.01) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0,0,0,0.01) 1px, transparent 1px);
-            background-size: 20px 20px;
-            box-shadow: none;
-            transform: rotateY(180deg); 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            clip-path: polygon(
-        0 0,
-        100% 0,
-        100% 100%,
-        65px 100%,
-        0 calc(100% - 65px)
-    );
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:40px;
-        }
-
-        /* 黄便签卡片组件 */
-        .memo-pad {
-            background-color: #fff9d7; 
-            width: 340px;
-            padding: 30px 35px;
-            box-shadow: 4px 6px 15px rgba(0,0,0,0.15);
-            border-left: 6px solid #e6b800; 
-            transform: rotate(-2.5deg); 
-            font-family: "Microsoft YaHei", "Lucida Sans Unicode", sans-serif;
-            cursor: default;
-            pointer-events: none; 
-        }
-
-        .memo-header {
-            font-size: 12px;
-            color: #b32424;
-            letter-spacing: 1.5px;
-            border-bottom: 1px double #b32424;
-            padding-bottom: 6px;
-            margin-bottom: 25px;
-            font-weight: bold;
-        }
-
-        .memo-content {
-            font-size: 14px;
-            line-height: 1.9;
-            color: #111;
-            letter-spacing: 0.5px;
-        }
-
-        .memo-content p { margin: 0 0 15px 0; text-align: justify; }
-        .memo-content p {
-        font-family: 'Ma Shan Zheng', 'STXingkai', cursive;
-        font-size: 1.8rem; /* 草书体字形较纤细，建议字体调大一些更显眼 */
-        letter-spacing: 1px;
-    }
-        .memo-signature { text-align: right; margin-top: 35px; font-size: 26px; font-weight: bold; color: #222; }
-        .highlight-line { border-bottom: 2px solid #1a53ff; padding-bottom: 1px; }
-
-        .flip-tip {
-            position: absolute; bottom: 25px; width: 100%; text-align: center;
-            font-size: 12px; color: rgba(0,0,0,0.4); font-family: sans-serif; letter-spacing: 1px;
-        }
-        .memo-signature {
-    font-family: 'Ma Shan Zheng', 'STXingkai', cursive;
-    letter-spacing: 1px;
-}
-        
     </style>
 </head>
 <body>
 
-<div class="progress-indicator">21/37</div>
+<div class="progress-indicator">21/38</div>
 
-<div class="flip-container" onclick="this.classList.toggle('flipped')">
-    <div class="flipper">
-        <!-- 海报正面 -->
-        <div class="poster-front">
-            <!-- 右下角折角DOM元素 -->
-            <div class="page-curl"></div>
+<div class="poster-card">
+    <div class="bg-deco-1">🎬</div>
+    <div class="bg-deco-2">🍿</div>
 
-            <div class="bg-deco-1">🎬</div>
-            <div class="bg-deco-2">🍿</div>
+    <div class="poster-title">换个视角，看见真实</div>
+    <div class="poster-subtitle">24帧电影鉴赏社 · 特别展映</div>
 
-            <div class="poster-title">换个视角，看见真实</div>
-            <div class="poster-subtitle">24帧电影鉴赏社 · 特别展映</div>
+    <div class="intro-text">
+        我们总习惯用自己的眼睛去认识世界，也习惯用某种样子去面对别人。可你看到的，真的就是全部吗？你呈现出来的，又有多少是真正的自己？本月电影社特别推出“换个视角，看见真实”主题影展，精选三部经典电影，从不同视角出发，重新认识世界，也重新看见自己。
+    </div>
 
-            <div class="intro-text">
-我们总习惯用自己的眼睛去认识世界，也习惯用某种样子去面对别人。可你看到的，真的就是全部吗？你呈现出来的，又有多少是真正的自己？本月电影社特别推出“换个视角，看见真实”主题影展，精选三部经典电影，从不同视角出发，重新认识世界，也重新看见自己。
+    <div class="section-wrapper">
+        <div class="handdrawn-tag">放映时间</div>
+        <div class="info-content">2018年10月31日 - 11月14日 (每周三课外活动)</div>
+    </div>
+
+    <div class="section-wrapper">
+        <div class="handdrawn-tag">展映片单</div>
+        <div class="movie-grid">
+            <div class="movie-item-box">
+                <div class="movie-title-text">WEEK 1：《网络迷踪》</div>
+                <div class="movie-desc-text">今年最震撼的桌面悬疑神作！全片镜头完全局限在电脑屏幕上。女儿的突然失踪，打破了父亲平静的日常。顺着社交网络碎片寻找真相，在一场网络追寻中重新读懂深沉的父爱。</div>
             </div>
-
-            <div class="section-wrapper">
-                <div class="handdrawn-tag">放映时间</div>
-                <div class="info-content">2018年10月31日 - 11月14日 (每周三课外活动)</div>
+            <div class="movie-item-box">
+                <div class="movie-title-text">WEEK 2：《白日梦想家》</div>
+                <div class="movie-desc-text">为了寻找丢失的25号底片，习惯在白日梦里冒险的胶片经理人终于迈出脚步。他奔赴冰岛、格陵兰，甚至攀登喜马拉雅山。这是一次为了找回真实自己的终极出走。</div>
             </div>
-
-            <div class="section-wrapper">
-                <div class="handdrawn-tag">展映片单</div>
-                <div class="movie-grid">
-                    <div class="movie-item-box">
-                        <div class="movie-title-text">WEEK 1：《网络迷踪》</div>
-                        <div class="movie-desc-text">今年最震撼的桌面悬疑神作！全片镜头完全局限在电脑屏幕上。女儿的突然失踪，打破了父亲平静的日常。顺着社交网络碎片寻找真相，在一场网络追寻中重新读懂深沉的父爱。</div>
-                    </div>
-                    <div class="movie-item-box">
-                        <div class="movie-title-text">WEEK 2：《白日梦想家》</div>
-                        <div class="movie-desc-text">为了寻找丢失的25号底片，习惯在白日梦里冒险的胶片经理人终于迈出脚步。他奔赴冰岛、格陵兰，甚至攀登喜马拉雅山。这是一次为了找回真实自己的终极出走。</div>
-                    </div>
-                    <div class="movie-item-box full-width">
-                        <div class="movie-title-text">WEEK 3：《看不见的客人》</div>
-                    <div class="movie-desc-text">同一桩命案，可以拥有截然不同的版本。当真相被谎言层层包裹，每个人都在努力扮演自己想成为的那个人。三个小时的极限问答里，视角不断转换，真相也一次次改写。</div>
-                    </div>
-                </div>
+            <div class="movie-item-box full-width">
+                <div class="movie-title-text">WEEK 3：《看不见的客人》</div>
+                <div class="movie-desc-text">同一桩命案，可以拥有截然不同的版本。当真相被谎言层层包裹，每个人都在努力扮演自己想成为的那个人。三个小时的极限问答里，视角不断转换，真相也一次次改写。</div>
             </div>
+        </div>
+    </div>
 
-            <div class="middle-showcase">
-                <div class="tv-illustration">
-                    <div class="tv-screen">
-                        <div class="movie-year">2018 · 秋</div>
-                        <div class="movie-slogan">特别展映</div>
-                    </div>
-                    <div class="tv-panel">
-                        <div class="tv-knob"></div>
-                        <div class="tv-knob"></div>
-                        <div class="tv-grill"></div>
-                    </div>
-                </div>
-
-                <div class="meta-box">
-                    <div class="meta-text">
-                        <span>放映地点:</span> 综合楼4楼 · 多媒体视听室<br>
-                        <span>观影沙龙:</span> 映后特设15分钟自由沙龙讨论<br>
-                        <span>社团福利：</span>投稿影评至社长邮箱 Eden_duan@qmail.com，优秀作品将有机会刊登于《<strong>青甸</strong>》。
-                    </div>
-                </div>
+    <div class="middle-showcase">
+        <div class="tv-illustration">
+            <div class="tv-screen">
+                <div class="movie-year">2018 · 秋</div>
+                <div class="movie-slogan">特别展映</div>
             </div>
-        
-</div>
-        <!-- ==================== 背面 ==================== -->
-        <div class="poster-back">
-            
-            <!-- 附着在海报背面的警告便签 -->
-            <div class="memo-pad">
-
-                
-              <div class="memo-content">
-    <p><span class="highlight-line">To 盛妙<br>今天的<strong>【青附之声】</strong></span>，可以帮我匿名点一首歌吗？</p>
-</div>
-                
-                <div class="memo-signature">—— 段宜廷</div>
+            <div class="tv-panel">
+                <div class="tv-knob"></div>
+                <div class="tv-knob"></div>
+                <div class="tv-grill"></div>
             </div>
-
-          
         </div>
 
+        <div class="meta-box">
+            <div class="meta-text">
+                <span>放映地点:</span> 综合楼4楼 · 多媒体视听室<br>
+                <span>观影沙龙:</span> 映后特设15分钟自由沙龙讨论<br>
+                <span>社团福利：</span>投稿影评至社长邮箱 Eden_duan@qmail.com，优秀作品将有机会刊登于《<strong>青甸</strong>》。
+            </div>
+        </div>
     </div>
 </div>
 
