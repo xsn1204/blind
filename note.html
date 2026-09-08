@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>小纸条</title>
+    <style>
+        :root {
+            --desk-color: #292524; /* 深色木质课桌底色 */
+        }
+
+        body {
+            background-color: var(--desk-color);
+            /* 模拟课桌上的木质纹理线条 */
+            background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 10px);
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            
+            /* 核心修改：使用 Grid 实现上二下二完美对齐布局 */
+            display: grid;
+            grid-template-columns: repeat(2, minmax(260px, 320px));
+            gap: 50px 60px;
+            justify-content: center;
+            align-content: center;
+        }
+
+        /* 基础纸条样式（揉皱与材质） */
+        .paper-slip {
+            padding: 25px 20px;
+            position: relative;
+            box-shadow: 4px 8px 16px rgba(0, 0, 0, 0.4), 
+                        -1px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: move;
+            
+            /* 核心：四层渐变叠加，逼真模拟纸张被攥成团后展平的随机硬折痕 */
+            background-image: 
+                linear-gradient(75deg, rgba(0,0,0,0.04) 1px, transparent 1px),
+                linear-gradient(-45deg, rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(135deg, rgba(255,255,255,0.7) 2px, transparent 2px),
+                linear-gradient(20deg, rgba(0,0,0,0.02) 2px, transparent 2px);
+            background-size: 90px 90px, 140px 140px, 70px 70px, 110px 110px;
+        }
+
+        /* 鼠标悬停时纸条微微飘起并回正 */
+        .paper-slip:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            z-index: 100 !important;
+            box-shadow: 8px 16px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 基础文字样式 */
+        .handwriting {
+            font-size: 17px;
+            line-height: 1.6;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+
+        /* 边缘粗糙撕裂效果 */
+        .torn-edge::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: linear-gradient(45deg, transparent 33.333%, var(--desk-color) 33.333%, var(--desk-color) 66.666%, transparent 66.666%),
+                        linear-gradient(-45deg, transparent 33.333%, var(--desk-color) 33.333%, var(--desk-color) 66.666%, transparent 66.666%);
+            background-size: 6px 10px;
+            transform: translateY(-5px);
+        }
+
+        /* 草稿掩护 */
+        .cover-doodle {
+            font-size: 11px;
+            color: #94a3b8;
+            font-family: monospace;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            margin-top: 15px;
+            padding-top: 5px;
+            display: block;
+        }
+
+        /* ================= 每个纸条独特的字体与样式 ================= */
+
+        /* 纸条 A：行楷字迹（秀气、连笔） */
+        #slip-a {
+            background-color: #fffdf2;
+            background-image: 
+                linear-gradient(rgba(30, 144, 255, 0.15) 1px, transparent 1px), 
+                linear-gradient(75deg, rgba(0,0,0,0.04) 1px, transparent 1px),
+                linear-gradient(-45deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 100% 1.6em, 90px 90px, 140px 140px;
+            transform: rotate(-2deg);
+            z-index: 10;
+        }
+        #slip-a .msg-1 { 
+            font-family: "Xingkai SC", "STXingkai", "华文行楷", cursive; 
+            color: #1d4ed8; 
+            font-size: 18px;
+        } 
+        #slip-b .msg { color: #111827; } 
+        #slip-a .msg-2 { 
+            font-family: "Kaiti", "STKaiti", "楷体", serif; 
+            color: #b91c1c; 
+            font-weight: bold; 
+            margin-top: 10px;
+        } 
+
+        /* 纸条 B：连笔草书字迹（连写、偏凌乱快写） */
+        #slip-b {
+            background-color: #fafafa;
+            transform: rotate(3deg);
+            z-index: 8;
+        }
+        #slip-b .msg { 
+            font-family: "FZXingKai-S04S", "LiSu", "隶书", "Xingkai SC", cursive;
+            color: #111827; 
+            letter-spacing: -0.5px;
+        }
+
+        /* 纸条 C：方正楷体/少女字体感觉（一笔一划、比较整齐） */
+        #slip-c {
+            background-color: #fef08a; 
+            transform: rotate(-3deg);
+            z-index: 12;
+            border-left: 3px solid rgba(0,0,0,0.05);
+        }
+        #slip-c .msg { 
+            font-family: "FZSuXinShiLiXingShu-S06S", "Kaiti", "STKaiti", "楷体", sans-serif;
+            color: #0f766e; 
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        } 
+
+        /* 纸条 D：细长瘦金体/钢笔连笔风（略带倾斜） */
+        #slip-d {
+            background-color: #fffaf0;
+            transform: rotate(4deg);
+            z-index: 5;
+        }
+        #slip-d .msg-1 { 
+            font-family: "STFangsong", "FangSong", "仿宋", serif;
+            color: #1d4ed8; 
+            font-size: 16px;
+        }
+        #slip-d .msg-2 { 
+            font-family: "Xingkai SC", "STXingkai", cursive;
+            color: #111827; 
+            margin-top: 8px; 
+            font-size: 18px;
+        }
+  
+        /* 角标 */
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>                             
+    <div class="progress-indicator">30/37</div>
+</head>
+<body>
+
+    <!-- 第一排左：纸条 A -->
+    <div id="slip-a" class="paper-slip torn-edge">
+        <p class="handwriting msg-1">大新闻！
+我听隔壁班的说，
+17班的dyt好像退学了！
+</p>
+        <p class="handwriting msg-2">真的假的？！
+就因为之前那事？</p>
+        <span class="cover-doodle">△ABC ≌ △DEF (SAS)</span>
+    </div>
+
+    <!-- 第一排右：纸条 B -->
+    <div id="slip-b" class="paper-slip torn-edge">
+        <p class="handwriting msg">
+原来他家就是那个超级火的<strong>千味盛廷</strong>啊！
+前阵子闹得挺大，没想到这么快就垮了……
+我说呢，怎么刚开学老有记者蹲校门口守着。
+看完快传给后面！</p>
+    </div>
+
+    <!-- 第二排左：纸条 C -->
+    <div id="slip-c" class="paper-slip">
+        <p class="handwriting msg">！！！
+快跟我说说，上次他跟李梓豪
+动手是怎么回事？我那天自习没在，是不是就因为家里那事啊？
+好像差点全校通报批评。
+</p>
+        <span class="cover-doodle">P=UI=I²R</span>
+    </div>
+
+    <!-- 第二排右：纸条 D -->
+    <div id="slip-d" class="paper-slip torn-edge">
+        <p class="handwriting msg-1">对！就是上学期，
+李梓豪嘴太贱了，在走道阴阳怪气
+嘲讽他家生意不干净。
+人当时就毛了，直接在教室外跟李梓豪动了手，好几个我们班的去拉架！</p>
+        <p class="handwriting msg-2">卧槽……怪不得。
+难怪那之后就没咋见过段了。
+班长往下走了，别传了！</p>
+    </div>
+
+</body>
+</html>

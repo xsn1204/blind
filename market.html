@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【校园采风】爱心无价 青春同行——我校2018年金秋校园跳蚤市场精彩回顾 - 青州大学附属高中</title>
+    <style>
+        :root {
+            --school-blue: #003366;       /* 核心学术深海蓝 */
+            --school-accent: #0056b3;     /* 次级活力科技蓝 */
+            --school-light-blue: #e6f2ff; /* 亮蓝色点缀/高亮背景 */
+            --ink-blue: #002244;          /* 沉稳公文墨蓝 */
+            --alert-blue: #0066cc;        /* 重点提示蓝 */
+            --bg-gray: #f4f7fa;           /* 现代学术淡蓝灰背景 */
+            --text-dark: #1a2530;         /* 深蓝偏黑色文字 */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #e2e7ec; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-dark); }
+
+        /* 全屏视图容器 */
+        .safari-view {
+            width: 100vw;
+            height: 100vh;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* 顶部拟真浏览器地址栏 */
+        .safari-bar {
+            height: 45px;
+            background: #e8ecef;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid #ced4da;
+            z-index: 100;
+        }
+        .controls { display: flex; gap: 8px; width: 60px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+        .address-field {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 auto;
+            background: #dbe1e8;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #495057;
+            font-family: monospace;
+        }
+
+        /* 网页主体滚动区 */
+        .page-content {
+            flex: 1;
+            overflow-y: auto;
+            background: var(--bg-gray);
+            background-image: radial-gradient(rgba(0,51,102,0.02) 1px, transparent 0), radial-gradient(rgba(0,51,102,0.01) 1px, transparent 0);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+        }
+
+        /* 官网头部：Logo + 导航 */
+        .school-header {
+            background: #fff;
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--school-blue);
+        }
+        
+        .school-logo { display: flex; align-items: center; gap: 1px; }
+
+        /* 修改后的 Logo 图片容器样式 */
+        .logo-image-container {
+            width: 70px;
+            height: 70px;
+            background: var(--school-blue);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .school-name-img {
+            height: 75px;     
+            width: auto;      
+            object-fit: contain; 
+            display: block;
+        }
+
+        .logo-text h1 { 
+            font-size: 24px;                  
+            color: var(--school-blue); 
+            letter-spacing: 2px;              
+            font-family: "STXingkai", "华文行楷", "Kaiti", "楷体", "BiauKai", "Georgia", serif;
+            font-weight: normal;              
+        }
+
+        .logo-text p { 
+            font-size: 10px; 
+            color: #6c757d; 
+            font-family: "Times New Roman", "Georgia", serif; 
+            letter-spacing: 1px;              
+        }
+
+        .nav-menu { display: flex; gap: 25px; font-size: 16px; font-weight: 600; }
+        .nav-menu span { color: var(--text-dark); cursor: pointer; transition: color 0.2s; padding-bottom: 5px; }
+        .nav-menu span:hover, .nav-menu span.active { color: var(--school-accent); border-bottom: 2px solid var(--school-accent); }
+
+        /* 跑马灯流动资讯栏 */
+        .ticker-bar {
+            background: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid #d0daf0;
+            padding: 10px 10%;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .ticker-label {
+            color: var(--school-blue);
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+            background: rgba(244, 247, 250, 0.95);
+            padding-right: 15px;
+            z-index: 5;
+        }
+        .ticker-window { flex: 1; overflow: hidden; display: flex; position: relative; }
+        .ticker-track {
+            display: flex; gap: 50px; white-space: nowrap;
+            animation: marquee 25s linear infinite; padding-left: 20px;
+        }
+        .ticker-track:hover { animation-play-state: paused; }
+        .ticker-group { display: flex; gap: 40px; align-items: center; }
+        .ticker-item { display: flex; gap: 8px; color: #2b3a4a; text-decoration: none; font-size: 14px; }
+        .ticker-item:hover { color: var(--school-accent); text-decoration: underline; }
+        .ticker-date { color: #718096; font-family: monospace; }
+        
+        .ticker-arrows { display: flex; gap: 6px; padding-left: 20px; background: rgba(244, 247, 250, 0.95); z-index: 5; }
+        .arrow-btn {
+            width: 20px; height: 20px; border: 1px solid #ced4da; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 12px; color: #6c757d; cursor: pointer;
+        }
+        .arrow-btn:hover { border-color: var(--school-blue); color: var(--school-blue); }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* 主视觉区 Banner */
+        .hero-section {
+            height: 180px;
+            background: linear-gradient(rgba(0, 51, 102, 0.6), rgba(26, 37, 48, 0.8)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover; background-position: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .hero-title { color: #fff; font-size: 24px; margin-bottom: 15px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); font-weight: 400; letter-spacing: 2px; }
+        .hero-title strong { color: #66b2ff; }
+        .search-container { width: 100%; max-width: 600px; position: relative; }
+        .search-input {
+            width: 100%; height: 42px; border-radius: 21px; border: 1px solid #66b2ff;
+            padding: 0 120px 0 25px; font-size: 14px; background: rgba(255, 255, 255, 0.95); outline: none;
+        }
+        .search-btn {
+            position: absolute; right: 5px; top: 5px; bottom: 5px; width: 100px;
+            background: var(--school-blue); color: white; border: none; border-radius: 16px; font-size: 14px; cursor: pointer;
+        }
+        .search-btn:hover { background: var(--school-accent); }
+
+        /* ==================== 全宽文章详情页区域 ==================== */
+        .article-detail-container {
+            max-width: 1000px; 
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .notice-portal-card {
+            background-color: #ffffff;
+            border: 1px solid #d0daf0;
+            box-shadow: 0 4px 20px rgba(0, 51, 102, 0.05);
+            border-radius: 6px;
+            padding: 50px 60px; 
+        }
+
+        /* 面包屑导航 */
+        .portal-breadcrumb {
+            font-size: 14px; 
+            color: #5a6a85; 
+            border-bottom: 1px solid #edf2f7; 
+            padding-bottom: 15px; 
+            margin-bottom: 35px;
+        }
+        .portal-breadcrumb a { color: var(--school-accent); text-decoration: none; }
+        .portal-breadcrumb a:hover { color: var(--school-blue); text-decoration: underline; }
+
+        /* 文章大标题 */
+        .notice-title {
+            font-size: 26px; 
+            font-weight: bold; 
+            text-align: center; 
+            color: var(--ink-blue); 
+            line-height: 1.6; 
+            margin-bottom: 20px; 
+            letter-spacing: 0.5px;
+        }
+
+        /* 文章元信息 */
+        .notice-meta {
+            text-align: center; 
+            font-size: 13.5px; 
+            color: #64748b; 
+            border-bottom: 1px dashed #ced4da; 
+            padding-bottom: 20px; 
+            margin-bottom: 35px;
+        }
+        .notice-meta span { margin: 0 15px; }
+
+        /* 文章正文段落 */
+        .notice-portal-card p {
+            font-size: 16px; 
+            text-indent: 32px; 
+            margin-bottom: 20px; 
+            text-align: justify; 
+            line-height: 1.9; 
+            color: #2c3e50;
+        }
+        
+        .emphasis { font-weight: bold; color: #000000; }
+        
+        /* 核心整改原则高亮框/特色高亮框 */
+        .policy-focus {
+            background-color: #f0f7ff; 
+            border-left: 5px solid var(--alert-blue); 
+            padding: 20px 25px; 
+            margin: 30px 0; 
+            font-size: 15.5px; 
+            color: #1e293b; 
+            border-radius: 0 6px 6px 0; 
+            border-top: 1px solid #e1effe; 
+            border-right: 1px solid #e1effe; 
+            border-bottom: 1px solid #e1effe;
+        }
+        .policy-focus ul { margin-top: 8px; padding-left: 20px; }
+        .policy-focus li { margin-bottom: 8px; line-height: 1.8; }
+
+        /* 图片预留占位符样式 */
+        .image-placeholder {
+            width: 100%;
+            height: 320px;
+            background-color: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 25px 0;
+            color: #64748b;
+        }
+        .image-placeholder .icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        .image-placeholder .caption {
+            font-size: 14px;
+            color: #475569;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        /* 特色摊位小卡片 */
+        .booth-card {
+            background: #fafbfc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .booth-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--school-blue);
+            margin-bottom: 12px;
+            border-bottom: 2px solid var(--school-light-blue);
+            padding-bottom: 6px;
+        }
+
+        /* 公文落款 */
+        .notice-sign { 
+            margin-top: 50px; 
+            float: right; 
+            text-align: right; 
+            font-size: 16px; 
+            line-height: 1.8; 
+            color: #334155; 
+            padding-right: 5px;
+        }
+        .clearfix::after { content: ""; clear: both; display: table; }
+
+        /* 底部 */
+        .school-footer { 
+            background: #0f172a; 
+            color: #94a3b8; 
+            padding: 30px 10%; 
+            text-align: center; 
+            font-size: 13px; 
+            line-height: 1.8; 
+            border-top: 5px solid var(--school-blue); 
+            margin-top: 60px; 
+        }
+        .footer-links { margin-bottom: 10px; color: #64748b; }
+        .footer-links span { margin: 0 10px; }
+
+        @media (max-width: 768px) {
+            .notice-portal-card { padding: 30px 20px; }
+            .notice-title { font-size: 20px; }
+            .notice-portal-card p { font-size: 15px; text-indent: 30px; }
+        }
+  
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+        .article-img {
+    display: block;
+    max-width: 80%; /* 限制最大宽度，防止图片过大 */
+    max-height: 400px; /* 限制最大高度 */
+    margin: 25px auto; /* auto 实现水平居中 */
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 增加轻微阴影提升质感 */
+}
+
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">19/37</div></head>
+<body>
+
+<div class="safari-view">
+    <!-- 模拟浏览器顶部栏 -->
+
+    <!-- 网页主体 -->
+    <div class="page-content">
+        
+        <!-- 导航头部 -->
+        <header class="school-header">
+            <div class="school-logo">
+              <div class="logo-image-container">
+                    <img src="logo.png" alt="学校Logo">
+              </div>
+              <!-- 直接替换为图片文字 Logo -->
+              <img src="logo2.png" alt="青州大学附属高中" class="school-name-img">
+            </div>
+  <span>首页</a>
+                <span>附中概况</span>
+                <span>强基拔尖</span>
+                <span class="active">教学科研</span>
+                <!-- 修改这里：将 span 改为 a 标签并添加跳转链接 -->
+               <span>校长信箱</span>
+            </nav>
+        </header>
+
+        <!-- ==================== 核心：全宽通告详情页 ==================== -->
+        <main class="article-detail-container">
+            <div class="notice-portal-card">
+                <!-- 面包屑 -->
+                <div class="portal-breadcrumb">
+                    当前位置：<a href="#">首页</a> &gt; <a href="#">教学科研</a> &gt; <a href="#">学生活动</a> &gt; 正文
+                </div>
+
+                <!-- 标题区 -->
+                <h1 class="notice-title">爱心无价 青春同行——我校2018年“秋日拾光”校园跳蚤市场精彩回顾</h1>
+                
+                <!-- 元信息 -->
+                <div class="notice-meta">
+                    <span>发布机构：校团委</span>
+                    <span>发布时间：2018-10-22</span>
+                    <span>浏览次数：3820 次</span>
+                </div>
+
+                <!-- 正文内容 -->
+                <p>金秋十月，丹桂飘香。10月19日下午，青州大学附属高中一年一度的“秋日拾光”校园跳蚤市场在学校中央广场举行。本次活动由校团委主办，全校师生积极参与。活动以校园闲置物品交易和爱心义卖为主要形式，引导学生在实践中增强公益意识和社会责任感，营造积极向上的校园文化氛围。</p>
+                
+                <!-- 图片位置 1 -->
+<img src="market1.jpg" alt="跳蚤市场全景" class="article-img">
+
+                <p>本次跳蚤市场设有两个主区域共计60余个摊位，涵盖了旧书二手交易、手工作品义卖、特色美食体验以及互动游戏体验等多个板块。各个摊位摆放整齐、装饰别致，海报设计各具创意，展示了我校学子丰富多彩的校园生活与独特的创新思维。</p>
+
+                <p>在众多火爆的摊位中，有三个充满特色的摊位格外引人瞩目，成为了当天校园里最亮眼的风景线：</p>
+
+                <!-- 特色摊位 1 -->
+                <!-- 特色摊位 2 -->
+                 
+     <div class="image-placeholder">
+                    <div class="icon">📷</div>
+             
+                    <div class="caption">图为高二（22）班的宋以宁同学正在向大家介绍并义卖作家<STORNG>惠君</STORNG>的珍藏作品</div>
+                </div>
+
+        <div class="booth-card">
+
+
+
+    <div class="booth-title">特色摊位一：学霸笔记与图书义卖站</div>
+    <p style="text-indent: 0; margin-bottom: 0;">“书香传递”义卖摊位热闹非凡。本次义卖不仅有系统整理、配有思维导图的高考高分笔记与错题集，更有同学们倾情捐赠的各类珍藏图书。摊位前吸引了大批同学前来选购，大家在交流学习方法与阅读经验的同时，也共同为公益事业献出了一份力量。</p>
+</div>
+
+
+<div class="booth-card">
+    <div class="booth-title">特色摊位二：“光影留念”24帧电影明信片文创站</div>
+    <p style="text-indent: 0; margin-bottom: 10px;"><strong>【24帧电影鉴赏社】</strong>带来的电影明信片摊位成为本次活动的“人气王”。他们不仅精选了多部电影的经典画面与治愈台词，精心印制成质感十足的电影明信片，还推出了现场盖章与寄语互动，吸引了众多师生影迷排队挑选、留念。</p>
+</div>
+
+                <!-- 特色摊位 3 -->
+                <div class="booth-card">
+                    <div class="booth-title">特色摊位三：手工作品DIY体验区</div>
+                    <p style="text-indent: 0; margin-bottom: 0;">巧手工艺社同学带来的“匠人小屋”摊位格外吸引眼球。废旧报纸、塑料瓶和超轻粘土在同学们手中变成了造型各异的创意摆件。摊位还设置了DIY体验区，同学们可以现场绘画、编织，亲手制作属于自己的小物件。</p>
+                </div>
+
+      
+
+                <!-- 核心总结框 -->
+                <div class="policy-focus">
+                    <span class="emphasis">活动成果与爱心总结：</span>
+                    <ul>
+                        <li>本次跳蚤市场历时3个小时，累计参与师生超2000人次；</li>
+                        <li>全校摊位筹得的爱心义卖款项，将通过校团委统一捐赠至青禾心理关爱基金会、手语桥公益基金会、疤痕天使慈善基金会三家慈善机构；</li>
+                        <li>活动不仅实现了校园资源的循环利用，更在潜移默化中升华了青大附中学子的奉献精神与社会担当。</li>
+                    </ul>
+                </div>
+
+                <p>点滴微光，汇聚成芒。2018年金秋跳蚤市场虽已圆满落幕，但爱心与温暖将永远在校园中传递。感谢每一位热情参与的师生，让我们共同期待下一次的爱心相聚！</p>
+                
+                <p>特此报道。</p>
+
+                <!-- 落款 -->
+                <div class="notice-sign clearfix">
+                    青州大学附属高中校团委·记者团<br>
+                    2018年10月22日
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </main>
+
+        <!-- 底部 -->
+        <footer class="school-footer">
+            <div class="footer-links">
+                <span>教务处招生热线：0312-XXXXXXX</span> | <span>地址：中国·临渊·青州市勤学路1号</span>
+            </div>
+            <p>版权所有 © 2026 青州大学附属高中</p>
+        </footer>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- 以 Caveat 手写体为例 -->
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- 引入 Ma Shan Zheng (芝茫星草书体) -->
+<link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+<!-- 引入 Ma Shan Zheng (马善政行楷/毛笔手写体) -->
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小票</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* 初始：明亮温暖的吧台氛围 */
+            background-color: #f3efe6;
+            font-family: "SimSun", "Songti SC", "Courier New", monospace;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        /* 动态不规则墨迹染黑图层 */
+        .ink-overlay-svg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none !important;
+            z-index: 50;
+            filter: drop-shadow(0 0 20px #0c0808);
+        }
+
+        .ink-blob {
+            fill: #080606;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        body.is-destroyed .ink-blob {
+            opacity: 1;
+        }
+
+        /* 全局彻底压暗背景 */
+        .global-darkness {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #060404;
+            pointer-events: none !important;
+            z-index: 40;
+            opacity: 0;
+            transition: opacity 2.8s ease 0.4s;
+        }
+
+        body.is-destroyed .global-darkness {
+            opacity: 1;
+        }
+
+        /* 小票容器 */
+        .ticket-container {
+            width: 310px;
+            height: 530px;
+            z-index: 100;
+            position: relative;
+            pointer-events: auto;
+        }
+
+        /* 正面热敏纸小票 */
+        .ticket-face {
+            width: 100%;
+            height: 100%;
+            background-color: #FAFAFA;
+            padding: 1.5rem 1.2rem;
+            color: #111111;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: background-color 2.5s ease, filter 2.5s ease, box-shadow 2.5s ease;
+
+            /* 底部锯齿 */
+            mask-image: radial-gradient(circle 4px at 8px bottom, transparent 100%, black 100%);
+            mask-size: 16px 100%;
+            mask-repeat: repeat-x;
+        }
+
+        /* 点击后小票纸张暗沉发黄 */
+        body.is-destroyed .ticket-face {
+            background-color: #4a453f;
+            color: #111111;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.95);
+            filter: contrast(110%) brightness(70%);
+        }
+
+        /* 小票字迹与小熊图案淡化 */
+        .receipt-content {
+            transition: opacity 2s ease, filter 2s ease;
+            pointer-events: none;
+        }
+
+        body.is-destroyed .receipt-content {
+            opacity: 0.25;
+            filter: blur(0.6px) grayscale(90%);
+        }
+
+        .receipt-title {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+        }
+
+        .dashed-line {
+            border-bottom: 1px dashed #222222;
+            margin: 0.6rem 0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .table-header, .item-row {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr 0.8fr 1.2fr;
+            font-size: 0.82rem;
+            text-align: right;
+            margin-bottom: 0.4rem;
+        }
+
+        .table-header {
+            font-weight: bold;
+        }
+
+        .table-header span:first-child,
+        .item-row span:first-child {
+            text-align: left;
+        }
+
+        .bear-section {
+            text-align: center;
+            margin-top: 0.3rem;
+        }
+
+        .hand-drawn-bear {
+            width: 95px;
+            height: 95px;
+            margin: 0 auto;
+            display: block;
+        }
+
+.receipt-footer-text {
+    font-size: 1.4rem; /* 草书笔画连贯，建议比普通文字调大 20%-30% */
+    text-align: center;
+    letter-spacing: 1px;
+    font-family: 'Ma Shan Zheng', 'STXingkai', cursive;
+}
+        .click-hint {
+            font-size: 0.65rem;
+            color: #888888;
+            text-align: center;
+            margin-top: 0.4rem;
+            transition: opacity 0.5s ease;
+        }
+
+        body.is-destroyed .click-hint {
+            opacity: 0;
+        }
+
+        /* ------------------ 醒目的交叉查封封条 ------------------ */
+        .seal-strip {
+            position: absolute;
+            background-color: #f7f3e8;
+            color: #b30000;
+            border: 3px solid #b30000;
+            font-family: 'SimSun', 'Songti SC', serif;
+            font-weight: 900;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(1.2);
+            transition: opacity 1.2s ease 0.6s, transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s;
+        }
+
+        body.is-destroyed .seal-strip {
+            opacity: 0.96;
+            transform: scale(1);
+        }
+
+        .seal-strip-1 {
+            width: 140%;
+            height: 52px;
+            top: 35%;
+            left: -20%;
+            transform: rotate(-22deg) scale(1.2);
+        }
+
+        body.is-destroyed .seal-strip-1 {
+            transform: rotate(-22deg) scale(1);
+        }
+
+        .seal-strip-2 {
+            width: 140%;
+            height: 46px;
+            top: 42%;
+            left: -20%;
+            transform: rotate(18deg) scale(1.2);
+        }
+
+        body.is-destroyed .seal-strip-2 {
+            transform: rotate(18deg) scale(1);
+        }
+
+        .seal-title {
+            font-size: 1.25rem;
+            letter-spacing: 8px;
+            line-height: 1.1;
+        }
+
+        .seal-date {
+            font-size: 0.6rem;
+            color: #333;
+            letter-spacing: 1px;
+            margin-top: 1px;
+        }
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">extra2/37</div></head>
+<body onclick="triggerDestroy(event)">
+
+    <!-- SVG 不规则墨迹晕染层 -->
+    <svg class="ink-overlay-svg" width="100%" height="100%">
+        <defs>
+            <filter id="inkBlur">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="35" />
+            </filter>
+        </defs>
+        <path id="inkPath" class="ink-blob" filter="url(#inkBlur)" d="" />
+    </svg>
+
+    <!-- 全局背景暗化层 -->
+    <div class="global-darkness"></div>
+
+    <div class="ticket-container">
+        <div class="ticket-face">
+            
+            <!-- 小票内容 -->
+            <div class="receipt-content">
+                <div>
+                    <div class="receipt-title">BLIND SPOT<br> BAR & LOUNGE </div>
+                    
+                    <div class="info-row">
+                        <span>台号：吧台 B-03</span>
+                        <span>调酒师：#07</span>
+                    </div>
+                    <div class="info-row">
+                        <span>单号：201808040182</span>
+                        <span>23:14:02</span>
+                    </div>
+
+                    <div class="dashed-line"></div>
+
+                    <div class="table-header">
+                        <span>品名</span>
+                        <span>单价</span>
+                        <span>数量</span>
+                        <span>金额</span>
+                    </div>
+
+                    <div class="dashed-line"></div>
+
+                    <div class="item-row">
+                        <span>接骨木柠檬气泡水<br><small style="font-size:0.7rem; color:#555;">(无酒精特调)</small></span>
+                        <span>48.00</span>
+                        <span>1</span>
+                        <span>48.00</span>
+                    </div>
+                    
+                    <div class="item-row" style="margin-top: 0.4rem;">
+                        <span>小食拼盘</span>
+                        <span>58.00</span>
+                        <span>1</span>
+                        <span>58.00</span>
+                    </div>
+
+                    <div class="dashed-line"></div>
+
+                    <div class="info-row" style="font-weight: bold; font-size: 0.95rem; margin-top: 0.4rem;">
+                        <span>合计金额：</span>
+                        <span>106.00</span>
+                    </div>
+                </div>
+
+                <div class="bear-section">
+                    <svg class="hand-drawn-bear" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="28" r="12" stroke="#111" stroke-width="2.5" stroke-dasharray="30" fill="none" />
+                        <circle cx="70" cy="28" r="12" stroke="#111" stroke-width="2.5" stroke-dasharray="30" fill="none" />
+                        <circle cx="30" cy="28" r="6" stroke="#111" stroke-width="1.5" />
+                        <circle cx="70" cy="28" r="6" stroke="#111" stroke-width="1.5" />
+                        <path d="M 20 45 C 18 25, 82 25, 80 45 C 82 75, 18 75, 20 45 Z" stroke="#111" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+                        <circle cx="38" cy="46" r="3.5" fill="#111" />
+                        <circle cx="62" cy="46" r="3.5" fill="#111" />
+                        <ellipse cx="50" cy="56" rx="9" ry="7" stroke="#111" stroke-width="1.8" fill="none" />
+                        <ellipse cx="50" cy="53" rx="3.5" ry="2.5" fill="#111" />
+                        <path d="M 50 55 C 48 60, 44 60, 42 58 M 50 55 C 52 60, 56 60, 58 58" stroke="#111" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M 26 53 L 32 53 M 68 53 L 74 53" stroke="#111" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                    
+                    <div class="dashed-line"></div>
+                    <div class="receipt-footer-text">这单我请你。</div>
+                </div>
+            </div>
+
+            <!-- 查封封条 -->
+            <div class="seal-strip seal-strip-2">
+                <div class="seal-title">查 封</div>
+                <div class="seal-date">二〇一八年九月五日 宣</div>
+            </div>
+            <div class="seal-strip seal-strip-1">
+                <div class="seal-title">暂停营业</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function triggerDestroy(event) {
+            if (document.body.classList.contains('is-destroyed')) return;
+            
+            document.body.classList.add('is-destroyed');
+
+            const clickX = event.clientX;
+            const clickY = event.clientY;
+            const inkPath = document.getElementById('inkPath');
+
+            // 动态生成不规则多边形节点（模拟墨水侵蚀边缘）
+            const pointCount = 14;
+            const baseAngles = [];
+            for (let i = 0; i < pointCount; i++) {
+                baseAngles.push((i * 2 * Math.PI) / pointCount);
+            }
+
+            const startTime = performance.now();
+            const duration = 2200;
+            const maxRadius = Math.max(window.innerWidth, window.innerHeight) * 1.5;
+
+            function generateIrregularPath(progress) {
+                let d = "";
+                for (let i = 0; i < pointCount; i++) {
+                    const angle = baseAngles[i];
+                    // 引入伪随机波动，构建 jagged/organic 边缘
+                    const noise = Math.sin(i * 3.7 + progress * 5) * 0.35 + 1;
+                    const r = progress * maxRadius * noise;
+                    
+                    const x = clickX + r * Math.cos(angle);
+                    const y = clickY + r * Math.sin(angle);
+
+                    if (i === 0) {
+                        d += `M ${x} ${y} `;
+                    } else {
+                        // 使用 Q 贝塞尔曲线平滑连接不规则顶点
+                        const prevAngle = baseAngles[i - 1];
+                        const midAngle = (angle + prevAngle) / 2;
+                        const midR = r * 1.15;
+                        const cx = clickX + midR * Math.cos(midAngle);
+                        const cy = clickY + midR * Math.sin(midAngle);
+                        d += `Q ${cx} ${cy} ${x} ${y} `;
+                    }
+                }
+                d += "Z";
+                return d;
+            }
+
+            function animateInk(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // 缓动函数
+                const easeProgress = progress < 0.5 
+                    ? 4 * progress * progress * progress 
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                inkPath.setAttribute('d', generateIrregularPath(easeProgress));
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateInk);
+                }
+            }
+
+            requestAnimationFrame(animateInk);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>照片查看器</title>
+    <style>
+        :root { 
+            --win-blue: #0078d4; 
+            --bg-gray: #f3f3f3; 
+            --text-main: #333; 
+            --window-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            width: 100vw;
+            font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+            background: #2c3e50 url('wallpaper.png') no-repeat center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* Windows 10 照片查看器窗口（稍微调宽调高，给大图留出充足空间） */
+        .photo-viewer-window {
+            width: 95vw;          
+            max-width: 900px;     
+            height: 92vh;         
+            max-height: 880px;    
+            background: #ffffff;
+            box-shadow: var(--window-shadow);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;    
+            border: 1px solid #d1d1d1;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        /* 顶部标题栏 */
+        .window-title-bar {
+            height: 32px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            border-bottom: 1px solid #eee;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .window-title { 
+            flex-grow: 1; 
+            font-size: 12px; 
+            color: #444; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+        }
+        .win-controls { display: flex; height: 100%; }
+        .control-btn { 
+            width: 46px; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 14px; 
+            cursor: pointer; 
+            transition: 0.15s; 
+            color: #333; 
+        }
+        .control-btn:hover { background: #e5e5e5; }
+        .close:hover { background: #e81123; color: white; }
+
+        /* 照片查看器的主体看图区域（缩小 Padding，让长截图占满上下） */
+        .viewer-body {
+            flex: 1;
+            background: #e6e6e6; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px; /* 减小留白，给截图扩容 */
+            overflow: hidden; 
+            position: relative;
+        }
+
+        .screenshot-scaler-wrapper {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* QQ 完整无滑动长截图容器 */
+        .screenshot-canvas {
+            width: 420px; /* 适当拉宽物理宽度，保证文字更清晰 */
+            background-color: #f4f6f9;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            border-radius: 2px;
+            overflow: hidden;
+            flex-shrink: 0;
+            transform-origin: center center;
+            max-height: max-content;
+        }
+
+        /* QQ 顶栏 */
+        .qq-header {
+            background-color: #10b5f5; 
+            color: white;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            flex-shrink: 0;
+            position: relative;
+        }
+        .back-icon {
+            width: 12px;
+            height: 12px;
+            border-left: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            transform: rotate(45deg);
+            margin-right: 6px;
+        }
+        .header-left { display: flex; align-items: center; font-size: 16px; }
+        .header-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .header-right { display: flex; gap: 18px; }
+        .icon-phone {
+            width: 20px; height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>') no-repeat center/contain;
+        }
+        .icon-more {
+            width: 22px; height: 22px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>') no-repeat center/contain;
+        }
+ /* 状态栏 */
+        .folder-statusbar {
+            height: 24px;
+            background: #f0f0f0;
+            border-top: 1px solid #d1d1d1;
+            font-size: 11px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+        }
+
+        /* 进度指示器 */
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+
+        /* 仿 Win10 任务栏 */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: rgba(199, 187, 187, 0.85);
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            z-index: 6000; 
+            color: white;
+        }
+        .start-btn {
+            width: 48px; height: 100%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .start-btn:hover { background: rgba(255, 255, 255, 0.1); }
+        .start-btn img { width: 20px; height: 20px; filter: invert(1); }
+
+        .search-container {
+            height: 32px; width: 240px; background: rgba(255, 255, 255, 0.9);
+            margin: 0 10px; display: flex; align-items: center; padding: 0 10px;
+            border-radius: 2px;
+        }
+        .search-container input {
+            border: none; background: none; outline: none; width: 100%;
+            font-size: 12px; color: #333;
+        }
+        .search-icon { font-size: 14px; margin-right: 8px; color: #666; }
+
+        .task-icons { display: flex; height: 100%; align-items: center; gap: 5px; }
+        .task-icon { width: 40px; height: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .task-icon img { width: 22px; height: 22px; }
+
+        .tray-area { margin-left: auto; display: flex; align-items: center; padding: 0 10px; color: #000000; }
+        .clock { text-align: center; font-size: 11px; line-height: 1.2; padding: 0 5px; cursor: default; }
+
+        /* QQ 聊天气泡区域（完全铺开） */
+        .chat-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: #eef2f5;
+        }
+
+        .chat-time {
+            align-self: center;
+            background-color: rgba(0, 0, 0, 0.06);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            margin: 8px 0;
+        }
+
+        .message-row { display: flex; width: 100%; align-items: flex-start; }
+        .message-right { justify-content: flex-end; }
+        .message-left { justify-content: flex-start; }
+
+        .avatar { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; }
+        .avatar-friend { background: #ffb6c1; }
+        .avatar-me { background: #5c7c99; }
+
+        .bubble-wrapper { max-width: 68%; margin: 0 10px; }
+        .chat-bubble {
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            word-break: break-all;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .message-left .chat-bubble {
+            background-color: #fff0f2;
+            color: #4a3739;
+            border: 1px solid #ffe1e5;
+            border-top-left-radius: 2px;
+        }
+
+        .message-right .chat-bubble {
+            background-color: #10b5f5;
+            color: #ffffff;
+            border-top-right-radius: 2px;
+        }
+
+        /* QQ 底部输入栏 */
+        .qq-footer {
+            height: 50px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #dddddd;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .icon-voice {
+            width: 24px; height: 24px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23777"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>') no-repeat center/contain;
+        }
+        .chat-input-box {
+            flex: 1; background: #fff; border: 1px solid #dcdee0;
+            border-radius: 4px; height: 34px; padding-left: 8px;
+            display: flex; align-items: center; color: #ccc; font-size: 14px;
+        }
+        .footer-icons-right { display: flex; gap: 12px; }
+        .icon-emoji {
+            width: 24px; height: 24px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23777"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14H11v-2h2v2zm0-4H11V7h2v5z"/></svg>') no-repeat center/contain;
+        }
+        .icon-add {
+            width: 24px; height: 24px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23777"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>') no-repeat center/contain;
+        }
+
+        /* 仿 Win10 照片工具栏 */
+        .viewer-toolbar {
+            height: 48px;
+            background: #f3f3f3;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            color: #555;
+            font-size: 18px;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .toolbar-btn { cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: 0.1s; }
+        .toolbar-btn:hover { background: #e5e5e5; color: #000; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .photo-viewer-window { width: 100vw; height: 100vh; max-height: none; border-radius: 0; }
+            .viewer-body { padding: 5px; }
+        }
+
+         .progress-indicator {
+    position: fixed !important;
+    bottom: 50px !important;       /* 避开 Win10 任务栏 */
+    right: 20px !important;
+    top: auto !important;
+    
+    /* 强制固定尺寸与单行展示，防止被拉长 */
+    display: inline-block !important;
+    height: 28px !important;
+    line-height: 28px !important;
+    padding: 0 12px !important;
+    white-space: nowrap !important;
+    
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    border-radius: 14px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+    z-index: 99999;
+    pointer-events: none;          /* 穿透点击，不挡鼠标 */
+}
+    </style>                <div class="progress-indicator">8/37</div>            </head>
+
+<body>
+    
+    <div class="taskbar">
+        <div class="start-btn">
+            <img src="https://img.icons8.com/material-outlined/24/ffffff/windows-10.png">
+        </div>
+
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="搜索..." disabled autocomplete="off">
+        </div>
+
+  
+        
+        <div class="tray-area">
+            <div class="clock">
+                <div id="time">20:17</div>
+                <div id="date">2026/8/22</div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="photo-viewer-window">
+        
+        <div class="window-title-bar">
+            <div class="window-title">
+                <img src="https://img.icons8.com/color/16/000000/image.png" width="16" height="16">
+                照片查看器 - QQ截图20180531110536.png
+            </div>
+            <div class="win-controls">
+                <div class="control-btn">－</div>
+                <div class="control-btn close" onclick="goBack()">✕</div>
+            </div>
+        </div>
+        
+        <div class="viewer-body" id="viewerBody">
+            <div class="screenshot-scaler-wrapper">
+                
+                <div class="screenshot-canvas" id="screenshotCanvas">
+                    
+                    <div class="qq-header">
+                        <div class="header-left">
+                            <div class="back-icon"></div>
+                            <span>消息</span>
+                        </div>
+                        <div class="header-title">MIAOovoO</div>
+                        <div class="header-right">
+                            <div class="icon-phone"></div>
+                            <div class="icon-more"></div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="chat-body">
+                        
+                        <div class="message-row message-left">
+                            <div class="avatar avatar-friend"></div>
+                            <div class="bubble-wrapper">
+                                <div class="chat-bubble">天呐，外面这么黑，你千万别一个人去！</div>
+                            </div>
+                        </div>
+
+   
+
+                        <div class="chat-time">5月19日 08:40</div>
+                        
+                        <div class="message-row message-left">
+                            <div class="avatar avatar-friend"></div>
+                            <div class="bubble-wrapper">
+                                <div class="chat-bubble">他刚来问我，你感觉好点没有</div>
+                            </div>
+                        </div>
+                        
+                        <div class="message-row message-left">
+                            <div class="avatar avatar-friend"></div>
+                            <div class="bubble-wrapper">
+                                <div class="chat-bubble">我怎么回复？😅</div>
+                            </div>
+                        </div>
+                        
+                        <div class="message-row message-right">
+                            <div class="bubble-wrapper">
+                                <div class="chat-bubble">暂时还活着。</div>
+                            </div>
+                            <div class="avatar avatar-me"></div>
+                        </div>
+                        
+                        <div class="chat-time">7月12日 上午11:20</div>
+
+                        <div class="message-row message-left">
+                            <div class="avatar avatar-friend"></div>
+                            <div class="bubble-wrapper">
+                                <div class="chat-bubble">快看空间！！你又上<strong>青大附中表白墙</strong>了哈哈哈！！</div>
+                            </div>
+                        </div>
+
+                        <div class="message-row message-left">
+                            <div class="avatar avatar-friend"></div>
+                            <div class="bubble-wrapper">
+                                <div class="chat-bubble">投稿说捞一下辅导班同学😏</div>
+                            </div>
+                        </div>
+
+                        <div class="message-row message-right">
+                            <div class="bubble-wrapper">
+                                <div class="chat-bubble">？</div>
+                            </div>
+                            <div class="avatar avatar-me"></div>
+                        </div>
+
+                        <div class="message-row message-right">
+                            <div class="bubble-wrapper">
+                                <div class="chat-bubble">谁又这么闲……捞这捞那的</div>
+                            </div>
+                            <div class="avatar avatar-me"></div>
+                        </div>
+
+                        <div class="message-row message-right">
+                            <div class="bubble-wrapper">
+                                <div class="chat-bubble">不看</div>
+                            </div>
+                            <div class="avatar avatar-me"></div>
+                        </div>
+                    </div>
+
+                    <div class="qq-footer">
+                        <div class="icon-voice"></div>
+                        <div class="chat-input-box">输入消息...</div>
+                        <div class="footer-icons-right">
+                            <div class="icon-emoji"></div>
+                            <div class="icon-add"></div>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="viewer-toolbar">
+            <div class="toolbar-btn">⟳</div>
+            <div class="toolbar-btn">🔍+</div>
+            <div class="toolbar-btn">🔍-</div>
+            <div class="toolbar-btn">🗑</div>
+        </div>
+
+    </div>
+    
+
+    <script>
+        // 返回 filefinal.html 的跳转函数
+        function goBack() {
+              window.location.href = 'desk.html'; 
+        }
+
+        // 监听键盘按键
+        document.addEventListener('keydown', function(event) {
+            // 当按下的是 'x' 或 'X' 键时触发返回
+            if (event.key === 'x' || event.key === 'X') {
+                goBack();
+            }
+        });
+
+function autoScaleScreenshot() {
+    const container = document.getElementById('viewerBody');
+    const target = document.getElementById('screenshotCanvas');
+    if (!container || !target) return;
+
+    const availableWidth = container.clientWidth - 20;
+    const availableHeight = container.clientHeight - 20;
+    const originalWidth = 420;
+    const originalHeight = target.scrollHeight; 
+
+    const scaleX = availableWidth / originalWidth;
+    const scaleY = availableHeight / originalHeight;
+    const finalScale = Math.min(scaleX, scaleY); 
+
+    // 设置缩放并立即显示，避免闪烁
+    target.style.transform = `scale(${finalScale})`;
+    target.style.opacity = '1'; 
+}
+
+// 改用 DOMContentLoaded，比 window.onload 触发快得多
+document.addEventListener('DOMContentLoaded', autoScaleScreenshot);
+window.addEventListener('resize', autoScaleScreenshot);
+    </script>
+</body>
+</html>

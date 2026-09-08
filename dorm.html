@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>住校申请表</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f0f0f0;
+            font-family: "SimSun", "Songti SC", "STSong", "楷体", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* 模拟标准 A4 页面 */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm 25mm;
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 22pt;
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+            font-family: "SimHei", "STHeiti", sans-serif;
+        }
+
+        .sub-header {
+            text-align: center;
+            font-size: 11pt;
+            color: #333;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        /* 表格通用样式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 11pt;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 10px 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .label {
+            font-weight: bold;
+            background-color: #f9f9f9;
+            width: 16%;
+        }
+
+        .value {
+            text-align: left;
+            padding-left: 12px;
+        }
+
+        /* 勾选项样式 */
+        .checkbox-group {
+            display: inline-block;
+            font-family: sans-serif;
+        }
+
+        /* 申请理由与承诺书样式 */
+        .section-box {
+            border: 1px solid #000;
+            border-top: none;
+            padding: 15px;
+            text-align: left;
+            line-height: 1.8;
+            font-size: 11pt;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 11pt;
+            background-color: #f9f9f9;
+            border: 1px solid #000;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .reason-text {
+            min-height: 120px;
+            text-indent: 2em;
+        }
+
+        .commitment-list {
+            margin-left: 2em;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        .signature-group {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .signature-item {
+            font-size: 11pt;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            font-size: 9pt;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* 导出 PDF / 打印时的特定样式优化 */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .page {
+                box-shadow: none;
+                width: 100%;
+                height: 100%;
+                padding: 15mm 20mm;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+
+        /* 页面上的控制按钮 */
+        .no-print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2b5435;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .no-print-btn:hover {
+            background: #1e3d26;
+        }
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">17/37</div></head>
+<body>
+
+ 
+    <div class="page">
+        <h1>高中学生住校申请表</h1>
+        <div class="sub-header">学年度：2018 — 2019 学年第 一 学期</div>
+
+        <!-- 基本信息表 -->
+        <table>
+            <tr>
+                <td class="label">学生姓名</td>
+                <td class="value" style="width: 20%;">宋以宁</td>
+                <td class="label" style="width: 12%;">性 别</td>
+                <td class="value" style="width: 12%;">女</td>
+                <td class="label">班 级</td>
+                <td class="value">高二（22）班</td>
+            </tr>
+<tr>
+                <td class="label">此前是否住校</td>
+                <td class="value">
+                    <span class="checkbox-group">☐ 是 &nbsp;&nbsp; ☑ 否</span>
+                </td>
+                <td class="label">家庭是否本市</td>
+                <td class="value" colspan="3">
+                    <span class="checkbox-group">☑ 是 &nbsp;&nbsp; ☐ 否</span>
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- 申请理由 -->
+        <div class="section-title">一、 申请住校理由</div>
+        <div class="section-box">
+            <div class="reason-text">
+                父母因工作及家庭照顾原因无法稳定安排日常生活，特向学校申请入住学生宿舍。
+            </div>
+        </div>
+
+        <br>
+
+        <!-- 承诺与签名 -->
+        <div class="section-title">二、 住校遵规守纪承诺</div>
+        <div class="section-box">
+            <p>本人及家长自愿申请住校，并严格遵守以下规定：</p>
+            <ol class="commitment-list">
+                <li>按时作息，不迟到、不早退、不熄灯后逗留或影响他人休息。</li>
+                <li>爱护宿舍公共财物，注意防火、防盗及用电安全，绝不使用违章电器。</li>
+                <li>如有特殊情况需请假离校，必先履行正规请假手续并告知家长。</li>
+            </ol>
+
+            <div class="signature-group">
+                <div class="signature-item">申请学生签名：<u>宋以宁</u></div>
+                <div class="signature-item">家长/监护人签名：<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u></div>
+                <div class="signature-item">日期：2018年 9月 7日</div>
+            </div>
+        </div>
+
+        <br>
+
+        <!-- 审批意见表 -->
+        <div class="section-title">三、 学校审批意见</div>
+        <table>
+            <tr>
+                <td class="label" style="height: 60px;">班主任<br>意见</td>
+                <td class="value" style="width: 34%;">
+                    <br><br>
+                    签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日
+                </td>
+                <td class="label">宿管科<br>审核</td>
+                <td class="value">
+                    <br><br>
+                    签名：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;月&nbsp;&nbsp;日
+                </td>
+            </tr>
+       
+        </table>
+
+        <div class="footer-note">
+            备注：本表一式两份，德育处及宿管科各留存一份； 2. 请随表附学生近期一寸免冠照片一张。
+        </div>
+    </div>
+
+</body>
+</html>

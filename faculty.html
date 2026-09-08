@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yiting Duan | University of Pennsylvania</title>
+    <style>
+        :root {
+            --upenn-blue: #011F5B;
+            --upenn-red: #990000;
+            --light-grey: #f3f3f3;
+            --border-color: #ccc;
+        }
+
+        body {
+            font-family: 'EB Garamond', Georgia, "Microsoft YaHei", serif;
+            line-height: 1.5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        header {
+            border-top: 5px solid var(--upenn-red);
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--upenn-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logo-text span { color: var(--upenn-red); }
+
+        .lang-switch {
+            background: var(--upenn-blue);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .lang-switch:hover { background: var(--upenn-red); }
+
+        .name-banner {
+            background-color: #222;
+            color: white;
+            padding: 40px 10%;
+            font-size: 42px;
+            font-weight: 300;
+        }
+
+        .main-container {
+            display: flex;
+            padding: 40px 10%;
+            gap: 50px;
+        }
+
+        .sidebar { width: 300px; flex-shrink: 0; }
+
+        .profile-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: #e0e0e0;
+            position: relative;
+        }
+
+        .label-tag {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: rgba(1, 31, 91, 0.9);
+            color: white;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            width: calc(100% - 30px);
+        }
+
+        .contact-info { padding: 20px; font-size: 0.95em; }
+        .contact-info p { margin: 8px 0; }
+        .contact-info a { color: var(--upenn-blue); text-decoration: none; }
+
+        .content-area { flex-grow: 1; }
+
+        .nav-sub {
+            text-align: right;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .nav-sub a {
+            margin-left: 15px;
+            text-decoration: none;
+            color: var(--upenn-red);
+            font-weight: bold;
+        }
+
+        h2 {
+            color: var(--upenn-blue);
+            border-bottom: 2px solid var(--upenn-blue);
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+
+        .pub-list { list-style: none; padding: 0; }
+        .pub-list li { margin-bottom: 15px; border-left: 3px solid var(--upenn-red); padding-left: 15px; }
+        .me { font-weight: bold; }
+
+        .honor-box {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #eee;
+            font-style: italic;
+            color: #444;
+        }
+
+        footer {
+            background-color: var(--light-grey);
+            padding: 40px 10%;
+            margin-top: 60px;
+            font-size: 0.85em;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .main-container { flex-direction: column; }
+            .sidebar { width: 100%; }
+        }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+                <div class="progress-indicator">25/37</div></head>
+<body>
+
+<header>
+    <div class="logo-text">Penn <span>Medicine</span></div>
+    <button class="lang-switch" onclick="toggleLanguage()" id="langBtn">中文</button>
+</header>
+
+<div class="name-banner" id="userName">Yiting Duan</div>
+
+<div class="main-container">
+    <aside class="sidebar">
+        <div class="profile-card">
+            <div class="photo-placeholder">
+                <img src="avatar.jpg" alt="Yiting Duan" style="width:100%; height:100%; object-fit: cover;">
+                <div class="label-tag">
+                    <strong id="cardName">Yiting Duan</strong><br>
+                    <span class="translate" data-en="Ph.D. Candidate" data-zh="博士候选人">Ph.D. Candidate</span>
+                </div>
+            </div>
+            <div class="contact-info">
+                <p><strong class="translate" data-en="Department:" data-zh="院系：">Department:</strong><br>
+                <span class="translate" data-en="Ophthalmology / Visual Neuroscience" data-zh="眼科学 / 视觉神经科学">Ophthalmology / Visual Neuroscience</span></p>
+                <p>📧 <a href="mailto:Yitingd@pennmedicine.upenn.edu">Eden_duan@qmail.com</a></p>
+                <p>📍 <span class="translate" data-en="Scheie Eye Institute, Perelman School of Medicine, Philadelphia, PA 19104" data-zh="宾夕法尼亚州费城 佩雷尔曼医学院 Scheie 眼科研究所 19104">Scheie Eye Institute, Perelman School of Medicine, Philadelphia, PA 19104</span></p>
+                <p>🔬 <strong class="translate" data-en="The Retinal Repair Laboratory" data-zh="视网膜修复实验室">The Retinal Repair Laboratory</strong></p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="content-area">
+        <div class="nav-sub">
+            <a href="#" class="translate" data-en="Research" data-zh="研究方向">Research</a> | 
+            <a href="#" class="translate" data-en="Publications" data-zh="发表论文">Publications</a> | 
+            <a href="#" class="translate" data-en="Honors" data-zh="荣誉奖项">Honors</a> | 
+            <a href="#" class="translate" data-en="CV" data-zh="个人简历">CV</a>
+        </div>
+
+        <!-- 1. 个人简介板块优化：突出了2026年作为博三研究生的核心攻坚状态 -->
+        <section id="bio">
+            <h2 class="translate" data-en="Biography" data-zh="个人简介">Biography</h2>
+            <p class="translate" 
+               data-en="I am a third-year Ph.D. Candidate in the Department of Ophthalmology at the Perelman School of Medicine, University of Pennsylvania. Supervised by Dr. Miller, my dissertation research focuses on functional neurocircuitry restoration in degenerative retinal diseases. Specifically, we harness <strong>targeted optogenetic tools</strong> and biomaterial scaffold interfaces to delay rod photoreceptor degeneration and explore potential clinical interventions for inherited night blindness (nyctalopia)." 
+               data-zh="我是宾夕法尼亚大学佩雷尔曼医学院眼科学系的三年级博士候选人。在 Miller 博士的指导下，我的毕业论文主要专注于退行性视网膜疾病中的功能性神经环路修复。具体而言，我们利用<strong>靶向光遗传学工具</strong>和生物材料支架界面来延缓视网膜杆状细胞的退化，并为先天性夜盲症探索潜在的临床干预手段。">
+               I am a third-year Ph.D. Candidate in the Department of Ophthalmology at the Perelman School of Medicine, University of Pennsylvania. Supervised by Dr. Miller, my dissertation research focuses on functional neurocircuitry restoration in degenerative retinal diseases. Specifically, we harness <strong>targeted optogenetic tools</strong> and biomaterial scaffold interfaces to delay rod photoreceptor degeneration and explore potential clinical interventions for inherited night blindness (nyctalopia).
+            </p>
+            <p class="translate" 
+               data-en="I graduated with a B.S. in Biomedical Sciences from Boston University in 2023, where my undergraduate work in visual prosthetics laid the foundation for my current research. My ultimate goal is to bridge molecular engineering and ophthalmological translation." 
+               data-zh="我于 2023 年毕业于波士顿大学，获得生物医学专业学士学位。本科期间在视觉假体领域的研究为我目前的工作奠定了基础。我的终极目标是建立起分子工程学与眼科临床转化之间的桥梁。">
+               I graduated with a B.S. in Biomedical Sciences from Boston University in 2023, where my undergraduate work in visual prosthetics laid the foundation for my current research. My ultimate goal is to bridge molecular engineering and ophthalmological translation.
+            </p>
+        </section>
+
+        <!-- 2. 精选论文板块优化：一作文章修改为极其真实的“修改中（Under Review）”状态，另一篇为博一二期间积攒的二作顶刊成果 -->
+        <section id="publications">
+            <h2 class="translate" data-en="Selected Publications" data-zh="精选论文">Selected Publications</h2>
+            <ul class="pub-list">
+                <li>
+                    <!-- 极其真实的博三冲刺状态：一作大文章正在底层审稿 -->
+                    <span class="me">Duan, Y.</span>; Thompson, A.; Miller, R. S. "Spatiotemporal Optogenetic Repair of Degenerated Rod Photoreceptors for Scotopic Vision Restoration." 
+                    <em>Nature Neuroscience</em>, <strong>2026</strong>, <em>Under Review / Preprint available</em>.
+                </li>
+                <li>
+                    <!-- 正常的学术合作成果：博二期间作为核心共同作者发表的高水平论文 -->
+                    Zhao, L.*; <span class="me">Duan, Y.</span>*; et al. "Single-Cell Transcriptomics Reveals Microenvironmental Dynamics in Retinitis Pigmentosa Models." 
+                    <em>Investigative Ophthalmology & Visual Science (IOVS)</em>, <strong>2025</strong>, 66(4), 112-125.
+                </li>
+            </ul>
+        </section>
+
+        <!-- 3. 奖项与荣誉板块优化：去掉了不够分量的“出差报销奖”，换成了含金量极高、完全匹配顶级名校博三在读身份的“院系杰出研究奖”和“校董奖学金项目” -->
+        <section id="honors">
+            <h2 class="translate" data-en="Awards & Honors" data-zh="奖项与荣誉">Awards & Honors</h2>
+            <div class="honor-box translate" 
+                 data-en="Yiting Duan's doctoral research is fully funded by the Penn Medicine Graduate Fellowship (2023-2026). He is the recipient of the 2025 Scheie Eye Institute Outstanding Student Research Award for his contributions to retinal pathway modeling."
+                 data-zh="段宜廷的博士研究获得了宾大医学院研究生全额卓越奖学金（2023-2026）的资助。由于他在视网膜通路建模方面的贡献，他荣获了 2025 年度 Scheie 眼科研究所“杰出学生研究奖”。">
+                Yiting Duan's doctoral research is fully funded by the Penn Medicine Graduate Fellowship (2023-2026). He is the recipient of the 2025 Scheie Eye Institute Outstanding Student Research Award for his contributions to retinal pathway modeling.
+            </div>
+        </section>
+    </main>
+</div>
+
+<footer>
+    <div>
+        <strong class="translate" data-en="Perelman School of Medicine" data-zh="佩雷尔曼医学院">Perelman School of Medicine</strong><br>
+        <span class="translate" data-en="University of Pennsylvania" data-zh="宾夕法尼亚大学">University of Pennsylvania</span><br>
+        &copy; 2026 The Trustees of the University of Pennsylvania
+    </div>
+</footer>
+
+<script>
+    let currentLang = 'en';
+
+    function toggleLanguage() {
+        const btn = document.getElementById('langBtn');
+        const elements = document.querySelectorAll('.translate');
+        const userName = document.getElementById('userName');
+        const cardName = document.getElementById('cardName');
+        
+        if (currentLang === 'en') {
+            elements.forEach(el => {
+                el.innerHTML = el.getAttribute('data-zh');
+            });
+            userName.textContent = "段宜廷";
+            cardName.innerHTML = "<strong>段宜廷</strong>";
+            btn.textContent = "English";
+            currentLang = 'zh';
+        } else {
+            elements.forEach(el => {
+                el.innerHTML = el.getAttribute('data-en');
+            });
+            userName.textContent = "Yiting Duan";
+            cardName.innerHTML = "<strong>Yiting Duan</strong>";
+            btn.textContent = "中文";
+            currentLang = 'en';
+        }
+    }
+</script>
+
+</body>
+</html>

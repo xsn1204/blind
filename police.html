@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>安吉县公安局接处警登记表</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #525659; font-family: "SimSun", "Songti SC", serif; display: flex; justify-content: center; padding: 20px; }
+        .paper { width: 210mm; background: #fff; padding: 20mm; box-shadow: 0 0 10px rgba(0,0,0,0.3); font-size: 10pt; line-height: 1.5; color: #000; }
+        .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; }
+        .header h1 { font-family: "SimHei", sans-serif; font-size: 16pt; }
+        .header h2 { font-family: "SimHei", sans-serif; font-size: 13pt; letter-spacing: 2px; }
+        .no { text-align: right; font-size: 9pt; font-family: monospace; margin-bottom: 8px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        th, td { border: 1px solid #000; padding: 6px 8px; text-align: left; }
+        th { background: #f5f5f5; font-family: "SimHei", sans-serif; text-align: center; font-weight: normal; width: 18%; }
+        .footer { margin-top: 30px; float: right; text-align: center; position: relative; width: 220px; }
+        .seal { position: absolute; top: -20px; left: 30px; width: 120px; height: 120px; border: 3px solid #c00; border-radius: 50%; color: #c00; transform: rotate(-10deg); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 8pt; font-weight: bold; opacity: 0.85; pointer-events: none; }
+        .seal::before { content: "★"; font-size: 16pt; }
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">6/37</div>
+</head>
+<body>
+    <div class="paper">
+        <div class="header">
+            <h1>浙江省安吉县公安局</h1>
+            <h2>接 处 警 登 记 表</h2>
+        </div>
+
+        <div class="no">编号：J3305232018051808821</div>
+
+        <table>
+            <tr>
+                <th>接警时间</th>
+                <td>2018-05-18 23:55</td>
+                <th>警情类别</th>
+                <td>人员失联 / 紧急搜救</td>
+            </tr>
+            <tr>
+                <th>报警人</th>
+                <td>        <strong style="color: red;">邓育明</strong></td>
+                <th>处警单位</th>
+                <td>天荒坪派出所</td>
+            </tr>
+
+            <tr>
+                <th>事发经过及结果</th>
+                <td colspan="3" style="height: 160px; vertical-align: top; padding: 10px; line-height: 1.8;">
+                    <strong>警情概要：</strong><br>
+                    报警人称，修学旅行期间发现两名学生失联，手机无信号，疑往山区方向。<br><br>
+                    <strong>处置结果：</strong>
+                    次日（5月19日）凌晨 00:40 许，民警在天荒坪江南天池观景平台附近发现两名学生。经现场核查，其中一名身体状况良好，另一名出现轻微不适。<br>
+                    现场对其进行了安全教育与批评引导，并于01:15将其护送至校方集中住宿点，移交带队老师监护。
+                </td>
+            </tr>
+        </table>
+
+        <div class="footer">
+            <div>办案单位：天荒坪派出所</div>
+            <div style="margin-top: 5px;">2018年05月19日</div>
+            <div class="seal">
+                <div>安吉县公安局</div>
+                <div>天荒坪派出所</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

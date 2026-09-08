@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猿辅导网课 - 新高二冲刺中心</title>
+    <style>
+        :root {
+            --yuan-red: #ff3b30;
+            --yuan-orange: #ff9500;
+            --yuan-yellow: #ffcc00;
+            --science-blue: #007aff;
+            --text-dark: #1a1a1a;
+            --text-muted: #666666;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f9;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 顶部滚屏通告栏 */
+        .scrolling-ticker {
+            background-color: #1a1a1a;
+            color: var(--yuan-yellow);
+            font-size: 13px;
+            font-weight: bold;
+            padding: 8px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+
+        .ticker-wrap {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 25s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* 核心导航栏 */
+        .nav-bar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-box {
+            background-color: var(--yuan-red);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+
+        .logo-sub {
+            font-size: 14px;
+            color: var(--text-muted);
+            border-left: 1px solid #ddd;
+            padding-left: 10px;
+        }
+
+        /* Hero 广告区 */
+        .hero-banner {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 50px 20px 40px 20px;
+            position: relative;
+        }
+
+        .tag-cctv {
+            background-color: var(--yuan-yellow);
+            color: #b40000;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 4px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .hero-title {
+            font-size: 38px;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        /* 卡片 */
+        .price-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 30px 24px;
+            color: var(--text-dark);
+            border: 3px solid var(--yuan-orange);
+            position: relative;
+        }
+
+        .badge-pop {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: #ff3b30;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+            transform: rotate(15deg);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: rotate(15deg) scale(1); }
+            50% { transform: rotate(15deg) scale(1.08); }
+            100% { transform: rotate(15deg) scale(1); }
+        }
+
+        .price-tag {
+            font-size: 54px;
+            font-weight: 900;
+            color: var(--yuan-red);
+            margin: 15px 0;
+        }
+
+        .countdown-box {
+            background-color: #fff5f5;
+            border: 1px dashed var(--yuan-red);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            color: var(--yuan-red);
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .rush-btn {
+            background: linear-gradient(180deg, #ff5e3a 0%, #ff2a00 100%);
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255,59,48,0.4);
+            transition: transform 0.2s;
+        }
+
+        .science-features {
+            background-color: #eef2f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .science-features ul {
+            margin: 5px 0 0 0;
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 独家福利网盘区 */
+        .download-box {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 2px dashed #d97706;
+            border-radius: 16px;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .download-title {
+            color: #b45309;
+            font-size: 24px;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .pan-info {
+            background: #f7f8fa;
+            border: 1px solid #e5e6eb;
+            border-radius: 6px;
+            padding: 12px 16px;
+            line-height: 1.8;
+            font-size: 14px;
+            display: inline-block;
+            text-align: left;
+        }
+
+        .pan-link-row { margin: 4px 0; }
+        .pan-label { color: #666; }
+        .pan-link { color: #1677ff; text-decoration: none; word-break: break-all; }
+        .pan-code {
+            display: inline-flex;
+            align-items: center;
+            height: 25px;
+            padding: 0 5px;
+            background: #ff3b30;
+            color: #fff;
+            border-radius: 2px;
+            font-size: 11px;
+        }
+
+        .media-proof {
+            background-color: #ffffff;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .proof-title {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .media-grid {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .media-logo {
+            background: #f0f2f5;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        .live-counter {
+            text-align: center;
+            padding: 20px;
+            background: #edf2f7;
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+
+        /* ================= 崩溃特效样式 ================= */
+
+        .glitch-active {
+            animation: glitch-anim 0.08s infinite;
+            filter: grayscale(90%) contrast(200%);
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0); }
+            20% { transform: translate(-10px, 8px) skewX(6deg); filter: invert(0.4); }
+            40% { transform: translate(-6px, -10px) skewX(-5deg); }
+            60% { transform: translate(10px, 5px); filter: hue-rotate(180deg); }
+            80% { transform: translate(-5px, -5px); }
+            100% { transform: translate(0); }
+        }
+
+        /* 报错弹窗 */
+        .error-popup {
+            position: fixed;
+            width: 300px;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #404040 #404040 #ffffff;
+            box-shadow: 6px 6px 20px rgba(0,0,0,0.8);
+            font-family: "SimSun", "Courier New", monospace;
+            z-index: 10000;
+            user-select: none;
+            overflow: hidden;
+            animation: popIn 0.05s ease-out;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.2); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .popup-titlebar {
+            background: #000080;
+            color: white;
+            padding: 3px 6px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-titlebar.corrupted {
+            background: #800000;
+        }
+
+        .popup-close-btn {
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #ffffff #404040 #404040 #ffffff;
+            color: black;
+            width: 16px;
+            height: 14px;
+            font-size: 10px;
+            line-height: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .popup-body {
+            padding: 12px;
+            font-size: 12px;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .popup-icon {
+            font-size: 24px;
+        }
+
+        .popup-footer {
+            padding: 6px;
+            text-align: center;
+            background: #c0c0c0;
+        }
+
+        .popup-btn {
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #ffffff #404040 #404040 #ffffff;
+            padding: 2px 16px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* 终极黑屏 */
+        .fatal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            z-index: 999999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ff0000;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        .fatal-text {
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #ff0000;
+        }
+    </style>
+    <div class="progress-indicator">13/37</div>
+</head>
+<body id="pageBody">
+
+    <div class="scrolling-ticker">
+        <div class="ticker-wrap" id="tickerText">
+            🔥 刚刚！江门市一中高一分班结束，张妈妈为抢报了【高二理科预备双师班】！ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            📚 高一理科基础不牢？高二难度直接翻倍！暑期不预习，开学必掉队！ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            🔥 刚刚！长沙市一中刘同学报名成功！高二理科实验班仅剩3席！
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <div class="logo-area">
+            <div class="logo-box">猿辅导</div>
+            <div class="logo-sub">新高二冲刺中心</div>
+        </div>
+        <div style="font-size: 14px; font-weight: bold; color: var(--yuan-red);" id="phoneText">
+            📞 24小时抢报专线：400-888-XXXX
+        </div>
+    </div>
+
+    <div class="hero-banner">
+        <div class="tag-cctv">暑期预习大战已打响 // 抢跑高二上关键期</div>
+        <h1 class="hero-title" id="mainTitle">高二开学前如何逆袭当黑马？</h1>
+        <p class="hero-subtitle">专为新高二生定制，全面击破数理化生核心痛点</p>
+
+        <div class="price-card">
+            <div class="badge-pop">分班急救</div>
+            <div style="font-size: 18px; font-weight: bold; color: #1a1a1a; margin-bottom: 10px;">
+                【新高二预备班】数理化生全面领跑直播课
+            </div>
+            
+            <div class="science-features">
+                <strong>💡 预备班核心攻克方向：</strong>
+                <ul>
+                    <li><strong>数学：</strong> 抢跑空间向量与圆锥曲线，拿下高考半壁江山</li>
+                    <li><strong>物理：</strong> 提前解密动量定理与电磁场，打破及格线瓶颈</li>
+                    <li><strong>化学：</strong> 突破反应原理与有机推断，攻克理综失分重灾区</li>
+                </ul>
+            </div>
+            
+            <div class="price-tag">
+                ￥49 <span style="text-decoration: line-through;">原价￥1699</span>
+            </div>
+
+            <div class="countdown-box">
+                🚨 分班抢报特惠倒计时：00天 00小时 00分 00秒
+            </div>
+
+            <button class="rush-btn" id="rushBtn">
+                立即 49元 抢锁名额
+            </button>
+        </div>
+    </div>
+
+    <div class="download-box">
+        <div class="download-title">🎁 专属限时免费福利：抢跑高二不迷茫</div>
+        <div class="pan-info">
+            <div class="pan-link-row">
+                <span class="pan-label">链接：</span>
+                <a href="#" class="pan-link" id="panLink">
+                    https://pan.baidu.com/s/1AbXXXXXIjKlMn
+                </a>
+            </div>
+            <div class="pan-link-row">
+                <span class="pan-label">提取码：</span>
+                <span class="pan-code">H7jw</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="live-counter">
+        📊 实时战报：今日全国已有 0 名新高二生抢先加入暑期特训计划！
+    </div>
+
+    <!-- 强制清屏黑色遮罩 -->
+    <div class="fatal-overlay" id="fatalOverlay">
+      <div class="fatal-text">ERROR 404：无法访问目标页面</div>
+<div style="font-size: 14px; color: #888;">正在重置连接，请稍候...</div>
+    </div>
+
+    <script>
+        const pageBody = document.getElementById('pageBody');
+        const fatalOverlay = document.getElementById('fatalOverlay');
+
+        let popupCount = 0;
+        let isGlitching = false;
+
+        const errorMessages = [
+            { title: "404 Not Found", text: "HTTP 404: 找不到指定的资源包或节点。", icon: "❌" },
+            { title: "System Warning", text: "内存分配失败：资源已被彻底清空。", icon: "⚠️" },
+            { title: "Connection Lost", text: "服务器无响应，数据流出现严重损坏。", icon: "🚫" },
+            { title: "404 ERR_FILE_NOT_FOUND", text: "目标节点不存在或已被永久移除。", icon: "❓" },
+            { title: "Fatal Error", text: "无法继续加载该页面：找不到路径。", icon: "💀" }
+        ];
+
+        // 核心崩溃流程
+        function triggerCollapse() {
+            if (isGlitching) return;
+            isGlitching = true;
+
+            // 1. 触发背景色差与震动
+            pageBody.classList.add('glitch-active');
+
+            // 2. 修改文字
+            const mainTitle = document.getElementById('mainTitle');
+            const tickerText = document.getElementById('tickerText');
+            const phoneText = document.getElementById('phoneText');
+            
+            if(mainTitle) mainTitle.innerText = "404 NOT FOUND // 无法连接至服务器";
+            if(tickerText) tickerText.innerText = "⚠️ SYSTEM ERROR 404 ⚠️ 节点失效... 正在强制清空内存... ";
+            if(phoneText) phoneText.innerText = "📞 线路已切断";
+
+            // 3. 产生弹窗暴击
+            let delay = 250;
+            
+            function spawnLoop() {
+                createErrorPopup();
+                popupCount++;
+
+                if (popupCount > 35) {
+                    setTimeout(forceExitToDesk, 500);
+                    return;
+                }
+
+                delay = Math.max(15, delay * 0.82);
+                setTimeout(spawnLoop, delay);
+            }
+
+            spawnLoop();
+        }
+
+        function createErrorPopup() {
+            const randomErr = errorMessages[Math.floor(Math.random() * errorMessages.length)];
+            const popup = document.createElement('div');
+            popup.className = 'error-popup';
+
+            const maxLeft = window.innerWidth - 300;
+            const maxTop = window.innerHeight - 150;
+            const left = Math.max(10, Math.floor(Math.random() * Math.max(100, maxLeft)));
+            const top = Math.max(10, Math.floor(Math.random() * Math.max(100, maxTop)));
+
+            popup.style.left = left + 'px';
+            popup.style.top = top + 'px';
+
+            const isCorrupted = Math.random() > 0.5;
+
+            popup.innerHTML = `
+                <div class="popup-titlebar ${isCorrupted ? 'corrupted' : ''}">
+                    <span>${randomErr.title}</span>
+                    <div class="popup-close-btn">✕</div>
+                </div>
+                <div class="popup-body">
+                    <span class="popup-icon">${randomErr.icon}</span>
+                    <div>${randomErr.text}</div>
+                </div>
+                <div class="popup-footer">
+                    <button class="popup-btn">确定</button>
+                </div>
+            `;
+
+            popup.onclick = () => { createErrorPopup(); };
+            document.body.appendChild(popup);
+        }
+
+        function forceExitToDesk() {
+            if(fatalOverlay) fatalOverlay.style.display = 'flex';
+            setTimeout(() => {
+                window.location.href = "desk1.html";
+            }, 1000);
+        }
+
+        // 自动触发：进入页面 1 秒后爆发
+        setTimeout(() => {
+            triggerCollapse();
+        }, 2500);
+
+        // 手动兜底：点击页面任意位置也会触发
+        document.addEventListener('click', () => {
+            triggerCollapse();
+        });
+    </script>
+</body>
+</html>

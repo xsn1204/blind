@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百度网盘-压缩包预览</title>
+    <style>
+        :root {
+            --bd-blue: #06a7ff;
+            --bd-bg-gray: #f4f4f4;
+            --bd-border: #f2f6fc;
+            --text-main: #333333;
+            --text-sub: #666666;
+            --sidebar-width: 194px;
+        }
+
+        body {
+            font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Arial", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            color: var(--text-main);
+            font-size: 12px;
+            user-select: none;
+        }
+
+        /* 顶部导航栏 */
+        .bd-header {
+            height: 60px;
+            border-bottom: 1px solid #f2f2f2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .bd-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .logo-dot {
+            width: 16px;
+            height: 16px;
+            background-color: var(--bd-blue);
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+        }
+        .logo-dot::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: #ff4d4f;
+            border-radius: 50%;
+            position: absolute;
+            right: -4px;
+            top: -2px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            color: var(--text-sub);
+            text-decoration: none;
+            padding: 18px 0;
+        }
+
+        .nav-item.active {
+            color: var(--bd-blue);
+            border-bottom: 3px solid var(--bd-blue);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .svip-badge {
+            background: linear-gradient(135deg, #fede8a 0%, #f9b828 100%);
+            color: #7c5100;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        /* 主体布局 */
+        .bd-container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+
+        /* 侧边栏 */
+        .bd-sidebar {
+            width: var(--sidebar-width);
+            background-color: #f7f9fc;
+            padding-top: 15px;
+            border-right: 1px solid #ebedf0;
+        }
+
+        .side-menu-item {
+            height: 38px;
+            display: flex;
+            align-items: center;
+            padding-left: 24px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 14px;
+            gap: 10px;
+        }
+
+        .side-menu-item.active {
+            background-color: #e4f5ff;
+            color: var(--bd-blue);
+            font-weight: 500;
+        }
+
+        .quota-box {
+            margin-top: 200px;
+            padding: 0 20px;
+            color: var(--text-sub);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #e5e5e5;
+            border-radius: 3px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 88%;
+            height: 100%;
+            background-color: var(--bd-blue);
+        }
+
+        /* 右侧文件区域 */
+        .bd-main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 操作栏 */
+        .action-bar {
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-left {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 0 16px;
+            height: 32px;
+            border-radius: 16px;
+            font-size: 14px;
+            border: 1px solid #dcdfe6;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-primary {
+            background-color: var(--bd-blue);
+            color: #fff;
+            border-color: var(--bd-blue);
+        }
+
+        /* 面包屑导航 */
+        .breadcrumb-path {
+            padding: 4px 20px;
+            color: var(--text-sub);
+            font-size: 13px;
+        }
+        
+        .breadcrumb-back {
+            color: var(--bd-blue);
+            text-decoration: none;
+        }
+        .breadcrumb-back:hover {
+            text-decoration: underline;
+        }
+
+        /* 文件列表表格 */
+        .file-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .file-table th {
+            text-align: left;
+            color: var(--text-sub);
+            font-weight: normal;
+            border-bottom: 1px solid #f2f6fc;
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+
+        .file-table td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #f2f6fc;
+            font-size: 13px;
+        }
+
+        .file-table tr:hover {
+            background-color: #f4f9ff;
+        }
+
+        /* 图标样式 */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            margin-right: 8px;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 24px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .icon-folder { background-color: #ffca28; color: #b57a00; }
+        .icon-video { background-color: #42a5f5; }
+        .icon-pdf { background-color: #ef5350; }
+        .icon-txt { background-color: #78909c; }
+
+        .file-name-txt {
+            color: #333;
+            text-decoration: none;
+        }
+        .file-name-txt:hover {
+            color: var(--bd-blue);
+        }
+        
+        /* 标记刚刚解锁暴露出来的真实敏感文件 */
+        .decrypted-highlight {
+            background-color: #fff9f9;
+        }
+        .icon-img{
+    background:#52c41a;
+    color:#fff;
+}
+
+.image-preview{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:9999;
+}
+
+.preview-mask{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,0.65);
+}
+
+.preview-content{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:#fff;
+    padding:10px;
+    border-radius:6px;
+    max-width:90vw;
+    max-height:90vh;
+}
+
+.preview-content img{
+    display:block;
+    max-width:80vw;
+    max-height:80vh;
+}
+
+.preview-close{
+    position:absolute;
+    top:-12px;
+    right:-12px;
+    width:28px;
+    height:28px;
+    line-height:28px;
+    text-align:center;
+    border-radius:50%;
+    background:#fff;
+    cursor:pointer;
+    font-size:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">35/37</div></head>
+<body>
+
+    <!-- 顶部导航栏 -->
+    <div class="bd-header">
+        <div class="header-left">
+            <a href="#" class="bd-logo">
+                <span class="logo-dot"></span>
+                百度网盘
+            </a>
+            <div class="nav-tabs">
+                <a href="#" class="nav-item active">网盘</a>
+                <a href="#" class="nav-item">分享</a>
+                <a href="#" class="nav-item">功能套装</a>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="svip-badge">SVIP 年卡</span>
+            <span style="font-weight: 500;">Ynnning</span>
+        </div>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="bd-container">
+        
+        <!-- 左侧侧边栏 -->
+        <div class="bd-sidebar">
+            <a href="#" class="side-menu-item active">📁 全部文件</a>
+            <a href="#" class="side-menu-item">🎬 视频</a>
+            <a href="#" class="side-menu-item">🎵 音频</a>
+            <a href="#" class="side-menu-item">🖼️ 图片</a>
+            <a href="#" class="side-menu-item">📄 文档</a>
+            
+            <!-- 容量监控 -->
+            <div class="quota-box">
+                <div>存储空间</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div style="font-size: 11px; color: #999;">1802.4 GB / 2048 GB</div>
+            </div>
+        </div>
+
+
+        <!-- 右侧文件网格 -->
+        <div class="bd-main-content">
+            
+            <!-- 顶层操作按钮 -->
+            <div class="action-bar">
+                <div class="action-left">
+                    <button class="btn btn-primary">⚡ 全部解压</button>
+                    <button class="btn">⬇️ 下载整个压缩包</button>
+                </div>
+                <div>
+                    <input type="text" placeholder="在复习包内搜索..." style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 14px; width: 200px; outline: none;">
+                </div>
+            </div>
+
+          
+
+        <div class="breadcrumb-path">
+                <a href="folder.html" class="breadcrumb-back">全部文件</a> &gt; 
+               
+                <span style="color: #333; font-weight: 500;">高三</span>
+            </div>
+
+
+            <!-- 压缩包内文件列表 -->
+            <table class="file-table">
+                <thead>
+                    <tr>
+                        <th style="width: 55%;">文件名</th>
+                        <th style="width: 15%;">大小</th>
+                        <th style="width: 20%;">修改日期</th>
+                    </tr>
+                </thead>
+                <tbody>
+             
+                    <!-- 疫情期间特殊注意事项 -->
+                    <tr >
+                        <td>
+                            <span class="icon icon-txt">TXT</span>
+                            <a href="#" class="file-name-txt" >【教务处重要通知】居家网课纪律与每日体温健康打卡须知.txt</a>
+                        </td>
+                        <td>28.4 KB</td>
+                        <td>2020-02-10 07:30</td>
+                    </tr>
+
+                    <!-- 钉钉/腾讯课堂网课录屏文件夹 -->
+                    <tr>
+                        <td>
+                            <span class="icon icon-folder">DIR</span>
+                            <a href="#" class="file-name-txt">2020二轮复习各科录屏（钉钉居家网课备用）</a>
+                        </td>
+                        <td>—</td>
+                        <td>2020-03-15 18:20</td>
+                    </tr>
+
+                    <!-- 考生证/准考证等电子版 -->
+                    <tr>
+                        <td>
+                            <span class="icon icon-pdf">PDF</span>
+                            <a href="#" class="file-name-txt">2020年普通高等学校招生全国统一考试_高考考生证(电子版预留).pdf</a>
+                        </td>
+                        <td>4.2 MB</td>
+                        <td>2020-04-12 10:15</td>
+                    </tr>
+
+                    <!-- 防疫与高考双重注意事项 -->
+                    <tr>
+                        <td>
+                            <span class="icon icon-pdf">PDF</span>
+                            <a href="#" class="file-name-txt">2020年高考考生考前14天健康状况监测及防疫要求说明.pdf</a>
+                        </td>
+                        <td>12.8 MB</td>
+                        <td>2020-04-20 16:45</td>
+                    </tr>
+
+<!-- 葛军、五三、高考真题资料 -->
+                    <tr>
+                        <td>
+                            <span class="icon icon-pdf">PDF</span>
+                            <a href="#" class="file-name-txt">五年高考三年模拟-理科数学（精选错题集及大题模版）.pdf</a>
+                        </td>
+                        <td>88.4 MB</td>
+                        <td>2020-01-18 23:10</td>
+                    </tr>
+                   
+              
+                    <!-- 口罩预约等生活截图（使用图片预览功能） -->
+                    <tr>
+                        <td>
+                            <span class="icon icon-img">JPG</span>
+                              <a href="#" class="file-name-txt">
+                                当地绿码及口罩预约中签界面截图（进校排查备用）.jpg
+                            </a>
+                        </td>
+                        <td>1.5 MB</td>
+                        <td>2020-03-02 08:12</td>
+                    </tr>
+
+                 
+                             <tr>
+                        <td>
+                            <span class="icon icon-img">JPG</span>
+                             <a href="postercard.html" class="file-name-txt">
+                                明信片.jpg
+                            </a>
+                        </td>
+                        <td>1.5 MB</td>
+                        <td>2020-05-02 08:12</td>
+                    </tr>
+
+
+                                <tr>
+                <td>
+                            <span class="icon icon-pdf">PDF</span>
+                            <a href="tijian.html" target="_blank" class="file-name-txt"> 高考体检反馈单.pdf</a>
+                        </td>
+                        <td>14.2 MB</td>
+                        <td>2020-03-28 22:40</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <!-- 图片预览弹窗 -->
+    <div id="imagePreview" class="image-preview">
+        <div class="preview-mask" onclick="closeImagePreview()"></div>
+        <div class="preview-content">
+            <span class="preview-close" onclick="closeImagePreview()">×</span>
+            <img id="previewImg" src="" alt="预览图片">
+        </div>
+    </div>
+
+<script>
+function openImagePreview(imageSrc){
+    document.getElementById('previewImg').src = imageSrc;
+    document.getElementById('imagePreview').style.display = 'block';
+}
+
+function closeImagePreview(){
+    document.getElementById('imagePreview').style.display = 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>口袋英语背诵本</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #d1d5db; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* 实体书左右对开容器 */
+        .book-container {
+            display: flex;
+            background-color: #f3f4f6;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 1080px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* 书本中间的物理缝隙/阴影效果 */
+        .book-spine {
+            width: 4px;
+            background: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0.02) 50%, rgba(0,0,0,0.2));
+            box-shadow: 0 0 12px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        /* 单个页面基础规范 */
+        .page {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 25px 22px 30px 22px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            min-height: 700px; /* 进一步拉长高度以承载海量文字 */
+        }
+
+        /* 左页和右页的内阴影 */
+        .page-left { padding-right: 28px; box-shadow: inset -20px 0 25px -20px rgba(0,0,0,0.15); }
+        .page-right { padding-left: 28px; box-shadow: inset 20px 0 25px -20px rgba(0,0,0,0.15); }
+
+        /* 顶部单元模块 */
+        .unit-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .unit-tag {
+            background-color: #38a169;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 12px;
+            border-radius: 12px;
+        }
+        .lesson-tag {
+            font-size: 12px;
+            color: #718096;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 1px;
+        }
+
+        /* 学习/复习小打卡圈 */
+        .badge-study {
+            position: absolute;
+            font-size: 10px;
+            color: #38a169;
+            border: 1px solid #38a169;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.1;
+            font-weight: bold;
+            background-color: #f0fff4;
+            z-index: 5;
+        }
+        .page-left .badge-top { bottom: 20px; left: 22px; }
+        .page-right .badge-top-1 { bottom: 20px; right: 22px; color: #718096; border-color: #cbd5e1; background-color: #f7fafc; }
+
+        /* 薄荷绿背诵色块区域 */
+        .vocab-block {
+            background-color: #e6f4ea; 
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+
+        /* 白底独立重点标明框 */
+        .highlight-box {
+            border: 1px dashed #38a169;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            position: relative;
+            background-color: #ffffff;
+        }
+
+        /* 单词行网格排版 */
+        .word-row {
+            display: flex;
+            margin-bottom: 8px;
+            align-items: flex-start;
+            font-size: 13.5px;
+            line-height: 1.45;
+        }
+        .word-row:last-child { margin-bottom: 0; }
+
+        .word-english {
+            width: 28%;
+            font-weight: bold;
+            font-size: 15px;
+            color: #1a202c;
+            word-break: break-all;
+            padding-right: 4px;
+        }
+
+        .word-chinese {
+            width: 72%;
+            color: #2d3748;
+            text-align: justify;
+        }
+
+        .phonetic {
+            color: #64748b;
+            font-family: Arial, sans-serif;
+            margin-right: 4px;
+            font-size: 12.5px;
+        }
+
+        .pos {
+            font-style: italic;
+            font-weight: bold;
+            color: #1e293b;
+            margin-right: 4px;
+        }
+
+        /* 词组及例句的内衬排版 */
+        .extra-info {
+            margin-top: 4px;
+            font-size: 12.5px;
+            color: #475569;
+            line-height: 1.4;
+            background-color: rgba(255,255,255,0.4);
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+        .highlight-box .extra-info {
+            background-color: #f8fafc;
+        }
+        .icon-tag {
+            display: inline-block;
+            background-color: #38a169;
+            color: white;
+            font-size: 10.5px;
+            font-weight: bold;
+            padding: 1px 3px;
+            border-radius: 3px;
+            margin-right: 4px;
+            line-height: 1.2;
+        }
+        .icon-tag.example { background-color: #3182ce; }
+
+        /* 底部页码与名言栏 */
+        .page-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #718096;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 8px;
+        }
+        .proverb {
+            color: #94a3b8;
+            flex: 1;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .book-container { flex-direction: column; }
+            .book-spine { display: none; }
+            .page-left { box-shadow: none; border-bottom: 2px dashed #cbd5e1; padding-right: 22px; }
+            .page-right { box-shadow: none; padding-left: 22px; }
+        }
+  /* 字母下方小三角形重点符号 */
+.triangle-marker {
+    position: relative;
+    display: inline-block;
+    color: #1a202c; /* 保持原字母颜色 */
+}
+
+.triangle-marker::after {
+    content: "▲"; /* 三角形符号，也可以换成 ▴ */
+    position: absolute;
+    bottom: -10px; /* 控制三角形向下的距离，可根据实际视觉微调 */
+    left: 50%;
+    transform: translateX(-50%) scale(0.6); /* scale用来控制三角形的大小 */
+    font-size: 10px;
+    color: #38a169; /* 三角形颜色，这里使用和页面相符的薄荷绿，也可以改成红色 #e53e3e */
+    line-height: 1;
+}
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>                             
+    <div class="progress-indicator">15/37</div>
+</head>
+<body>
+
+<div class="book-container">
+    
+    <!-- ================= 左页 (FAITH 极度饱和版) ================= -->
+    <div class="page page-left">
+  
+        
+        <div class="unit-header" style="padding-left: 35px;">
+            <div class="unit-tag">第12单元</div>
+            <div class="lesson-tag">核心高频词汇精选 </div>
+        </div>
+
+        <!-- 薄荷绿区域 1 -->
+        <div class="vocab-block">
+            <div class="word-row">
+                <div class="word-english">fabric</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'fæbrɪk/</span> <span class="pos">n.</span>织物，纺织品；结构，构造
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">face</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/feɪs/</span> <span class="pos">n.</span>脸；表面 <span class="pos">v.</span>面对；朝向
+                    <div class="extra-info">
+                        <span class="icon-tag">搭</span>face to face 面对面地 || lose face 丢脸
+                    </div>
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">facing</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'feɪsɪŋ/</span> <span class="pos">n.</span>饰面，贴面 <span class="pos">a.</span>正对的的
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">fact</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/fækt/</span> <span class="pos">n.</span>事实，真相，现实
+                    <div class="extra-info">
+                        <span class="icon-tag">搭</span>as a matter of fact 实际上，其实
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 重点标明框 1 (新增干扰项：factor) -->
+        <div class="highlight-box">
+            <div class="badge-study" style="top: -6px; left: -8px;"><span>重点</span><span>①</span></div>
+            <div class="word-row" style="padding-left: 24px;">
+                <div class="word-english">factor</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'fæktə(r)/</span> <span class="pos">n.</span>因素，要素；[数]因数
+                    <div class="extra-info">
+                        <span class="icon-tag example">例</span>Economic factors played an important part in the development of the city.<br>
+                        经济因素在城市的发展中起到了重要作用。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 薄荷绿区域 2 -->
+        <div class="vocab-block">
+        
+            <div class="word-row">
+                <div class="word-english">fail</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/feɪl/</span> <span class="pos">v.</span>失败；不及格；未能做到
+                    <div class="extra-info">
+                        <span class="icon-tag">搭</span>fail to do sth. 未能成功做某事
+                    </div>
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">failure</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'feɪljə(r)/</span> <span class="pos">n.</span>失败；失败者；故障，衰竭
+                </div>
+            </div>
+            <!-- faith 没有任何高亮或特殊标记，完美融入 -->
+            
+        </div>
+
+        <!-- 重点标明框 2 (原有的 fake) -->
+        
+<div class="highlight-box">
+       <div class="badge-study" style="top: -6px; left: -8px;"><span>重点</span><span>②</span></div>
+<div class="word-row" style="padding-left: 24px;">
+    <div class="word-english">faith</span></div>
+    <div class="word-chinese">
+        <span class="phonetic">/feɪθ/</span> <span class="pos">n.</span> 信任，信念；信仰
+<div class="extra-info">
+            <span class="icon-tag example">例</span>"It's <span style="background: linear-gradient(180deg, transparent 50%, rgba(229, 62, 62, 0.35) 50%); font-weight: bold; padding: 0 2px;">a leap of faith</span>. That's all it is, Miles. A leap of faith."<br>
+            “这就是信仰之跃。仅此而已，迈尔斯，这就是一次信仰之跃。”——《蜘蛛侠：平行宇宙》
+        </div>
+    </div>
+</div>
+</div>
+        <!-- 薄荷绿区域 3 -->
+        <div class="vocab-block">
+ 
+            <div class="word-row">
+                <div class="word-english">faithful</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'feɪθfl/</span> <span class="pos">a.</span>忠实的；如实的；守信的
+                </div>
+            </div>
+            <div class="word-row" >
+               <div class="word-english">fake</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/feɪk/</span> <span class="pos">a.</span>假的 <span class="pos">n.</span>赝品 <span class="pos">vt.</span>伪造
+                   
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">fall</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/fɔːl/</span> <span class="pos">v.</span>落下；跌倒；下降 <span class="pos">n.</span>秋季
+                    <div class="extra-info">
+                        <span class="icon-tag">搭</span>fall in love with 爱上 || fall behind 落后
+                    </div>
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">fallacy</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'fæləsi/</span> <span class="pos">n.</span>谬误，错误的见解/推导
+                </div>
+            </div>
+           
+        </div>
+
+        <!-- 重点标明框 3 (新增干扰项：familiar) -->
+        
+
+        <div class="page-footer">
+            <span>132 ▶</span>
+            <span class="proverb">Fake it until you make it.</span>
+        </div>
+    </div>
+
+    <!-- 中间书脊缝隙 -->
+    <div class="book-spine"></div>
+
+    
+
+       <!-- ================= 右页 (F 字母完美承接版) ================= -->
+    <div class="page page-right">
+       
+
+        <!-- 薄荷绿区域 1 -->
+        <div class="vocab-block" style="margin-top: 30px;">
+            <div class="word-row">
+                <div class="word-english">fame</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/feɪm/</span> <span class="pos">n.</span>名声，名望，声誉
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">familiar</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/fə'mɪliə(r)/</span> <span class="pos">a.</span>熟悉的，通晓的
+                    <div class="extra-info">
+                        <span class="icon-tag">搭</span>be familiar with 熟悉…… || be familiar to 为……所熟知
+                    </div>
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">family</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'fæməli/</span> <span class="pos">n.</span>家，家庭；家人
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">famous</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'feɪməs/</span> <span class="pos">a.</span>著名的，出名的
+                </div>
+            </div>
+        </div>
+
+        <!-- 重点标明框 4 (原 leadership 替换项：第三字母为 d) -->
+        <div class="highlight-box">
+           <div class="badge-study" style="top: -6px; left: -8px;"><span>重点</span><span>③</span></div>
+            <div class="word-row" style="padding-left: 24px;">
+               <div class="word-english">federal</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'fedərəl/</span> <span class="pos">a.</span>联邦的；联邦政府的
+                    <div class="extra-info">
+                        <span class="icon-tag example">例</span>The federal government is responsible for national defense.<br>
+                        联邦政府负责国防事务。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 薄荷绿区域 2 -->
+        <div class="vocab-block">
+            <div class="word-row">
+                <div class="word-english">fee</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/fiː/</span> <span class="pos">n.</span>费，服务费，酬金
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">feed</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/fiːd/</span> <span class="pos">v.</span>喂养，饲养；向……提供
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">feel</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/fiːl/</span> <span class="pos">v.</span>感觉，觉得；触摸
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">feeling</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'feɪlɪŋ/</span> <span class="pos">n.</span>感觉，想法；感情
+                </div>
+            </div>
+        </div>
+
+        <!-- 重点标明框 5 (原 learning 替换项：第四字母为 e) -->
+        <div class="highlight-box">
+           <div class="badge-study" style="top: -6px; left: -8px;"><span>重点</span><span> ④</span></div>
+            <div class="word-row" style="padding-left: 24px;">
+               <div class="word-english">fever</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'fiːvə(r)/</span> <span class="pos">n.</span>发烧，发热；狂热
+                    <div class="extra-info">
+                        <span class="icon-tag example">例</span>A cup of hot tea may help to reduce the fever.<br>
+                        一杯热茶可能有助于退烧。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 薄荷绿区域 3 -->
+        <div class="vocab-block">
+            <div class="word-row">
+                <div class="word-english">few</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/fjuː/</span> <span class="pos">a./pron.</span>很少的，几乎没有的
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">fiber</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'faɪbə(r)/</span> <span class="pos">n.</span>纤维，光纤
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">fiction</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/'fɪkʃn/</span> <span class="pos">n.</span>小说；虚构，编造
+                </div>
+            </div>
+            <div class="word-row">
+                <div class="word-english">field</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/fiːld/</span> <span class="pos">n.</span>田地；领域，范围；场地
+                    <div class="extra-info">
+                        <span class="icon-tag">搭</span>in the field of 在……领域
+                    </div>
+                </div>
+            </div>
+            <!-- 新增第 2 个词 -->
+            <div class="word-row">
+                <div class="word-english">fierce</div>
+                <div class="word-chinese">
+                    <span class="phonetic">/fɪəs/</span> <span class="pos">a.</span>凶猛的，残暴的；激烈的
+                </div>
+            </div>
+        </div>
+
+    
+    
+        <!-- 薄荷绿区域 3 -->
+       
+        <div class="page-footer">
+            <span class="proverb" >弄假直到成真。</span>
+            <span>▲ 133</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

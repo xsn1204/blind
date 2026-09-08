@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考试通用答题卡</title>
+    <style>
+        /* 复刻 image_545f00.png 答题卡标准红黑配色与排版 */
+        :root {
+            --card-red: #d94160; 
+            --card-black: #000000;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            font-family: "SimSun", "宋体", serif;
+            display: flex;
+            justify-content: center;
+        }
+        /* 逼真的不规则墨点效果 */
+.ink-smudge {
+    position: absolute;
+    /* 精确定位在 B 和 C 的缝隙正中间 */
+    left: 70px; 
+    top: 3px;
+    width: 15px;
+    height: 13px;
+    background-color: var(--card-black);
+    /* 利用不规则的圆角和旋转，模拟天然滴落的墨汁或碳素笔印 */
+    border-radius: 48% 52% 60% 40% / 45% 55% 45% 55%;
+    transform: rotate(15deg);
+    opacity: 0.92;
+    pointer-events: none; /* 防止墨点阻挡鼠标点击事件 */
+}
+
+/* 墨点边缘的微弱晕染细节 */
+.ink-smudge::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background-color: var(--card-black);
+    border-radius: 50%;
+    opacity: 0.2;
+    filter: blur(1px);
+    z-index: -1;
+}
+
+        /* 竖版答题卡容器：高度大于宽度（接近A4竖版比例） */
+        .answer-sheet {
+            background-color: #ffffff;
+            width: 595px; /* 收窄宽度 */
+            min-height: 842px; /* 提升整体高度 */
+            padding: 30px 35px 30px 25px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            position: relative;
+            user-select: none;
+        }
+
+        /* 右侧光标定位块 (Timing Marks) */
+        .timing-marks {
+            position: absolute;
+            right: 5px;
+            top: 30px;
+            bottom: 30px;
+            width: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .timing-black-block {
+            width: 100%;
+            height: 5px;
+            background-color: var(--card-black);
+        }
+
+        /* 顶端信息区调整为紧凑的上下层或左右布局 */
+        .sheet-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .header-left {
+            width: 48%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sheet-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--card-black);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-family: "SimHei", "黑体", sans-serif;
+        }
+
+        .name-box {
+            border: 2px solid var(--card-red);
+            padding: 8px;
+            height: 40px;
+            font-size: 15px;
+            color: var(--card-red);
+            font-weight: bold;
+            display: flex;
+            align-items: flex-start;
+        }
+        .name-box span {
+            letter-spacing: 2px;
+        }
+
+        .fill-instructions {
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--card-black);
+            line-height: 1.4;
+        }
+
+        /* 准考证号网格填涂区 */
+        .header-center {
+            width: 50%;
+            border: 1px solid var(--card-red);
+        }
+        .number-title {
+            text-align: center;
+            background-color: #fff;
+            color: var(--card-red);
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 0;
+            border-bottom: 1px solid var(--card-red);
+            letter-spacing: 2px;
+        }
+        .grid-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .grid-table td {
+            border: 1px solid var(--card-red);
+            text-align: center;
+            font-size: 10px;
+            color: var(--card-red);
+            padding: 2px 0;
+            font-family: Arial, sans-serif;
+        }
+        .grid-table .num-block {
+            font-size: 9px;
+            transform: scale(0.85);
+            display: inline-block;
+            border: 1px solid var(--card-red);
+            border-radius: 2px;
+            padding: 0 1px;
+            background: #fff;
+        }
+
+        /* 竖版下将科目栏移至第二行，节约顶部横向空间 */
+        .subject-bar {
+            border: 2px solid var(--card-red);
+            padding: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .subject-bar-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--card-red);
+            border-right: 1px solid var(--card-red);
+            padding-right: 10px;
+            margin-right: 10px;
+        }
+        .subject-items-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: space-around;
+        }
+        .subject-item {
+            font-size: 11px;
+            color: var(--card-black);
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        /* 分割粗线 */
+        .horizontal-divider {
+            border-top: 2px solid var(--card-black);
+            border-bottom: 1px solid var(--card-black);
+            height: 3px;
+            margin: 10px 0 15px 0;
+        }
+
+        /* 选项主体：由4栏压缩为2栏，增加单栏容纳的题目数，拉长纵向高度 */
+        .columns-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .answer-column {
+            width: 46%; /* 两栏平分 */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 11px;
+            font-family: Arial, sans-serif;
+        }
+
+        .q-num {
+            width: 24px;
+            text-align: right;
+            margin-right: 8px;
+            font-weight: bold;
+            color: var(--card-black);
+        }
+
+        .options-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .option-box {
+            border: 1px solid var(--card-red);
+            color: var(--card-red);
+            font-size: 9px;
+            padding: 1px 4px;
+            border-radius: 2px;
+            text-align: center;
+            width: 18px;
+            box-sizing: border-box;
+        }
+
+        /* 填涂效果 */
+        .option-box.filled {
+            background-color: var(--card-black);
+            border-color: var(--card-black);
+            color: var(--card-black);
+        }
+
+        /* 右下角警示与非选择题标记栏 */
+        .bottom-panel-wrapper {
+            margin-top: 15px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .right-bottom-panel {
+            width: 46%;
+            border: 2px solid var(--card-red);
+            padding: 8px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        .warning-notice {
+            color: var(--card-red);
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.5;
+            border-bottom: 1px dashed var(--card-red);
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+  
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">26/37</div></head>
+<body>
+
+<div class="answer-sheet">
+    
+    <div class="timing-marks">
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+        <div class="timing-black-block"></div><div class="timing-black-block"></div>
+    </div>
+
+    <div class="sheet-header">
+        <div class="header-left">
+            <div class="sheet-title">考试通用答题卡</div>
+            <div class="name-box">
+                <span>姓名：</span>
+            </div>
+            <div class="fill-instructions">
+                试卷类型： ▢ A &nbsp; ▢ B<br>
+                填涂样例： 正确 ■ &nbsp;错误 ▧ ⨉ ✓<br>
+                <span style="color: var(--card-red); font-weight: bold;">请保持卡面清洁，严禁折叠。</span>
+            </div>
+        </div>
+
+        <div class="header-center">
+            <div class="number-title">准考证号</div>
+            <table class="grid-table">
+                <tr>
+                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                    <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td><span class="num-block">[0]</span></td><td><span class="num-block">[0]</span></td><td><span class="num-block">[0]</span></td><td><span class="num-block">[0]</span></td>
+                    <td><span class="num-block">[0]</span></td><td><span class="num-block">[0]</span></td><td><span class="num-block">[0]</span></td><td><span class="num-block">[0]</span></td>
+                </tr>
+                <tr>
+                    <td><span class="num-block">[1]</span></td><td><span class="num-block">[1]</span></td><td><span class="num-block">[1]</span></td><td><span class="num-block">[1]</span></td>
+                    <td><span class="num-block">[1]</span></td><td><span class="num-block">[1]</span></td><td><span class="num-block">[1]</span></td><td><span class="num-block">[1]</span></td>
+                </tr>
+                <tr>
+                    <td><span class="num-block">[2]</span></td><td><span class="num-block">[2]</span></td><td><span class="num-block">[2]</span></td><td><span class="num-block">[2]</span></td>
+                    <td><span class="num-block">[2]</span></td><td><span class="num-block">[2]</span></td><td><span class="num-block">[2]</span></td><td><span class="num-block">[2]</span></td>
+                </tr>
+                <tr>
+                    <td><span class="num-block">[3]</span></td><td><span class="num-block">[3]</span></td><td><span class="num-block">[3]</span></td><td><span class="num-block">[3]</span></td>
+                    <td><span class="num-block">[3]</span></td><td><span class="num-block">[3]</span></td><td><span class="num-block">[3]</span></td><td><span class="num-block">[3]</span></td>
+                </tr>
+                <tr>
+                    <td><span class="num-block">[4]</span></td><td><span class="num-block">[4]</span></td><td><span class="num-block">[4]</span></td><td><span class="num-block">[4]</span></td>
+                    <td><span class="num-block">[4]</span></td><td><span class="num-block">[4]</span></td><td><span class="num-block">[4]</span></td><td><span class="num-block">[4]</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="subject-bar">
+        <div class="subject-bar-title">选考科目</div>
+        <div class="subject-items-wrapper">
+            <div class="subject-item"><span>语文</span><span>[ ]</span></div>
+            <div class="subject-item"><span>数学</span><span>[ ]</span></div>
+            <div class="subject-item"><span>英语</span><span>[ ]</span></div>
+            <div class="subject-item"><span>物理</span><span>[ ]</span></div>
+            <div class="subject-item"><span>化学</span><span>[ ]</span></div>
+            <div class="subject-item"><span>生物</span><span>[ ]</span></div>
+        </div>
+    </div>
+
+    <div class="horizontal-divider"></div>
+
+    <div class="columns-container">
+        
+        <div class="answer-column">
+            <div class="question-row"><span class="q-num">1</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">2</span><div class="options-group"><span class="option-box filled">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">3</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">4</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">5</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div style="height: 12px;"></div> <div class="question-row"><span class="q-num">6</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">7</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">8</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">9</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">10</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div style="height: 12px;"></div>
+            <div class="question-row"><span class="q-num">11</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">12</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">13</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">14</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">15</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+       
+            <div style="height: 12px;"></div>
+            <div class="question-row"><span class="q-num">16</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">17</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">18</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">19</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">20</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+
+        </div>
+
+        <div class="answer-column">
+                                    <div class="question-row"><span class="q-num">21</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">22</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+<!-- 给这一行加上 style="position: relative;" -->
+<div class="question-row" style="position: relative;">
+    <span class="q-num">23</span>
+    <div class="options-group">
+        <span class="option-box">A</span>
+        <span class="option-box">B</span>
+        <!-- 在这里插入墨点 -->
+        <span class="ink-smudge"></span>
+        <span class="option-box">C</span>
+        <span class="option-box">D</span>
+    </div>
+</div>            <div class="question-row"><span class="q-num">24</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">25</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div style="height: 12px;"></div>
+
+            <div class="question-row"><span class="q-num">26</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">27</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">28</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">29</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">30</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div style="height: 12px;"></div>
+            <div class="question-row"><span class="q-num">31</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">32</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">33</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">34</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">35</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+<div style="height: 12px;"></div>
+            <div class="question-row"><span class="q-num">36</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">37</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">38</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">39</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">40</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+
+            <div style="height: 12px;"></div>
+        </div>
+
+    </div>
+
+    <div class="bottom-panel-wrapper">
+        <div class="right-bottom-panel">
+            <div class="warning-notice">
+                注意：学生请勿在此栏<br>作答，此栏供机器扫描<br>及评卷专用。
+            </div>
+            <div style="font-size: 9px; color: var(--card-red); text-align: center; font-family: sans-serif;">
+                分数栏 &nbsp;&nbsp;&nbsp; 非选择题区标记
+                <div style="display:flex; gap:10px; justify-content:center; margin-top:4px;">
+                    <span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

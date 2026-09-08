@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>千味盛廷 - Microsoft Edge 搜索</title>
+    <style>
+        /* 全局样式重置 - 仿Edge/Bing风格 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f2f4f7;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+            color: #202124;
+        }
+
+        /* 顶部Edge风格搜索栏容器 */
+        .search-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e1e4e8;
+            padding: 20px 0 0 140px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-input-container {
+            display: flex;
+            align-items: center;
+            width: 630px;
+            height: 44px;
+            background: #ffffff;
+            border: 1px solid #dfe1e5;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: 24px;
+            padding: 0 16px;
+            box-sizing: border-box;
+        }
+
+        .search-input-container:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            border-color: #ccd0d5;
+        }
+
+        .search-box {
+            flex: 1;
+            border: none;
+            height: 38px;
+            font-size: 16px;
+            outline: none;
+            padding-left: 8px;
+        }
+
+        .search-icons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #70757a;
+            cursor: pointer;
+        }
+
+        .search-btn {
+            color: #0078d4;
+            font-weight: bold;
+            margin-left: 10px;
+            padding-left: 12px;
+            border-left: 1px solid #dfe1e5;
+        }
+
+        /* 搜索分类导航 */
+        .search-nav {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #5f6368;
+        }
+
+        .search-nav-item {
+            padding-bottom: 10px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .search-nav-item.active {
+            color: #0078d4;
+            border-bottom-color: #0078d4;
+            font-weight: bold;
+        }
+
+        /* 主体内容布局 */
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding-left: 140px;
+            display: flex;
+            gap: 60px;
+        }
+
+        .results-container {
+            width: 652px;
+        }
+
+        /* 搜索状态统计 */
+        .search-stats {
+            font-size: 13px;
+            color: #70757a;
+            margin-bottom: 20px;
+        }
+
+        /* 仿Edge标准搜索结果卡片 */
+        .result-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e1e4e8;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .result-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .result-url {
+            font-size: 12px;
+            color: #202124;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .result-url img {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .result-title {
+            font-size: 19px;
+            color: #0078d4;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .result-title:hover {
+            text-decoration: underline;
+        }
+
+        .result-snippet {
+            font-size: 14px;
+            line-height: 1.57;
+            color: #4d5156;
+        }
+
+        .result-date {
+            color: #70757a;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        .highlight {
+            color: #d93025;
+            font-style: normal;
+            font-weight: bold;
+        }
+
+        /* 右侧侧边栏 - 知识图谱 */
+        .sidebar {
+            width: 360px;
+        }
+
+        .knowledge-card {
+            background: #ffffff;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .k-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .k-sub {
+            font-size: 13px;
+            color: #70757a;
+            margin-bottom: 15px;
+        }
+
+        .k-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #3c4043;
+            border-bottom: 1px solid #e1e4e8;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .k-info-item {
+            font-size: 13px;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .k-info-label {
+            font-weight: bold;
+            color: #202124;
+        }
+  
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">31/37</div></head>
+<body>
+
+    <!-- 顶部Edge风格搜索栏 -->
+    <div class="search-header">
+        <div class="search-input-container">
+            <span style="color:#0078d4; font-size:18px; margin-right:5px;">🔍</span>
+            <input type="text" class="search-box" value="千味盛廷">
+            <div class="search-icons">
+                <span>🎙️</span>
+                <span>📷</span>
+                <span class="search-btn">搜索</span>
+            </div>
+        </div>
+        
+        <!-- 搜索分类 -->
+        <div class="search-nav">
+            <div class="search-nav-item active">全部</div>
+            <div class="search-nav-item">新闻</div>
+            <div class="search-nav-item">图片</div>
+            <div class="search-nav-item">视频</div>
+            <div class="search-nav-item">地图</div>
+        </div>
+    </div>
+
+    <!-- 主体架构 -->
+    <div class="main-wrapper">
+        
+        <!-- 左侧搜索结果 -->
+        <div class="results-container">
+            <div class="search-stats">Microsoft Edge 为您找到约 10084 条相关结果 （用时 0.42 秒）</div>
+
+            <!-- 结果1：纪委谈话/政商关联 -->
+            <div class="result-card">
+                <div class="result-url">
+                    <span style="background:#c00000; color:white; padding:1px 4px; font-size:10px; border-radius:3px;">搜狐</span>
+                    <span>news.sohu.com › finance › article</span>
+                </div>
+<a href="news2.html" target="_blank" class="result-title">
+    利益链条断裂：老牌餐饮巨头“<span class="highlight">千味盛廷</span>”涉嫌不正当政商关联调查
+</a>
+                <div class="result-snippet">
+                    <span class="result-date">2018年7月18日</span>... 核心旗舰店陷入全面停业状态。多位一线员工向本报证实，自5月下旬起，集团内部开始低调传闻“高层正在配合相关部门说明情况”。目前，该集团在当地的管理层几乎已陷入全面真空状态...
+                </div>
+            </div>
+
+            <!-- 结果2：破产清算 -->
+            <div class="result-card">
+                <div class="result-url">
+                    <span style="background:#3b5998; color:white; padding:1px 4px; font-size:10px; border-radius:3px;">法院</span>
+                    <span>www.chinacourt.org › article › detail</span>
+                </div>
+                <a href="#" class="result-title">关于“<span class="highlight">千味盛廷</span>餐饮管理有限公司”债权申报及破产清算案第一次债权人会议公告</a>
+                <div class="result-snippet">
+                    <span class="result-date">2019年3月12日</span>本院根据申请人申请，于2018年11月裁定受理<span class="highlight">千味盛廷</span>集团旗下核心控股子公司破产清算一案。查明该公司资产已不足以清偿全部债务，且缺乏清偿能力。现通知各债权人于2019年4月20日提交资产清算及债权追偿方案...
+                </div>
+            </div>
+
+            <!-- 结果3：退出大陆 -->
+            <div class="result-card">
+                <div class="result-url">
+                    <span style="background:#ff6600; color:white; padding:1px 4px; font-size:10px; border-radius:3px;">财新</span>
+                    <span>www.caixin.com › economy</span>
+                </div>
+                <a href="#" class="result-title">两岸餐饮业洗牌：连锁巨头<span class="highlight">千味盛廷</span>全面退出大陆市场，清退百家门店</a>
+                <div class="result-snippet">
+                    <span class="result-date">2019年1月05日</span>随着创始人团队离境及多地司法查封落地，曾在大陆风光无限的台资“<span class="highlight">千味盛廷</span>”正式启动大规模战略收缩，全面退出大陆市场。专家分析，由于本地供应链崛起及合规化成本增高，传统台式餐饮的红利期已正式宣告终结...
+                </div>
+            </div>
+
+            <!-- 结果4：台资退潮背景 -->
+            <div class="result-card">
+                <div class="result-url">
+                    <span style="background:#0055a5; color:white; padding:1px 4px; font-size:10px; border-radius:3px;">一财</span>
+                    <span>www.yicai.com › news</span>
+                </div>
+                <a href="#" class="result-title">【深度】从“<span class="highlight">千味盛廷</span>崩盘”看2018—2020转型期：一类传统台资退潮背后的合规阵痛</a>
+                <div class="result-snippet">
+                    <span class="result-date">2019年6月22日</span>从早期的招商引资典型，到如今的破产清算，“<span class="highlight">千味盛廷</span>”的命运折射出传统台资退潮的历史必然。在国家对不正当政商关联实行“零容忍”以及新零售常态化的监管双击下，依靠非市场化红利生存的企业终将步入历史...
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 右侧侧边栏：Edge 知识图谱组件 -->
+        <div class="sidebar">
+            <div class="knowledge-card">
+                <div class="k-title">千味盛廷</div>
+                <div class="k-sub">曾用名：盛廷精致餐饮连锁</div>
+                <div class="k-desc">
+                    千味盛廷集团是一家成立于2000年代初期的老牌连锁餐饮企业，总部曾设于华东地区。其以台式火锅及精致料理闻名，在2010年前后经历高速扩张。自2018年起，受创始人“涉嫌不正当政商关联、接受纪委相关谈话”事件影响，企业现金流断裂，最终于2019年全面退出大陆市场并进入破产清算。
+                </div>
+                <div class="k-info-item"><span class="k-info-label">关键事件：</span> 2019年 旗舰店遭遇司法查封</div>
+                <div class="k-info-item"><span class="k-info-label">最终状态：</span> 2020年 破产清算、退出大陆</div>
+                <div class="k-info-item"><span class="k-info-label">行业标签：</span> 台资餐饮</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

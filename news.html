@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注意！这么填答题卡，高分卷也可能直接判零分！</title>
+    <style>
+        /* 全局重置与搜狐标准字体 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            font-family: Arial, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            color: #333333;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 顶部搜狐号标准导航条 */
+        .sohu-nav {
+            background-color: #1a1a1a;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            font-size: 14px;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .sohu-logo {
+            background-color: #ffcc00;
+            color: #000000;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 0 12px;
+            height: 44px;
+            line-height: 44px;
+            text-decoration: none;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 16px;
+            color: #a6a6a6;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-menu li:hover {
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        /* 主体两栏布局容器 */
+        .main-container {
+            max-width: 1060px;
+            margin: 34px auto 0 auto;
+            display: flex;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        /* 左侧文章主栏 */
+        .article-main {
+            flex: 1;
+            max-width: 680px;
+        }
+        .article-title {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #222222;
+            margin: 0 0 16px 0;
+            letter-spacing: -0.5px;
+        }
+        /* 元信息栏 */
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #999999;
+            margin-bottom: 24px;
+        }
+        .meta-info {
+            display: flex;
+            gap: 16px;
+        }
+        .meta-source {
+            color: #666666;
+        }
+        .meta-share-icons {
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            color: #666666;
+        }
+
+        /* 文章导语 */
+        .article-lead {
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1.8;
+            color: #111111;
+            margin-bottom: 24px;
+            background-color: #fff5f5;
+            padding: 12px;
+            border-left: 4px solid #c00000;
+        }
+
+        /* 纪实图片区 */
+        .article-image-wrapper {
+            margin: 24px 0;
+            text-align: center;
+        }
+        .article-img-mock {
+            width: 100%;
+            height: 380px;
+            background-color: #3a4a58;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            position: relative;
+            background-image: linear-gradient(135deg, #c00000, #4a0000);
+        }
+        .img-seal {
+            position: absolute;
+            border: 3px solid #ffcc00;
+            color: #ffcc00;
+            padding: 6px 12px;
+            font-weight: bold;
+            font-size: 18px;
+            transform: rotate(-15deg);
+            right: 30px;
+            top: 30px;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        /* 标准正文段落 */
+        .article-content p {
+            font-size: 16px;
+            line-height: 1.85;
+            color: #333333;
+            text-indent: 2em;
+            margin: 0 0 20px 0;
+            text-align: justify;
+        }
+        /* 小标题：经典搜狐左侧红条 */
+        .content-heading {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000000;
+            margin: 36px 0 18px 0;
+            padding-left: 10px;
+            border-left: 4px solid #c00000;
+            line-height: 1.3;
+        }
+        .exclusive-panel {
+            background-color: #f7f7f7;
+            border-left: 3px solid #ffcc00;
+            padding: 16px 20px;
+            margin: 24px 0;
+            font-size: 15px;
+            color: #444444;
+        }
+        .exclusive-panel p {
+            text-indent: 0;
+            margin: 0;
+        }
+
+        /* 右侧边栏 */
+        .sidebar {
+            width: 300px;
+        }
+
+        /* 站内热文 */
+        .widget-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #222222;
+            border-bottom: 1px solid #e8e8e8;
+            padding-bottom: 10px;
+            margin: 0 0 16px 0;
+        }
+        .hot-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 40px 0;
+        }
+        .hot-list li {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            color: #333333;
+            cursor: pointer;
+        }
+        .hot-list li:hover {
+            color: #c00000;
+        }
+  
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+        /* 恢复答题清单的鼠标悬停颜色为默认的深灰色，并取消手型光标 */
+.article-content .hot-list li:hover {
+    color: #333333;
+    cursor: default;
+}
+    </style>                             
+    <div class="progress-indicator">34/37</div>
+</head>
+<body>
+
+    <!-- 顶部全频道导航条 -->
+    <div class="sohu-nav">
+        <div class="nav-left">
+            <a href="#" class="sohu-logo">搜狐</a>
+            <ul class="nav-menu">
+                <li>新闻</li><li>体育</li><li>汽车</li><li>房产</li><li>旅游</li>
+                <li>教育</li><li>时尚</li><li>科技</li><li>财经</li><li>娱乐</li>
+                <li>母婴</li><li>健康</li><li>历史</li><li>军事</li><li>美食</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 主体核心内容架构 -->
+    <div class="main-container">
+        
+        <!-- 左侧文章主栏 -->
+        <div class="article-main">
+            
+            <!-- 新闻大标题 -->
+            <h1 class="article-title">注意！这么填答题卡，高分卷也可能直接判零分！</h1>
+            
+            <!-- 元信息栏 -->
+            <div class="article-meta">
+                <div class="meta-info">
+                    <span>2026-03-03 10:15</span>
+                    <span>来源：<span class="meta-source">高考前沿速递</span></span>
+                </div>
+                <div class="meta-share-icons">
+                    <span>💬</span><span>⭐</span><span>🔗</span>
+                </div>
+            </div>
+
+            <!-- 文章导语 -->
+            <div class="article-lead">
+                距离高考还有三个月，12年寒窗苦读成败在此一举！但你可知道，每年都有大批考生因为一个不起眼的“小动作”，导致扫描仪无法识别，最终名落孙山？阅卷组专家紧急发出最高级别警告：答题卡填涂一旦踩中这几个红线区，电脑将直接报错，你的高分可能瞬间清零！转给有需要的家长和考生！
+            </div>
+
+
+            <!-- 正文内容区 -->
+            <div class="article-content">
+                <h2 class="content-heading">一、这几种涂卡方式，考卷可能判0分</h2>
+                <p>很多同学觉得选择题只要涂上了就行，真有这么简单吗？现在的电脑阅卷全部采用高速图像扫描仪，如果你的填涂不够规范，在扫描屏幕上只会显示出一片模糊。</p>
+                
+                <p>第一种致命错误就是“画圈式”和“打叉式”填涂。有些考生图省事，在方框里敷衍地画个圈或者打个勾。阅卷机器只认标准的黑方块，遇到这种填涂直接判定为“未作答”！第二种则是“用力过猛”将答题卡涂破，或者“蜻蜓点水”颜色太浅。这些操作都会让微光扫描仪无法识别。</p>
+
+                <div class="exclusive-panel">
+                    <p><strong>资深阅卷老师透露：</strong>市面上假冒劣质铅笔层出不穷。一旦买到假货，石墨含量不够，哪怕你把答题卡擦出火星来，扫描仪也不感光。请务必通过正规渠道购买正版文具！</p>
+                </div>
+
+                <h2 class="content-heading">二、主观题超出红线，导致误判白卷</h2>
+                <p>如果说选择题机器改错还能复查，那么大题、作文如果填错地方，那就是彻底的硬伤。每年都有考生因为答题写得太忘我，一不小心出界写到了边框外面。</p>
+                
+                <p>大家必须明白，网络阅卷是把答题卡切块分发给不同的老师。扫描仪只会切割红线框内的区域。如果你把答案写在框外，或者因为写错了直接连线画到下一题的格子去，批改你这道题的老师在电脑屏幕上看到的是一片空白。纵使你文采飞扬、论证严密，也是枉然。</p>
+
+                <h2 class="content-heading">三、条形码贴错、修改痕迹不净，阅卷无法识别</h2>
+                <p>最后，也是最容易让人崩溃的，就是准考证条形码的粘贴和橡皮擦拭问题。</p>
+                <p>条形码是你在考场上的唯一身份证明。如果贴歪、贴倒，甚至污损，机器将无法读取你的身份信息。另外，如果修改选择题时没有用橡皮彻底擦干净，留下了灰色的炭迹，机器就会判定你“多选”或“双选”，直接一分不给！</p>
+          
+<h2 class="content-heading">附：模拟标准化考试选择题正确填涂对照清单</h2>
+                <ul class="hot-list" style="columns: 2; -webkit-columns: 2; -moz-columns: 2; column-gap: 40px; list-style: none; padding: 0; margin-top: 15px;">
+ <li style="break-inside: avoid; margin-bottom: 4px;">1. ABCD</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">2. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">3. ABC</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">4. A</li>
+    <li style="break-inside: avoid; margin-bottom: 16px;">5. A</li> <li style="break-inside: avoid; margin-bottom: 4px;">6. BC</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">7. AD</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">8. ABCD</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">9. AD</li>
+    <li style="break-inside: avoid; margin-bottom: 16px;">10. AD</li>
+
+    <li style="break-inside: avoid; margin-bottom: 4px;">11. ABC</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">12. AD</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">13. ABC</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">14. AC</li>
+    <li style="break-inside: avoid; margin-bottom: 16px;">15. AD</li>
+
+    <li style="break-inside: avoid; margin-bottom: 4px;">16. ABCD</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">17. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">18. ABC</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">19. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">20. ABCD</li>
+
+    <li style="break-inside: avoid; margin-bottom: 4px;">21. AD</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">22. AD</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">23. AD</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">24. ABCD</li>
+    <li style="break-inside: avoid; margin-bottom: 16px;">25. AD</li>
+
+    <li style="break-inside: avoid; margin-bottom: 4px;">26. ABCD</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">27. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">28. ABC</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">29. A</li>
+    <li style="break-inside: avoid; margin-bottom: 16px;">30. ABCD</li>
+
+    <li style="break-inside: avoid; margin-bottom: 4px;">31. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">32. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">33. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">34. A</li>
+    <li style="break-inside: avoid; margin-bottom: 16px;">35. ABCD</li>
+
+    <li style="break-inside: avoid; margin-bottom: 4px;">36. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">37. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">38. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">39. A</li>
+    <li style="break-inside: avoid; margin-bottom: 4px;">40. ABCD</li>
+</ul>
+
+                
+            </div>
+        </div>
+
+
+        
+        <!-- 右侧边栏 -->
+        <div class="sidebar">
+            <div class="widget-title">站内热文</div>
+            <ul class="hot-list">
+                <li>1. 文科生能否报考人工智能专业？多所高校回应</li>
+                <li>2. 数学难度再次引发讨论：多地考生热议创新题型</li>
+                <li>3. 2026年夏季高考各科备考心理调适：如何应对临场焦虑</li>
+                <li>4. 考前吃这些可能导致大脑昏沉？送你一份营养专家食谱</li>
+                <li>5. 某教育培训机构因制造考前焦虑被约谈整改</li>
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>

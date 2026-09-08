@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2018学年高一修学旅行分组大名单.xlsx</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 全屏铺满，去除滚动条 */
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f3f3f3;
+            font-family: "Segoe UI", Arial, "Microsoft YaHei", sans-serif;
+            color: #333;
+        }
+
+        /* 全屏 Excel 窗体容器 */
+        .excel-window {
+            width: 100vw;
+            height: 100vh;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Excel 顶部标题栏 */
+        .excel-title-bar {
+            background-color: #107c41; 
+            color: white;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        /* 右上角返回按钮样式 */
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .close-btn:hover {
+            background-color: #a80000; 
+            color: white;
+        }
+
+        /* 快捷说明区 */
+        .excel-info-box {
+            background-color: #fbfbfb;
+            border-bottom: 1px solid #d4d4d4;
+            padding: 15px 20px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+            flex-shrink: 0;
+        }
+
+        /* Excel 表格自适应核心区 */
+        .excel-table-wrapper {
+            flex: 1;
+            overflow: auto; 
+            padding: 0;
+            background-color: #fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            background-color: #fff;
+            table-layout: fixed; 
+        }
+
+        /* 主表头 */
+        th {
+            background-color: #e1dfdd; 
+            color: #323130;
+            font-weight: 600;
+            border: 1px solid #a19f9d;
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        /* 5条路线表头颜色 */
+        .th-route-1 { background-color: #dff6dd; color: #107c41; } 
+        .th-route-2 { background-color: #fde7e9; color: #a80000; } 
+        .th-route-3 { background-color: #eedfcf; color: #7c4110; } 
+        .th-route-4 { background-color: #fff4ce; color: #7a5a00; } 
+        .th-route-5 { background-color: #edf2f7; color: #2b6cb0; } 
+
+        td {
+            border: 1px solid #d2d0ce;
+            padding: 12px 10px;
+            text-align: center;
+        }
+
+        /* 核心：高能打码防复制样式 */
+        .blur-text {
+            filter: blur(4px);            
+            user-select: none;           
+            -webkit-user-select: none;   
+            -moz-user-select: none;      
+            -ms-user-select: none;       
+        }
+
+        /* 针对段宜廷专属格子和链接的包裹样式 */
+        .hover-cell-red {
+            cursor: pointer;
+            transition: background-color 0.15s ease; /* 让背景变红过渡更平滑 */
+        }
+
+        .link-blur {
+            text-decoration: none;
+            color: inherit;
+            display: block; /* 填满整个格子 */
+            height: 100%;
+            width: 100%;
+        }
+
+        /* 【核心修改】仅当鼠标悬浮在该格子时，整个格子背景变红 */
+        .hover-cell-red:hover {
+            background-color: #7b0101 !important; /* Excel风格的关闭红 */
+        }
+
+        /* 可选：悬浮时名字颜色可以稍微变淡，增加对比度 */
+        .hover-cell-red:hover .blur-text {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Excel 行标 */
+        .excel-row-num {
+            background-color: #f3f2f1;
+            color: #605e5c;
+            font-weight: bold;
+            width: 60px;
+        }
+
+        /* 组长高亮标签 */
+        .leader-tag {
+            background-color: #fff2cc;
+            color: #d66100;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-left: 6px;
+            display: inline-block;
+        }
+
+        tr:nth-child(even) td:not(.excel-row-num) {
+            background-color: #faf9f8;
+        }
+
+        /* 底部状态栏 */
+        .excel-status-bar {
+            background-color: #f3f2f1;
+            border-top: 1px solid #d4d4d4;
+            padding: 8px 20px;
+            font-size: 12px;
+            color: #605e5c;
+            display: flex;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+  
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">4/37</div></head>
+<body>
+
+<div class="excel-window">
+    <!-- 顶部绿色状态条 -->
+    <div class="excel-title-bar">
+        <span>📊</span> 2018学年高一修学旅行分组名单_最终版.xlsx [只读]
+        <!-- 右上角关闭返回按钮 -->
+        <a href="desk.html" class="close-btn" title="返回">✕</a>
+    </div>
+
+    <!-- 教务说明区 -->
+    <div class="excel-info-box">
+        <strong>通知：</strong> 2018学年高一（17）班修学旅行<strong>【安吉线】</strong>分组工作已全部结束。全班共分为 5 组。请各位同学确认自己的组别，并由各组组长于本周五前领取详细行程单及安全承诺书。
+    </div>
+
+    <!-- 表格核心区 -->
+    <div class="excel-table-wrapper">
+        <table>
+            <colgroup>
+                <col style="width: 60px;">
+                <col>
+                <col>
+                <col>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th rowspan="2">序号</th>
+                    <th class="th-route-1">1组</th>
+                    <th class="th-route-2">2组</th>
+                    <th class="th-route-3">3组</th>
+                    <th class="th-route-4">4组</th>
+                    <th class="th-route-5">5组</th>
+                </tr>
+            
+            </thead>
+            <tbody>
+                <!-- 行 1 -->
+                <tr>
+                    <td class="excel-row-num">1</td>
+                    <td>陈逸豪 <span class="leader-tag">组长</span></td>
+                    <td>王梓轩 <span class="leader-tag">组长</span></td>
+                    <td>李佳佳 <span class="leader-tag">组长</span></td>
+                    <td>宋以宁 <span class="leader-tag">组长</span></td>
+                    <td>张宇轩 <span class="leader-tag">组长</span></td>
+                </tr>
+                <!-- 行 2 -->
+                <tr>
+                    <td class="excel-row-num">2</td>
+                    <td>刘思雨</td>
+                    <td>黄浩然</td>
+                    <td>张曼婷</td>
+                    <td>陈建国</td>
+                    <td>周奕霖</td>
+                </tr>
+                <!-- 行 3 -->
+                <tr>
+                    <td class="excel-row-num">3</td>
+                    <td>王志明</td>
+                    <td>周梦婷</td>
+                    <td>吴佳怡</td>
+                    <td>赵梓涵</td>
+                    <td>王嘉乐</td>
+                </tr>
+                <!-- 行 4 -->
+                <tr>
+                    <td class="excel-row-num">4</td>
+                    <td>徐佳琪</td>
+                       <td>盛妙</td>
+                    <td>郭浩宇</td>
+                    <td>刘子睿</td>
+                    <td>杨诗琪</td>
+                </tr>
+                <!-- 行 5 -->
+                <tr>
+                    <td class="excel-row-num">5</td>
+                    <td>杨明明</td>
+                    <td>刘少杰</td>
+                    <td>徐嘉伟</td>
+                    <td>孙琳</td>
+                    <td>李文杰</td>
+                </tr>
+                <!-- 行 6 -->
+                <tr>
+                    <td class="excel-row-num">6</td>
+                    <td>彭超</td>
+                    <td>杨梓萱</td>
+                    <td>马小龙</td>
+                    <td>高宇航</td>
+                    <td>陈若曦</td>
+                </tr>
+                <!-- 行 7 -->
+                <tr>
+                    <td class="excel-row-num">7</td>
+                    <td>张雨萌</td>
+                    <td>林子健</td>
+                    <td>郑智远</td>
+                    <!-- 【已修改】给TD添加类名以实现格子变红，并使a标签铺满格子 -->
+                    <td class="hover-cell-red">
+                        <a href="agreement.html" class="link-blur" target="_blank">
+                            <span class="blur-text">段宜廷</span>
+                        </a>
+                    </td>
+                    <td>冯欣怡</td>
+                </tr>
+                <!-- 行 8 -->
+                <tr>
+                    <td class="excel-row-num">8</td>
+                    <td>朱博文</td>
+                    <td>周倩</td>
+                    <td>何梓豪</td>
+                    <td>黄思涵</td>
+                    <td>谢雨航</td>
+                </tr>
+                
+                <!-- ==================== 优化：单行流线型备忘录栏目 ==================== -->
+                
+                <tr>
+                    <td class="excel-row-num" style="background-color: #fcf8e3; color: #8a6d3b;">备忘</td>
+                    <td colspan="5" style="text-align: left; padding: 10px 15px; background-color: #fcf8e3; color: #66512c; line-height: 1.5; font-size: 12px;">
+                        <strong>组长须知：</strong>①行进拉练时居前引路，实时传达指令并防范掉队；②每晚22:00推门确认全员在室，严禁串门，查房后向群内汇报。
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Excel 底部状态栏 -->
+    <div class="excel-status-bar">
+        <div>就绪  |  Sheet1</div>
+        <div>总人数：40人  |  每组：8人  |  求和=100%</div>
+    </div>
+</div>
+
+</body>
+</html>

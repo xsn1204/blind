@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>图书借阅卡</title>
+    <!-- 加载 Google 手写字体以呈现不同笔迹 -->
+    <link rel="stylesheet" href="https://fonts.geekzu.org/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=Long+Cang&display=swap">
+    <style>
+        body {
+            background-color: #2b2b2b;
+            font-family: "SimSun", "宋体", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            max-width: 1300px;
+        }
+
+        /* 借阅卡卡片主体 */
+        .card {
+            background-color: #f7f3e8;
+            border: 1px solid #c8bfae;
+            box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.4);
+            padding: 20px 18px;
+            border-radius: 4px;
+            position: relative;
+            background-image: radial-gradient(#e3dac9 5%, transparent 5%);
+            background-size: 16px 16px;
+        }
+
+        /* 印章效果 */
+        .stamp {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            border: 2px solid #b23b3b;
+            color: #b23b3b;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 3px;
+            transform: rotate(-12deg);
+            opacity: 0.85;
+            letter-spacing: 1px;
+            user-select: none;
+        }
+
+        /* 图书馆头标题 */
+        .header-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 4px;
+        }
+
+        /* 书名与作者栏 */
+        .book-info {
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .book-info div {
+            display: flex;
+            border-bottom: 1px solid #666;
+            padding-bottom: 2px;
+            margin-bottom: 6px;
+        }
+
+        .info-label {
+            width: 55px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .info-value {
+            flex-grow: 1;
+            font-weight: bold;
+            color: #111;
+        }
+
+        /* 表格样式 */
+        .borrow-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .borrow-table th, .borrow-table td {
+            border: 1px solid #777;
+            text-align: center;
+            height: 28px;
+            font-size: 13px;
+        }
+
+        .borrow-table th {
+            background-color: #eae3d2;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* 手写体与特定名字的高亮笔迹 */
+        .handwritten {
+            font-size: 16px;
+            color: #1d2026;
+        }
+
+        /* 不同手写风格 */
+        .font-a { font-family: 'Ma Shan Zheng', cursive; }
+        .font-b { font-family: 'Ma Shan Zheng', cursive; font-size: 18px; }
+        .font-c { font-family: 'Long Cang', cursive; font-size: 18px; }
+        .font-d { font-family: "Kaiti", "楷体", serif; font-weight: bold; }
+
+        /* 男主笔迹 - 段宜廷（深蓝水笔） */
+        .duan {
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #1a365d;
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        /* 女主笔迹 - 宋以宁（秀气黑/深红/蓝色手写） */
+        .song {
+            font-family: 'Ma Shan Zheng', cursive;
+            color: #2b4c7e;
+            font-size: 17px;
+        }
+
+        .empty-cell {
+            color: #aaa;
+            font-size: 12px;
+        }
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">extra8/37</div></head>
+<body>
+
+<div class="cards-container">
+
+    <!-- 借阅卡 1 -->
+    <div class="card">
+        <div class="stamp">青大附中</div>
+        <div class="header-title">图书借阅记录卡</div>
+        <div class="book-info">
+            <div><span class="info-label">书名：</span><span class="info-value">《风从海上来》</span></div>
+            <div><span class="info-label">作者：</span><span class="info-value">惠君</span></div>
+        </div>
+        <table class="borrow-table">
+            <thead>
+                <tr>
+                    <th width="25%">借出日期</th>
+                    <th width="50%">借书人</th>
+                    <th width="25%">还书日期</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="handwritten font-a">03.12</td>
+                    <td class="handwritten font-a">陈小舟</td>
+                    <td class="handwritten font-a">03.25</td>
+                </tr>
+                <tr>
+                    <td class="handwritten duan">04.05</td>
+                    <td class="handwritten duan">张浩宇</td>
+                    <td class="handwritten duan">04.18</td>
+                </tr>
+                <tr>
+                    <td class="handwritten song">04.20</td>
+                    <td class="handwritten song">许嘉怡</td>
+                    <td class="handwritten song">05.02</td>
+                </tr>
+                <tr>
+                    <td class="handwritten font-b">05.10</td>
+                    <td class="handwritten font-b">张浩宇段宜廷</td>
+                    <td class="handwritten font-b">05.22</td>
+                </tr>
+                <tr>
+                    <td class="handwritten font-c">06.01</td>
+                    <td class="handwritten font-c">宋以宁</td>
+                    <td class="handwritten font-c">06.15</td>
+                </tr>
+                <tr><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 借阅卡 2 -->
+    <div class="card">
+        <div class="stamp">青大附中</div>
+        <div class="header-title">图书借阅记录卡</div>
+        <div class="book-info">
+            <div><span class="info-label">书名：</span><span class="info-value">《山那边的夏天》</span></div>
+            <div><span class="info-label">作者：</span><span class="info-value">惠君</span></div>
+        </div>
+        <table class="borrow-table">
+            <thead>
+                <tr>
+                    <th width="25%">借出日期</th>
+                    <th width="50%">借书人</th>
+                    <th width="25%">还书日期</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="handwritten font-c">09.08</td>
+                    <td class="handwritten font-c">林思琪</td>
+                    <td class="handwritten font-c">09.20</td>
+                </tr>
+                <tr>
+                    <td class="handwritten duan">10.12</td>
+                    <td class="handwritten duan">段宜廷</td>
+                    <td class="handwritten duan">10.25</td>
+                </tr>
+                <tr>
+                    <td class="handwritten font-a">11.02</td>
+                    <td class="handwritten font-a">周子昂</td>
+                    <td class="handwritten font-a">11.15</td>
+                </tr>
+                <tr>
+                    <td class="handwritten song">11.18</td>
+                    <td class="handwritten song">宋以宁</td>
+                    <td class="handwritten song">12.01</td>
+                </tr>
+
+                <tr><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 借阅卡 3 -->
+    <div class="card">
+        <div class="stamp">青大附中</div>
+        <div class="header-title">图书借阅记录卡</div>
+        <div class="book-info">
+            <div><span class="info-label">书名：</span><span class="info-value">《云知道答案》</span></div>
+            <div><span class="info-label">作者：</span><span class="info-value">惠君</span></div>
+        </div>
+        <table class="borrow-table">
+            <thead>
+                <tr>
+                    <th width="25%">借出日期</th>
+                    <th width="50%">借书人</th>
+                    <th width="25%">还书日期</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+                    <td class="handwritten font-b">04.02</td>
+                    <td class="handwritten font-b">高语涵</td>
+                    <td class="handwritten font-b">04.15</td>
+                </tr>
+                <tr>
+                    <td class="handwritten font-a">04.20</td>
+                    <td class="handwritten font-a">齐天磊</td>
+                    <td class="handwritten font-a">05.03</td>
+                </tr>
+                <tr>
+                    <td class="handwritten font-c">05.18</td>
+                    <td class="handwritten font-c">沈妙妙</td>
+                    <td class="handwritten font-c">05.30</td>
+                </tr>
+                                <tr>
+                    <td class="handwritten duan">06.01</td>
+                    <td class="handwritten duan">段宜廷</td>
+                    <td class="handwritten duan">06.14</td>
+                </tr>
+                <tr>
+                    <td class="handwritten song">06.15</td>
+                    <td class="handwritten song">宋以宁</td>
+                    <td class="handwritten song">06.28</td>
+                </tr>
+                <tr><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 借阅卡 4 -->
+    <div class="card">
+        <div class="stamp">青大附中</div>
+        <div class="header-title">图书借阅记录卡</div>
+        <div class="book-info">
+            <div><span class="info-label">书名：</span><span class="info-value">《萤火之秋》</span></div>
+            <div><span class="info-label">作者：</span><span class="info-value">惠君</span></div>
+        </div>
+        <table class="borrow-table">
+            <thead>
+                <tr>
+                    <th width="25%">借出日期</th>
+                    <th width="50%">借书人</th>
+                    <th width="25%">还书日期</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="handwritten font-d">09.15</td>
+                    <td class="handwritten font-d">方文杰</td>
+                    <td class="handwritten font-d">09.28</td>
+                </tr>
+                <tr>
+                    <td class="handwritten duan">10.08</td>
+                    <td class="handwritten duan">段宜廷</td>
+                    <td class="handwritten duan">10.20</td>
+                </tr>
+                <tr>
+                    <td class="handwritten font-b">10.22</td>
+                    <td class="handwritten font-b">宋以宁</td>
+                    <td class="handwritten font-b">11.03</td>
+                </tr>
+
+                <tr><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

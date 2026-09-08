@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【公示公告】青州大学附属中学2026年度“千寻奖学金”获奖学生名单公示 - 青州大学附属高中</title>
+    <style>
+        :root {
+            --school-blue: #003366;       /* 核心学术深海蓝 */
+            --school-accent: #0056b3;     /* 次级活力科技蓝 */
+            --school-light-blue: #e6f2ff; /* 亮蓝色点缀/高亮背景 */
+            --ink-blue: #002244;          /* 沉稳公文墨蓝 */
+            --alert-blue: #0066cc;        /* 重点提示蓝 */
+            --bg-gray: #f4f7fa;           /* 现代学术淡蓝灰背景 */
+            --text-dark: #1a2530;         /* 深蓝偏黑色文字 */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #e2e7ec; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-dark); }
+
+        /* 全屏视图容器 */
+        .safari-view {
+            width: 100vw;
+            height: 100vh;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* 网页主体滚动区 */
+        .page-content {
+            flex: 1;
+            overflow-y: auto;
+            background: var(--bg-gray);
+            background-image: radial-gradient(rgba(0,51,102,0.02) 1px, transparent 0), radial-gradient(rgba(0,51,102,0.01) 1px, transparent 0);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+        }
+
+        /* 官网头部：Logo + 导航 */
+        .school-header {
+            background: #fff;
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--school-blue);
+        }
+        
+        .school-logo { display: flex; align-items: center; gap: 1px; }
+
+        .logo-image-container {
+            width: 70px;
+            height: 70px;
+            background: var(--school-blue);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .school-name-img {
+            height: 75px;     
+            width: auto;      
+            object-fit: contain; 
+            display: block;
+        }
+
+        .nav-menu { display: flex; gap: 25px; font-size: 16px; font-weight: 600; }
+        .nav-menu span, .nav-menu a { color: var(--text-dark); cursor: pointer; transition: color 0.2s; padding-bottom: 5px; text-decoration: none; }
+        .nav-menu span:hover, .nav-menu a:hover, .nav-menu span.active, .nav-menu a.active { color: var(--school-accent); border-bottom: 2px solid var(--school-accent); }
+
+        /* 跑马灯流动资讯栏 */
+        .ticker-bar {
+            background: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid #d0daf0;
+            padding: 10px 10%;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .ticker-label {
+            color: var(--school-blue);
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+            background: rgba(244, 247, 250, 0.95);
+            padding-right: 15px;
+            z-index: 5;
+        }
+        .ticker-window { flex: 1; overflow: hidden; display: flex; position: relative; }
+        .ticker-track {
+            display: flex; gap: 50px; white-space: nowrap;
+            animation: marquee 25s linear infinite; padding-left: 20px;
+        }
+        .ticker-track:hover { animation-play-state: paused; }
+        .ticker-group { display: flex; gap: 40px; align-items: center; }
+        .ticker-item { display: flex; gap: 8px; color: #2b3a4a; text-decoration: none; font-size: 14px; }
+        .ticker-item:hover { color: var(--school-accent); text-decoration: underline; }
+        .ticker-date { color: #718096; font-family: monospace; }
+        
+        .ticker-arrows { display: flex; gap: 6px; padding-left: 20px; background: rgba(244, 247, 250, 0.95); z-index: 5; }
+        .arrow-btn {
+            width: 20px; height: 20px; border: 1px solid #ced4da; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 12px; color: #6c757d; cursor: pointer;
+        }
+        .arrow-btn:hover { border-color: var(--school-blue); color: var(--school-blue); }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* 文章详情页区域 */
+        .article-detail-container {
+            max-width: 1000px; 
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .notice-portal-card {
+            background-color: #ffffff;
+            border: 1px solid #d0daf0;
+            box-shadow: 0 4px 20px rgba(0, 51, 102, 0.05);
+            border-radius: 6px;
+            padding: 50px 60px; 
+        }
+
+        /* 面包屑导航 */
+        .portal-breadcrumb {
+            font-size: 14px; 
+            color: #5a6a85; 
+            border-bottom: 1px solid #edf2f7; 
+            padding-bottom: 15px; 
+            margin-bottom: 35px;
+        }
+        .portal-breadcrumb a { color: var(--school-accent); text-decoration: none; }
+        .portal-breadcrumb a:hover { color: var(--school-blue); text-decoration: underline; }
+
+        /* 顶部公示徽章及标题 */
+        .notice-header-banner {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-badge {
+            display: inline-block;
+            background: var(--school-light-blue);
+            color: var(--school-blue);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        /* 文章大标题 */
+        .notice-title {
+            font-size: 26px; 
+            font-weight: bold; 
+            text-align: center; 
+            color: var(--ink-blue); 
+            line-height: 1.6; 
+            margin-bottom: 20px; 
+            letter-spacing: 0.5px;
+        }
+
+        /* 文章元信息 */
+        .notice-meta {
+            text-align: center; 
+            font-size: 13.5px; 
+            color: #64748b; 
+            border-bottom: 1px dashed #ced4da; 
+            padding-bottom: 20px; 
+            margin-bottom: 35px;
+        }
+        .notice-meta span { margin: 0 15px; }
+
+        /* 文章正文段落 */
+        .notice-intro, .notice-summary {
+            font-size: 16px; 
+            text-indent: 32px; 
+            margin-bottom: 20px; 
+            text-align: justify; 
+            line-height: 1.9; 
+            color: #2c3e50;
+        }
+
+        /* 表格样式美化 */
+        .table-container {
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+        .scholarship-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+            text-align: center;
+        }
+        .scholarship-table caption {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--school-blue);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .scholarship-table th, .scholarship-table td {
+            border: 1px solid #d0daf0;
+            padding: 12px 8px;
+            vertical-align: middle;
+        }
+        .scholarship-table th {
+            background-color: var(--school-light-blue);
+            color: var(--school-blue);
+            font-weight: bold;
+        }
+        .scholarship-table tr:nth-child(even) {
+            background-color: #fafbfc;
+        }
+        .scholarship-table tr:hover {
+            background-color: #f0f7ff;
+        }
+        .award-level {
+            font-weight: bold;
+            color: var(--school-blue);
+            margin-right: 6px;
+        }
+        .amount-tag {
+            background: #eef9f2;
+            color: #2e7d32;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* 公文落款 */
+        .notice-sign { 
+            margin-top: 50px; 
+            float: right; 
+            text-align: right; 
+            font-size: 16px; 
+            line-height: 1.8; 
+            color: #334155; 
+            padding-right: 5px;
+        }
+        .clearfix::after { content: ""; clear: both; display: table; }
+
+        /* 底部 */
+        .school-footer { 
+            background: #0f172a; 
+            color: #94a3b8; 
+            padding: 30px 10%; 
+            text-align: center; 
+            font-size: 13px; 
+            line-height: 1.8; 
+            border-top: 5px solid var(--school-blue); 
+            margin-top: 60px; 
+        }
+        .footer-links { margin-bottom: 10px; color: #64748b; }
+        .footer-links span { margin: 0 10px; }
+
+        @media (max-width: 768px) {
+            .notice-portal-card { padding: 30px 20px; }
+            .notice-title { font-size: 20px; }
+            .notice-intro, .notice-summary { font-size: 15px; text-indent: 30px; }
+            .scholarship-table { font-size: 13px; }
+        }
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">33/37</div></head>
+<body>
+
+<div class="safari-view">
+    <div class="page-content">
+        
+        <!-- 1. 头部 Header -->
+        <header class="school-header">
+            <div class="school-logo">
+              <div class="logo-image-container">
+                    <img src="logo.png" alt="学校Logo">
+              </div>
+              <img src="logo2.png" alt="青州大学附属高中" class="school-name-img">
+            </div>
+            <nav class="nav-menu">
+                 <span>首页</a>
+                <span>附中概况</span>
+                <span>强基拔尖</span>
+                <span class="active">教学科研</span>
+                    <span>校长信箱</span>
+            </nav>
+        </header>
+
+        <!-- 2. 最新资讯跑马灯横条栏 -->
+        <div class="ticker-bar">
+            <span class="ticker-label">最新资讯：</span>
+            <div class="ticker-window">
+                <div class="ticker-track">
+                    <div class="ticker-group">
+                        <a href="#" class="ticker-item">【青大附中】校长检查高考准备工作 <span class="ticker-date">2026-06-06</span></a>
+                        <a href="#" class="ticker-item">▪ 拾金不昧好少年，是他！ <span class="ticker-date">2026-06-05</span></a>
+                        <a href="#" class="ticker-item">▪ 青大附喜报 | 我校省级教育教学改革项目荣获优秀成果奖... <span class="ticker-date">2026-06-01</span></a>
+                    </div>
+                    <div class="ticker-group">
+                        <a href="#" class="ticker-item">【青大附中】校长检查高考准备工作 <span class="ticker-date">2026-06-06</span></a>
+                        <a href="#" class="ticker-item">▪ 拾金不昧好少年，是他！ <span class="ticker-date">2026-06-05</span></a>
+                        <a href="#" class="ticker-item">▪ 青大附喜报 | 我校省级教育教学改革项目荣获优秀成果奖... <span class="ticker-date">2026-06-01</span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="ticker-arrows">
+                <div class="arrow-btn">‹</div>
+                <div class="arrow-btn">›</div>
+            </div>
+        </div>
+
+        <!-- 3. 主体文章内容容器 -->
+        <main class="article-detail-container">
+            <div class="notice-portal-card">
+                <!-- 面包屑 -->
+                <div class="portal-breadcrumb">
+                    当前位置：<a href="#">首页</a> &gt; <a href="#">教学科研</a> &gt; <a href="#">奖学金公示</a> &gt; 正文
+                </div>
+
+                <!-- 机构标识区及标题 -->
+                <div class="notice-header-banner">
+                    <div class="header-badge">★ 2026年度学术与创新奖项公示 ★</div>
+                    <h1 class="notice-title">青州大学附属中学2026年度“千寻奖学金”获奖学生名单公示</h1>
+                    <div class="notice-meta">
+                        <span>发布部门：学生发展中心 / 奖学金评审委员会</span>
+                        <span>发布时间：2026年05月18日</span>
+                        <span>浏览次数：2480 次</span>
+                    </div>
+                </div>
+
+                <!-- 导语 -->
+                <p class="notice-intro">
+                    为鼓励附中学子勇攀学术高峰、深耕科学探索与人文创新，根据《青州大学附属中学“千寻奖学金”评选办法》，经学生个人申请、班级推荐、专家评审小组综合答辩考核，并报学校奖学金评审委员会审议通过，现将2026年度“千寻奖学金”拟获奖学生名单予以公示。为激励我校学子发扬“众里寻他千百度”的求索精神，勇攀学术高峰，追求卓越品质，千味盛廷餐饮产业集团于2018年在我校设立了专项顶尖人才培育基金——“千寻奖学金”。
+
+“千寻奖学金”为目前我校单项资助金额最高、评选标准最为严格的企业特设奖学金（每人资助力度达人民币 20,000 元）。本奖学金旨在表彰在学科竞赛、科研创新、综合素质及社会实践等领域取得突破性成绩的拔尖学子。
+
+经学生个人申请、年级组民主推荐、专家评审委员会严格初审以及千味盛廷集团公益基金理事会终审评估，现将2019年1月“千寻奖学金”获奖学生名单及突出事迹正式公布如下：
+                </p>
+
+                <!-- 表格区域 -->
+                <div class="table-container">
+                    <table class="scholarship-table">
+                        <caption>青州大学附属中学 2026年度“千寻奖学金”拟获奖学生名单</caption>
+                        <thead>
+                            <tr>
+                                <th style="width: 8%;">序号</th>
+                                <th style="width: 15%;">姓名</th>
+                                <th style="width: 20%;">年级 / 班级</th>
+                                <th style="width: 37%;">主要获奖项目 / 突出表现</th>
+                                <th style="width: 20%;">拟授等级及金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>林晨曦</td>
+                                <td>高三 (1) 班</td>
+                                <td>全国青少年信息学奥林匹克联赛 (NOIP) 一等奖</td>
+                                <td><span class="award-level">特等奖</span> <span class="amount-tag">￥10,000</span></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>陆梓涵</td>
+                                <td>高三 (2) 班</td>
+                                <td>全国中学生数学奥林匹克竞赛（决赛）金牌</td>
+                                <td><span class="award-level">特等奖</span> <span class="amount-tag">￥10,000</span></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>沈一鸣</td>
+                                <td>高二 (1) 班</td>
+                                <td>全国中学生物理竞赛（省级赛区）一等奖</td>
+                                <td><span class="award-level">一等奖</span> <span class="amount-tag">￥5,000</span></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>许清妍</td>
+                                <td>高二 (3) 班</td>
+                                <td>“叶圣陶杯”全国中学生新作文大赛全国一等奖</td>
+                                <td><span class="award-level">一等奖</span> <span class="amount-tag">￥5,000</span></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>张嘉和</td>
+                                <td>高一 (1) 班</td>
+                                <td>全国青少年科技创新大赛工程学组二等奖</td>
+                                <td><span class="award-level">一等奖</span> <span class="amount-tag">￥5,000</span></td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>顾思远</td>
+                                <td>高三 (6) 班</td>
+                                <td>校级综合素质综合考评连续三年第一名</td>
+                                <td><span class="award-level">二等奖</span> <span class="amount-tag">￥3,000</span></td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>宋若羽</td>
+                                <td>高二 (5) 班</td>
+                                <td>外研社杯全国中学生外语素养大赛全国二等奖</td>
+                                <td><span class="award-level">二等奖</span> <span class="amount-tag">￥3,000</span></td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>陈子昂</td>
+                                <td>高一 (2) 班</td>
+                                <td>中国青少年机器人竞赛一等奖</td>
+                                <td><span class="award-level">二等奖</span> <span class="amount-tag">￥3,000</span></td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>赵千寻</td>
+                                <td>高二 (1) 班</td>
+                                <td>全国化学奥林匹克竞赛（省级赛区）二等奖</td>
+                                <td><span class="award-level">三等奖</span> <span class="amount-tag">￥2,000</span></td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>周悦琳</td>
+                                <td>高一 (4) 班</td>
+                                <td>校级“人文与社科创新课题”优秀成果奖</td>
+                                <td><span class="award-level">三等奖</span> <span class="amount-tag">￥2,000</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 总结与公示说明 -->
+                <p class="notice-summary">
+                    学校向以上5位获奖同学表示热烈的祝贺！同时，对我校战略合作伙伴千味盛廷集团长期以来支持教育事业、回馈社会的博大情怀表示最诚挚的感谢。“千寻奖学金”由青州大学附属中学校友会及社会杰出人士共同捐资设立，旨在资助与奖励在学术学科竞赛、科技创新、人文创作及综合素质提升方面取得卓越成绩的附中学子。
+                </p>
+                <p class="notice-summary">
+                    公示期为2026年5月18日至5月24日（共7天）。公示期间，任何单位或个人如对公示对象有异议，请以书面形式向学校学生发展中心或校纪委反应。反映情况需客观真实，以单位名义反映的应加盖公章，以个人名义反映的应署真实姓名及联系方式。
+                </p>
+
+                <!-- 落款 -->
+                <div class="notice-sign clearfix">
+                    青州大学附属中学 学生发展中心<br>
+                    青州大学附属中学 奖学金评审委员会<br>
+                    2019年1月18日
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </main>
+
+        <!-- 4. 底部 Footer -->
+        <footer class="school-footer">
+            <div class="footer-links">
+                <span>教务处招生热线：0312-XXXXXXX</span> | <span>地址：中国·临渊·青州市勤学路1号</span>
+            </div>
+            <p>版权所有 © 2026 青州大学附属高中</p>
+        </footer>
+    </div>
+</div>
+
+</body>
+</html>

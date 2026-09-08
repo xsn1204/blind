@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>照片查看器</title>
+    <style>
+        :root { 
+            --win-blue: #0078d4; 
+            --bg-gray: #f3f3f3; 
+            --text-main: #333; 
+            --window-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            width: 100vw;
+            font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+            background: #2c3e50 url('wallpaper.png') no-repeat center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* Windows 10 照片查看器窗口 */
+        .photo-viewer-window {
+            width: 95vw;          
+            max-width: 900px;     
+            height: 92vh;         
+            max-height: 880px;    
+            background: #ffffff;
+            box-shadow: var(--window-shadow);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;    
+            border: 1px solid #d1d1d1;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        /* 顶部标题栏 */
+        .window-title-bar {
+            height: 32px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            border-bottom: 1px solid #eee;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .window-title { 
+            flex-grow: 1; 
+            font-size: 12px; 
+            color: #444; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+        }
+        .win-controls { display: flex; height: 100%; }
+        .control-btn { 
+            width: 46px; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 14px; 
+            cursor: pointer; 
+            transition: 0.15s; 
+            color: #333; 
+        }
+        .control-btn:hover { background: #e5e5e5; }
+        .close:hover { background: #e81123; color: white; }
+
+        /* 主体看图区域 */
+        .viewer-body {
+            flex: 1;
+            background: #e6e6e6; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px; 
+            overflow: hidden; 
+            position: relative;
+        }
+
+        /* 图片缩放容器：确保纯图片能够完美等比例自适应 */
+        .image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* 保持图片原有比例，不拉伸且自适应完整展示 */
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 2px;
+        }
+
+        /* 进度指示器 */
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+
+        /* 仿 Win10 任务栏 */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: rgba(199, 187, 187, 0.85);
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            z-index: 6000; 
+            color: white;
+        }
+        .start-btn {
+            width: 48px; height: 100%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .start-btn:hover { background: rgba(255, 255, 255, 0.1); }
+        .start-btn img { width: 20px; height: 20px; filter: invert(1); }
+
+        .search-container {
+            height: 32px; width: 240px; background: rgba(255, 255, 255, 0.9);
+            margin: 0 10px; display: flex; align-items: center; padding: 0 10px;
+            border-radius: 2px;
+        }
+        .search-container input {
+            border: none; background: none; outline: none; width: 100%;
+            font-size: 12px; color: #333;
+        }
+        .search-icon { font-size: 14px; margin-right: 8px; color: #666; }
+
+        .tray-area { margin-left: auto; display: flex; align-items: center; padding: 0 10px; color: #000000; }
+        .clock { text-align: center; font-size: 11px; line-height: 1.2; padding: 0 5px; cursor: default; }
+
+        /* 仿 Win10 照片工具栏 */
+        .viewer-toolbar {
+            height: 48px;
+            background: #f3f3f3;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+            color: #555;
+            font-size: 18px;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        .toolbar-btn { cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: 0.1s; }
+        .toolbar-btn:hover { background: #e5e5e5; color: #000; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .photo-viewer-window { width: 100vw; height: 100vh; max-height: none; border-radius: 0; }
+            .viewer-body { padding: 5px; }
+        }
+    </style>                             
+    <div class="progress-indicator">extra4/37</div>
+</head>
+
+<body>
+    <!-- 任务栏 -->
+    <div class="taskbar">
+        <div class="start-btn">
+            <img src="https://img.icons8.com/material-outlined/24/ffffff/windows-10.png">
+        </div>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="搜索..." disabled autocomplete="off">
+        </div>
+        <div class="tray-area">
+            <div class="clock">
+                <div id="time">20:17</div>
+                <div id="date">2026/8/22</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 照片查看器窗口 -->
+    <div class="photo-viewer-window">
+        
+        <!-- 窗口顶栏 -->
+        <div class="window-title-bar">
+            <div class="window-title">
+                <img src="https://img.icons8.com/color/16/000000/image.png" width="16" height="16">
+                照片查看器 - QQ截图20190623153610.png
+            </div>
+            <div class="win-controls">
+                <div class="control-btn">－</div>
+                <div class="control-btn close" onclick="goBack()">✕</div>
+            </div>
+        </div>
+        
+        <!-- 移除 QQ 盒子，改为纯粹的图片自适应容器 -->
+        <div class="viewer-body" id="viewerBody">
+            <div class="image-container">
+                <img src="flight.png" alt="Flight Image">
+            </div>
+        </div>
+
+        <!-- 窗口底栏工具栏 -->
+        <div class="viewer-toolbar">
+            <div class="toolbar-btn">⟳</div>
+            <div class="toolbar-btn">🔍+</div>
+            <div class="toolbar-btn">🔍-</div>
+            <div class="toolbar-btn">🗑</div>
+        </div>
+
+    </div>
+
+    <script>
+        function goBack() {
+              window.location.href = 'desk.html'; 
+        }
+
+        // 按 X 键返回
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'x' || event.key === 'X') {
+                goBack();
+            }
+        });
+    </script>
+</body>
+</html>

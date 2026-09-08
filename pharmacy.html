@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>药店小票</title>
+    <!-- 引入手写与针式打印风格字体 -->
+    <link rel="stylesheet" href="https://fonts.geekzu.org/css2?family=VT323&family=Zhi+Mang+Xing&family=Ma+Shan+Zheng&display=swap">
+    <style>
+        body {
+            background-color: #333333;
+            font-family: 'Courier New', Courier, monospace, "SimSun", "宋体";
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* 模拟热敏纸/针式打印小票 */
+        .receipt {
+            background-color: #fffef8;
+            width: 320px;
+            padding: 25px 20px 35px 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            position: relative;
+            color: #222;
+            font-size: 13px;
+            line-height: 1.4;
+            /* 底部锯齿状剪裁效果 */
+            mask-image: radial-gradient(circle 5px at 10px 100%, transparent 100%, #000 100%);
+            mask-size: 20px 100%;
+            mask-repeat: repeat-x;
+        }
+
+        /* 顶部锯齿边 */
+        .receipt::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(-135deg, #333 4px, transparent 0), linear-gradient(135deg, #333 4px, transparent 0);
+            background-size: 8px 8px;
+        }
+
+        /* 底部锯齿边 */
+        .receipt::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(-45deg, #333 4px, transparent 0), linear-gradient(45deg, #333 4px, transparent 0);
+            background-size: 8px 8px;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 1px dashed #444;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+
+        .store-name {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .store-info {
+            font-size: 11px;
+            color: #555;
+            line-height: 1.3;
+        }
+
+        .meta-info {
+            font-size: 12px;
+            border-bottom: 1px dashed #444;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+        }
+
+        /* 商品表格 */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .items-table th {
+            text-align: left;
+            border-bottom: 1px solid #000;
+            padding-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .items-table td {
+            padding: 6px 0 2px 0;
+            vertical-align: top;
+        }
+
+        .item-spec {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .total-section {
+            border-top: 1px dashed #444;
+            border-bottom: 1px dashed #444;
+            padding: 8px 0;
+            margin: 10px 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+
+        .grand-total {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 5px;
+            padding-top: 5px;
+            border-top: 1px dotted #888;
+        }
+
+        .footer-notice {
+            text-align: center;
+            font-size: 11px;
+            color: #555;
+            margin-top: 12px;
+            line-height: 1.4;
+        }
+
+        /* 药剂师/顾客手写批注/签字 */
+        .handwritten-note {
+            font-family: 'Ma Shan Zheng', 'Ma Shan Zheng', cursive;
+            color: #1a365d; /* 蓝墨水笔迹 */
+            font-size: 16px;
+            margin-top: 12px;
+            padding: 8px 10px;
+            border: 1px dashed #1a365d;
+            border-radius: 4px;
+            background-color: rgba(26, 54, 93, 0.03);
+            line-height: 1.5;
+            transform: rotate(-1deg);
+        }
+
+        .barcode {
+            text-align: center;
+            margin-top: 15px;
+            font-family: 'VT323', monospace;
+            font-size: 28px;
+            letter-spacing: 4px;
+        }
+
+        .barcode-num {
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: #555;
+            text-align: center;
+            margin-top: -5px;
+        }
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">extra6/37</div></head>
+<body>
+
+<div class="receipt">
+    <!-- 药店头部信息 -->
+    <div class="receipt-header">
+        <div class="store-name">康民大药房（附中店）</div>
+        <div class="store-info">
+            地址：青州市学府路108号（附中东门旁）<br>
+            电话：(0536) 8821-9042<br>
+            医保定点服务药店
+        </div>
+    </div>
+
+    <!-- 交易元数据 -->
+    <div class="meta-info">
+
+        <div class="meta-row"><span>日期：</span><span>2018-05-12 17:35:20</span></div>
+        <div class="meta-row"><span>收银员：</span><span>006号 [李药师]</span></div>
+        <div class="meta-row"><span>顾客：</span><span>散客</span></div>
+                <div class="meta-row"><span>备注：</span><span>哮喘备用</span></div>
+    </div>
+
+    <!-- 药品清单 -->
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th width="45%">药品名称</th>
+                <th width="20%" class="text-center">数量</th>
+                <th width="35%" class="text-right">金额(元)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 哮喘核心急救/控制用药 -->
+            <tr>
+                <td colspan="3" style="font-weight: bold;">沙丁胺醇气雾剂 (万托林)</td>
+            </tr>
+            <tr>
+                <td class="item-spec">100mcg*200喷/支 (葛兰素史克)</td>
+                <td class="text-center">1</td>
+                <td class="text-right">28.50</td>
+            </tr>
+
+            <tr>
+                <td colspan="3" style="font-weight: bold;">吸入用布地奈德混悬液 (普米克令舒)</td>
+            </tr>
+            <tr>
+                <td class="item-spec">2ml:1mg*5支/盒 (阿斯利康)</td>
+                <td class="text-center">2</td>
+                <td class="text-right">74.00</td>
+            </tr>
+
+            <tr>
+                <td colspan="3" style="font-weight: bold;">孟鲁司特钠咀嚼片 (顺尔宁)</td>
+            </tr>
+            <tr>
+                <td class="item-spec">5mg*5片/盒 (默沙东)</td>
+                <td class="text-center">1</td>
+                <td class="text-right">38.20</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 费用结算 -->
+    <div class="total-section">
+        <div class="total-row"><span>商品项数：</span><span>3 项</span></div>
+        <div class="total-row"><span>应付合计：</span><span>￥140.70</span></div>
+        <div class="total-row"><span>优惠折扣：</span><span>-￥0.70</span></div>
+        <div class="total-row grand-total"><span>实付金额：</span><span>￥140.00</span></div>
+        <div class="total-row" style="margin-top: 4px; color: #666;"><span>支付方式：</span><span>微信支付</span></div>
+    </div>
+
+
+
+    <!-- 底部说明与条形码 -->
+    <div class="footer-notice">
+        *** 请凭小票开具发票 ***<br>
+        药品属特殊商品，拆封概不退换<br>
+        祝您健康！
+    </div>
+
+    <div class="barcode">||| | ||||| |||| ||| |||||</div>
+    <div class="barcode-num">2018051208421400</div>
+</div>
+
+</body>
+</html>

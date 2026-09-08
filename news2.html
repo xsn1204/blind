@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>利益链条断裂：老牌台式餐饮巨头“千味盛廷”涉嫌不正当政商关联调查</title>
+    <style>
+        /* 全局重置与搜狐标准字体 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            font-family: Arial, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            color: #333333;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 顶部搜狐号标准导航条 */
+        .sohu-nav {
+            background-color: #1a1a1a;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            font-size: 14px;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .sohu-logo {
+            background-color: #ffcc00;
+            color: #000000;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 0 12px;
+            height: 44px;
+            line-height: 44px;
+            text-decoration: none;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 16px;
+            color: #a6a6a6;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-menu li:hover {
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .nav-right {
+            color: #a6a6a6;
+            font-size: 12px;
+        }
+
+        /* 主体两栏布局容器 */
+        .main-container {
+            max-width: 1060px;
+            margin: 34px auto 0 auto;
+            display: flex;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        /* 左侧文章主栏 */
+        .article-main {
+            flex: 1;
+            max-width: 680px;
+        }
+        .article-title {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #222222;
+            margin: 0 0 16px 0;
+            letter-spacing: -0.5px;
+        }
+        /* 元信息栏 */
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #999999;
+            margin-bottom: 24px;
+        }
+        .meta-info {
+            display: flex;
+            gap: 16px;
+        }
+        .meta-source {
+            color: #666666;
+        }
+        .meta-share-icons {
+            display: flex;
+            gap: 12px;
+            font-size: 16px;
+            color: #666666;
+        }
+
+        /* 文章导语（对应原图中加粗不缩进的第一段） */
+        .article-lead {
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1.8;
+            color: #111111;
+            margin-bottom: 24px;
+        }
+
+        /* 纪实图片区 */
+        .article-image-wrapper {
+            margin: 24px 0;
+            text-align: center;
+        }
+        .article-img-mock {
+            width: 100%;
+            height: 400px;
+            background-color: #3a4a58;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            position: relative;
+            background-image: linear-gradient(135deg, #2c3e50, #3498db);
+        }
+        .img-seal {
+            position: absolute;
+            border: 3px solid #c00000;
+            color: #c00000;
+            padding: 6px 12px;
+            font-weight: bold;
+            font-size: 20px;
+            transform: rotate(-15deg);
+            right: 30px;
+            top: 30px;
+            background-color: rgba(255,255,255,0.8);
+        }
+
+        /* 标准正文段落 */
+        .article-content p {
+            font-size: 16px;
+            line-height: 1.85;
+            color: #333333;
+            text-indent: 2em;
+            margin: 0 0 20px 0;
+            text-align: justify;
+        }
+        /* 小标题：经典搜狐左侧红条 */
+        .content-heading {
+            font-size: 20px;
+            font-weight: bold;
+            color: #000000;
+            margin: 36px 0 18px 0;
+            padding-left: 10px;
+            border-left: 4px solid #c00000;
+            line-height: 1.3;
+        }
+        .highlight-red {
+            color: #c00000;
+            font-weight: bold;
+        }
+        .exclusive-panel {
+            background-color: #f7f7f7;
+            border-left: 3px solid #888888;
+            padding: 16px 20px;
+            margin: 24px 0;
+            font-size: 15px;
+            color: #444444;
+        }
+        .exclusive-panel p {
+            text-indent: 0;
+            margin: 0;
+        }
+
+        /* 右侧边栏 */
+        .sidebar {
+            width: 300px;
+        }
+        /* 自媒体作者卡片 */
+        .author-card {
+            background-color: #f5f7f8;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .author-info .name {
+            font-size: 15px;
+            font-weight: bold;
+            color: #222222;
+            margin-bottom: 4px;
+        }
+        .author-info .stats {
+            font-size: 12px;
+            color: #999999;
+        }
+
+        /* 24小时热文榜 */
+        .widget-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #222222;
+            border-bottom: 1px solid #e8e8e8;
+            padding-bottom: 10px;
+            margin: 0 0 16px 0;
+        }
+        .hot-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 40px 0;
+        }
+        .hot-list li {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            color: #333333;
+            cursor: pointer;
+        }
+        .hot-list li:hover {
+            color: #c00000;
+        }
+
+        /* 侧边栏底部搜狐号标识 */
+        .sohu-brand-foot {
+            font-size: 20px;
+            font-weight: bold;
+            color: #222222;
+            margin-top: 60px;
+            letter-spacing: 1px;
+        }
+  
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">32/37</div></head>
+<body>
+
+    <!-- 顶部全频道导航条（参考图片 562e6233-95b0-4150-b58c-2ad587465e47.jpg） -->
+    <div class="sohu-nav">
+        <div class="nav-left">
+            <a href="#" class="sohu-logo">搜狐</a>
+            <ul class="nav-menu">
+                <li>新闻</li><li>体育</li><li>汽车</li><li>房产</li><li>旅游</li>
+                <li>教育</li><li>时尚</li><li>科技</li><li>财经</li><li>娱乐</li>
+                <li>母婴</li><li>健康</li><li>历史</li><li>军事</li><li>美食</li>
+            </ul>
+        </div>
+       
+    </div>
+
+    <!-- 主体核心内容架构 -->
+    <div class="main-container">
+        
+        <!-- 左侧文章主栏 -->
+        <div class="article-main">
+            
+            <!-- 新闻大标题 -->
+            <h1 class="article-title">利益链条断裂：老牌台式餐饮巨头“千味盛廷”涉嫌不正当政商关联调查</h1>
+            
+            <!-- 元信息栏 -->
+            <div class="article-meta">
+                <div class="meta-info">
+                    <span>2019-02-24 10:15</span>
+                    <span>来源：<span class="meta-source">青州都市报财经</span></span>
+                </div>
+                <div class="meta-share-icons">
+                    <span>💬</span><span>⭐</span><span>🔗</span>
+                </div>
+            </div>
+
+            <!-- 文章导语（对应原图中加粗不缩进的第一段） -->
+            <div class="article-lead">
+                北京时间2018年7月中旬，在青州市场运营近十七年的老牌台式餐饮巨头“千味盛廷”因多项合规性漏洞被有关部门采取司法查封措施。这家曾作为招商引资典范的台资餐饮集团，正因涉嫌不正当政商关联、违规获取商业资源等指控，接受纪检监察和司法机关的联合审查。
+            </div>
+
+            <!-- 纪实图片位置（参考图片 562e6233-95b0-4150-b58c-2ad587465e47.jpg 的居中排版） -->
+            <div class="article-image-wrapper">
+                <div class="article-img-mock">
+                    <div class="img-seal">司法查封</div>
+                  
+                    <strong>涉案餐饮品牌青州旗舰店正门已被贴上司法查封封条</strong>
+                    <span style="font-size: 12px; color: #cbd5e1; margin-top: 5px;">青州都市报记者 / 现场拍摄</span>
+                </div>
+            </div>
+
+            <!-- 正文内容区 -->
+     
+            <div class="article-content">
+         <h2 class="content-heading">一、多地门店无预警停业，内幕直指管理层“非正常真空”</h2>
+<p>自今年年初以来，千味盛廷集团开始收缩战线。截至本月，集团旗下的连锁餐饮品牌“盛廷精致锅物”、“拾味台台式简餐店”与“有闲酒吧”均陷入全面停业状态，在坊间引发了多方猜测。尽管近两年来，面对国内“互联网+餐饮”新消费模式的全面冲击以及本土品牌的强力分流，其实体门店的利润率确实出现了下滑，但多方迹象表明，本次门店集体停摆并非单纯源于经营性亏损。</p>
+
+<div class="exclusive-panel">
+    <p>“大约从上个月开始，集团内部审批流程就彻底卡壳了，连正常的日常运营预算都无法如期批复。”一位不愿具名的盛廷精致锅物前店长向记者透露。与此同时，多位一线员工也向本报证实，自5月下旬起，集团内部甚至开始低调传闻“高层正在配合相关部门说明情况”。目前，该集团在当地的管理层几乎已陷入全面真空状态。</p>
+</div>
+                <h2 class="content-heading">二、起底隐秘的政商利益输送链</h2>
+                <p>作为千味盛廷集团创始人的段盛廷，在青州本地商界此前维持着良好的公众形象。在公开报道中，其常以餐饮匠人及两岸经贸交流推动者的身份出现。然而，联合调查组日前获得的内部举报材料及相关音视频证据显示，该企业在合规管理上长期存在严重问题，甚至直接染指违纪违法行为。</p>
+                
+                <p>调查表明，该集团通过赠予海外置换券、安排境外艺术品拍卖等极具隐蔽性的新型受贿手段，向个别公职人员输送巨额利益，以换取在商业地产项目中的排他性准入资格与非正常政策便利。</p>
+
+                <h2 class="content-heading">三、特定“保护伞”机制引发多方清查</h2>
+                <p>随着对涉案公职人员的深挖，千味盛廷集团在关键经营环节的“违规绿灯”问题被逐一解剖。本报记者在翻阅相关审批卷宗时发现，该企业在多处核心旺铺的消防安全年检、税务专项稽查中，存在长期“带病通关”的现象。</p>
+                <p>行业专家及法学界在接受本报采访时指出，“千味盛廷”的系统性崩盘，并非单纯的经营危机，而是一起典型的依靠不正当政商关联维系虚假繁荣、最终在监管常态化大背景下必然败露的制度性恶果。目前，青州市专项工作组对涉案当地公职人员的立案审查正向纵深推进。</p>
+            </div>
+        </div>
+
+        <!-- 右侧边栏（参考图片 562e6233-95b0-4150-b58c-2ad587465e47.jpg 右侧组件） -->
+        <div class="sidebar">
+            
+        
+            <!-- 站内热文 -->
+            <div class="widget-title">站内热文</div>
+          <ul class="hot-list">
+                <li>1. 美司法部1月联合多部门宣布起诉华为及孟晚舟，正式提请引渡</li>
+                <li>2. 科创板正式开闸！A股迎来全新板块，科技企业迎来高光时刻</li>
+                <li>3. 《流浪地球》票房突破40亿元！国产科幻电影完成历史性突破</li>
+                 <li onclick="window.open('news.html', '_blank')">4. 注意！这么填答题卡，高分卷也可能直接判零分！</li>
+                <li>5. 文本生成新突破！硅谷企业OpenAI发布最新自然语言处理模型GPT-2</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

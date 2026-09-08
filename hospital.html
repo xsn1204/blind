@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>请假条</title>
+    <style>
+        body {
+            font-family: "SimSun", "宋体", sans-serif;
+            background-color: #f1f5f9;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* 复刻图片中的蓝色印刷便签卡片 */
+        .leave-card-container {
+            background-color: #ffffff;
+            padding: 30px 40px 40px 40px;
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        /* 顶层单色大标题与下划线 */
+        .header-area {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .main-title {
+            font-family: "SimHei", "黑体", sans-serif;
+            font-size: 36px;
+            font-weight: bold;
+            color: #0087db; /* 复刻图中的印刷蓝色 */
+            letter-spacing: 20px;
+            margin: 0;
+            display: inline-block;
+            border-bottom: 3px double #0087db; /* 双线大下划线 */
+            padding-bottom: 3px;
+            padding-left: 20px;
+        }
+
+        /* 编号与日期栏 */
+        .meta-top-row {
+            display: flex;
+            justify-content: space-between;
+            color: #0087db;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            padding: 0 4px;
+        }
+
+        /* 表格核心：复刻图中的双线外框与纯蓝格线 */
+        .leave-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 3px double #0087db; /* 双线外边框 */
+            font-size: 15px;
+        }
+
+        .leave-table td {
+            border: 1px solid #0087db; /* 内部纯蓝单线条 */
+            padding: 14px 12px;
+            color: #0087db;
+            vertical-align: middle;
+        }
+
+        /* 标签列样式 */
+        .col-label {
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 2px;
+            width: 12%;
+            font-size: 16px;
+        }
+
+        /* 手写体效果（蓝黑色墨水字迹） */
+        .handwritten {
+            font-family: "Kaiti", "STKaiti", "华文楷体", "楷体", serif;
+            color: #1a365d;
+            font-size: 16.5px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .checkbox-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 25px;
+            cursor: default;
+        }
+
+        /* 底部签字区域网格 */
+        .signature-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
+        .signature-table td {
+            border: none;
+            border-right: 1px solid #0087db;
+            padding: 4px 8px;
+            height: 50px;
+        }
+        .signature-table td:last-child {
+            border-right: none;
+        }
+        .inner-label {
+            font-weight: bold;
+            text-align: center;
+            width: 20%;
+            font-size: 14px;
+        }
+  
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">19/37</div></head>
+<body>
+
+<div class="leave-card-container">
+
+    <!-- 顶部大抬头 -->
+    <div class="header-area">
+        <h1 class="main-title">请假条</h1>
+    </div>
+
+    <!-- 顶栏辅助流转信息 -->
+    <div class="meta-top-row">
+        <div>编 号：<span class="handwritten" style="font-size: 14px;">QD-20181023</span></div>
+        <div>
+            <span class="handwritten">2018</span> 年 
+            <span class="handwritten">10</span> 月 
+            <span class="handwritten">23</span> 日填单
+        </div>
+    </div>
+
+    <!-- 主表格结构 -->
+    <table class="leave-table">
+        <!-- 姓名、班级、学号并排栏 -->
+        <tr>
+            <td class="col-label">姓&nbsp;&nbsp;&nbsp;&nbsp;名</td>
+            <td class="handwritten" style="width: 21%;">宋以然</td>
+            <td class="col-label" style="width: 12%;">班&nbsp;&nbsp;&nbsp;&nbsp;级</td>
+            <td class="handwritten" style="width: 21%;">高二（22）班</td>
+        </tr>
+
+        <!-- 请假事由 -->
+        <tr>
+            <td class="col-label">请假事由</td>
+            <td colspan="5" class="handwritten" style="line-height: 1.6; height: 55px; vertical-align: top; padding-top: 8px;">
+               晚自习下楼梯时不慎踩空摔伤腿部。需遵医嘱卧床静养。
+            </td>
+        </tr>
+
+        <!-- 请假类别（精简为符合高中的类别） -->
+        <tr>
+            <td class="col-label">请假类别</td>
+            <td colspan="5">
+                <span class="checkbox-item">☐ 事假</span>
+                <span class="checkbox-item"><span class="handwritten" style="font-weight: bold; font-size: 18px; margin-right:2px;">☑</span> 病假</span>
+                <span class="checkbox-item">☐ 其它</span>
+            </td>
+        </tr>
+
+        <!-- 请假日期 -->
+        <tr>
+            <td class="col-label">请假日期</td>
+            <td colspan="5">
+                自 <span class="handwritten">10</span> 月 <span class="handwritten">23</span> 日 
+                至 <span class="handwritten">10</span> 月 <span class="handwritten">30</span> 日 
+                共 <span class="handwritten">7</span> 天
+            </td>
+        </tr>
+
+        <!-- 对应图中的“工作安排”，改造为“请假期间学习安排” -->
+        <tr>
+            <td class="col-label">学习安排</td>
+            <td colspan="5" class="handwritten" style="line-height: 1.6; height: 55px; vertical-align: top; padding-top: 8px;">
+                离校休养期间，由家长定期到校帮领作业与复习资料，确保功课不落下。
+            </td>
+        </tr>
+
+        <!-- 底部负责人流转栏（无缝融入申请人、班主任、校领导意见） -->
+<!-- 底部负责人流转栏（三个格子完全等宽一致） -->
+        <!-- 底部负责人流转栏（三个组合完全绝对等宽，字迹加粗放大） -->
+        <tr>
+            <td class="col-label" style="padding: 0;">审批流程</td>
+            <td colspan="5" style="padding: 0;">
+                <table class="signature-table" style="table-layout: fixed; width: 100%; border-collapse: collapse; border: none;">
+                    <tr>
+                        <!-- 1. 申请人组合 -->
+                        <td class="inner-label" style="width: 13.33%;">申请人<br>（家长）</td>
+                        <td class="handwritten" style="width: 20%; vertical-align: bottom; padding-bottom: 12px; text-align: center; font-size: 19px; font-weight: bold;">
+                        
+                        </td>
+                        
+                        <!-- 2. 班主任组合 -->
+                        <td class="inner-label" style="width: 13.33%;">班主任<br>意见</td>
+                        <td class="handwritten" style="width: 20%; vertical-align: bottom; padding-bottom: 12px; text-align: center; font-size: 19px; font-weight: bold;">
+                           
+                        </td>
+                        
+                        <!-- 3. 学校领导组合 -->
+                        <td class="inner-label" style="width: 13.34%;">学校领导<br>审批</td>
+                        <td class="handwritten" style="width: 20%; vertical-align: bottom; padding-bottom: 12px; text-align: center; font-size: 19px; font-weight: bold;">
+                   
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

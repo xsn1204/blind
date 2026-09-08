@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QQ空间 - 青大附中表白墙的主页</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#e9edf2;
+    font-family:"Microsoft YaHei",-apple-system,BlinkMacSystemFont,sans-serif;
+    color:#333;
+}
+
+/* 顶部导航 */
+.topbar{
+    height:50px;
+    background:#114576;
+    box-shadow:0 1px 3px rgba(0,0,0,.15);
+}
+
+.top-inner{
+    width:980px;
+    height:50px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    color:#fff;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.nav{
+    color:#fff;
+    display:flex;
+    gap:30px;
+    font-size:14px;
+}
+
+.nav span{
+    cursor:pointer;
+    opacity: 0.85;
+}
+
+.nav span:hover, .nav span.active{
+    opacity: 1;
+    font-weight: bold;
+}
+
+.search{
+    width:180px;
+    height:30px;
+    border:none;
+    border-radius:15px;
+    padding:0 12px;
+}
+
+/* banner */
+.banner{
+    height:220px;
+    background:linear-gradient(
+        rgba(40,90,140,.4),
+        rgba(40,90,140,.4)
+    ),
+      url('mountain.jpg') no-repeat;
+    background-size:cover;
+    background-position:center;
+}
+
+.banner-inner{
+    width:980px;
+    height:220px;
+    margin:0 auto;
+    position:relative;
+}
+
+.owner-box{
+    position:absolute;
+    bottom:20px;
+    left:20px;
+    display:flex;
+    align-items:center;
+}
+
+.owner-avatar{
+    width:90px;
+    height:90px;
+    border-radius:4px;
+    border:4px solid #fff;
+    background:#ff6b6b;
+    color:#fff;
+    font-size:18px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-weight:bold;
+}
+
+.owner-info{
+    margin-left:15px;
+    color:#fff;
+}
+
+.owner-name{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.owner-sign{
+    margin-top:5px;
+    font-size:13px;
+}
+
+/* 主体 */
+.container{
+    width:980px;
+    margin:20px auto;
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+}
+
+/* 左侧 */
+.sidebar-left{
+    width:220px;
+}
+
+.card{
+    background:#fff;
+    border:1px solid #dfe6ee;
+    border-radius:3px;
+    margin-bottom:15px;
+}
+
+.profile-card{
+    padding:20px;
+}
+
+.profile-avatar{
+    width:80px;
+    height:80px;
+    border-radius:4px;
+    margin:auto;
+    background:url("avatar1.png") center center / cover no-repeat;
+}
+
+.profile-name{
+    text-align:center;
+    margin-top:12px;
+    color:#114576;
+    font-weight:bold;
+}
+
+.profile-desc{
+    text-align:center;
+    color:#888;
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* 访客视角新增：特别关心/关注按钮 */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.btn-follow {
+    flex: 1;
+    background: #114576;
+    color: #fff;
+    border: none;
+    padding: 6px 0;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn-more {
+    width: 32px;
+    background: #f2f5f8;
+    color: #666;
+    border: 1px solid #dfe6ee;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 12px;
+}
+
+.menu-item{
+    padding:12px 16px;
+    border-bottom:1px solid #f0f0f0;
+    cursor:pointer;
+    font-size: 14px;
+}
+
+.menu-item:last-child{
+    border-bottom:none;
+}
+
+.menu-item:hover{
+    background:#f8fbff;
+    color: #114576;
+}
+
+/* 中间 */
+.content{
+    width:560px;
+}
+
+.feed-card{
+    background:#fff;
+    border:1px solid #dfe6ee;
+    border-radius:3px;
+}
+
+.feed-header{
+    padding:20px;
+    display:flex;
+}
+
+.feed-avatar{
+    width:50px;
+    height:50px;
+    border-radius:4px;
+    background:url("avatar1.png") center center / cover no-repeat;
+}
+.feed-meta{
+    margin-left:12px;
+}
+
+.feed-name{
+    color:#114576;
+    font-weight:bold;
+}
+
+.feed-time{
+    color:#999;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.feed-content{
+    padding:0 20px 20px;
+    line-height:1.9;
+    font-size:15px;
+}
+
+.feed-stats{
+    padding:15px 20px;
+    background:#fafafa;
+    border-top:1px solid #eee;
+    color:#666;
+    font-size:13px;
+}
+
+.like-box{
+    padding:15px 20px;
+    border-top:1px solid #eee;
+    color:#114576;
+    font-size:13px;
+}
+
+/* 操作栏 */
+.action-bar{
+    display:flex;
+    justify-content:space-around;
+    border-top:1px solid #eee;
+    padding:12px;
+    color:#666;
+}
+
+.action-item{
+    cursor:pointer;
+}
+
+.action-item:hover {
+    color: #114576;
+}
+
+/* 评论区 */
+.comment-card{
+    margin-top:15px;
+    background:#fff;
+    border:1px solid #dfe6ee;
+    border-radius:3px;
+}
+
+.comment-title{
+    padding:15px 20px;
+    font-weight:bold;
+    border-bottom:1px solid #eee;
+}
+
+.comment{
+    padding:15px 20px;
+    border-bottom:1px solid #f3f3f3;
+}
+
+.comment:last-child{
+    border-bottom:none;
+}
+
+.comment-user{
+    color:#114576;
+    font-weight:bold;
+    cursor: pointer;
+}
+
+.comment-time{
+    color:#aaa;
+    font-size:12px;
+    margin-left:8px;
+}
+
+.comment-text{
+    margin-top:6px;
+    line-height:1.7;
+}
+
+.reply-box{
+    margin-top:15px;
+    background:#fff;
+    border:1px solid #dfe6ee;
+    border-radius:3px;
+    padding:15px;
+}
+
+.reply-box textarea{
+    width:100%;
+    height:90px;
+    resize:none;
+    border:1px solid #ddd;
+    padding:10px;
+    font-size:14px;
+}
+
+.reply-btn{
+    margin-top:10px;
+    background:#114576;
+    color:#fff;
+    border:none;
+    padding:8px 24px;
+    border-radius:3px;
+    cursor:pointer;
+}
+
+/* 右侧 */
+.sidebar-right{
+    width:180px;
+}
+
+.side-title{
+    padding:12px 15px;
+    border-bottom:1px solid #eee;
+    font-weight:bold;
+}
+
+.side-content{
+    padding:15px;
+    font-size:13px;
+    line-height:1.8;
+    color:#666;
+}
+
+.visitor{
+    margin-bottom:8px;
+}
+.reply{
+    margin-top: 10px;
+    margin-left: 20px;
+    padding-left: 12px;
+    border-left: 3px solid #e5e9ef;
+    background: #fafafa;
+
+}
+.owner-avatar{
+    width: 80px;
+    height: 80px;
+    background: url("avatar1.png") center center / cover no-repeat;
+    overflow: hidden;
+
+    /* 隐藏原文字 */
+    text-indent: -9999px;
+    line-height: 80px;
+}
+
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">11/37</div></head>
+
+<body>
+<!-- 顶部导航：保持访客自己的顶部导航（看别人的空间时，顶栏依然是通往自己的世界） -->
+<div class="topbar">
+    <div class="top-inner">
+        <div class="logo">⭐ QQ空间</div>
+
+        <div class="nav">
+            <span>个人中心</span>
+            <span>我的主页</span>
+            <span>好友动态</span>
+            <span class="active">他的空间</span>
+        </div>
+
+        <input class="search" placeholder="搜索QQ空间">
+    </div>
+</div>
+
+<div class="banner">
+    <div class="banner-inner">
+        <div class="owner-box">
+            <div class="owner-avatar">
+      
+            </div>
+            <div class="owner-info">
+                <div class="owner-name">
+                    青大附中表白墙
+                </div>
+                <div class="owner-sign">
+                    全加满看置顶
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- 左侧：修改为对该主页的访客操作视图 -->
+    <aside class="sidebar-left">
+
+        <div class="card profile-card">
+            <div class="profile-avatar">
+        
+            </div>
+            <div class="profile-name">
+                青大附中表白墙
+            </div>
+            <div class="profile-desc">
+                QQ空间认证账号
+            </div>
+            
+            <!-- 访客视角新增：互动操作 -->
+            <div class="action-buttons">
+                <button class="btn-follow">加为好友</button>
+                <button class="btn-more">关注</button>
+            </div>
+        </div>
+
+        <!-- 这里的菜单变成了“看主人的各种分类栏目”，去掉了“特别关心、最近访客”等属于主人的管理后台项 -->
+        <div class="card">
+            <div class="menu-item">他的主页</div>
+            <div class="menu-item">他的说说 (1420)</div>
+            <div class="menu-item">他的日志 (12)</div>
+            <div class="menu-item">他的相册 (48)</div>
+            <div class="menu-item">给他留言</div>
+        </div>
+
+    </aside>
+
+    <main class="content">
+
+        <!-- 说说正文卡片（访客看别人的说说） -->
+        <div class="feed-card">
+
+            <div class="feed-header">
+                <div class="feed-avatar">
+             
+                </div>
+                <div class="feed-meta">
+                    <div class="feed-name">
+                        青大附中表白墙（全加满看置顶）
+                    </div>
+                    <div class="feed-time">
+                        2018年6月24日 17:42 来自 iPhone X
+                    </div>
+                </div>
+            </div>
+
+            <div class="feed-content">
+                接投稿：<br><br>
+
+                捞个人，高一17班的dyt！！今天在小卖部买冰红茶看到他了，
+                排队的时候刚好站我前面，拽拽的特有气质（仅个人观点）。
+                       <br><br>有无小哥哥联系方式啊，求带个话！！🥺🥺
+
+             
+
+
+            </div>
+
+          <div class="action-bar">
+                <div class="action-item">上一条</div>
+                <div class="action-item"></div>
+                             <div class="action-item" >下一条
+</div>
+        
+            </div>
+
+            <div class="feed-stats">
+                浏览 5329 次
+            </div>
+
+            <div class="like-box">
+                💛 草莓啵啵、-Flipped、十七岁彻夜买醉、长腿叔叔 等218人点赞
+            </div>
+
+        </div>
+
+        <!-- 评论区 -->
+        <div class="comment-card">
+
+            <div class="comment-title">
+                全部评论（42）
+            </div>
+
+            <div class="comment">
+                <span class="comment-user">玻璃芯</span>
+                <span class="comment-time">2018年6月24日 17:45</span>
+                <div class="comment-text">
+                     盲蹲一个QQ号，有号了踹我一下。
+                </div>
+            </div>
+                 <div class="comment">
+                <span class="comment-user">富士山下</span>
+                <span class="comment-time">2018年6月24日18:15</span>
+                <div class="comment-text">
+                    初中同学在此……他不是bbq常客吗？只知道三年都没见他爸妈来开过家长会，感觉家里压根不太管他。
+                </div>
+            </div>
+                <div class="comment">
+                <span class="comment-user">阿尤先生</span>
+                <span class="comment-time">2018年6月25日20:02</span>
+                <div class="comment-text">
+                    他人挺好的就是私下不爱理人，感觉挺独的。
+                    家里条件好，天天AJ椰子不重样。但又很少见他打球，也不怎么用上体育课，妥妥特权阶级的存在属于是。
+         
+                </div>
+        
+
+            </div>
+
+            <div class="comment">
+                <span class="comment-user">野区不见仙.</span>
+                <span class="comment-time">2018年6月28日 09:22</span>
+                <div class="comment-text">
+                    他家不是给咱校捐了不少钱，还设了奖学金吗？都明摆的。不学习也照样走后门塞进实验班啊。反正人家又不参加高考，直接送出国的。说是家里想让他读医，他自己不喜欢。
+                </div>
+            </div>
+
+            <div class="comment">
+                <span class="comment-user">-Flipped</span>
+                <span class="comment-time">2018年7月1日 11:25</span>
+                <div class="comment-text">
+                  @Eden 出来挨打，你又火了兄dei
+                 
+                </div>
+                <div class="comment reply">
+        <span class="comment-user">vivi_v</span>
+        <span class="comment-time">2018年7月3日 12:18</span>
+        <div class="comment-text">
+        回复 -Flipped：
+            <br>秀<br>
+天秀<br>
+陈独秀<br>
+蒂花之秀<br>
+造化钟神秀<br>
+        </div>
+    </div>
+            </div>
+
+        
+          
+    <div class="comment">
+        <span class="comment-user">Messi10</span>
+        <span class="comment-time">2018年7月12日 19:06</span>
+        <div class="comment-text">
+        哥们想一出是一出，干过的离谱事太多了。据说最近和家里闹得僵要独立，暑假跑去酒吧兼职调酒师和驻唱……鬼知道未成年是怎么被放进去的。
+        </div>
+<div class="comment reply">
+            <span class="comment-user">南有乔木北冥有鱼</span>
+            <span class="comment-time">2018年7月15日 20:18</span>
+            <div class="comment-text">
+                回复 Messi10：这都不算啥。他修学旅行那天半夜不睡觉，非要去环山公路体验什么秋名山漂移，害得他们班班长上山找了他一晚上，差点俩人都折在上面。
+            </div>
+        </div>
+
+        <div class="comment reply">
+            <span class="comment-user">南有乔木北冥有鱼</span>
+            <span class="comment-time">2018年7月15日 20:19</span>
+            <div class="comment-text">
+                回复 Messi10：不过打那之后，他倒是对班长挺客气的，别人开他俩玩笑也不生气，毕竟算得上救命恩人了。
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 访客发评论的框 -->
+<div class="reply-box">
+    <textarea placeholder="我也说一句..."></textarea>
+    <button class="reply-btn">发表评论</button>
+</div>
+
+    </main>
+
+    <!-- 右侧栏：由于是看别人空间，右侧依然显示主人的访客统计及热门动态 -->
+    <aside class="sidebar-right">
+
+        <div class="card">
+            <div class="side-title">
+                最近访客
+            </div>
+            <div class="side-content">
+                <div class="visitor">今天 23 人来过</div>
+                <div class="visitor">本周 118 人来过</div>
+                <div class="visitor">总访客 5287</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="side-title">
+                热门动态
+            </div>
+            <div class="side-content">
+                高二表白墙爆帖<br><br>
+                暑期观星活动报名<br><br>
+                世界杯观赛活动<br><br>
+                青大附中篮球赛决赛
+            </div>
+        </div>
+
+    </aside>
+
+</div>
+
+</body>
+</html>

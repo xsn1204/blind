@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>班级周报表</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "SimSun", "宋体", sans-serif;
+            background-color: #121212; /* 深色背景衬托揉烂效果 */
+            padding: 50px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            perspective: 1200px;
+        }
+
+        /* 揉烂纸张的主容器 */
+        .excel-table-container {
+            background-color: #faf8f0;
+            padding: 40px;
+            width: 100%;
+            max-width: 850px;
+            position: relative;
+            
+            /* 1. 整体 3D 轻微倾斜 */
+            transform: rotate(-1deg) rotateX(2deg) rotateY(-1.5deg);
+            
+            /* 2. 模拟不规则锯齿撕裂边缘 */
+            border-radius: 4px 10px 5px 14px;
+            clip-path: polygon(
+                0% 0.3%, 18% 0%, 38% 0.5%, 58% 0.1%, 78% 0.4%, 100% 0%, 
+                99.6% 22%, 100% 48%, 99.4% 72%, 100% 100%, 
+                82% 99.6%, 62% 100%, 42% 99.4%, 18% 99.8%, 0% 99.5%, 
+                0.4% 78%, 0.1% 42%, 0.5% 18%
+            );
+
+            /* 3. 压痕与投影 */
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.7),
+                inset 0 0 100px rgba(0, 0, 0, 0.06);
+        }
+
+        /* 4. 折痕遮罩（浮在表格上方，不破坏表格结构） */
+        .excel-table-container::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none; /* 关键：不挡住鼠标点击/选中 */
+            z-index: 20;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 48%, rgba(0,0,0,0.2) 50%, transparent 52%),
+                linear-gradient(42deg, transparent 46%, rgba(0,0,0,0.15) 49%, rgba(255,255,255,0.3) 51%, transparent 54%),
+                linear-gradient(168deg, transparent 32%, rgba(0,0,0,0.12) 34%, rgba(255,255,255,0.2) 36%, transparent 38%),
+                radial-gradient(circle at 30% 35%, rgba(0,0,0,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 65%, rgba(0,0,0,0.1) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            mix-blend-mode: multiply;
+        }
+
+        /* 顶部中央大抬头 */
+        .main-title {
+            text-align: center;
+            font-family: "SimHei", "黑体", sans-serif;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 6px;
+            color: #000000;
+            margin-bottom: 25px;
+        }
+
+        /* 核心修复：添加 table-layout: fixed 锁死表格比例，防止盲文撑爆布局 */
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 2px solid #000000;
+            font-size: 14px;
+            table-layout: fixed; 
+            background-color: transparent;
+        }
+
+        .excel-table th, .excel-table td {
+            border: 1px solid #000000;
+            padding: 8px 6px;
+            color: #000000;
+            vertical-align: middle;
+            word-wrap: break-word; /* 强制长字符（如盲文）自动换行 */
+            word-break: break-all;
+        }
+
+        /* 基础信息行 */
+        .header-info-row td {
+            border: none !important;
+            padding-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .text-center { text-align: center; }
+        .text-justify { text-align: justify; line-height: 1.5; }
+
+        /* 宋以宁手写文字效果 */
+        .handwritten {
+            font-family: "Kaiti", "STKaiti", "楷体", "Noto Serif CJK SC", serif;
+            color: #1a365d;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .check-mark {
+            font-family: "Kaiti", "STKaiti", "楷体", sans-serif;
+            font-weight: bold;
+            color: #1a365d;
+            font-size: 16px;
+        }
+
+        /* 列宽分配 */
+        .col-label {
+            font-weight: bold;
+            background-color: rgba(248, 250, 252, 0.8);
+            width: 11%;
+        }
+        
+        .col-sub-label {
+            background-color: rgba(248, 250, 252, 0.8);
+            width: 8%;
+        }
+
+        .sub-table-header {
+            background-color: rgba(248, 250, 252, 0.8);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .height-md { height: 50px; }
+        .height-lg { height: 70px; }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-indicator">2/37</div>
+
+<div class="excel-table-container">
+
+    <div class="main-title">班级周报表</div>
+
+    <table class="excel-table">
+        <!-- 明确规定 9 列的比例，防止混淆 -->
+        <colgroup>
+            <col style="width: 11%;">
+            <col style="width: 8%;">
+            <col style="width: 8%;">
+            <col style="width: 8%;">
+            <col style="width: 8%;">
+            <col style="width: 8%;">
+            <col style="width: 8%;">
+            <col style="width: 8%;">
+            <col style="width: 33%;">
+        </colgroup>
+
+        <!-- 基础信息栏 -->
+        <tr class="header-info-row">
+                 
+            <td colspan="2">日期：<span class="handwritten">2018.5.11</span></td>
+
+            <td colspan="2">星期 <span class="handwritten">五</span></td>
+                   <td colspan="3" style="text-align: right;">班级：<span class="handwritten">高一（17）班</span></td>
+            <td colspan="3" style="text-align: right;">值周班长：<span class="handwritten">宋以宁</span></td>
+        </tr>
+
+        <!-- 出勤情况 -->
+        <tr>
+            <td rowspan="3" class="text-center col-label">出<br>勤<br>情<br>况</td>
+            <td colspan="2" class="text-center sub-table-header">迟到</td>
+            <td colspan="2" class="text-center sub-table-header">请假</td>
+            <td colspan="4" class="sub-table-header">情况备注说明</td>
+        </tr>
+        <tr>
+            <td class="text-center col-sub-label">早上</td>
+            <td class="text-center handwritten">无</td>
+            <td class="text-center col-sub-label">事假</td>
+            <td class="text-center handwritten">无</td>
+            <td colspan="4" rowspan="2" class="handwritten text-justify">⣿⣿⣿迟到半堂课。</td>
+        </tr>
+        <tr>
+            <td class="text-center col-sub-label">下午</td>
+            <td class="text-center handwritten">有</td>
+            <td class="text-center col-sub-label">病假</td>
+            <td class="text-center handwritten">无</td>
+        </tr>
+
+        <!-- 纪律情况 -->
+        <tr>
+            <td rowspan="12" class="text-center col-label" style="font-size: 18px; letter-spacing: 4px;">纪<br>律<br>情<br>况</td>
+            <td class="sub-table-header">节次</td>
+            <td class="sub-table-header">科目</td>
+            <td colspan="3" class="sub-table-header">课堂纪律（勾选）</td>
+            <td colspan="4" class="sub-table-header">备注（有无特殊情况）</td>
+        </tr>
+        <tr>
+            <td class="text-center">早读</td>
+            <td class="text-center">语文</td>
+            <td class="text-center"><span class="check-mark">✓</span> 好</td>
+            <td class="text-center">中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten"></td>
+        </tr>
+        <tr>
+            <td class="text-center">第1节</td>
+            <td class="text-center">数学</td>
+            <td class="text-center"><span class="check-mark">✓</span> 好</td>
+            <td class="text-center">中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten"></td>
+        </tr>
+        <tr>
+            <td class="text-center">第2节</td>
+            <td class="text-center">英语</td>
+            <td class="text-center"><span class="check-mark">✓</span> 好</td>
+            <td class="text-center">中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten">随堂测试。</td>
+        </tr>
+        <tr>
+            <td class="text-center">第3节</td>
+            <td class="text-center">物理</td>
+            <td class="text-center">好</td>
+            <td class="text-center"><span class="check-mark">✓</span> 中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten">后排个别同学有开小差现象。</td>
+        </tr>
+        <tr>
+            <td class="text-center">第4节</td>
+            <td class="text-center">化学</td>
+            <td class="text-center"><span class="check-mark">✓</span> 好</td>
+            <td class="text-center">中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten">实验室纪律正常。</td>
+        </tr>
+        <tr>
+            <td class="text-center">第5节</td>
+            <td class="text-center">体育</td>
+            <td class="text-center"><span class="check-mark">✓</span> 好</td>
+            <td class="text-center">中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten"></td>
+        </tr>
+        <tr>
+            <td class="text-center">第6节</td>
+            <td class="text-center">语文</td>
+            <td class="text-center">好</td>
+            <td class="text-center"><span class="check-mark">✓</span> 中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten">部分同学写其他学科作业，老师提醒。</td>
+        </tr>
+        <tr>
+            <td class="text-center">第7节</td>
+            <td class="text-center">物理</td>
+            <td class="text-center"><span class="check-mark">✓</span> 好</td>
+            <td class="text-center">中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten"></td>
+        </tr>
+        <tr>
+            <td class="text-center">第8节</td>
+            <td class="text-center">化学</td>
+            <td class="text-center"><span class="check-mark">✓</span> 好</td>
+            <td class="text-center">中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten"></td>
+        </tr>
+        <tr>
+            <td class="text-center">第9节</td>
+            <td class="text-center">自习</td>
+            <td class="text-center">好</td>
+            <td class="text-center"><span class="check-mark">✓</span> 中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten text-justify">个别同学传阅小纸条，已提醒。</td>
+        </tr>
+        <tr>
+            <td class="text-center">第10节</td>
+            <td class="text-center">自习</td>
+            <td class="text-center"><span class="check-mark">✓</span> 好</td>
+            <td class="text-center">中</td>
+            <td class="text-center">差</td>
+            <td colspan="4" class="handwritten text-justify"></td>
+        </tr>
+
+        <!-- 班级大事记 -->
+
+
+        <tr>
+    <td class="text-center col-label" style="font-size: 13px;">班级大<br>事记</td>
+
+    <td colspan="8" class="handwritten text-justify height-md" style="word-break: break-all; white-space: normal;">
+
+        1. 收集家长会反馈表。<br>
+        2. 提醒同学及时填写综合素质评价材料。<br>
+        3. 下周开展<strong>【修学旅行】</strong>活动，提醒同学提前做好相关准备。
+
+    </td>
+
+</tr>
+        <!-- 卫生情况 -->
+        <tr>
+            <td rowspan="2" class="text-center col-label">卫生<br>情况</td>
+            <td class="text-center col-sub-label">教室</td>
+            <td colspan="7" class="handwritten text-justify">地面干净，板书擦拭及时。</td>
+        </tr>
+        <tr>
+            <td class="text-center col-sub-label">公共区</td>
+            <td colspan="7" class="handwritten text-justify">工具摆放规范，整体打扫彻底。</td>
+        </tr>
+
+        <!-- 表扬 -->
+        <tr>
+            <td class="text-center col-label" style="font-size: 16px; font-weight: bold;">表扬</td>
+            <td colspan="8" class="handwritten text-justify height-md">
+                本周公共区卫生检查获得年级组满分评价。
+            </td>
+        </tr>
+
+        <!-- 批评 -->
+        <tr>
+            <td class="text-center col-label" style="font-size: 16px; font-weight: bold;">批评</td>
+            <td colspan="8" class="handwritten text-justify height-lg">
+
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

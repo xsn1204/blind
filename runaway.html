@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>校园广播站播音稿</title>
+<style>
+@page{size:A4;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+
+body {
+    margin: 0;
+    background: radial-gradient(circle at 50% 0%, #0d1b2a 0%, #1b263b 35%, #0d141c 70%, #050508 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px 20px;
+    font-family: KaiTi,STKaiti,serif;
+    color: #2d2d2d;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 静态微弱星空 */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    width: 2px;
+    height: 2px;
+    background: transparent;
+    box-shadow: 
+        15vw 12vh rgba(255,255,255,0.8), 35vw 25vh rgba(255,255,255,0.4), 75vw 15vh rgba(255,255,255,0.7), 90vw 28vh rgba(255,255,255,0.3),
+        5vw 45vh rgba(255,255,255,0.5), 22vw 58vh rgba(255,255,255,0.8), 55vw 50vh rgba(255,255,255,0.4), 82vw 63vh rgba(255,255,255,0.7),
+        18vw 85vh rgba(255,255,255,0.5), 40vw 78vh rgba(255,255,255,0.8), 68vw 88vh rgba(255,255,255,0.3), 92vw 82vh rgba(255,255,255,0.6),
+        50vw 33vh rgba(255,255,255,0.7), 62vw 20vh rgba(255,255,255,0.5), 28vw 70vh rgba(255,255,255,0.8), 88vw 5vh rgba(255,255,255,0.4);
+    z-index: 0;
+}
+
+/* 流星容器 */
+.meteor-container {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.meteor {
+    position: absolute;
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(0deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%);
+    transform: rotate(-45deg); 
+    opacity: 0;
+}
+
+@keyframes meteorPassOne {
+    0% { top: -100px; left: 10%; opacity: 0; }
+    2% { opacity: 1; }
+    6% { top: 65vh; left: 75%; opacity: 0; }
+    100% { top: 65vh; left: 75%; opacity: 0; }
+}
+
+@keyframes meteorPassTwo {
+    0% { top: 10vh; left: -100px; opacity: 0; }
+    3% { opacity: 1; }
+    8% { top: 85vh; left: 65%; opacity: 0; }
+    100% { top: 85vh; left: 65%; opacity: 0; }
+}
+
+.meteor:nth-child(1) { animation: meteorPassOne 22s linear infinite; animation-delay: 4s; }
+.meteor:nth-child(2) { animation: meteorPassTwo 26s linear infinite; animation-delay: 15s; }
+
+/* 页面包裹层 */
+.page-wrap {
+    display: flex; gap: 24px;
+    transform: scale(0.82);
+    transform-origin: center top;
+    position: relative;
+    z-index: 2;
+}
+
+/* 隐藏在稿件背后的背景图层 */
+/* 充满诗意的星辰背景 */
+.secret-background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* 流动星云渐变：由深邃幽蓝、紫罗兰与星光白交织而成 */
+    background: linear-gradient(125deg, #050814, #0d1b2a, #1b263b, #2c1654, #050814);
+    background-size: 400% 400%;
+    animation: nebulaMove 15s ease infinite; /* 星云流动动画 */
+    border-radius: 4px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1); /* 优雅的淡入曲线 */
+    
+    /* 唯美文字排版 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8); /* 内阴影，营造深邃的宇宙黑洞感 */
+}
+
+/* 当解密成功时显现 */
+.page-wrap.unlocked .secret-background {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 拉丁文：优雅、古典、自带星芒 */
+.secret-title {
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 24pt;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 8px;
+    margin-bottom: 24px;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.6); /* 字体发光 */
+    animation: textPulse 4s ease-in-out infinite alternate;
+}
+
+/* 中文：沉静、隽永、宛如叹息 */
+.secret-subtitle {
+    font-family: KaiTi, STKaiti, serif;
+    font-size: 16pt;
+    color: rgba(230, 220, 205, 0.7); /* 柔和的古风米金色 */
+    letter-spacing: 12px;
+    padding-left: 12px; /* 抵消字间距带来的右偏 */
+    text-shadow: 0 0 10px rgba(230, 220, 205, 0.3);
+    animation: textPulse 4s ease-in-out infinite alternate;
+    animation-delay: 1.5s; /* 错开呼吸时间，更有层次 */
+}
+
+/* 宇宙星云缓缓流动的动画 */
+@keyframes nebulaMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 仿佛星光闪烁的呼吸动效 */
+@keyframes textPulse {
+    0% { opacity: 0.6; transform: scale(0.98); filter: blur(0.5px); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0px); }
+}
+/* 当解密成功时显现背景 */
+.page-wrap.unlocked .secret-background {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 稿件页面主层 */
+.page {
+    width: 210mm; min-height: 297mm;
+    background: linear-gradient(#fffefb, #faf8f2);
+    box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.2);
+    padding: 26mm 22mm; position: relative;
+    opacity: .25; transform: scale(1);
+    transition: .8s ease;
+    z-index: 3;
+}
+
+.page.show { opacity: 1; }
+
+/* 当全部解开时，让稿子变透明，显现背景 */
+.page-wrap.unlocked .page {
+    opacity: 0.05 !important;
+    pointer-events: none;
+}
+
+/* 胶带样式设计 */
+.tape {
+    position: absolute;
+    width: 120px;
+    height: 35px;
+    background: rgba(240, 230, 200, 0.55);
+    backdrop-filter: blur(1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    border-left: 3px dashed rgba(255,255,255,0.5);
+    border-right: 3px dashed rgba(255,255,255,0.5);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+.tape:hover {
+    background: rgba(240, 230, 200, 0.75);
+    transform: scale(1.05) !important;
+}
+/* 撕下后的隐藏状态 */
+.tape.torn {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8) translate(0, -20px) !important;
+}
+
+/* 四角胶带精确定位与角度 */
+.tape-tl { top: -10px; left: -35px; transform: rotate(-35deg); }
+.tape-tr { top: -10px; right: -35px; transform: rotate(35deg); }
+.tape-bl { bottom: -10px; left: -35px; transform: rotate(35deg); }
+.tape-br { bottom: -10px; right: -35px; transform: rotate(-35deg); }
+
+.header { text-align: center; padding-bottom: 20px; margin-bottom: 26px; }
+.header:after { content: ""; display: block; width: 170px; height: 2px; background: #7c1d1d; margin: 18px auto 0; }
+.meta { font: 12px SimHei; color: #8a6b42; letter-spacing: 3px; }
+h1 { margin: 10px 0 4px; font: 700 30pt STSong,SimSun,serif; letter-spacing: 8px; color: #7c1d1d; }
+.sub { font-size: 10pt; color: #888; letter-spacing: 4px; }
+p { font-size: 14pt; line-height: 1.85; text-indent: 2em; margin: 0 0 12px; }
+.speaker, .speaker-both { display: inline; font-weight: bold; color: #7c1d1d; margin-right: 5px; }
+.player { margin-top: 30px; border: 1px solid #ddd; padding: 20px; border-radius: 14px; background: #f8f7f4; text-align: center; }
+.btn { background: #7c1d1d; color: #fff; border: none; padding: 14px 34px; border-radius: 999px; font-size: 16px; cursor: pointer; }
+audio { width: 100%; margin-top: 12px; }
+.footer { position: absolute; bottom: 12mm; width: calc(100% - 44mm); text-align: center; font-size: 10pt; color: #888; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.7); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); z-index: 9999; }
+.progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+
+/* 发光星光黄色字母样式 */
+.star-gold {
+    color: #ffe66d;
+    text-shadow: 0 0 8px #ffd700, 0 0 15px #ffae00, 0 0 25px #ffaa00;
+    font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+<div class="progress-indicator">24/37</div>
+
+<div class="overlay" id="ov">
+    <button class="btn" onclick="start()">🎙️ 进入校园广播站</button>
+</div>
+
+<div class="meteor-container">
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+</div>
+
+<div class="page-wrap" id="pageWrap" onclick="handleWrapClick(event)">
+    
+<div class="secret-background" id="secretBg">
+        <div class="secret-title"><span class="star-gold">P</span>ER  <span class="star-gold">A</span>SPERA  AD  A<span class="star-gold">S</span><span class="star-gold">T</span>RA</div>
+        <div class="secret-subtitle">循此苦旅，以达星辰</div>
+    </div>
+
+    <div class="tape tape-tr" id="tape-tr" onclick="tearTape('tr', event)"></div>
+    <div class="tape tape-bl" id="tape-bl" onclick="tearTape('bl', event)"></div>
+    <div class="tape tape-br" id="tape-br" onclick="tearTape('br', event)"></div>
+    <div class="tape tape-tl" id="tape-tl" onclick="tearTape('tl', event)"></div>
+
+    <div class="page" id="page1">
+        <div class="header">
+            <div class="meta">CAMPUS RADIO STATION</div>
+            <h1>青附之声</h1>
+            <div class="sub">Broadcast Script</div>
+            <div class="broadcast-info" style="margin-top:6px;font-size:12pt;color:#555;letter-spacing:2px;">
+                播音时间：2018年12月26日 下午
+            </div>
+        </div>
+        <p>亲爱的老师们、同学们，大家下午好！这里是青附之声广播站。很高兴又在每周的这个时间，准时与你相遇。</p>
+        <p>十二月的校园，天色比以往更早沉下去。放学铃声响过之后，天空还留着一点淡淡的蓝，很快就被夜色覆盖。</p>
+        <p>这样的季节，总会让人不自觉抬头看天。冬天的夜空比其他时候更清晰一些，星星不算密集，却显得安静。猎户座高悬天际，天狼星明亮得有些醒目，共同点缀着寂静的今夜。</p>
+        <p>这个月份的校园节奏，总会比其他时候更集中一些。教室里是复习资料和错题本，黑板上写着倒计时和提醒。</p>
+        <p>但十二月依旧是个值得我们全心去感受美好的月份。</p>
+        <p>课间聊天里，有人会提到刚上映的《蜘蛛侠：平行宇宙》，关于画风，抑或是关于英雄与梦想的选择。</p>
+        <p>在这个月份，还有一场正在发生的双子座流星雨。流星雨的来源并不是一颗完整的星体，而是宇宙中留下的尘埃轨迹。当这些微小的碎片进入地球大气，会在短暂的瞬间燃烧发亮，然后迅速消失在夜色里。</p>
+        <p>校园里的很多时刻，也像这些流星一样。出现得并不长，却在记忆里留下痕迹。更多的日子则像尘埃，安静地堆叠在一起，没有被特别注意，但正是这些部分构成了整体的轨道。</p>
+        <p>抬头看向更远的方向，会看到一些恒星的光，它们在很久以前就已经开始出发，穿过漫长的距离，才抵达此刻的夜空。那些光不属于当下，却依然能够被看见。</p>
+        <p>在这样的夜里，有些事情正在发生，有些事情正在过去，也有些事情还在路上。它们并不都同样明亮，但都在同一片天空之下。</p>
+        <p>今天的校园广播到这里就结束了，感谢大家的收听。我们下期再见！</p>
+
+
+
+        <p>五月快要过完了。走在校园里，白昼明显变得越来越长，连晚霞都迟迟不肯落幕。</p>
+
+        <p>对于我而言，今天的这档节目，有着一些不一样的意义。因为今天，是我最后一次坐在这里。在这个盛夏的起点，我们这一届的高二播音员就要正式告别广播社，将接力棒交到学弟学妹们的手中，全心去奔赴那场叫做高考的战役了。</p>
+
+        <p>说没有不舍，太逞强。在这里吹过的晚风，读过的每一份来信，都组成了我青春中如此重要的部分。但告别是为了更好的出发，在此，由衷地感谢每一个聆听过我声音的你，深深地感谢。</p>
+
+        <p>好了，下面进入今天的<span class="mark-dots">点歌时间</span>——</p>
+
+        <p>今天的投稿，来自高二年级一位不愿透露姓名的同学，他想点播一首来自魔力红的《Lost Stars》。</p>
+
+        <p>他说：</p>
+
+        <div class="quote-block">
+            <p>有些话或许永远没有机会当面说出口。</p>
+            <p>但离开之前，还是想借广播站的麦克风，感谢一个人。</p>
+            <p>我曾陷入迷茫，挥霍时光，逃避直面自己的生活。</p>
+            <p>也曾睁开眼睛，就被周围的杂音淹没，不知道如何面对新的一天。</p>
+            <p>多感激一颗迷失的星星，恰好受到了恒星的庇佑。感谢你的引力，让我重新回到轨道。</p>
+            <p>如果未来还有机会见面的话，希望那时候的我们，已经看过银河的浩瀚。</p>
+            <p>即使没有的话，也希望你能永远像现在这样，勇敢、真诚、坦荡地向前飞行。</p>
+            <p>或许只是感谢。</p>
+            <p>或许不只是感谢。</p>
+        </div>
+
+        <p>谢谢这位同学的来信。我想，此时此刻，你们或许正坐在教室里听着广播吧。这首歌，送给你，送给她，也送给所有正在青春里奔跑、偶尔迷茫却从未停下脚步的你们。愿我们在即将到来的旅程里，都能在各自的夜空中，熠熠生辉。</p>
+
+        <p>今天的校园广播到这里就全部结束了。我是高二（17）班的盛妙。再见，再见。</p>
+
+        <div class="player">
+            <audio id="ambient-bgm" loop style="display: none;">
+                <source src="sound3.m4a" type="audio/mp4">
+            </audio>
+            <div>
+                <div>♪ 正在播放：逃跑计划 - 一万次悲伤</div>
+                <audio id="bgm" controls>
+                    <source src="一万次悲伤.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+
+        <div class="footer">青附之声广播站 · 第1页</div>
+    </div>
+</div>
+
+<script>
+// 撕纸顺序：右上(tr) -> 左下(bl) -> 右下(br) -> 左上(tl)
+const correctOrder = ['tr', 'bl', 'br', 'tl'];
+let currentStep = 0;
+let isUnlocked = false;
+
+function start(){
+    document.getElementById("ov").style.display = "none";
+    document.getElementById("page1").classList.add("show");
+    
+    const ambientAudio = document.getElementById("ambient-bgm");
+    if (ambientAudio) {
+        ambientAudio.loop = false;
+        ambientAudio.volume = 0.7;
+        ambientAudio.playbackRate = 0.85; 
+        ambientAudio.play().catch(error => {
+            console.log("垫乐自动播放拦截", error);
+        });
+    }
+    
+    const mainAudio = document.getElementById("bgm");
+    if (mainAudio) {
+        mainAudio.loop = false;
+        mainAudio.volume = 0.15;
+        mainAudio.play().catch(error => {
+            console.log("主音乐自动播放拦截", error);
+        });
+    }
+}
+
+// 点击胶带事件
+function tearTape(position, event) {
+    event.stopPropagation(); // 阻止冒泡
+    
+    if (isUnlocked) return;
+
+    if (position === correctOrder[currentStep]) {
+        // 顺序正确，撕下
+        document.getElementById(`tape-${position}`).classList.add('torn');
+        currentStep++;
+        
+        if (currentStep === correctOrder.length) {
+            isUnlocked = true;
+            document.getElementById('pageWrap').classList.add('unlocked');
+        }
+    } else {
+        // 顺序错误，直接静默重置所有胶带，无弹窗
+        resetTapes();
+    }
+}
+
+// 重置状态
+function resetTapes() {
+    currentStep = 0;
+    isUnlocked = false;
+    document.getElementById('pageWrap').classList.remove('unlocked');
+    
+    const tapes = document.querySelectorAll('.tape');
+    tapes.forEach(tape => {
+        tape.classList.remove('torn');
+    });
+}
+
+// 解锁后点击任意位置恢复
+function handleWrapClick(event) {
+    if (isUnlocked) {
+        resetTapes();
+    }
+}
+</script>
+</body>
+</html>

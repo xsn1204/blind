@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百度网盘-文件分享</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        .layout-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .left-panel {
+            width: 380px;
+            min-width: 380px;
+            height: 100%;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffffff;
+            z-index: 2;
+        }
+
+        .logo {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            text-decoration: none;
+            margin-bottom: 0; 
+        }
+
+        .content-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 280px;
+            margin-top: auto; 
+            margin-bottom: auto; 
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 24px;
+        }
+
+        .avatar {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .username {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000000;
+        }
+
+        .user-desc {
+            font-size: 12px;
+            color: #999999;
+        }
+
+        .send-msg {
+            font-size: 13px;
+            color: #333333;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 2px;
+            user-select: none;
+        }
+
+        .send-msg:hover {
+            color: #06a7ff;
+        }
+
+        .extract-form {
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .pwd-input {
+            width: 100%;
+            height: 48px;
+            border: 1.5px solid #06a7ff;
+            border-radius: 24px;
+            padding: 0 20px;
+            font-size: 14px;
+            outline: none;
+            color: #333333;
+            background-color: #ffffff;
+            transition: border-color 0.2s;
+        }
+
+        .pwd-input::placeholder {
+            color: #888888;
+            font-size: 13px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            height: 48px;
+            background-color: #008eff;
+            color: #ffffff;
+            border: none;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s, opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            background-color: #0077e6;
+        }
+
+        .error-msg {
+            color: #ff4d4f;
+            font-size: 12px;
+            margin-top: -8px;
+            padding-left: 12px;
+            display: none;
+        }
+
+        .right-panel {
+            flex: 1;
+            height: 100%;
+            background: linear-gradient(135deg, #f0f7ff 0%, #f6f8ff 50%, #f3eeff 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 20px 20px 20px;
+            position: relative;
+        }
+
+        .poster-content {
+            margin: auto 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .poster-graphic {
+            position: relative;
+            width: 320px;
+            height: 240px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .ring-red {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border: 24px solid #ff5c7c;
+            border-radius: 50%;
+            top: 10px;
+            z-index: 2;
+            box-shadow: 0 10px 25px rgba(255, 92, 124, 0.25);
+        }
+
+        .ring-blue-left {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 24px solid #38caff;
+            border-radius: 50%;
+            left: 20px;
+            bottom: 20px;
+            z-index: 1;
+            box-shadow: 0 10px 25px rgba(56, 202, 255, 0.25);
+        }
+
+        .ring-purple-right {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 24px solid #a3b8ff;
+            border-radius: 50%;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1;
+            box-shadow: 0 10px 25px rgba(163, 184, 255, 0.25);
+        }
+
+        .slogan {
+            font-size: 26px;
+            font-weight: 500;
+            color: #333333;
+            letter-spacing: 6px;
+            margin-top: 10px;
+        }
+
+        .footer {
+            font-size: 12px;
+            color: #a0a0a0;
+            display: flex;
+            gap: 8px;
+            user-select: none;
+        }
+
+        .footer a {
+            color: #a0a0a0;
+            text-decoration: none;
+        }
+
+        /* ================= 黑屏遮罩 ================= */
+
+        .scary-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #020205;
+            z-index: 99999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        #wormholeCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .warning-box {
+            position: relative;
+            z-index: 10;
+            width: 440px;
+            max-width: 90%;
+            background: rgba(13, 13, 15, 0.92);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #d93025;
+            padding: 28px 32px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.95);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            animation: popIn 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+        }
+
+        .warning-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .warning-icon {
+            width: 24px;
+            height: 24px;
+            fill: #d93025;
+            flex-shrink: 0;
+        }
+
+        .warning-title {
+            color: #f1f3f4;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .warning-text {
+            color: #9aa0a6;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .warning-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid #3c4043;
+            color: #8ab4f8;
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(138, 180, 248, 0.08);
+        }
+
+        .btn-proceed {
+            background: #d93025;
+            border: none;
+            color: #ffffff;
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-proceed:hover {
+            background: #b22218;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.92); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .glitch-flash {
+            animation: flashBurst 0.25s forwards;
+        }
+
+        @keyframes flashBurst {
+            0% { filter: invert(0); }
+            15% { filter: invert(1) hue-rotate(180deg); transform: translate(-8px, 5px); }
+            35% { filter: contrast(300%) brightness(50%); transform: translate(5px, -8px); }
+            55% { filter: invert(1); transform: translate(-3px, -3px); }
+            100% { filter: none; transform: translate(0, 0); }
+        }
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">13/37</div>
+</head>
+
+<body>
+
+    <div class="layout-container" id="mainLayout">
+        <aside class="left-panel">
+            <a href="#" class="logo">
+                <svg width="24" height="24" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M512 128c-212.08 0-384 171.92-384 384s171.92 384 384 384 384-171.92 384-384-171.92-384-384-384z" fill="#06A7FF"/>
+                    <circle cx="360" cy="420" r="80" fill="#FF4B4B"/>
+                    <circle cx="664" cy="420" r="80" fill="#06A7FF"/>
+                    <circle cx="512" cy="620" r="100" fill="#24D05A"/>
+                </svg>
+                百度网盘
+            </a>
+
+            <div class="content-box">
+                <div class="user-profile">
+                    <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=150&auto=format&fit=crop&q=80" alt="头像" class="avatar">
+                    <div class="user-info">
+                        <div class="username">猿辅*****研组</div>
+                        <div class="user-desc">暂无签名</div>
+                        <div class="send-msg">✉ 发送消息</div>
+                    </div>
+                </div>
+
+                <form class="extract-form" id="extractForm">
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            id="pwdInput" 
+                            class="pwd-input" 
+                            placeholder="请输入提取码，区分大小写" 
+                            maxlength="6" 
+                            autocomplete="off" 
+                            required
+                        >
+                    </div>
+                    <div id="errorMsg" class="error-msg">提取码错误，请重新输入</div>
+                    <button type="submit" class="submit-btn" id="submitBtn">提取文件</button>
+                </form>
+            </div>
+        </aside>
+
+        <main class="right-panel">
+            <div class="poster-content">
+                <div class="poster-graphic">
+                    <div class="ring-red"></div>
+                    <div class="ring-blue-left"></div>
+                    <div class="ring-purple-right"></div>
+                </div>
+                <div class="slogan">美 好 由 我 &nbsp;&nbsp; 全 盘 掌 握</div>
+            </div>
+
+            <footer class="footer">
+                <span>©2026 Baidu</span>
+                <span>|</span>
+                <a href="#">服务协议</a>
+                <span>|</span>
+                <a href="#">权利声明</a>
+                <span>|</span>
+                <a href="#">版本更新</a>
+                <span>|</span>
+                <a href="#">帮助中心</a>
+                <span>|</span>
+                <a href="#">问题反馈</a>
+                <span>|</span>
+                <a href="#">版权投诉</a>
+                <span>|</span>
+                <a href="#">企业认证</a>
+            </footer>
+        </main>
+    </div>
+
+    <div class="scary-overlay" id="scaryOverlay">
+        <canvas id="wormholeCanvas"></canvas>
+        
+        <div class="warning-box">
+            <div class="warning-header">
+                <svg class="warning-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                <div class="warning-title">跳转链接存在高危风险</div>
+            </div>
+            <div class="warning-text">
+                即将离开当前安全域。目标页面未经身份验证，继续访问可能导致设备权限被劫持或严重安全隐患。
+            </div>
+            <div class="warning-actions">
+    <button class="btn-cancel" id="cancelBtn" style="pointer-events: none;">返回上一页</button>
+                <button class="btn-proceed" id="confirmJumpBtn">继续前往</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CORRECT_PWD = "H7jw";
+        const form = document.getElementById('extractForm');
+        const input = document.getElementById('pwdInput');
+        const btn = document.getElementById('submitBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        const scaryOverlay = document.getElementById('scaryOverlay');
+        const confirmJumpBtn = document.getElementById('confirmJumpBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        const canvas = document.getElementById('wormholeCanvas');
+        const ctx = canvas.getContext('2d');
+        let animId = null;
+        let particles = [];
+        const numParticles = 350;
+
+        let webData = null;
+
+        function generateWebStructure() {
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const maxRadius = Math.max(canvas.width, canvas.height) * 0.85;
+            
+            const rayAngles = [
+                0.05, 0.52, 1.1, 1.75, 2.3, 2.95, 3.6, 4.25, 4.8, 5.35, 5.9
+            ];
+            
+            // 👈【主轴不中断】：主轴骨架线从中心一贯到底
+            const rays = rayAngles.map(angle => {
+                const midDist = maxRadius * 0.5;
+                const angleOffset = (Math.random() - 0.5) * 0.12;
+                return {
+                    angle,
+                    p1: { x: centerX + Math.cos(angle) * midDist, y: centerY + Math.sin(angle) * midDist },
+                    p2: { 
+                        x: centerX + Math.cos(angle + angleOffset) * maxRadius, 
+                        y: centerY + Math.sin(angle + angleOffset) * maxRadius 
+                    }
+                };
+            });
+
+            const ringsCount = 8;
+            const rings = [];
+
+            for (let r = 1; r <= ringsCount; r++) {
+                const baseDist = Math.pow(r / ringsCount, 1.2) * maxRadius;
+                const ringPoints = [];
+
+                for (let i = 0; i < rays.length; i++) {
+                    const jitter = baseDist * (0.88 + Math.random() * 0.24);
+                    const angle = rays[i].angle;
+                    
+                    // 👈【水平连接线残缺】：圈数越靠外，水平弧线断裂缺失的概率越高
+                    const breakChance = 0.2 + (r / ringsCount) * 0.45;
+                    const isBroken = Math.random() < breakChance;
+
+                    ringPoints.push({
+                        x: centerX + Math.cos(angle) * jitter,
+                        y: centerY + Math.sin(angle) * jitter,
+                        isBroken: isBroken
+                    });
+                }
+                rings.push(ringPoints);
+            }
+
+            webData = { centerX, centerY, rays, rings };
+        }
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            generateWebStructure();
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.angle = Math.random() * Math.PI * 2;
+                this.radius = Math.random() * Math.max(canvas.width, canvas.height) * 0.8 + 50;
+                this.speed = Math.random() * 2 + 1;
+                this.angularSpeed = (Math.random() * 0.008 + 0.002) * (Math.random() > 0.5 ? 1 : -1);
+                this.size = Math.random() * 2 + 0.5;
+                this.color = Math.random() > 0.85 ? '#ff3344' : (Math.random() > 0.5 ? '#8ab4f8' : '#ffffff');
+                this.opacity = Math.random() * 0.8 + 0.2;
+            }
+
+            update() {
+                this.radius -= this.speed;
+                this.angle += this.angularSpeed;
+
+                if (this.radius < 300) {
+                    this.angle += (300 - this.radius) * 0.0001;
+                }
+
+                if (this.radius <= 5) {
+                    this.reset();
+                    this.radius = Math.max(canvas.width, canvas.height) * 0.7;
+                }
+            }
+
+            draw() {
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+
+                const x = centerX + Math.cos(this.angle) * this.radius;
+                const y = centerY + Math.sin(this.angle) * this.radius;
+
+                ctx.save();
+                ctx.globalAlpha = this.opacity * (this.radius / (canvas.width * 0.5));
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(x, y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function drawRealisticSpiderWeb() {
+            if (!webData) return;
+
+            ctx.save();
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.15)';
+            ctx.shadowBlur = 1;
+
+            // 1. 辐射主骨干（完整无断裂）
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.32)';
+            ctx.lineWidth = 0.55;
+
+            webData.rays.forEach(ray => {
+                ctx.beginPath();
+                ctx.moveTo(webData.centerX, webData.centerY);
+                ctx.lineTo(ray.p1.x, ray.p1.y);
+                ctx.lineTo(ray.p2.x, ray.p2.y);
+                ctx.stroke();
+            });
+
+            // 2. 水平连接蛛丝（不规则断裂）
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)';
+            ctx.lineWidth = 0.35;
+
+            webData.rings.forEach(ring => {
+                const len = ring.length;
+                for (let i = 0; i < len; i++) {
+                    const p1 = ring[i];
+                    const p2 = ring[(i + 1) % len];
+
+                    // 跳过标记为断裂的水平线段
+                    if (p1.isBroken) continue;
+
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    
+                    const controlX = (p1.x + p2.x) / 2 + (webData.centerX - (p1.x + p2.x)/2) * 0.08;
+                    const controlY = (p1.y + p2.y) / 2 + (webData.centerY - (p1.y + p2.y)/2) * 0.08;
+                    
+                    ctx.quadraticCurveTo(controlX, controlY, p2.x, p2.y);
+                    ctx.stroke();
+                }
+            });
+
+            // 3. 核心受击微点
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+            ctx.beginPath();
+            ctx.arc(webData.centerX, webData.centerY, 1.2, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function initWormhole() {
+            resizeCanvas();
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function renderWormhole() {
+            ctx.fillStyle = 'rgba(2, 2, 5, 0.25)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            const gradient = ctx.createRadialGradient(centerX, centerY, 5, centerX, centerY, 120);
+            gradient.addColorStop(0, '#000000');
+            gradient.addColorStop(0.5, 'rgba(15, 5, 25, 0.6)');
+            gradient.addColorStop(1, 'transparent');
+
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 120, 0, Math.PI * 2);
+            ctx.fill();
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            drawRealisticSpiderWeb();
+
+            animId = requestAnimationFrame(renderWormhole);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        input.addEventListener('input', () => {
+            errorMsg.style.display = 'none';
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const val = input.value.trim();
+
+            if (!val) return;
+
+            btn.textContent = "提取中...";
+            btn.style.opacity = "0.7";
+
+            setTimeout(() => {
+                if (val === CORRECT_PWD) {
+                    document.body.classList.add('glitch-flash');
+
+                    setTimeout(() => {
+                        document.body.classList.remove('glitch-flash');
+                        scaryOverlay.style.display = 'flex';
+                        
+                        initWormhole();
+                        if (!animId) renderWormhole();
+
+                    }, 220);
+
+                } else {
+                    btn.textContent = "提取文件";
+                    btn.style.opacity = "1";
+                    errorMsg.style.display = 'block';
+                    input.focus();
+                }
+            }, 400);
+        });
+confirmJumpBtn.addEventListener('click', () => {
+    window.open("summer.html", "_blank");
+});
+     cancelBtn.addEventListener('click', () => {
+            // 跳转回 fudao1.html 页面
+            window.location.href = "fudao1.html";
+        });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>生日礼物</title>
+    <style>
+        body {
+            background-color: #e6e1da;
+            font-family: "KaiTi", "STKaiti", "SimSun", serif;
+            margin: 0;
+            padding: 50px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* 场景容器：书本与字条的叠加 */
+        .gift-container {
+            position: relative;
+            width: 580px;
+            height: 750px;
+        }
+
+        /* 底部：圣埃克苏佩里《夜航》精装书封面 */
+        .book-cover {
+            width: 500px;
+            height: 700px;
+            
+            /* ======================================================== */
+            /* 【在这里替换你的真实 PNG 图片】                           */
+            /* 请将下面的 'your-book-cover.png' 替换为你的真实图片路径     */
+            background-image: url('book.png'); 
+            /* ======================================================== */
+            
+            background-color: #1a2a3a; /* 如果图片是透明的，可以用这个底色衬托 */
+            background-size: cover;    /* 确保图片完美覆盖整本书 */
+            background-position: center;
+            border-radius: 4px 16px 16px 4px;
+            box-shadow: 
+                5px 5px 0px #111b26,
+                15px 20px 35px rgba(0,0,0,0.35);
+            padding: 50px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-left: 8px solid #14202c; /* 书脊暗影 */
+            z-index: 1;
+        }
+
+        /* 如果你的 PNG 是带字带图案的完整封面，下面这些原生 CSS 装饰线和文字会自动作为兜底。
+           如果你不需要原生文字叠加在 PNG 上，可以随时把下面这段 .book-inner-content 的显示隐藏掉 */
+        .book-inner-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 2;
+            /* text-shadow: 0 2px 4px rgba(0,0,0,0.6); 如果你的图片颜色较浅，可以取消这行注释增加文字可读性 */
+        }
+
+        .book-border {
+            position: absolute;
+            top: 25px; bottom: 25px; left: 25px; right: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.3); /* 黯淡烫金 */
+            border-radius: 4px 12px 12px 4px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .book-author {
+            color: rgba(212, 175, 55, 0.7);
+            font-family: sans-serif;
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .book-title {
+            color: #e6c687; /* 烫金字 */
+            font-family: "SimSun", "STSong", serif;
+            font-size: 56px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 12px;
+            margin-top: 60px;
+        }
+
+        .book-illustration {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #e6c687, transparent);
+            margin: 20px auto;
+        }
+
+        .book-footer {
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+
+        /* 上层：姐姐送的生日祝福便签纸 */
+        .gift-note {
+            position: absolute;
+            width: 380px;
+            background-color: #fcfaf2; /* 象牙白便签纸 */
+            background-image: linear-gradient(rgba(180,180,180,0.08) 1px, transparent 1px);
+            background-size: 100% 28px; /* 模拟信纸横格线 */
+            padding: 35px 30px;
+            box-sizing: border-box;
+            box-shadow: -8px 12px 25px rgba(0,0,0,0.4);
+            border-radius: 2px;
+            bottom: 30px;
+            right: -20px;
+            transform: rotate(-3deg); /* 初始斜叠状态 */
+            border-left: 3px solid rgba(0,0,0,0.05);
+            z-index: 10; /* 确保在最上层 */
+            cursor: pointer; /* 鼠标悬停时显示小手，提示可点击 */
+            
+            /* 核心：平滑的动画过渡效果 */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), 
+                        opacity 0.6s ease, 
+                        box-shadow 0.6s ease;
+        }
+
+        /* 悬停时的微动效，增加暗示感 */
+        .gift-note:hover {
+            box-shadow: -12px 18px 30px rgba(0,0,0,0.45);
+        }
+
+        /* 【核心状态】当点击便签纸后，为其加上 .moved 类，触发移开动画 */
+        .gift-note.moved {
+            transform: translate(180px, 120px) rotate(10deg); /* 优雅地向右下方滑开 */
+            opacity: 0.15; /* 变透明，把舞台完全让给底部的书籍封面 */
+            box-shadow: -2px 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* 便签上的胶带小点缀 */
+        .tape-deco {
+            position: absolute;
+            top: -15px;
+            left: 120px;
+            width: 100px;
+            height: 25px;
+            background-color: rgba(220, 210, 190, 0.5);
+            transform: rotate(2deg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* 祝福语正文排版 */
+        .note-content {
+            font-size: 15px;
+            line-height: 28px; /* 完美对齐格子线 */
+            color: #2b2b2b; /* 钢笔蓝黑墨水感 */
+            text-align: justify;
+        }
+
+        .note-salutation {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #1a2a3a;
+        }
+
+        .note-paragraph {
+            text-indent: 2em;
+            margin: 0 0 14px 0;
+        }
+
+        .note-signature {
+            text-align: right;
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+        
+        .note-signature .name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a2a3a;
+            padding-right: 5px;
+        }
+        
+        .note-signature .date {
+            font-size: 12px;
+            color: #777;
+            font-family: sans-serif;
+        }
+  
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">23/37</div></head>
+<body>
+
+<div class="gift-container">
+    
+    <!-- 底部：书本封面 -->
+    <div class="book-cover" id="bookCover">
+        <div class="book-border"></div>
+        <div class="book-inner-content">
+       
+        </div>
+    </div>
+
+    <!-- 上层：叠加的生日便签纸 -->
+    <div class="gift-note" id="giftNote">
+        <div class="tape-deco"></div>
+        
+        <div class="note-content">
+            <div class="note-salutation">To 宋以宁同学：</div>
+            
+            <p class="note-paragraph">听说今天是你的生日，仓促准备了份礼物，托人转交给你。</p>
+            
+            <p class="note-paragraph">前段时间才了解到，你一直有着一个关于飞行的梦想。可能再多的安慰，也很难真正触及你心里的那份遗憾。</p>
+            
+            <p class="note-paragraph">我想说的是，现实的夜色，永远无法困住一颗想要远航的心。祝你在未来的日子里，即便黑夜漫漫，也能找到属于你自己的广阔星海。</p>
+            
+            <p class="note-paragraph">也希望，你所在之处，最昏暗的地方也变得明亮，生日快乐！</p>
+                 
+            <div class="note-signature">
+                <span class="name">段宜廷</span><br>
+                <span class="date">2019年1月12日</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 控制移开/还原的轻量级 JavaScript -->
+<script>
+    const note = document.getElementById('giftNote');
+    const book = document.getElementById('bookCover');
+
+    // 点击便签纸，切换“移开”状态
+    note.addEventListener('click', function(e) {
+        e.stopPropagation(); // 阻止事件冒泡
+        note.classList.toggle('moved');
+    });
+
+    // 如果便签纸已经被移开了，点击底部的书籍，也可以让便签纸重新盖回来
+    book.addEventListener('click', function() {
+        if(note.classList.contains('moved')) {
+            note.classList.remove('moved');
+        }
+    });
+</script>
+
+</body>
+</html>

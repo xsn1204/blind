@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12315 市民投诉与反馈记录</title>
+    <!-- 引入 Google Fonts 狂草/草书字体 Ma Shan Zheng -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #121212;
+            color: #d1d5db;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .receipt-card {
+            width: 100%;
+            max-width: 420px;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            padding: 24px;
+            position: relative;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 1px dashed #444;
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .receipt-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #f3f4f6;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .receipt-subtitle {
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        .info-group {
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .info-label {
+            color: #6b7280;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: #e5e7eb;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .section-divider {
+            border-top: 1px dashed #444;
+            margin: 18px 0;
+        }
+
+        .content-box {
+            background-color: #242424;
+            border-radius: 6px;
+            padding: 12px 14px;
+            margin-top: 6px;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background-color: rgba(234, 179, 8, 0.15);
+            color: #eab308;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* 底部落款草书样式 */
+        .receipt-footer-text {
+            font-size: 1.45rem;
+            text-align: center;
+            letter-spacing: 2px;
+            font-family: 'Ma Shan Zheng', 'Xingkai SC', 'STXingkai', 'Huawen Xingkai', cursive;
+            color: #9ca3af;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #2d2d2d;
+        }
+       .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">extra7/37</div></head>
+<body>
+
+    <div class="receipt-card">
+        <div class="receipt-header">
+            <div class="receipt-title">12315 消费投诉与举报记录</div>
+            <div class="receipt-subtitle">全国12315平台·市民来电受理工单</div>
+        </div>
+
+        <div class="info-group">
+            <span class="info-label">工单编号：</span>
+            <span class="info-value">TS201808150942</span>
+        </div>
+
+        <div class="info-group">
+            <span class="info-label">来电时间：</span>
+            <span class="info-value">2018年8月25日 22:14</span>
+        </div>
+
+        <div class="info-group">
+            <span class="info-label">投诉人：</span>
+            <span class="info-value">匿名市民</span>
+        </div>
+
+        <div class="info-group">
+            <span class="info-label">被投诉对象：</span>
+            <span class="info-value">盲区酒吧 (BLIND SPOT)</span>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="info-group" style="flex-direction: column; gap: 6px;">
+            <span class="info-label">投诉事由：</span>
+            <div class="content-box">
+                市民来电反映该场所“盲区酒吧 (BLIND SPOT)”涉嫌违规雇用未成年人提供劳务及服务，违反未成年人保护法及相关行业规定，请求市场监管部门查处。
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <div class="info-group">
+            <span class="info-label">处理状态：</span>
+            <span class="info-value"><span class="status-badge">已办结</span></span>
+        </div>
+
+        <div class="info-group">
+            <span class="info-label">反馈时间：</span>
+            <span class="info-value">2018年9月5日 14:30</span>
+        </div>
+
+        <div class="info-group" style="flex-direction: column; gap: 6px;">
+            <span class="info-label">处理与反馈结果：</span>
+            <div class="content-box">
+                经辖区市场监督管理局现场检查与调查核实，执法人员已对“盲区酒吧 (BLIND SPOT)”负责人进行约谈告诫，下发行政指导意见书，责令该酒吧立即开展自查并全面整改。
+            </div>
+        </div>
+
+        <!-- 使用 Ma Shan Zheng 草书体呈现的落款 -->
+        <div class="receipt-footer-text">
+            执法明鉴 留痕有据
+        </div>
+    </div>
+
+</body>
+</html>

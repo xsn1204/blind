@@ -1,0 +1,1654 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>桌面</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: "Microsoft YaHei", sans-serif; }
+        
+        /* 桌面背景：经典的学院派深蓝色或带校徽的壁纸 */
+        .desktop {
+            width: 100vw; height: 100vh;
+                padding-bottom: 40px; /* 留出任务栏空间 */
+            background: #2c3e50 url('wallpaper.png') no-repeat center;
+            background-size: cover;
+            position: relative;
+        }
+
+        /* 图标区域 */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 80px);
+            grid-template-rows: repeat(auto-fill, 90px);
+            grid-auto-flow: column;
+            gap: 15px;
+            padding: 20px;
+            height: calc(100% - 40px);
+        }
+        .icon {
+            width: 80px; text-align: center; cursor: pointer; color: white; text-shadow: 1px 1px 2px #000;
+        }
+        .icon img { width: 48px; height: 48px; display: block; margin: 0 auto 5px; filter: drop-shadow(0 0 2px rgba(0,0,0,0.5)); }
+        .icon span { font-size: 12px; word-break: break-all; line-height: 1.2; display: block; }
+
+        /* 右侧便签：核心线索区 */
+        .sticky-note {
+            position: absolute; right: 30px; top: 40px;
+            width: 240px; background: #fdf6b2; padding: 15px;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+            color: #1a1a1a;
+            border-bottom-right-radius: 20px 5px;
+        }
+        .sticky-note h4 { margin: 0 0 10px 0; border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; color: #92400e; font-size: 14px; }
+        .sticky-note p { font-size: 12px; margin: 5px 0; line-height: 1.6; }
+        .sticky-note .urgent { color: #dc2626; font-weight: bold; }
+
+        /* 仿 Win10 任务栏 */
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: rgba(199, 187, 187, 0.85);
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            z-index: 6000; /* 保证在弹窗之上 */
+            color: white;
+        }
+
+        /* 开始按钮 */
+        .start-btn {
+            width: 48px; height: 100%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .start-btn:hover { background: rgba(255, 255, 255, 0.1); }
+        .start-btn img { width: 20px; height: 20px; filter: invert(1); }
+
+        /* 搜索框 */
+        .search-container {
+            height: 32px; width: 240px; background: rgba(255, 255, 255, 0.9);
+            margin: 0 10px; display: flex; align-items: center; padding: 0 10px;
+            border-radius: 2px;
+        }
+        .search-container input {
+            border: none; background: none; outline: none; width: 100%;
+            font-size: 12px; color: #333;
+        }
+        .search-icon { font-size: 14px; margin-right: 8px; color: #666; }
+
+        /* 快捷图标 */
+        .task-icons { display: flex; height: 100%; align-items: center; gap: 5px; }
+        .task-icon { width: 40px; height: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .task-icon img { width: 22px; height: 22px; }
+
+        /* 系统托盘与时钟 */
+        .tray-area { margin-left: auto; display: flex; align-items: center; padding: 0 10px;color: #000000; }
+        .clock { text-align: center; font-size: 11px; line-height: 1.2; padding: 0 5px; cursor: default; }
+        /* 优化搜索结果项布局 */
+        .search-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.2s;
+        }
+
+        .search-item:hover {
+            background-color: #e5f3ff;
+        }
+
+        /* 搜索文字信息的容器 */
+        .search-item-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-item-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .search-item-type {
+            font-size: 11px;
+            color: #0067b8;
+        }
+        /* --- Windows 10 风格窗口 --- */
+        .window {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 640px; height: 420px; background: #fff; border: 1px solid #1883d7;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 2000;
+        }
+        .window-header { height: 32px; display: flex; justify-content: space-between; align-items: center; padding-left: 10px; user-select: none; }
+        .header-title { font-size: 12px; display: flex; align-items: center; gap: 6px; color: #333; }
+        .header-controls { display: flex; height: 100%; }
+        .control-btn { width: 46px; height: 32px; display: flex; align-items: center; justify-content: center; transition: 0.2s; font-size: 16px; color: #333; }
+        .control-btn:hover { background: #e5e5e5; }
+        .close-btn:hover { background: #e81123; color: white; }
+
+        .window-main { display: flex; flex: 1; border-top: 1px solid #f0f0f0; overflow: hidden; }
+        .window-sidebar { width: 160px; background: #f0f0f0; border-right: 1px solid #e5e5e5; padding: 10px; font-size: 12px; color: #333; }
+        .window-content { flex: 1; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, 90px); gap: 15px; background: white; align-content: flex-start; }
+        /* 回收站文件图标 */
+        .deleted-item { width: 90px; display: flex; flex-direction: column; align-items: center; cursor: pointer; padding: 8px 4px; border: 1px solid transparent; }
+        .deleted-item:hover { background: #e5f3ff; border: 1px solid #99d1ff; }
+        .deleted-item img { width: 42px; height: 42px; filter: grayscale(100%); opacity: 0.6; }
+        .deleted-item span { font-size: 11px; text-align: center; margin-top: 6px; color: #333; word-break: break-all; }
+   /* 紧贴底部的搜索历史面板 */
+        .history-window { 
+            position: fixed; bottom: 40px; left: 0; 
+            width: 320px; height: 450px; 
+            background: rgba(255, 255, 255, 0.98); 
+            border: 1px solid #ccc; border-bottom: none;
+            display: none; flex-direction: column; z-index: 4000;
+            animation: slideUp 0.2s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* 修改后的 history-list 样式 */
+        .history-list { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 10px; 
+            display: flex;           /* 启用 Flex 布局 */
+            flex-direction: column;
+        }
+
+        /* 新增：提示文字的居中样式 */
+        .no-history-msg {
+            margin: auto;            /* 在 Flex 容器中实现完美居中 */
+            color: #999; 
+            font-size: 12px;
+            text-align: center;
+        }
+        .history-item { 
+            padding: 12px 15px; margin-bottom: 2px;
+            background: #fff; color: #333; cursor: pointer; font-size: 13px; 
+            display: flex; align-items: center; gap: 10px; border-left: 3px solid transparent;
+        }
+        .history-item:hover { background: #e5f3ff; border-left: 3px solid #0078d7; }
+        .history-item::before { content: "🕒"; font-size: 12px; opacity: 0.6; }
+
+        /* --- 微信窗口容器 (Win10风格) --- */
+        .win-window {
+            position: fixed;         /* 更改为 fixed */
+            top: 50%;                /* 垂直居中 */
+            left: 50%;               /* 水平居中 */
+            transform: translate(-50%, -50%); /* 抵消自身长宽的一半实现完美居中 */
+            width: 870px; 
+            height: 620px;
+            background: #fff; 
+            border: 1px solid var(--win-blue);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none; 
+            flex-direction: column; 
+            z-index: 1000;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-size: 14px;
+        }
+        .win-header {
+            height: 32px; background: #fff; display: flex; justify-content: space-between;
+            align-items: center; padding-left: 10px; cursor: move; border-bottom: 1px solid #eee;
+        }
+        .win-controls { display: flex; height: 100%; }
+        .win-btn { width: 46px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; }
+        .win-btn:hover { background: #e5e5e5; }
+        .close-btn:hover { background: #e81123; color: white; }
+
+        /* --- 微信内部内容样式 --- */
+        /* 确保主体撑满除去标题栏后的空间 */
+        .wechat-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        .sidebar { width: 50px; background: #2e2e2e; display: flex; flex-direction: column; align-items: center; padding-top: 20px; }
+        .nav-icon { color: #919191; font-size: 20px; margin-bottom: 25px; cursor: pointer; }
+        .nav-icon.active { color: var(--wechat-green); }
+
+        
+        .chat-list { width: 220px; background: #e6e6e6; border-right: 1px solid #dcdcdc; overflow-y: auto; }
+        .list-item { height: 50px; font-size: 0.95em;display: flex; padding: 12px; align-items: center; cursor: pointer; border-bottom: 1px solid #ddd; }
+        .list-item:hover { background: #dbdbdb; }
+        .list-item.selected { background: #c5c5c5; }
+        .avatar { width: 40px; height: 40px; border-radius: 4px; margin-right: 10px; background: #ccc; display: flex; align-items: center; justify-content: center; color: white; }
+
+        .main-view { flex: 1; background: #f5f5f5; display: flex; flex-direction: column; position: relative; }
+        .view-header {
+            height: 60px; /* 稍微加高到 60px 更有空间感 */
+            padding: 0 25px;
+            display: flex;  font-size: 15px;
+            justify-content: space-between; /* 左右分布 */
+            align-items: center;
+            border-bottom: 1px solid #e7e7e7;
+            background: #f5f5f5;
+        }
+
+        /* 模拟右侧的更多操作图标 */
+        .view-header::after {
+            content: "···"; 
+            font-size: 20px;
+            color: #888;
+            cursor: pointer;
+        }
+        .msg-bubble {
+            position: relative;
+            background: #fff;
+            padding: 9px 12px;  line-height: 1.4;
+            border-radius: 4px;
+            max-width: 70%;
+            font-size: 1em;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* 添加气泡小尖角 */
+        .msg-bubble::before {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 10px;
+            border-width: 6px 6px 6px 0;
+            border-style: solid;
+            border-color: transparent #fff transparent transparent;
+        }
+        /* --- Moments Style --- */
+        #moments-content {
+            flex: 1; /* 占据剩余垂直高度 */
+            height: 100%;
+            padding: 20px 40px;
+            overflow-y: auto; /* 允许滚动 */
+            background: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            min-height: 0; /* 防止内部内容撑破容器 */
+        }
+
+        .moment {
+            display: flex;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .moment-body {
+            flex: 1;
+        }
+        .moment .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px; /* 或方角 4px */
+            margin-right: 15px;
+            flex-shrink: 0;
+            /* 向下移动头像 */
+            margin-top: 15px; /* 或使用 top: 10px; */
+        }
+
+
+        .moment-detail {
+            flex: 1;
+        }
+
+        .moment .m-name {
+            color: #576b95;
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .moment-detail p {
+            margin: 0 0 4px 0; /* 内容和时间间距 */
+            font-size: 14px;
+        }
+
+        .moment-detail .time {
+            color: #bbb;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* 可选：朋友圈图片网格 */
+        .moment-image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .moment-image-grid img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: #eee;
+        }
+
+        /* 公众号卡片 */
+        .subs-card { background: #fff; margin: 15px; padding: 15px; border-radius: 4px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        /* 压缩左侧会话列表中标题与预览的上下间距 */
+        .list-item h4 {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+
+        .list-item p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            line-height: 1.3;
+            color: #888;
+        }
+        .moments-title {
+            font-weight: bold;        /* 加粗 */
+            font-size: 16px;          /* 可调整大小 */
+            text-align: center;       /* 居中 */
+            padding: 10px 0;          /* 上下间距 */
+            background: #f7f7f7;      /* 可选：背景色 */
+            border-bottom: 1px solid #e0e0e0; /* 可选：底部分割线 */
+        }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+        .moment-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #999;
+                margin-top: 6px;
+        }
+        .like-link {
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+                }
+
+        .like-link:hover {
+            color: #07c160; /* 微信绿 */
+        }
+
+
+        .deleted-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;       /* 图标和文字间距 */
+            cursor: pointer;
+        }
+
+
+        .deleted-item span {
+            color: #8B0000;   /* 深红文字 */
+            font-weight: bold; /* 可选，加粗更醒目 */
+        }
+        /* ===============================
+   📱 手机端强力放大适配
+================================= */
+@media (max-width: 768px) {
+    /* 1. 桌面图标栅格大幅度放大 */
+    .icon-grid {
+        grid-template-columns: repeat(auto-fill, 100px) !important;
+        grid-template-rows: repeat(auto-fill, 130px) !important;
+        gap: 15px !important;
+        padding: 15px !important;
+        height: calc(100% - 65px) !important;
+    }
+
+    .icon {
+        width: 100px !important;
+    }
+
+    .icon img {
+        width: 60px !important; /* 图标大一圈 */
+        height: 60px !important;
+    }
+
+    .icon span {
+        font-size: 14px !important; /* 文字变大 */
+        margin-top: 5px;
+    }
+
+    /* 2. 任务栏显著变高 */
+    .taskbar {
+        height: 65px !important; /* 从40px增加到65px */
+    }
+
+    .desktop {
+        padding-bottom: 65px !important;
+    }
+
+    /* 3. 任务栏内部元素放大 */
+    .start-btn {
+        width: 65px !important;
+    }
+    .start-btn img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .search-container {
+        height: 45px !important;
+        width: 140px !important; /* 给右边留点空间 */
+    }
+
+    .task-icon {
+        width: 55px !important;
+    }
+    .task-icon img {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    .clock {
+        font-size: 13px !important;
+        padding-right: 10px;
+    }
+
+    /* 4. 隐藏手机端不需要的元素，防止重叠 */
+    .sticky-note {
+        display: none; /* 手机端便签通常会挡住图标，建议隐藏或缩小 */
+    }
+
+/* 5. 微信窗口适配：不全屏，四周留空隙 */
+    .win-window {
+        /* 设置宽度和高度为屏幕的 90%，四周留出 5% 的空隙 */
+        width: 92vw !important; 
+        height: 75vh !important; 
+        
+        /* 居中定位 */
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -55%) !important; /* 向上偏移一点，给底部任务栏留视觉空间 */
+        
+        /* 圆角和阴影增强悬浮感 */
+        border-radius: 8px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+        
+        /* 内部内容适配 */
+        display: none; /* 初始隐藏逻辑不变 */
+        flex-direction: column;
+    }
+
+    /* 微信内部内容自动适配缩小后的窗口 */
+    .wechat-body {
+        height: 100%;
+    }
+
+    /* 6. 微信内部比例适配：chat-list 变宽 */
+    .sidebar {
+        width: 40px !important; /* 侧边栏稍微收窄 */
+    }
+
+    .chat-list {
+        width: 20% !important; /* 从固定的 220px 改为占窗口的 35% */
+        min-width: 100px; /* 防止过窄 */
+    }
+
+    .list-item {
+        height: 60px !important; /* 增加高度，方便手指触碰 */
+        padding: 8px !important;
+    }
+
+    .list-item .avatar {
+        width: 35px !important;
+        height: 35px !important;
+        margin-right: 8px !important;
+    }
+
+    .list-item h4 {
+        font-size: 13px !important; /* 缩小标题字号适配宽度 */
+    }
+
+    .list-item p {
+        display: none; /* 手机端宽度有限，建议隐藏预览文字，只留标题 */
+    }
+
+    .main-view {
+        flex: 1; /* 右侧聊天区域占据剩余空间 */
+    }
+
+    .view-header {
+        height: 50px !important;
+        padding: 0 15px !important;
+    }
+}
+    .window {
+         /* 设置宽度和高度为屏幕的 90%，四周留出 5% 的空隙 */
+        width: 92vw !important; 
+        height: 75vh !important; 
+        
+        /* 居中定位 */
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -55%) !important; /* 向上偏移一点，给底部任务栏留视觉空间 */
+        
+        /* 圆角和阴影增强悬浮感 */
+        border-radius: 8px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+        
+        /* 内部内容适配 */
+        display: none; /* 初始隐藏逻辑不变 */
+        flex-direction: column;
+    }
+    #moments-content {
+        padding: 10px 15px !important; /* 显著缩小外边距 */
+    }
+
+    .moment {
+        padding: 12px !important;
+        margin-bottom: 12px !important;
+        /* 如果窗口特别窄，可以开启垂直布局（可选） */
+        /* flex-direction: column; */
+    }
+
+    .moment .avatar {
+        width: 35px !important;
+        height: 35px !important;
+        margin-right: 10px !important;
+        margin-top: 5px !important; /* 手机端头像上移一点更对齐 */
+    }
+
+    .moment .m-name {
+        font-size: 14px !important;
+    }
+
+    .moment-body p {
+        font-size: 13px !important; /* 内容文字微调 */
+        line-height: 1.5 !important;
+    }
+
+    /* 朋友圈图片网格适配：最关键部分 */
+    .moment-image-grid {
+        /* 将原本固定的 100px 改为按比例分配，确保不溢出 */
+        grid-template-columns: repeat(3, 1fr) !important; 
+        gap: 4px !important;
+        max-width: 220px; /* 限制总宽度 */
+    }
+
+    .moment-image-grid img {
+        width: 100% !important; /* 宽度跟随栅格比例 */
+        height: auto !important;
+        aspect-ratio: 1 / 1; /* 保持正方形 */
+    }
+
+    .moment-footer {
+        font-size: 11px !important;
+        margin-top: 8px !important;
+    }
+
+    #recycleWindow {
+        /* 1. 设置宽度为屏幕的 90%，这样在手机上永远不会顶满 */
+        width: 90% !important; 
+        
+        /* 2. 设置最大宽度为 600px，这样在网页端（大屏）它最多只会到 600px，不会无限拉长 */
+        max-width: 600px !important; 
+
+        /* 3. 高度同理，设置最大高度防止在手机上过高 */
+        height: 400px !important;
+        min-height: 300px !important;
+        max-height: 80vh !important;
+
+        /* 4. 居中对齐补丁 */
+        position: absolute;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        
+        display: flex;
+        flex-direction: column;
+    }
+    /* 点赞链接基础样式 */
+.like-link {
+    display: inline-flex;
+    align-items: center;
+    background: #eef2f7; /* 浅灰色背景 */
+    color: #003366 !important; /* 调整为你学校的主色调 */
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-decoration: none !important;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+/* 鼠标悬浮时的效果：变蓝、变亮 */
+.like-link:hover {
+    background: #e0e9f5;
+    border-color: #003366;
+    transform: scale(1.05); /* 整体微放大 */
+}
+
+/* 大拇指图标跳动动画 */
+.like-link:hover .thumb-icon {
+    animation: thumbJump 0.4s ease-out;
+}
+@keyframes slideInRight {
+    from { transform: translateX(110%); }
+    to { transform: translateX(0); }
+}
+
+/* 选项按钮：夜间模式 */
+.gemini-opt-btn {
+    background: #2d2d2d; 
+    border: 1px solid #4285f4; 
+    color: #e0e0e0; 
+    padding: 10px 12px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    text-align: left; 
+    font-size: 13px; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.gemini-opt-btn:hover { 
+    background: #3d3d3d; 
+    border-color: #669df6;
+    color: #ffffff;
+    transform: translateX(5px); /* 悬浮时轻微右移 */
+}
+
+/* 聊天窗口：夜间模式补丁 */
+#gemini-chat-win {
+    background: #1e1e1e !important; /* 纯深色背景 */
+    border: 1px solid #333 !important;
+}
+
+#gemini-ai-text {
+    color: #e0e0e0 !important;
+    line-height: 1.8; /* 增加行间距 */
+    display: block;  /* 确保属性生效 */
+    margin-bottom: 10px;
+}
+
+#gemini-options {
+    background: #252525 !important;
+    border-top: 1px solid #333 !important;
+}
+.gemini-opt-btn {
+    transition: all 0.3s ease;
+}
+/* 鼠标悬停在已禁用的按钮上时不产生位移或高亮 */
+.gemini-opt-btn:disabled:hover {
+    transform: none !important;
+    background: #333 !important;
+}
+
+@keyframes thumbJump {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4) rotate(-15deg); }
+    100% { transform: scale(1); }
+}
+
+.moment-img img{
+    max-width:220px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:all .3s ease;
+}
+
+/* 放大状态 */
+.moment-img img.enlarged{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    max-width:90vw;
+    max-height:90vh;
+    z-index:9999;
+    box-shadow:0 0 30px rgba(0,0,0,.4);
+}
+/* 装饰文字样式 */
+.comment-count {
+    color: #666;
+    margin-left: 10px;
+}
+/* 朋友圈图片容器 */
+.moment-img {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 180px; /* 限制单张图片的最大宽度 */
+    max-height: 180px; /* 限制单张图片的最大高度 */
+    overflow: hidden;
+    border-radius: 4px; /* 朋友圈图片特有的微小圆角 */
+}
+
+.moment-img img{
+    max-width:220px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:all .3s ease;
+}
+
+.moment-img img.enlarged{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    
+    width:auto;
+    height:auto;
+    max-width:95vw;
+    max-height:95vh;
+
+    object-fit:contain;
+
+    z-index:9999;
+    border-radius:8px;
+}
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+/* 朋友圈和聊天图片容器 */
+.moment-img {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 180px; /* 限制缩略图最大宽度 */
+    max-height: 180px; /* 限制缩略图最大高度 */
+    /* 移除 overflow: hidden; 防止内容被剪裁 */
+    display: flex;
+    align-items: center; /* 居中对齐 */
+}
+
+.moment-img img {
+    width: 100%;
+    height: 100%;
+    max-width: 180px;
+    max-height: 180px;
+    object-fit: contain; /* 💡 核心：保持原图比例完整缩放，不裁剪 */
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+
+@media (max-width: 768px) {
+    /* ... 其他手机端适配代码 ... */
+
+    .moment-image-grid img {
+        width: 100% !important; 
+        height: auto !important;
+        /* 如果保留 1/1 正方形网格，用 contain 可以让长图不被裁剪，四周留白 */
+        aspect-ratio: 1 / 1; 
+        object-fit: contain !important; /* 💡 核心：确保手机端网格内也是完整图 */
+        background: #f0f0f0; /* 给留白区域加个淡淡的背景，更美观 */
+    }
+}
+/* 修改前 */
+.desktop {
+    width: 100vw; height: 100vh;
+    padding-bottom: 40px; 
+    background: #2c3e50 url('wallpaper.png') no-repeat center;
+    background-size: cover;
+    position: relative;
+}
+
+/* 修改后：加入 linear-gradient 遮罩 */
+.desktop {
+    width: 100vw; height: 100vh;
+    padding-bottom: 40px; 
+    /* rgba(0, 0, 0, 0.5) 中的 0.5 表示 50% 透明度，数值越大桌面越暗 */
+    background: linear-gradient(rgba(0, 0, 0, 0.99), rgba(0, 0, 0, 0.5)), #2c3e50 url('wallpaper.png') no-repeat center;
+    background-size: cover;
+    position: relative;
+}
+
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">extra0/37</div></head>
+
+
+
+
+<body>
+
+
+<div class="desktop">
+    <div class="icon-grid">
+        <div class="icon">
+            <img src="folder.png" alt="文件夹">
+            <span>🔒</span>
+        </div>
+
+ 
+
+
+ 
+
+      <div id="wechatWin" class="win-window">
+        <div class="win-header">
+            <div style="font-size:12px; color:#666;">微信</div>
+            <div class="win-controls">
+                <div class="win-btn" onclick="toggleApp('wechatWin')">－</div>
+                <div class="win-btn close-btn" onclick="toggleApp('wechatWin')">×</div>
+            </div>
+        </div>
+        <div class="wechat-body">
+            <div class="sidebar">
+                <div class="nav-icon active" onclick="switchTab('chat')">💬</div>
+                  <div class="nav-icon"  id="contact-icon">👥</div>
+                <div class="nav-icon" onclick="switchTab('moments')">🌐</div>
+                <div style="flex-grow:1"></div>
+                <div class="nav-icon">⚙️</div>
+            </div>
+            <div class="chat-list">
+                <div class="list-item" id="subs-item" onclick="switchTab('subs')">
+                    <div class="avatar" style="background:#107bef">📜</div>
+                    <div style="flex:1"><h4>订阅号</h4><p id="subs-preview">流星雨将浪漫降临！...</p></div>
+                </div>
+                <div class="list-item selected" onclick="openChat('家姐')">
+                    <div class="avatar" style="background:#b2dfdb">🍏</div>
+                    <div style="flex:1"><h4>家姐</h4> <p>是的，之前的我看空瓶了</p> </div>
+                </div>
+                  <div class="list-item" onclick="openChat('盛妙')">
+                    <div class="avatar" style="background:#ffccbc">🐰</div>
+                    <div style="flex:1"><h4>盛妙</h4><p>那等我回家看下以前的...</p></div>
+                </div>
+                <div class="list-item" onclick="openChat('教务尤老师')">
+                    <div class="avatar" style="background:#ffdb58">🌺</div>
+                    <div style="flex:1"><h4>教务尤老师</h4><p>不客气～</p></div>
+                </div>
+            </div>
+            <div class="main-view">
+<div id="chat-view" style="display:flex; flex-direction:column; height:100%;">
+    <div class="view-header" id="chat-title">家姐</div>
+    <div id="chat-msg" style="flex:1; padding:20px; overflow-y:auto;">
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        你学校那只猫，先搁我学妹那里养着了
+    </div>
+</div>
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        等过几天打完疫苗，找到领养了再送走
+    </div>
+</div>
+
+<!-- 学姐 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;">
+    <div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        小猫现在怎么样？那天看它眼睛发炎好严重
+    </div>
+</div>
+
+<!-- 学妹 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        学妹说问题不大，刚炫完半个罐头，一直在屋里跑酷
+    </div>
+</div>
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        她让你放心，之前救助过类似情况的小流浪，有经验
+    </div>
+</div>
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;">
+    <div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        那太好了，感谢照顾🥰
+    </div>
+</div>
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div class="moment-img" style="background:#fff; padding:4px; border-radius:4px; width:fit-content; margin-top:2px;">
+        <img src="VA.jpg" alt="维A药片" onclick="toggleImage(this)" style="display:block;" />
+    </div>
+</div>
+
+
+<!-- 学妹 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        你买的？
+    </div>
+</div>
+<!-- 学姐 -->
+
+
+<!-- 学姐 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;">
+    <div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        是的，之前的我看空瓶了
+    </div>
+</div>
+
+
+    </div>
+</div>
+
+                <div id="moments-content" style="display: none;">
+                    <div class="moments-title">朋友圈</div>
+                    <div class="moment">
+                        <div class="avatar" style="background:#29be8a"></div>
+                        <div class="moment-body">
+                                <p class="m-name">199Z</p>
+                                <p>法国夺冠热门，德国32强，比利时让二追三，今夕是何年？</p>
+
+                            <div class="likes-box" style="background: #f7f7f7; padding: 4px 8px; border-radius: 2px; margin-top: 6px; font-size: 12px; color: #576b95;">
+            ❤️ Bur, 陆老师 等 4 人点赞
+        </div>
+                            </div>
+                    </div>
+
+                    <div class="moment">
+    <div class="avatar" style="background:#aaa9a9"></div>
+    <div class="moment-body">
+        <p class="m-name">🎀 杨乐多</p>
+        <p>“Checkmate, I couldn't lose.” ♟️✨</p>
+
+    <!-- 网易云音乐分享卡片 -->
+        <div class="music-card" style="background: #f3f3f3; padding: 8px; border-radius: 4px; display: flex; align-items: center; gap: 10px; margin-top: 6px;">
+            <!-- 替换为真实图片标签 👇 -->
+            <img class="music-cover" src="midnights.jpg" alt="Midnights Album Cover" style="width: 40px; height: 40px; border-radius: 4px; flex-shrink: 0; object-fit: cover;">
+            <div class="music-info" style="overflow: hidden; line-height: 1.3;">
+                <p style="margin: 0; font-weight: bold; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Mastermind</p>
+                <p style="margin: 0; font-size: 12px; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Taylor Swift - Midnights</p>
+            </div>
+        </div>
+
+
+        <!-- 点赞列表：包含“我”的点赞 -->
+        <div class="likes-box" style="background: #f7f7f7; padding: 4px 8px; border-radius: 2px; margin-top: 6px; font-size: 12px; color: #576b95;">
+            ❤️ 我, 迈尔斯, Marvin 等 9 人点赞
+        </div>
+    </div>
+</div>
+             <div class="moment">
+    <div class="avatar" style="background:#cf79c3"></div>
+
+    <div class="moment-body">
+        <p class="m-name">一只羊仔</p>
+        <p>距离2030居然已经比距离2018还要近了……</p>
+
+        <div class="moment-img">
+            <img src="2018.png" alt="朋友圈图片" onclick="toggleImage(this)">
+        </div>
+        <!-- 点赞列表：包含“我”的点赞 -->
+        <div class="likes-box" style="background: #f7f7f7; padding: 4px 8px; border-radius: 2px; margin-top: 6px; font-size: 12px; color: #576b95;">
+            ❤️ 逍遥腿毛, 催饭归 等 5 人点赞
+        </div>
+    </div>
+</div>
+                       
+ </div>
+
+ 
+
+                <div id="subs-view" style="display:none; flex:1; overflow-y:auto; background:#ededed;">
+                    <div class="view-header">订阅号</div>
+
+
+                <div class="subs-card">
+                    <p style="color:#999; font-size:12px;">青州大学天文社 2026年8月14日</p>
+                    <p style="font-weight:bold; margin-top:5px;">流星雨将浪漫降临！速收藏“赏雨”攻略→</p>
+                </div>
+            
+
+                <div class="subs-card">
+                    <p style="color:#999; font-size:12px;">青州万达影城 2026年7月20日</p>
+                    <p style="font-weight:bold; margin-top:5px;">《蜘蛛侠：崭新之日》内地定档7月29日，领先北美两天上映！</p>
+                </div>
+                             <div class="subs-card">
+                    <p style="color:#999; font-size:12px;">QZU小喇叭 2026年6月30日</p>
+                    <p style="font-weight:bold; margin-top:5px;">毕业季｜如果说要让我选出代表青春那个画面</p>
+                </div>
+                             <div class="subs-card">
+                    <p style="color:#999; font-size:12px;">中国新闻网 2026年6月17日</p>
+                    <p style="font-weight:bold; margin-top:5px;">高考生注意，这项指标不达标，将直接影响录取结果</p>
+                </div>
+   
+
+     
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="sticky-note">
+      <h4>🔑 备忘</h4>
+        <p>无需使用外部搜索（真实互联网）以获取信息。</p>
+        <p>菜单栏最左侧可查看搜索记录，便于快速访问历史查询。</p>
+        <p>共设置10个extra页面，extra页面不包含关键词，不影响线索推进。</p>
+        <p>若点击无响应，则表示该信息无关，无需使用F12或查看源码以获取线索。</p>
+        <p>部分素材来源自网络，如涉侵权请联系删除。</p>
+        <p style="font-size:10px; color:#666;">AAA地下党 2026/9</p>
+    </div>
+
+
+<div class="taskbar">
+        <div class="start-btn" onclick="toggleHistory(event)">
+            <img src="https://img.icons8.com/material-outlined/24/ffffff/windows-10.png">
+        </div>
+
+<div class="search-container" style="position: relative;">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="搜索..." oninput="handleExactSearch(this.value)" autocomplete="off">
+    
+    <div id="searchResults" style="display: none; position: absolute; bottom: 40px; left: 0; width: 100%; background: white; border: 1px solid #ccc; box-shadow: 0 -2px 10px rgba(0,0,0,0.2); color: #333; z-index: 1001;">
+        <div style="padding: 10px; font-size: 11px; border-bottom: 1px solid #eee; background: #f9f9f9; color: #666; letter-spacing: 1px;">最佳匹配</div>
+        <div class="search-item" onclick="recordAndJump('青大心语', 'login.html')">
+            <img src="https://img.icons8.com/color/24/000000/heart-monitor.png" style="width: 24px; height: 24px;">
+            <div class="search-item-info">
+                <div class="search-item-title">青大心语</div>
+                <div class="search-item-type">应用</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="historyWindow" class="history-window">
+    <div style="padding: 10px; font-size: 12px; font-weight: bold; background: #f0f0f0; border-bottom: 1px solid #ddd; color: #333;">
+        最近搜索历史
+    </div>
+    <div id="historyList" class="history-list">
+        </div>
+</div>
+
+
+<div class="task-icons">
+    <div class="task-icon" onclick="toggleApp('wechatWin')">
+        <img src="wechat.svg">
+    </div>
+
+</div>
+        <div class="tray-area">
+            <div class="clock">
+                <div id="time">20:17</div>
+                <div id="date">2026/8/22</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function toggleImage(img){
+    img.classList.toggle('enlarged');
+}
+</script>
+
+<script>
+const SEARCH_MAP = {
+    '宋以宁': ['weekly.html'],
+    '24帧电影鉴赏社': ['poster.html'],
+    '青甸': ['magazine.html'],
+    '天荒坪': ['police.html'],
+    '秋日拾光': ['market.html'],
+    '李梓豪': ['note'] ,
+    '盛妙': ['excel.html'],
+    '安吉': ['trippage.html'],
+    '安吉线': ['trippage.html'],
+    'MIAOovoO': ['jietu.html'],
+    '青大附中表白墙': ['login2.html'],
+    '邓育明': ['punishment.html'],
+    '千味盛庭': ['sousuo.html'],
+
+    '青附之声': ['runaway.html'],
+    // 💡 将段宜廷的两个结果合并为一个数组
+    '段宜廷': ['newyear.html', 'flight.html'] 
+};
+
+    const UIState = {
+    startMenuOpen: false
+};
+    // 初始化
+    window.onload = function() {
+        renderHistory();
+        updateClock();
+        setInterval(updateClock, 1000);
+    };
+
+
+// 渲染历史列表（从本地存储读取）
+function renderHistory() {
+    const list = document.getElementById('historyList');
+    const history = JSON.parse(localStorage.getItem('searchHistory') || "[]");
+    
+    list.innerHTML = history.length ? "" : "<div class='no-history-msg'>暂无最近搜索内容</div>";
+    
+    history.forEach(itemText => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.innerText = itemText;
+        div.onclick = () => jumpTo(itemText); // 这里调用的就是上面修复好的 jumpTo
+        list.appendChild(div);
+    });
+}
+
+    // 核心逻辑：记录并跳转
+function recordAndJump(keyword, url) {
+    // 1. 保存到本地存储
+    saveToLocalStorage(keyword);
+    
+    // 2. 逻辑新增：点击后立即隐藏搜索弹出项
+    const res = document.getElementById('searchResults');
+    if (res) res.style.display = 'none';
+    
+    // 3. 清空搜索框输入文字（可选，模拟更真实）
+    document.getElementById('searchInput').value = '';
+    
+    // 4. 执行跳转
+   window.open(url, '_blank');
+}
+
+// 别名映射
+const ALIAS_MAP = {
+    '青州智核科技有限公司': '智核科技',
+    '青州智核科技': '智核科技',
+    'SIT LAB': 'SIT Lab',
+    'sit lab': 'SIT Lab'
+};
+
+// 修改原有的跳转函数
+const originalRecordAndJump = recordAndJump;
+recordAndJump = function(keyword, url) {
+    originalRecordAndJump(keyword, url); // 执行原逻辑
+    
+    let key = ALIAS_MAP[keyword] || keyword;
+    if (GEMINI_DATA[key]) {
+        showGeminiToast(key);
+    }
+};
+
+function showGeminiToast(keyword) {
+    const toast = document.getElementById('gemini-toast');
+    toast.style.display = 'block';
+    toast.onclick = () => openGeminiChat(keyword);
+}
+
+function openGeminiChat(keyword) {
+    closeGeminiUI('gemini-toast');
+    const chatWin = document.getElementById('gemini-chat-win');
+    chatWin.style.display = 'flex';
+    
+const optionsArea = document.getElementById('gemini-options');
+    const aiText = document.getElementById('gemini-ai-text');
+    
+    // 调整后的 AI 提示文字样式：更大字体、更现代的字体族、更大的行间距
+    aiText.innerHTML = `
+        <div style="
+            font-size: 20px; 
+            color: #4285f4; 
+            margin-bottom: 15px; 
+            font-weight: 600; 
+            line-height: 1.6; 
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.5px;
+            text-shadow: 0px 0px 1px rgba(66,133,244,0.2);
+        ">
+            关于“${keyword}”，<br>你最想了解哪个方向？
+        </div>
+    `;
+    optionsArea.innerHTML = '';
+    
+const data = GEMINI_DATA[keyword];
+    data.options.forEach((opt, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'gemini-opt-btn'; // 统一类名
+        btn.innerText = opt;
+        
+        // 点击选项仅切换内容，不锁定
+        btn.onclick = () => {
+            // 增加渐显动画效果
+            aiText.style.opacity = 0;
+            
+            setTimeout(() => {
+                aiText.innerHTML = `
+                    <div style="
+                        font-size: 18px; 
+                        font-weight: 600; 
+                        color: #4285f4; 
+                        margin-bottom: 12px;
+                        font-family: 'Segoe UI', sans-serif;
+                        letter-spacing: 0.5px;
+                    ">
+                        ${opt}
+                    </div>
+
+                    <div style="
+                        font-size: 14px; 
+                        color: #f0f0f0; 
+                        line-height: 1.8; 
+                        font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+                        letter-spacing: 0.2px;
+                        word-break: break-word;
+                    ">
+                        ${data.answers[index]}
+                    </div>
+
+                    <div style="
+                        margin-top: 25px; 
+                        border-top: 1px solid rgba(255,255,255,0.1); 
+                        padding-top: 15px; 
+                        text-align: right;
+                    ">
+                        <button id="best-fit-btn" onclick="confirmBestChoice(this, '${keyword}', '${opt}')" 
+                            style="
+                                background: #4285f4; 
+                                color: white; 
+                                border: none; 
+                                padding: 10px 20px; 
+                                border-radius: 8px; 
+                                cursor: pointer; 
+                                font-size: 12px; 
+                                font-weight: 500;
+                                transition: all 0.2s;
+                                box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+                            "
+                            onmouseover="this.style.background='#5a95f5'"
+                            onmouseout="this.style.background='#4285f4'"
+                        >
+                            👍 最佳联想
+                        </button>
+                    </div>
+                `;
+                aiText.style.opacity = 1;
+                aiText.style.transition = 'opacity 0.4s ease';
+            }, 50);
+        };
+        optionsArea.appendChild(btn);
+    });
+}
+function confirmBestChoice(clickedBtn, keyword, choice) {
+    // 1. 禁用上方所有选项按钮并置灰
+    const allOptBtns = document.querySelectorAll('.gemini-opt-btn');
+    allOptBtns.forEach(btn => {
+        btn.disabled = true;
+        btn.style.opacity = '0.4';
+        btn.style.filter = 'grayscale(100%)';
+        btn.style.cursor = 'not-allowed';
+    });
+
+    // 2. 记录到 localStorage
+    let bestMemories = JSON.parse(localStorage.getItem('geminiBestChoices') || "{}");
+    bestMemories[keyword] = choice;
+    localStorage.setItem('geminiBestChoices', JSON.stringify(bestMemories));
+
+    // 3. 更新点赞按钮自身状态
+    clickedBtn.innerHTML = "✅ 已存入深度记忆";
+    clickedBtn.style.background = "#07c160";
+    clickedBtn.disabled = true;
+
+    console.log("已存入记忆库：", bestMemories);
+}
+
+function closeGeminiUI(id) {
+    document.getElementById(id).style.display = 'none';
+}
+    function saveToLocalStorage(keyword) {
+        let history = JSON.parse(localStorage.getItem('searchHistory') || "[]");
+        if (!history.includes(keyword)) {
+            history.unshift(keyword); // 新记录排在最前
+            if (history.length > 8) history.pop(); // 最多存8条
+            localStorage.setItem('searchHistory', JSON.stringify(history));
+            renderHistory();
+        }
+    }
+
+    // 搜索框输入监听
+// 搜索框输入监听
+// 搜索框输入监听
+function handleExactSearch(val) {
+    const keyword = val.trim();
+    const res = document.getElementById('searchResults');
+
+    // 先清空并添加头部
+    res.innerHTML = `
+        <div style="padding: 10px; font-size: 11px; border-bottom: 1px solid #eee; background: #f9f9f9; color: #666;">
+            最佳匹配
+        </div>
+    `;
+
+    // 只有“完全命中”才展示
+    if (SEARCH_MAP[keyword]) {
+        // 💡 遍历该关键词对应的所有 URL 链接，直接生成两个结果
+        SEARCH_MAP[keyword].forEach((url) => {
+            const item = document.createElement('div');
+            item.className = 'search-item';
+            
+            // 点击对应的条目跳转到特定的 url
+            item.onclick = () => {
+                recordAndJump(keyword, url);
+            };
+
+            // 纯净版：直接显示原本的关键字，不带任何括号后缀
+            item.innerHTML = `
+                <img src="https://img.icons8.com/color/24/000000/light.png">
+                <div class="search-item-info">
+                    <div class="search-item-title">${keyword}</div>
+                    <div class="search-item-type">回忆</div>
+                </div>
+            `;
+            res.appendChild(item);
+        });
+        
+        res.style.display = 'block';
+    } else {
+        res.style.display = 'none';
+    }
+}
+
+
+// 回车键快捷触发
+document.getElementById('searchInput').onkeydown = function(e) {
+    if (e.key === 'Enter') {
+        const val = this.value.trim();
+        if (SEARCH_MAP[val]) {
+            // 💡 记录历史并遍历打开所有关联网页
+            saveToLocalStorage(val);
+            SEARCH_MAP[val].forEach(url => {
+                window.open(url, '_blank');
+            });
+            this.value = '';
+            // 隐藏搜索结果框
+            document.getElementById('searchResults').style.display = 'none';
+        } else if (val === '回收站') {
+            saveToLocalStorage('回收站');
+            openRecycleBin();
+            this.value = '';
+        }
+    }
+};
+
+
+
+
+// 统一跳转逻辑
+function jumpTo(text) {
+    if (SEARCH_MAP[text]) {
+        // 💡 适配数组结构：遍历并打开该关键词下的所有关联页面
+        SEARCH_MAP[text].forEach(url => {
+            window.open(url, '_blank');
+        });
+    } else if (text === '回收站') {
+        openRecycleBin();
+    }
+    closeWindow('historyWindow');
+}
+
+    // 面板切换
+function toggleHistory(e) {
+    e.stopPropagation();
+    UIState.startMenuOpen = !UIState.startMenuOpen;
+    renderStartMenu();
+}
+function renderStartMenu() {
+    const win = document.getElementById('historyWindow');
+    win.style.display = UIState.startMenuOpen ? 'flex' : 'none';
+}
+
+    function openRecycleBin() { document.getElementById('recycleWindow').style.display = 'flex'; }
+    function closeWindow(id) { document.getElementById(id).style.display = 'none'; }
+    
+function updateClock() {
+    const now = new Date();
+    
+    // 1. 获取真实的时间并格式化 (时:分)
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0'); // 如果你想显示秒，可以使用这个变量
+    
+    // 更新时间显示 (如果你HTML里只有时分，就用这个)
+    document.getElementById('time').innerText = hours + ":" + minutes;
+    
+    // 2. 固定日期为 2025/01/09
+    // 不再使用 now.getFullYear()，直接写死日期
+    document.getElementById('date').innerText = "2026/8/22";
+}
+document.addEventListener('mousedown', function () {
+    if (UIState.startMenuOpen) {
+        UIState.startMenuOpen = false;
+        renderStartMenu();
+    }
+});
+document.getElementById('historyWindow')
+    .addEventListener('mousedown', e => e.stopPropagation(), true);
+
+document.querySelector('.start-btn')
+    .addEventListener('mousedown', e => e.stopPropagation(), true);
+     function switchTab(tab) {
+        document.getElementById('chat-view').style.display = 'none';
+        document.getElementById('moments-content').style.display = 'none';
+        document.getElementById('subs-view').style.display = 'none';
+        document.querySelectorAll('.list-item').forEach(i => i.classList.remove('selected'));
+
+        if(tab === 'chat') {
+            document.getElementById('chat-view').style.display = 'flex';
+        } else if(tab === 'moments') {
+            document.getElementById('moments-content').style.display = 'block';
+        } else if(tab === 'subs') {
+            document.getElementById('subs-view').style.display = 'block';
+            document.getElementById('subs-item').classList.add('selected');
+        }
+    }
+
+    function openChat(name) {
+        switchTab('chat');
+        document.getElementById('chat-title').innerText = name;
+        // 简单模拟不同对话
+        const msgBox = document.getElementById('chat-msg');
+        if(name.includes('家姐')) {
+msgBox.innerHTML = `
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        你学校那只猫，先搁我学妹那里养着了
+    </div>
+</div>
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        等过几天打完疫苗，找到领养了再送走
+    </div>
+</div>
+
+<!-- 学姐 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;">
+    <div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        小猫现在怎么样？那天看它眼睛发炎好严重
+    </div>
+</div>
+
+<!-- 学妹 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        学妹说问题不大，刚炫完半个罐头，一直在屋里跑酷
+    </div>
+</div>
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        她让你放心，之前救助过类似情况的小流浪，有经验
+    </div>
+</div>
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;">
+    <div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        那太好了，感谢照顾🥰
+    </div>
+</div>
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div class="moment-img" style="background:#fff; padding:4px; border-radius:4px; width:fit-content; margin-top:2px;">
+        <img src="VA.jpg" alt="维A药片" onclick="toggleImage(this)" style="display:block;" />
+    </div>
+</div>
+
+
+<!-- 学妹 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        你买的？
+    </div>
+</div>
+<!-- 学姐 -->
+
+
+<!-- 学姐 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;">
+    <div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        是的，之前的我看空瓶了
+    </div>
+</div>
+
+
+`;
+
+
+        } else if(name.includes('教务尤老师')) {
+             msgBox.innerHTML = `
+<div style="margin-bottom:15px;"><small style="color:#888"></small><div style="background:#fff; padding:8px; border-radius:4px; width:fit-content;">院领导对你们这批学生的情况高度重视，昨天已经专门开会讨论，后续不会影响大家正常的科研和毕业进度</div></div>
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;"><div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">嗯嗯，我其实还好。但组里没导师这段时间，大家普遍反馈比较焦虑</div></div>
+
+<div style="margin-bottom:15px;"><small style="color:#888"></small><div style="background:#fff; padding:8px; border-radius:4px; width:fit-content;">这个你让大家不用担心，学院已经在联系合适的老师，会按照组里的研究方向来匹配</div></div>
+<div style="margin-bottom:15px;"><small style="color:#888"></small><div style="background:#fff; padding:8px; border-radius:4px; width:fit-content;">这次事情的影响比较大，后面接手的老师我们会慎重考虑，尽量找学术水平和口碑都比较好的</div></div>
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;"><div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">那就麻烦老师了，感谢🌹</div></div>
+
+
+
+         <div style="margin-bottom:15px;"><small style="color:#888"></small><div style="background:#fff; padding:8px; border-radius:4px; width:fit-content;">不客气～</div>
+    `;
+        } else if(name.includes('盛妙')) {
+             msgBox.innerHTML = `
+                  <!-- 妹妹 -->
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        刷到高考语文题，突然发现高中的古诗词我已经全部忘光了
+    </div>
+</div>
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        不信你现在看看这些，还记得多少
+    </div>
+</div>
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div class="moment-img" style="background:#fff; padding:4px; border-radius:4px; width:fit-content; margin-top:2px;">
+        <img src="poem.png" alt="古诗词" onclick="toggleImage(this)" style="display:block;" />
+    </div>
+</div>
+
+<!-- 自己 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;">
+    <div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        这就是传说中修为尽失的感觉吗？
+    </div>
+</div>
+
+
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        真的，记得当时经常课间极限写广播稿，现在想想，真不知道当年没有AI的自己是怎么做到如此才华横溢的
+    </div>
+</div>
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        哎对了，我记得当时有几篇稿子还是你帮我打印的？
+    </div>
+</div>
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        能不能帮找下我离开广播台前写的最后一篇稿子？那篇我怎么都找不到了
+    </div>
+</div>
+
+<!-- 自己 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;">
+    <div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        有没有什么关键词可以搜索一下？
+    </div>
+</div>
+
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-start;">
+    <div style="background:#fff; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+       啧，有点没印象了啊，只记得有个点歌环节
+    </div>
+</div>
+<!-- 自己 -->
+<div style="margin-bottom:15px; display:flex; flex-direction:column; align-items:flex-end;">
+    <div style="background:#dcf8c6; padding:8px; border-radius:4px; width:fit-content; max-width:70%; margin-top:2px;">
+        那等我回家看下以前的电脑，印象中应该有存档
+    </div>
+</div>
+
+    `;
+        }
+    }
+function saveBestMemory(keyword, choice) {
+    // 1. 获取现有存储
+    let bestMemories = JSON.parse(localStorage.getItem('geminiBestChoices') || "{}");
+    
+    // 2. 记录当前关键词的最后一次选择
+    bestMemories[keyword] = choice;
+    localStorage.setItem('geminiBestChoices', JSON.stringify(bestMemories));
+    
+    // 3. 视觉反馈：改变按钮状态
+    const btn = document.getElementById('best-fit-btn');
+    btn.innerHTML = "✅ 已存入深度记忆";
+    btn.style.background = "#555";
+    btn.disabled = true;
+
+    console.log(`已记录偏好：${keyword} -> ${choice}`); // 调试用
+}
+    
+    // 切换窗口显示/隐藏
+function toggleApp(id) {
+    const win = document.getElementById(id);
+    if (win.style.display === 'flex') {
+        win.style.display = 'none';
+    } else {
+        win.style.display = 'flex';
+        // 提升层级，确保弹窗在最顶层
+        win.style.zIndex = 5000; 
+    }
+    document.querySelectorAll('.icon').forEach(icon => {
+    icon.addEventListener('click', () => {
+        const url = icon.getAttribute('data-url');
+        if (url) window.location.href = url;
+    });
+});
+
+}
+
+</script>
+
+
+</body>
+</html>

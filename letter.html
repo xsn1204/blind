@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>违纪学生思想认识材料</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #334155; /* 深色桌面背景，突显纸张 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 桌面容器，统一承载两张尺寸严格一致的纸张 */
+        .desk-container {
+            position: relative;
+            width: 100%;
+            max-width: 680px;
+            height: 880px; /* 预留底部层叠展开空间 */
+        }
+
+        /* ================= 模拟两张独立的稿纸（结构与尺寸完全一致） ================= */
+        .letter-paper {
+            position: absolute;
+            width: 100%;
+            height: 820px; /* 严格固定高度，确保两张纸尺寸完全一致 */
+            box-sizing: border-box;
+            background-color: #fffefb; /* 还原略微泛黄的手写纸张质感 */
+            padding: 40px 45px;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            outline: none; /* 移除点击时的蓝色边框 */
+            cursor: pointer;
+        }
+
+        /* 第一页（李梓豪）：默认在上方，带轻微左倾斜 */
+        .page-1 {
+            z-index: 2;
+            transform: translate(0, 0) rotate(-1.5deg);
+        }
+
+        /* 第二页（段宜廷）：默认在下方，通过平移露出一截，带轻微右倾斜 */
+        .page-2 {
+            z-index: 1;
+            transform: translate(15px, 35px) rotate(1.5deg);
+        }
+
+        /* 【核心点击交互】被点击获得焦点的纸张上浮放正，另一张自动被压在下方 */
+        .letter-paper:focus {
+            z-index: 10;
+            transform: translate(0, -10px) rotate(0deg) !important; /* 抽出来放正 */
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+        }
+
+        /* ================= 顶部：学校官方红头 ================= */
+        .letter-header {
+            border-bottom: 2px solid #b91c1c;
+            padding-bottom: 6px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .letter-header::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #b91c1c;
+        }
+
+        .header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-cn {
+            font-family: "STXingkai", "华文行楷", "KaiTi", "楷体", serif;
+            font-size: 24px;
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .title-en {
+            text-align: right;
+            font-family: "Times New Roman", serif;
+            font-size: 9px;
+            color: #78716c;
+            line-height: 1.2;
+        }
+
+        .header-sub {
+            margin-top: 6px;
+            font-size: 11px;
+            color: #b91c1c;
+            font-family: "SimSun", "宋体", sans-serif;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* ================= 中部：严格对齐的横线正文区 ================= */
+        .letter-body {
+            background: linear-gradient(to bottom, transparent 34px, #e2e8f0 35px);
+            background-size: 100% 35px; 
+            line-height: 35px;
+            font-size: 16px;            
+            padding-top: 5px;
+            margin-bottom: 25px;
+            height: 525px; /* 固定的正文格高度 */
+        }
+
+        /* 【优化】强制两张纸的字体系列、粗细、颜色完全一致，解决一深一浅的问题 */
+        .font-style-a, .font-style-b {
+            font-family: "KaiTi", "楷体", "STKaiti", serif; 
+            font-weight: normal; /* 统一为常规粗细 */
+            color: #1e293b;      /* 统一文字颜色 */
+            letter-spacing: 1px;
+        }
+
+        .salutation {
+            font-weight: bold;
+        }
+
+        .text-p {
+            text-indent: 2em;
+            text-align: justify;
+            margin: 0;
+        }
+
+        .closing {
+            text-indent: 2em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* ================= 落款与签名区 ================= */
+        .sign-block {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* 核心修改：改为左对齐 */
+            line-height: 40px;
+            font-size: 16px;
+            padding-left: 400px;      /* 左侧留出适当间距，使其对齐看起来更美观 */
+            margin-top: -50px;       /* 核心修改：往上挪动，紧贴正文区域 */
+        }
+
+        /* 统一的手写体签名样式基类 */
+        .handwritten-sign {
+            font-family: "STXingkai", "华文行楷", "KaiTi", "楷体", cursive;
+            font-size: 22px;         
+            font-style: italic;       
+            color: #09232b;           
+            display: inline-block;
+            transform: rotate(-2deg); 
+            letter-spacing: 2px;
+            padding-left: 5px;
+            height: 40px; /* 固定高度防止撑开行高 */
+            vertical-align: bottom;
+        }
+
+        .letter-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 45px;
+            right: 45px;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 8px;
+            font-size: 11px;
+            color: #64748b;
+            font-family: "SimSun", "宋体", sans-serif;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* ================= 新增：班主任手写便签样式 ================= */
+        .sticky-note {
+            position: absolute;
+            top: 180px;
+            right: -30px; /* 让便签稍微探出信纸边缘，增加错落的立体感 */
+            width: 200px;
+            height: 150px;
+            background-color: #fef08a; /* 经典的3M淡黄色便签 */
+            padding: 15px;
+            box-shadow: -5px 8px 15px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.1);
+            transform: rotate(4deg); /* 轻微旋转，模拟随意贴上去的效果 */
+            z-index: 5;
+            border-left: 2px solid #facc15; /* 模拟左侧折痕或厚度 */
+            transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* 增加平滑消失的过渡动画 */
+            cursor: pointer; /* 提醒用户这是可以点击的 */
+        }
+
+        .sticky-note:hover {
+            transform: rotate(1deg) scale(1.03); /* 鼠标悬停时动态反馈 */
+        }
+
+        /* ================= [新增] 隐藏便签的样式 ================= */
+        .sticky-note.hidden {
+            opacity: 0;              /* 完全透明 */
+            visibility: hidden;     /* 彻底隐藏，不占位置，不可点击 */
+            transform: rotate(10deg) scale(0.8) translateY(20px); /* 增加向下滑落并缩小的消失动画 */
+        }
+
+        .sticky-note-content {
+            font-family: "KaiTi", "楷体", "STKaiti", serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #b45309; /* 深琥珀色模拟中性笔或圆珠笔蓝色/深色墨水在黄纸上的手写感 */
+            font-weight: bold;
+        }
+
+        .sticky-note-header {
+            font-size: 12px;
+            border-bottom: 1px dashed #facc15;
+            padding-bottom: 5px;
+            margin-bottom: 8px;
+            color: #ca8a04;
+        }
+
+        @media (max-width: 768px) {
+            .desk-container { height: 900px; }
+            .letter-paper { padding: 30px 25px; height: 800px; }
+            .letter-footer { left: 25px; right: 25px; bottom: 20px; }
+            .sign-block { padding-left: 20px; }
+            .sticky-note { right: 10px; top: 140px; width: 160px; } /* 移动端适配 */
+        }
+  
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">27/37</div></head>
+<body>
+
+    <div class="desk-container">
+
+        <!-- ==================== 上层/第一页：李梓豪 检讨书 ==================== -->
+        <!-- [新增] 为 page-1 增加 ID，方便 JavaScript 处理 -->
+        <div id="page1" class="letter-paper page-1 font-style-b" tabindex="1">
+            
+            <!-- [新增] 为便签增加 ID: id="teacherNote" -->
+            <!-- [新增] 增加点击事件: onclick="hideNote()" -->
+            <div id="teacherNote" class="sticky-note" onclick="hideNote()">
+                <div class="sticky-note-header">📌 </div>
+                <div class="sticky-note-content">
+                    班长，大课间你监督段宜廷把检讨书写完，送到17班班主任那边，把对方的也拿回来。
+                </div>
+            </div>
+
+            <div class="letter-header">
+                <div class="header-main">
+                    <div class="school-info">
+                        <div class="title-cn">青州大学附属高中信笺</div>
+                    </div>
+                    <div class="title-en">
+                        QINGZHOU UNIVERSITY  <br> AFFILIATED HIGH SCHOOL
+                    </div>
+                </div>
+                <div class="header-sub">
+                    <span>学生处材料</span>
+                    <span>编号：2019-0318A</span>
+                </div>
+            </div>
+
+            <div class="letter-body">
+                <p class="salutation">尊敬的学校领导、班主任老师：</p>
+                <p class="text-p">就我在本次校园冲突中所负有的责任，向学校做出深刻的自我检查。</p>
+                <p class="text-p">反思冲突源头，根源在于我在明知涉及同学个人隐私的前提下，仍发表了极不妥当的言论，严重伤害了同学间的沟通底线。</p>
+                <p class="text-p">经过老师的教育，我深刻体会到我的错误，正是由于我言语失当，才诱发了后续局面的升级，对此我深表内疚。</p>
+                <p class="text-p">我愿意承担相应的责任，诚恳向段同学及其班集体道歉，并在今后全面规范日常言行，确保不再发生类似事件。</p>
+                <p class="closing">此致</p>
+                <p class="closing" style="text-indent: 4em;">敬礼！</p>
+            </div>
+
+            <div class="sign-block">
+                <div>检查人：<span class="handwritten-sign">李梓豪</span></div>
+                <div>班级：高二（17）</div>
+                <div>日期：2018年3月18日</div>
+            </div>
+
+            <div class="letter-footer">
+                <span>青州大学附属高中学生处</span>
+                <span>第 1 页</span>
+            </div>
+        </div>
+
+
+        <!-- ==================== 下层/第二页：检讨书 ==================== -->
+        <div class="letter-paper page-2 font-style-a" tabindex="2">
+            <div class="letter-header">
+                <div class="header-main">
+                    <div class="school-info">
+                        <div class="title-cn">青州大学附属高中信笺</div>
+                    </div>
+                    <div class="title-en">
+                        QINGZHOU UNIVERSITY  <br> AFFILIATED HIGH SCHOOL
+                    </div>
+                </div>
+                <div class="header-sub">
+                    <span>学生处材料</span>
+                    <span>编号：2019-0318B</span>
+                </div>
+            </div>
+
+            <div class="letter-body">
+                <p class="salutation">尊敬的学校领导、老师：</p>
+                <p class="text-p">针对近期发生的校园违纪冲突，现就自身行为进行深刻反省。</p>
+                <p class="text-p">事发时，在面对同学间的言语摩擦，我未能克制个人情绪，采取了违反校纪校规的过激反应方式，进而造成了不良的校园影响。</p>
+                <p class="text-p">作为一名高中生，在面临人际冲突时，本应通过理性渠道向年级组反映，而我却以个人手段宣泄负面情绪，这严重违背了校园行为守则。</p>
+                <p class="text-p">我已深刻认识到自身错误。在此，我向相关师生诚恳致歉。今后我将以此为戒，杜绝此类事件再次发生。</p>
+                <p class="closing">此致</p>
+                <p class="closing" style="text-indent: 4em;">敬礼！</p>
+            </div>
+
+            <div class="sign-block">
+                <div>检查人：</div>
+                <div>班级：</div>
+                <div>日期：</div>
+            </div>
+
+            <div class="letter-footer">
+                <span>青州大学附属高中学生处</span>
+                <span>第 2 页</span>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- ==================== [新增] JavaScript 代码 ==================== -->
+    <script>
+        function hideNote() {
+            // 1. 获取便签元素
+            var note = document.getElementById('teacherNote');
+            
+            // 2. 为其添加 'hidden' 类，触发 CSS 定义的隐藏和动画效果
+            if (note) {
+                note.classList.add('hidden');
+            }
+            
+            // 3. [可选] 为了防止点击便签时也触发信纸的聚焦(focus)事件，
+            // 我们可以让信纸暂时失去焦点。
+            var page1 = document.getElementById('page1');
+            if (page1) {
+                page1.blur();
+            }
+        }
+    </script>
+
+</body>
+</html>

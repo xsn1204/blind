@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青州大学附属高中2019年“迎新春·跨新年”元旦晚会报道</title>
+    <style>
+        /* 微信公众号全局基础样式重置 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            font-family: -apple-system-font, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
+            color: #333333;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mp-article-container {
+            max-width: 677px;
+            width: 100%;
+            padding: 20px 16px 40px 16px;
+            box-sizing: border-box;
+        }
+
+        /* ================= 1. 公众号头部信息 ================= */
+        .mp-title {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 14px;
+            color: #000000;
+        }
+
+        .mp-meta-auth {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            font-size: 15px;
+            margin-bottom: 22px;
+            line-height: 20px;
+        }
+
+        .account-name {
+            color: #576b95;
+            font-weight: 400;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .publish-time {
+            color: rgba(0,0,0,0.3);
+            margin-right: 10px;
+        }
+
+        .listen-btn {
+            color: #07c160;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .listen-btn::before {
+            content: "🔊";
+            font-size: 12px;
+            margin-right: 3px;
+        }
+
+        /* ================= 2. 文章正文排版 ================= */
+        .mp-content {
+            font-size: 16px;
+            line-height: 1.75;
+            color: #333333;
+        }
+
+        .section-date-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #000000;
+            margin: 35px 0 20px 0;
+            position: relative;
+        }
+        .section-date-title::after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: #07c160;
+            margin: 6px auto 0 auto;
+        }
+
+        .p-text {
+            text-align: justify;
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+
+        .blockquote-style {
+            border-left: 3px solid #07c160;
+            padding-left: 12px;
+            color: #666666;
+            font-style: italic;
+            margin: 20px 0;
+            text-indent: 0;
+        }
+
+        /* 占位图通用样式 */
+        .img-placeholder {
+            width: 100%;
+            background-color: #f2f3f5;
+            border: 1px dashed #cccccc;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #888888;
+            font-size: 14px;
+            margin: 20px 0;
+            box-sizing: border-box;
+            padding: 40px 10px;
+        }
+        .img-placeholder .icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        /* ================= 3. 底部作者、推荐与工具栏 ================= */
+        .author-info {
+            text-align: right;
+            font-size: 14px;
+            color: rgba(0,0,0,0.5);
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .recommend-box {
+            border-top: 1px dashed #e1e1e1;
+            padding-bottom: 20px;
+            margin-top: 40px;
+        }
+        .recommend-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+        .recommend-link {
+            display: block;
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 8px;
+            cursor: default;
+        }
+
+        .footer-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            color: rgba(0,0,0,0.3);
+            margin-top: 35px;
+            padding-bottom: 20px;
+        }
+        .view-original {
+            color: #576b95;
+            text-decoration: none;
+        }
+        .stat-right {
+            display: flex;
+            gap: 15px;
+        }
+        .icon-btn {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ================= 4. 微信原始风格留言区 ================= */
+        .comment-section {
+            border-top: 8px solid #f1f1f3;
+            margin-left: -16px;
+            margin-right: -16px;
+            padding: 25px 16px;
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+        .write-comment {
+            color: #576b95;
+            text-decoration: none;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            background: #ada9ab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            line-height: 1;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .comment-content-box {
+            flex: 1;
+        }
+        .comment-user-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 4px;
+        }
+        .like-num::before {
+            content: "👍";
+            margin-right: 2px;
+        }
+        .comment-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #000000;
+            text-align: justify;
+        }
+        .comment-date {
+            font-size: 12px;
+            color: rgba(0,0,0,0.2);
+            margin-top: 6px;
+        }
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">12/37</div>
+</head>
+<body>
+
+<div class="mp-article-container">
+
+    <!-- 公众号标准头部 -->
+    <h1 class="mp-title">辞旧迎新启新篇，砥砺奋进芳华展：青州大学附属高中2019年元旦晚会圆满落幕</h1>
+    <div class="mp-meta-auth">
+        <span class="account-name">青州大学附属高中</span>
+        <span class="publish-time">2018年12月29日 21:30</span>
+        <span class="listen-btn">听全文</span>
+    </div>
+
+    <!-- 文章正文区域 -->
+    <div class="mp-content">
+
+        <!-- 图片占位 1：主视觉 / 晚会开场大图 -->
+        <div class="img-placeholder">
+            <div class="icon">🖼️</div>
+            <div>[图片位置 1：元旦晚会全景/舞台灯光主视觉图]</div>
+        </div>
+        
+        <div class="section-date-title">第一篇章 · 岁月如歌 · 校长寄语祝华章</div>
+        <p class="p-text">岁序更迭，新元肇启。2018年12月28日晚，青州大学附属高中大礼堂内灯光璀璨、热浪翻涌，“讴歌新时代，共筑附中梦”2019年元旦晚会在此隆重举行。学校领导班子成员、全体教职工与各年级学生欢聚一堂，共同欢庆新年的到来。</p>
+        <p class="p-text">晚会在民乐团带来的激昂民乐合奏《丰收锣鼓》中拉开序幕。随后，校领导上台发表新年致辞。校长回顾了2018年学校在教学科研、素质教育及校园文化建设等方面取得的硕果，对全体师生的辛勤付出表示衷心感谢，并向大家致以最诚挚的新年祝福。</p>
+
+        <div class="blockquote-style">
+            “2018年我们脚踏实地、砥砺前行；2019年，希望全体附中同学胸怀大志、勇于担当，将个人成长融入国家发展，用奋斗书写无悔青春！”
+        </div>
+
+        <p class="p-text">校长含颔深情的期许赢得了全场阵阵掌声，也为整场晚会奠定了奋发向上的基调。</p>
+
+        <!-- 图片占位 2：校长致辞 / 精彩开场节目 -->
+        <div class="img-placeholder">
+            <div class="icon">🖼️</div>
+            <div>[图片位置 2：校领导新年致辞与开场民乐合奏照片]</div>
+        </div>
+
+        <div class="section-date-title">第二篇章 · 青春如火 · 精彩纷呈展现风采</div>
+        <p class="p-text">整场晚会节目形式多样、精彩纷呈，涵盖了舞蹈、歌曲、小品、朗诵等多种艺术形式，充分展现了青大附中学子的多才多艺与昂扬精神。</p>
+        <p class="p-text">高一年级同学们带来的舞蹈《青春之舞》活力四射，瞬间点燃了全场气氛；高二年级自编自演的情景小品《高考倒计时》，以诙谐幽默的语言和接地气的校园生活细节，勾勒出高中生拼搏奋斗的日常，引发全场阵阵欢笑与强烈共鸣。</p>
+
+        <!-- 图片占位 3：学生舞台表演集合 -->
+        <div class="img-placeholder">
+            <div class="icon">🖼️</div>
+            <div>[图片3：高二（22）班弹唱节目；摄影：段宜廷]</div>
+        </div>
+
+        <p class="p-text">教师团队带来的特别节目更是将现场气氛推向高潮。教研组老师们一改往日严谨的课堂形象，以一曲深情款款的诗朗诵《致岁月与师者》，表达了对教育事业的热爱和对学生的关切，赢得了学生们声声尖叫与掌声。</p>
+
+        <!-- 图片占位 4：教师节目 / 观众互动 -->
+        <div class="img-placeholder">
+            <div class="icon">🖼️</div>
+            <div>[图片位置 4：教师诗朗诵与观众台挥舞荧光棒画面]</div>
+        </div>
+
+        <div class="section-date-title">第三篇章 · 筑梦远航 · 齐声高唱迎新年</div>
+        <p class="p-text">随着音乐响起，合唱团与现场全体师生高声合唱《我和我的祖国》，激昂的旋律在礼堂内久久回荡，表达了附中师生对祖国母亲的深情祝福与对未来的美好憧憬。</p>
+
+        <div class="blockquote-style">
+            在欢歌笑语与热烈掌声中，青州大学附属高中2019年元旦晚会圆满落下帷幕。
+        </div>
+
+        <p class="p-text">告别收获满满的2018年，迎来充满希望的2019年。本次元旦晚会不仅是一场视听盛宴，更是凝聚人心、鼓舞士气的精神盛会。新的一年，青大附中师生将怀揣梦想，携手并进，续写更加辉煌的篇章！</p>
+
+        <!-- 图片占位 5：全体演职人员大合照 -->
+        <div class="img-placeholder">
+            <div class="icon">🖼️</div>
+            <div>[图片位置 5：全体演职人员与领导嘉宾大合影]</div>
+        </div>
+
+    </div>
+
+    <!-- 供稿人员落款 -->
+    <div class="author-info">
+        供稿：校团委、学生会<br>
+        摄影：校园新闻中心
+    </div>
+
+    <!-- 推荐阅读板块 -->
+    <div class="recommend-box">
+        <div class="recommend-title">推荐阅读：</div>
+
+        <a class="recommend-link" href="#">
+            ◆ 高一年级系列研学活动：“安吉线”报道
+        </a>
+
+        <div class="recommend-link">
+            ◆ 盘点2018：这一年，青大附中与你共同走过的辉煌瞬间
+        </div>
+    </div>
+
+    <!-- 底部互动状态栏 -->
+    <div class="footer-bar">
+        <a href="#" class="view-original">阅读原文</a>
+        <div class="stat-right">
+            <span>阅读 3821</span>
+            <span class="icon-btn">✨ 分享</span>
+            <span class="icon-btn">👍 赞 186</span>
+        </div>
+    </div>
+
+    <!-- 模拟留言区 -->
+    <div class="comment-section">
+        <div class="comment-header">
+            <span>留言 2</span>
+            <a href="#" class="write-comment">写留言</a>
+        </div>
+        
+        <div class="comment-item">
+            <div class="avatar"></div>
+            <div class="comment-content-box">
+                <div class="comment-user-row">
+                    <strong>追光者</strong>
+                    <span class="like-num">98</span>
+                </div>
+                <div class="comment-text">
+                    老师们的诗朗诵太震撼了！平时严肃的老师台上居然这么有魅力，祝附中大家庭2019新年快乐！
+                </div>
+                <div class="comment-date">2018年12月29日</div>
+            </div>
+        </div>
+        <div class="comment-item">
+            <div class="avatar" style="background:#f7b6d2;color:#fff;">🐰</div>
+            <div class="comment-content-box">
+                <div class="comment-user-row">
+                    <strong style="color: #ff69b4;">MIAOovoO</strong>
+                    <span class="like-num">152</span>
+                </div>
+                <div class="comment-text">
+                    小品《高考倒计时》简直在我们班装了监控好嘛😂 2019加油，我们高三顶峰相见！
+                </div>
+                <div class="comment-date">2018年12月29日</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

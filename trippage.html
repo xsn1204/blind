@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高一年级系列研学活动：“安吉线”报道</title>
+    <style>
+        /* 微信公众号全局基础样式重置 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            font-family: -apple-system-font, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
+            color: #333333;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mp-article-container {
+            max-width: 677px;
+            width: 100%;
+            padding: 20px 16px 40px 16px;
+            box-sizing: border-box;
+        }
+
+        /* ================= 1. 公众号头部信息 ================= */
+        .mp-title {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 14px;
+            color: #000000;
+        }
+
+        .mp-meta-auth {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            font-size: 15px;
+            margin-bottom: 22px;
+            line-height: 20px;
+        }
+
+        .account-name {
+            color: #576b95;
+            font-weight: 400;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .publish-time {
+            color: rgba(0,0,0,0.3);
+            margin-right: 10px;
+        }
+
+        .listen-btn {
+            color: #07c160;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .listen-btn::before {
+            content: "🔊";
+            font-size: 12px;
+            margin-right: 3px;
+        }
+
+        /* ================= 2. 文章正文排版 ================= */
+        .mp-content {
+            font-size: 16px;
+            line-height: 1.75;
+            color: #333333;
+        }
+
+        /* 微信公众号常用的居中粗体时间/场景轴式引导 */
+        .section-date-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #000000;
+            margin: 35px 0 20px 0;
+            position: relative;
+        }
+        .section-date-title::after {
+            content: "";
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: #07c160;
+            margin: 6px auto 0 auto;
+        }
+
+        .p-text {
+            text-align: justify;
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+
+        /* 还原段落中含蓄深刻的重点提示 */
+        .blockquote-style {
+            border-left: 3px solid #07c160;
+            padding-left: 12px;
+            color: #666666;
+            font-style: italic;
+            margin: 20px 0;
+            text-indent: 0;
+        }
+
+        /* ================= 3. 底部作者、推荐与工具栏 ================= */
+        .author-info {
+            text-align: right;
+            font-size: 14px;
+            color: rgba(0,0,0,0.5);
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .recommend-box {
+            border-top: 1px dashed #e1e1e1;
+            padding-bottom: 20px;
+            margin-top: 40px;
+        }
+        .recommend-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+        .recommend-link {
+            display: block;
+            color: #576b95;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            color: rgba(0,0,0,0.3);
+            margin-top: 35px;
+            padding-bottom: 20px;
+        }
+        .view-original {
+            color: #576b95;
+            text-decoration: none;
+        }
+        .stat-right {
+            display: flex;
+            gap: 15px;
+        }
+        .icon-btn {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ================= 4. 微信原始风格留言区 ================= */
+        .comment-section {
+            border-top: 8px solid #f1f1f3;
+            margin-left: -16px;
+            margin-right: -16px;
+            padding: 25px 16px;
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+        .write-comment {
+            color: #576b95;
+            text-decoration: none;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            background: #ada9ab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            line-height: 1;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .comment-content-box {
+            flex: 1;
+        }
+        .comment-user-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: rgba(0,0,0,0.5);
+            margin-bottom: 4px;
+        }
+        .like-num::before {
+            content: "👍";
+            margin-right: 2px;
+        }
+        .comment-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #000000;
+            text-align: justify;
+        }
+        .comment-text strong {
+            display: inline-block;
+        }
+        .comment-date {
+            font-size: 12px;
+            color: rgba(0,0,0,0.2);
+            margin-top: 6px;
+        }
+        .recommend-link {
+            color: #333;
+            text-decoration: none;
+            cursor: default;
+        }
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">5/37</div>
+</head>
+<body>
+
+<div class="mp-article-container">
+
+    <!-- 公众号标准头部 -->
+    <h1 class="mp-title">高一年级系列研学活动：“安吉线”报道</h1>
+    <div class="mp-meta-auth">
+        <span class="account-name">青州大学附属高中</span>
+        <span class="publish-time">2018年5月18日 22:15</span>
+        <span class="listen-btn">听全文</span>
+    </div>
+
+    <!-- 文章正文区域 -->
+<div class="mp-content">
+        
+        <div class="section-date-title">上午 · 余村寻足迹与红色记忆</div>
+        <p class="p-text">研学旅行第一站，青州大学附属高中的师生们前往安吉余村，实地探访“绿水青山就是金山银山”重要理念的发源地。步入余村，山青水秀，溪水潺潺。同学们走过“两山”理论纪念碑，在讲解员的带领下参观了余村展示馆，通过对比余村从“矿山采石”到“生态宜居”的发展历程，深刻体会到了绿色发展理念给乡村带来的翻天覆地的变化。</p>
+        <p class="p-text">随后，师生们前往安吉红色教育基地进行沉浸式学习。同学们肃立凝视，不仅在绿水青山间感悟生态文明，更在红色足迹中汲取了理想信念与爱国主义的精神力量。</p>
+
+        <div class="blockquote-style">
+            “这是将生态文明教育与红色革命传承紧密结合的优秀范例，让同学们在绿水青山中感悟初心使命，深刻体会时代赋予的责任。”
+        </div>
+
+
+        <div class="section-date-title">下午 · 大岭古道<strong>登山徒步拉练</strong></div>
+<p class="p-text">下午，全体师生抵达龙王村，正式开启大岭古道徒步拉练。全长约6公里的古道石阶蜿蜒，曾是村民通往<strong>【天荒坪】</strong>的唯一通道。本次拉练从龙王村出发，沿古道一路攀登至江南天池，考验学生的意志品质与团队协作能力。</p>
+
+<p class="p-text">古道山高路陡，随着连续数公里的上坡，同学们逐渐体力透支，出现呼吸急促、双腿发软等情况。面对体能极限，同学们自发互相帮助，体能较好的同学主动鼓励落后同伴，在陡峭台阶处手拉手相互扶持。“坚持就是胜利”的口号此起彼伏，没有一人轻言放弃，大家凭借毅力紧跟队伍，向山顶一步步挺进。</p>
+        <p class="p-text"> 经过两个多小时的拼搏，全体师生最终顺利登顶海拔近千米的江南天池。站在高山天池之巅，雄浑的大坝与清澈的高山水库交相辉映。同学们用汗水与坚持，为本次研学首日画上了圆满句号。
+</p>
+
+    </div>
+
+    <!-- 供稿人员落款 -->
+    <div class="author-info">
+        供稿：高一年级组
+    </div>
+
+    <!-- 推荐阅读板块 -->
+    <div class="recommend-box">
+        <div class="recommend-title">推荐阅读：</div>
+                <div class="recommend-link">
+            ◆ 打卡这段盘山公路，体验“秋名山”式漂移
+        </div>
+                     <div class="recommend-link">
+            ◆ 中国首个“暗夜保护区”，解锁最美观星圣地
+        </div>
+
+
+
+    </div>
+
+    <!-- 底部互动状态栏 -->
+    <div class="footer-bar">
+        <a href="#" class="view-original">阅读原文</a>
+        <div class="stat-right">
+            <span>阅读 1245</span>
+            <span class="icon-btn">✨ 分享</span>
+            <span class="icon-btn">👍 赞 48</span>
+        </div>
+    </div>
+
+    <!-- 模拟留言区 -->
+    <div class="comment-section">
+        <div class="comment-header">
+            <span>留言 3</span>
+            <a href="#" class="write-comment">写留言</a>
+        </div>
+        
+        <div class="comment-item">
+            <div class="avatar"></div>
+            <div class="comment-content-box">
+                <div class="comment-user-row">
+                    <strong>秋天不回来</strong>
+                    <span class="like-num">24</span>
+                </div>
+                <div class="comment-text">
+                    6公里山路对孩子们是个不小的挑战，学校组织这样的意志磨砺活动非常有意义。
+                </div>
+                <div class="comment-date">2018年5月18日</div>
+            </div>
+        </div>
+        <div class="comment-item">
+            <div class="avatar" style="background:#f7b6d2;color:#fff;">🐰</div>
+            <div class="comment-content-box">
+                <div class="comment-user-row">
+                    <strong style="color: #ff69b4;">MIAOovoO</strong>
+                    <span class="like-num">12</span>
+                </div>
+                <div class="comment-text">
+                    本人就是那个一路问"还有多远"的🙇‍♀️拍照五分钟，爬山两小时
+                </div>
+                <div class="comment-date">2018年5月18日</div>
+            </div>
+        </div>
+        <div class="comment-item">
+            <div class="avatar"></div>
+            <div class="comment-content-box">
+                <div class="comment-user-row">
+                    <strong>缘空</strong>
+                    <span class="like-num">18</span>
+                </div>
+                <div class="comment-text">
+                    听说以前天荒坪是七仙女洗澡的“天女盆”，猪八戒偷看被发现，恼羞成怒后拿钉耙砸开了池子，池水流尽就有了这个名字。
+                </div>
+                <div class="comment-date">2018年5月19日</div>
+            </div>
+        </div>
+
+    
+
+
+
+    </div>
+
+</div>
+
+</body>
+</html>
