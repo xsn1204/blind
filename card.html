@@ -155,6 +155,12 @@
             border-radius: 2px;
             padding: 0 1px;
             background: #fff;
+            cursor: pointer;
+        }
+        .grid-table .num-block.filled {
+            background-color: var(--card-black);
+            border-color: var(--card-black);
+            color: var(--card-black);
         }
 
         /* 竖版下将科目栏移至第二行，节约顶部横向空间 */
@@ -237,6 +243,8 @@
             text-align: center;
             width: 18px;
             box-sizing: border-box;
+            cursor: pointer; /* 增加鼠标悬停手型效果 */
+            transition: all 0.1s ease;
         }
 
         /* 填涂效果 */
@@ -271,19 +279,21 @@
             letter-spacing: 0.5px;
         }
   
-                            .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">26/38</div></head>
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">26/38</div>
+</head>
 <body>
 
 <div class="answer-sheet">
@@ -394,20 +404,21 @@
         </div>
 
         <div class="answer-column">
-                                    <div class="question-row"><span class="q-num">21</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <div class="question-row"><span class="q-num">21</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
             <div class="question-row"><span class="q-num">22</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
-<!-- 给这一行加上 style="position: relative;" -->
-<div class="question-row" style="position: relative;">
-    <span class="q-num">23</span>
-    <div class="options-group">
-        <span class="option-box">A</span>
-        <span class="option-box">B</span>
-        <!-- 在这里插入墨点 -->
-        <span class="ink-smudge"></span>
-        <span class="option-box">C</span>
-        <span class="option-box">D</span>
-    </div>
-</div>            <div class="question-row"><span class="q-num">24</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
+            <!-- 给这一行加上 style="position: relative;" -->
+            <div class="question-row" style="position: relative;">
+                <span class="q-num">23</span>
+                <div class="options-group">
+                    <span class="option-box">A</span>
+                    <span class="option-box">B</span>
+                    <!-- 在这里插入墨点 -->
+                    <span class="ink-smudge"></span>
+                    <span class="option-box">C</span>
+                    <span class="option-box">D</span>
+                </div>
+            </div>
+            <div class="question-row"><span class="q-num">24</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
             <div class="question-row"><span class="q-num">25</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
             <div style="height: 12px;"></div>
 
@@ -422,7 +433,7 @@
             <div class="question-row"><span class="q-num">33</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
             <div class="question-row"><span class="q-num">34</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
             <div class="question-row"><span class="q-num">35</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
-<div style="height: 12px;"></div>
+            <div style="height: 12px;"></div>
             <div class="question-row"><span class="q-num">36</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
             <div class="question-row"><span class="q-num">37</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
             <div class="question-row"><span class="q-num">38</span><div class="options-group"><span class="option-box">A</span><span class="option-box">B</span><span class="option-box">C</span><span class="option-box">D</span></div></div>
@@ -449,6 +460,16 @@
     </div>
 
 </div>
+
+<script>
+    // 使用事件委托，监听所有选项框和准考证号小块的点击
+    document.addEventListener('click', function(e) {
+        const target = e.target;
+        if (target.classList.contains('option-box') || target.classList.contains('num-block')) {
+            target.classList.toggle('filled');
+        }
+    });
+</script>
 
 </body>
 </html>

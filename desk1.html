@@ -868,10 +868,7 @@
                 <div class="nav-icon">⚙️</div>
             </div>
             <div class="chat-list">
-                <div class="list-item" id="subs-item" onclick="switchTab('subs')">
-                    <div class="avatar" style="background:#107bef">📜</div>
-                    <div style="flex:1"><h4>订阅号</h4><p id="subs-preview">流星雨将浪漫降临！...</p></div>
-                </div>
+               
                 <div class="list-item selected" onclick="openChat('家姐')">
                     <div class="avatar" style="background:#b2dfdb">🍏</div>
                     <div style="flex:1"><h4>家姐</h4> <p>是的，之前的我看空瓶了</p> </div>
@@ -880,10 +877,7 @@
                     <div class="avatar" style="background:#ffccbc">🐰</div>
                     <div style="flex:1"><h4>盛妙</h4><p>那等我回家看下以前的...</p></div>
                 </div>
-                <div class="list-item" onclick="openChat('教务尤老师')">
-                    <div class="avatar" style="background:#ffdb58">🌺</div>
-                    <div style="flex:1"><h4>教务尤老师</h4><p>不客气～</p></div>
-                </div>
+            
             </div>
             <div class="main-view">
 <div id="chat-view" style="display:flex; flex-direction:column; height:100%;">
@@ -956,13 +950,13 @@
                 <div id="moments-content" style="display: none;">
                     <div class="moments-title">朋友圈</div>
                     <div class="moment">
-                        <div class="avatar" style="background:#29be8a"></div>
+                        <div class="avatar" style="background:#fdff69"></div>
                         <div class="moment-body">
-                                <p class="m-name">199Z</p>
-                                <p>法国夺冠热门，德国32强，比利时让二追三，今夕是何年？</p>
+                                <p class="m-name">momo</p>
+                                <p>暑期留校的，有一起看蜘蛛侠的吗？</p>
 
                             <div class="likes-box" style="background: #f7f7f7; padding: 4px 8px; border-radius: 2px; margin-top: 6px; font-size: 12px; color: #576b95;">
-            ❤️ Bur, 陆老师 等 4 人点赞
+            ❤️ oh耶, 像回事儿 等 3 人点赞
         </div>
                             </div>
                     </div>
@@ -971,7 +965,7 @@
     <div class="avatar" style="background:#aaa9a9"></div>
     <div class="moment-body">
         <p class="m-name">🎀 杨乐多</p>
-        <p>“Checkmate, I couldn't lose.” ♟️✨</p>
+        <p>“What if I told you none of it was accidental?.” ♟️✨</p>
 
     <!-- 网易云音乐分享卡片 -->
         <div class="music-card" style="background: #f3f3f3; padding: 8px; border-radius: 4px; display: flex; align-items: center; gap: 10px; margin-top: 6px;">
@@ -1006,7 +1000,17 @@
         </div>
     </div>
 </div>
-                       
+                            <div class="moment">
+                        <div class="avatar" style="background:#29be8a"></div>
+                        <div class="moment-body">
+                                <p class="m-name">199Z</p>
+                                <p>法国夺冠热门，德国32强，比利时让二追三，今夕是何年？</p>
+
+                            <div class="likes-box" style="background: #f7f7f7; padding: 4px 8px; border-radius: 2px; margin-top: 6px; font-size: 12px; color: #576b95;">
+            ❤️ Bur, 陆老师 等 4 人点赞
+        </div>
+                            </div>
+                    </div>             
  </div>
 
  
@@ -1045,6 +1049,7 @@
     <div class="sticky-note">
       <h4>🔑 备忘</h4>
         <p>无需使用外部搜索（真实互联网）以获取信息。</p>
+         
         <p>菜单栏最左侧可查看搜索记录，便于快速访问历史查询。</p>
         <p>共设置10个extra页面，extra页面不包含关键词，不影响线索推进。</p>
         <p>若点击无响应，则表示该信息无关，无需使用F12或查看源码以获取线索。</p>
@@ -1109,7 +1114,9 @@ const SEARCH_MAP = {
     '青甸': ['magazine.html'],
     '天荒坪': ['police.html'],
     '秋日拾光': ['market.html'],
-    '李梓豪': ['note'] ,
+    '李梓豪': ['note.html'] ,
+       '猩辅导': ['fudao.html'] ,
+               '惠君': ['feiye.html'],
     '盛妙': ['excel.html'],
     '安吉': ['trippage.html'],
     '安吉线': ['trippage.html'],
@@ -1121,7 +1128,7 @@ const SEARCH_MAP = {
         '波士顿': ['faculty.html'],
     '青附之声': ['runaway.html'],
     // 💡 将段宜廷的两个结果合并为一个数组
-    '段宜廷': ['newyear.html', 'flight.html'] 
+    '段宜廷': ['book.html'] 
 };
 
     const UIState = {
