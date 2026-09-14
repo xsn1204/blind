@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【校园采风】爱心无价 青春同行——我校2018年金秋校园跳蚤市场精彩回顾 - 青州大学附属高中</title>
+    <title>爱心无价 青春同行——我校2018年金秋校园跳蚤市场精彩回顾 - 青州大学附属高中</title>
     <style>
         :root {
             --school-blue: #003366;       /* 核心学术深海蓝 */
@@ -80,7 +80,6 @@
         
         .school-logo { display: flex; align-items: center; gap: 1px; }
 
-        /* 修改后的 Logo 图片容器样式 */
         .logo-image-container {
             width: 70px;
             height: 70px;
@@ -184,7 +183,7 @@
         }
         .search-btn:hover { background: var(--school-accent); }
 
-        /* ==================== 全宽文章详情页区域 ==================== */
+        /* 文章详情页区域 */
         .article-detail-container {
             max-width: 1000px; 
             margin: 40px auto;
@@ -210,7 +209,7 @@
         .portal-breadcrumb a { color: var(--school-accent); text-decoration: none; }
         .portal-breadcrumb a:hover { color: var(--school-blue); text-decoration: underline; }
 
-        /* 文章大标题 */
+        /* 文章标题与元信息 */
         .notice-title {
             font-size: 26px; 
             font-weight: bold; 
@@ -220,8 +219,6 @@
             margin-bottom: 20px; 
             letter-spacing: 0.5px;
         }
-
-        /* 文章元信息 */
         .notice-meta {
             text-align: center; 
             font-size: 13.5px; 
@@ -244,23 +241,33 @@
         
         .emphasis { font-weight: bold; color: #000000; }
         
-        /* 核心整改原则高亮框/特色高亮框 */
+        /* 核心整改原则高亮框 */
         .policy-focus {
             background-color: #f0f7ff; 
-            border-left: 5px solid var(--alert-blue); 
             padding: 20px 25px; 
             margin: 30px 0; 
             font-size: 15.5px; 
             color: #1e293b; 
             border-radius: 0 6px 6px 0; 
-            border-top: 1px solid #e1effe; 
-            border-right: 1px solid #e1effe; 
-            border-bottom: 1px solid #e1effe;
+            border: 1px solid #e1effe;
+            border-left: 5px solid var(--alert-blue);
         }
         .policy-focus ul { margin-top: 8px; padding-left: 20px; }
         .policy-focus li { margin-bottom: 8px; line-height: 1.8; }
 
-        /* 图片预留占位符样式 */
+        /* 统一的文章配图样式（保持两张图片尺寸完全一致） */
+        .article-img {
+            display: block;
+            width: 100%;
+            max-width: 80%;
+            max-height: 400px;
+            object-fit: cover;
+            margin: 25px auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 站位占位符框 */
         .image-placeholder {
             width: 100%;
             height: 320px;
@@ -274,24 +281,20 @@
             margin: 25px 0;
             color: #64748b;
         }
-        .image-placeholder .icon {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
-        .image-placeholder .caption {
-            font-size: 14px;
-            color: #475569;
-            font-weight: 500;
-            margin-top: 5px;
-        }
+        .image-placeholder .icon { font-size: 32px; margin-bottom: 8px; }
+        .image-placeholder .caption { font-size: 14px; color: #475569; font-weight: 500; margin-top: 5px; }
 
-        /* 特色摊位小卡片 */
+        /* 特色摊位小卡片优化 */
         .booth-card {
             background: #fafbfc;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
             padding: 20px;
             margin: 25px 0;
+        }
+        .booth-card p {
+            text-indent: 0;
+            margin-bottom: 0;
         }
         .booth-title {
             font-size: 18px;
@@ -302,7 +305,7 @@
             padding-bottom: 6px;
         }
 
-        /* 公文落款 */
+        /* 公文落款与清除浮动 */
         .notice-sign { 
             margin-top: 50px; 
             float: right; 
@@ -314,7 +317,7 @@
         }
         .clearfix::after { content: ""; clear: both; display: table; }
 
-        /* 底部 */
+        /* 底部与辅助 UI */
         .school-footer { 
             background: #0f172a; 
             color: #94a3b8; 
@@ -328,12 +331,6 @@
         .footer-links { margin-bottom: 10px; color: #64748b; }
         .footer-links span { margin: 0 10px; }
 
-        @media (max-width: 768px) {
-            .notice-portal-card { padding: 30px 20px; }
-            .notice-title { font-size: 20px; }
-            .notice-portal-card p { font-size: 15px; text-indent: 30px; }
-        }
-  
         .progress-indicator {
             position: fixed;
             bottom: 20px;
@@ -346,66 +343,51 @@
             font-size: 0.85rem;
             z-index: 9999;
         }
-        .article-img {
-    display: block;
-    max-width: 80%; /* 限制最大宽度，防止图片过大 */
-    max-height: 400px; /* 限制最大高度 */
-    margin: 25px auto; /* auto 实现水平居中 */
-    border-radius: 6px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 增加轻微阴影提升质感 */
-}
 
-                            .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">7/38</div></head>
+        @media (max-width: 768px) {
+            .notice-portal-card { padding: 30px 20px; }
+            .notice-title { font-size: 20px; }
+            .notice-portal-card p { font-size: 15px; text-indent: 30px; }
+            .article-img { max-width: 100%; }
+        }
+    </style>
+</head>
 <body>
 
-<div class="safari-view">
-    <!-- 模拟浏览器顶部栏 -->
+<div class="progress-indicator">7/38</div>
 
-    <!-- 网页主体 -->
+<div class="safari-view">
     <div class="page-content">
-        
         <!-- 导航头部 -->
         <header class="school-header">
             <div class="school-logo">
-              <div class="logo-image-container">
+                <div class="logo-image-container">
                     <img src="logo.png" alt="学校Logo">
-              </div>
-              <!-- 直接替换为图片文字 Logo -->
-              <img src="logo2.png" alt="青州大学附属高中" class="school-name-img">
+                </div>
+                <img src="logo2.png" alt="青州大学附属高中" class="school-name-img">
             </div>
-               <nav class="nav-menu">
-        <span>首页</span>
+            <nav class="nav-menu">
+                <span>首页</span>
                 <span>附中概况</span>
-       <span>强基拔尖</span>
-                    <span class="active">教学科研</span>
-   <span><a href="alumni1.html" target="_blank">校友天地</a></span>
-      
+                <span>强基拔尖</span>
+                <span class="active">教学科研</span>
+                <span onclick="window.open('alumni1.html', '_blank')">校友天地</span>
             </nav>
         </header>
- <div class="ticker-bar">
+
+        <!-- 跑马灯资讯栏 -->
+        <div class="ticker-bar">
             <span class="ticker-label">最新资讯：</span>
             <div class="ticker-window">
                 <div class="ticker-track">
                     <div class="ticker-group">
-                        <a href="#" class="ticker-item">▪ 我校秋季【修学旅行】筹备工作有序推进 <span class="ticker-date">2026-09-06</span></a>
-                        <a href="#" class="ticker-item">▪ 2026年暑期社会实践活动成果回顾<span class="ticker-date">2026-09-05</span></a>
+                        <a href="#" class="ticker-item">▪ 我校秋季<strong>【修学旅行】</strong>筹备工作有序推进 <span class="ticker-date">2026-09-06</span></a>
+                        <a href="#" class="ticker-item">▪ 2026年暑期社会实践活动成果回顾 <span class="ticker-date">2026-09-05</span></a>
                         <a href="#" class="ticker-item">▪ 喜报 | 我校社团再荣获市级优秀社团奖 <span class="ticker-date">2026-09-01</span></a>
                     </div>
                     <div class="ticker-group">
-                        <a href="#" class="ticker-item">▪ 我校秋季【修学旅行】筹备工作有序推进<span class="ticker-date">2026-09-06</span></a>
-                        <a href="#" class="ticker-item">▪ 2026年暑期社会实践活动成果回顾<span class="ticker-date">2026-09-05</span></a>
+                        <a href="#" class="ticker-item">▪ 我校秋季<strong>【修学旅行】</strong>筹备工作有序推进 <span class="ticker-date">2026-09-06</span></a>
+                        <a href="#" class="ticker-item">▪ 2026年暑期社会实践活动成果回顾 <span class="ticker-date">2026-09-05</span></a>
                         <a href="#" class="ticker-item">▪ 喜报 | 我校社团再荣获市级优秀社团奖 <span class="ticker-date">2026-09-01</span></a>
                     </div>
                 </div>
@@ -415,18 +397,17 @@
                 <div class="arrow-btn">›</div>
             </div>
         </div>
-        <!-- ==================== 核心：全宽通告详情页 ==================== -->
-        <main class="article-detail-container">
-            <div class="notice-portal-card">
-                <!-- 面包屑 -->
-                <div class="portal-breadcrumb">
-                    当前位置：<a href="#">首页</a> &gt; <a href="#">教学科研</a> &gt; <a href="#">学生活动</a> &gt; 正文
-                </div>
 
-                <!-- 标题区 -->
+        <!-- 文章详情页 -->
+        <main class="article-detail-container">
+            <article class="notice-portal-card">
+                <!-- 面包屑 -->
+                <nav class="portal-breadcrumb">
+                    当前位置：<a href="#">首页</a> &gt; <a href="#">教学科研</a> &gt; <a href="#">学生活动</a> &gt; 正文
+                </nav>
+
+                <!-- 标题与元信息 -->
                 <h1 class="notice-title">爱心无价 青春同行——我校2018年“秋日拾光”校园跳蚤市场精彩回顾</h1>
-                
-                <!-- 元信息 -->
                 <div class="notice-meta">
                     <span>发布机构：校团委</span>
                     <span>发布时间：2018-10-22</span>
@@ -436,55 +417,51 @@
                 <!-- 正文内容 -->
                 <p>金秋十月，丹桂飘香。10月19日下午，青州大学附属高中一年一度的“秋日拾光”校园跳蚤市场在学校中央广场举行。本次活动由校团委主办，全校师生积极参与。活动以校园闲置物品交易和爱心义卖为主要形式，引导学生在实践中增强公益意识和社会责任感，营造积极向上的校园文化氛围。</p>
                 
-                <!-- 图片位置 1 -->
-<img src="market1.jpg" alt="跳蚤市场全景" class="article-img">
+                <!-- 第一张图片 -->
+                <img src="market1.jpg" alt="跳蚤市场全景" class="article-img">
 
                 <p>本次跳蚤市场设有两个主区域共计60余个摊位，涵盖了旧书二手交易、手工作品义卖、特色美食体验以及互动游戏体验等多个板块。各个摊位摆放整齐、装饰别致，海报设计各具创意，展示了我校学子丰富多彩的校园生活与独特的创新思维。</p>
 
                 <p>在众多火爆的摊位中，有三个充满特色的摊位格外引人瞩目，成为了当天校园里最亮眼的风景线：</p>
 
                 <!-- 特色摊位 1 -->
+<section class="booth-card">
+    <h2 class="booth-title">特色摊位一：“好喝到咩噗”手作甜品铺</h2>
+    <p>本次活动的“人气王”当属“好喝到咩噗”手作甜品铺。同学们精心熬煮制作的芋圆烧仙草、椰汁西米露与桂花红豆冰粉等甜品，很快成为秋日校园里最受欢迎的暖心小食。</p>
+</section>
+
+                                <!-- 第二张图片（尺寸与样式完全同第一张，无图注） -->
+                <img src="market.jpg" alt="跳蚤市场摊位现场" class="article-img">
                 <!-- 特色摊位 2 -->
-                 
-     <div class="image-placeholder">
-                    <div class="icon">📷</div>
-             
-                    <div class="caption">图为高二实验班的方依卓同学正在向大家介绍并义卖作家<STORNG>【惠君】</STORNG>的珍藏作品</div>
-                </div>
-
-        <div class="booth-card">
+                <section class="booth-card">
+                    <h2 class="booth-title">特色摊位二：创意周边与手工DIY</h2>
+                    <p>该摊位主打由同学们亲手设计的班主任表情包冰箱贴与各类文创小饰品，趣味十足。现场还专门设立了DIY体验区，不少师生在此亲手绘画、编织，体验手作的乐趣。</p>
+                </section>
 
 
-
-    <div class="booth-title">特色摊位一：学霸笔记与图书义卖站</div>
-    <p style="text-indent: 0; margin-bottom: 0;">“书香传递”义卖摊位热闹非凡。本次义卖不仅有系统整理、配有思维导图的高考高分笔记与错题集，更有同学们倾情捐赠的各类珍藏图书。摊位前吸引了大批同学前来选购，大家在交流学习方法与阅读经验的同时，也共同为公益事业献出了一份力量。</p>
-</div>
-
-
-<div class="booth-card">
-    <div class="booth-title">特色摊位二：“一杯心动”特调饮品摊</div>
-    <p style="text-indent: 0; margin-bottom: 10px;">本次活动的“人气王”当属“一杯心动”特调饮品摊</strong>。他们现场调制多款清爽特饮，推出以百香果养乐多为代表的的招牌饮品，为了应对现场客流，摊位同学分工负责点单、备料、调制和打包，整个制作过程井然有序，吸引了众多师生前来排队品尝。</p>
-</div>
 
                 <!-- 特色摊位 3 -->
-                <div class="booth-card">
-                    <div class="booth-title">特色摊位三：手工作品DIY体验区</div>
-                    <p style="text-indent: 0; margin-bottom: 0;">巧手工艺社同学带来的“匠人小屋”摊位格外吸引眼球。废旧报纸、塑料瓶和超轻粘土在同学们手中变成了造型各异的创意摆件。摊位还设置了DIY体验区，同学们可以现场绘画、编织，亲手制作属于自己的小物件。</p>
+                <section class="booth-card">
+                    <h2 class="booth-title">特色摊位三：“书香传递”图书义卖站</h2>
+                    <p>“书香传递”义卖摊位不仅出售高分笔记与错题集，更有同学们倾情捐赠的各类珍藏图书。摊位前吸引了大批同学前来选购，并就学习方法、复习经验等内容与学长学姐交流。</p>
+                </section>
+
+                <!-- 图文占位符 -->
+                <div class="image-placeholder">
+                    <div class="icon">📷</div>
+                    <div class="caption">图为图书义卖员向同学介绍作家<strong>【惠君】</strong>的珍藏作品。</div>
                 </div>
 
-      
-
-                <!-- 核心总结框 -->
+                <!-- 总结框 -->
                 <div class="policy-focus">
                     <span class="emphasis">活动成果与爱心总结：</span>
                     <ul>
                         <li>本次跳蚤市场历时3个小时，累计参与师生超2000人次；</li>
-                        <li>全校摊位筹得的爱心义卖款项，将通过校团委统一捐赠至疤痕天使慈善基金会等合作慈善机构；</li>
-                        <li>活动不仅实现了校园资源的循环利用，更在潜移默化中升华了青大附中学子的奉献精神与社会担当。</li>
+                        <li>全校摊位筹得的爱心义卖款项，将通过校团委统一捐赠至“疤痕天使慈善基金会”等合作慈善机构。</li>
                     </ul>
                 </div>
 
-                <p>点滴微光，汇聚成芒。2018年金秋跳蚤市场虽已圆满落幕，但爱心与温暖将永远在校园中传递。感谢每一位热情参与的师生，让我们共同期待下一次的爱心相聚！</p>
+                <p>点滴微光，汇聚成芒。2018年金秋跳蚤市场虽已圆满落幕，但温暖将永远在校园中传递。感谢每一位热情参与的师生，让我们共同期待下一次的爱心相聚！</p>
                 
                 <p>特此报道。</p>
 
@@ -494,7 +471,7 @@
                     2018年10月22日
                 </div>
                 <div class="clearfix"></div>
-            </div>
+            </article>
         </main>
 
         <!-- 底部 -->
