@@ -2,231 +2,316 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>请假条</title>
+    <title>精神科门诊病历记录 - 青医附院</title>
     <style>
+        /* 基础样式保持医院系统风格 */
         body {
-            font-family: "SimSun", "宋体", sans-serif;
-            background-color: #f1f5f9;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
-
-        /* 复刻图片中的蓝色印刷便签卡片 */
-        .leave-card-container {
-            background-color: #ffffff;
-            padding: 30px 40px 40px 40px;
-            width: 100%;
-            max-width: 900px;
-            box-sizing: border-box;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        /* 顶层单色大标题与下划线 */
-        .header-area {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .main-title {
-            font-family: "SimHei", "黑体", sans-serif;
-            font-size: 36px;
-            font-weight: bold;
-            color: #0087db; /* 复刻图中的印刷蓝色 */
-            letter-spacing: 20px;
+            font-family: "Microsoft YaHei", SimSun, "黑体", SimHei;
+            font-size: 14px;
+            line-height: 1.8;
+            background-color: #f5f5f5;
             margin: 0;
-            display: inline-block;
-            border-bottom: 3px double #0087db; /* 双线大下划线 */
-            padding-bottom: 3px;
-            padding-left: 20px;
+            color: #333;
+            padding: 20px;
         }
-
-        /* 编号与日期栏 */
-        .meta-top-row {
+        /* 密码验证层样式 */
+        .auth-container {
+            width: 500px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 40px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 8px #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .auth-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #222;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 15px;
+        }
+        .auth-form {
+            margin-bottom: 20px;
+        }
+        .form-item {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-item label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-item input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-item input:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 3px #b3d1ff;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #0066cc;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .auth-btn:hover {
+            background-color: #0052a3;
+        }
+        .error-tip {
+            color: #d9534f;
+            margin-top: 10px;
+            display: none;
+        }
+        /* 病历内容样式 */
+        .medical-record {
+            width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 5px #eee;
+            display: none; /* 默认隐藏 */
+        }
+        .system-notice {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #8c8c8c;
             display: flex;
             justify-content: space-between;
-            color: #0087db;
-            font-size: 15px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            padding: 0 4px;
-        }
-
-        /* 表格核心：复刻图中的双线外框与纯蓝格线 */
-        .leave-table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 3px double #0087db; /* 双线外边框 */
-            font-size: 15px;
-        }
-
-        .leave-table td {
-            border: 1px solid #0087db; /* 内部纯蓝单线条 */
-            padding: 14px 12px;
-            color: #0087db;
-            vertical-align: middle;
-        }
-
-        /* 标签列样式 */
-        .col-label {
-            font-weight: bold;
-            text-align: center;
-            letter-spacing: 2px;
-            width: 12%;
-            font-size: 16px;
-        }
-
-        /* 手写体效果（蓝黑色墨水字迹） */
-        .handwritten {
-            font-family: "Kaiti", "STKaiti", "华文楷体", "楷体", serif;
-            color: #1a365d;
-            font-size: 16.5px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-
-        .checkbox-item {
-            display: inline-flex;
             align-items: center;
-            margin-right: 25px;
-            cursor: default;
         }
-
-        /* 底部签字区域网格 */
-        .signature-table {
+        .system-notice a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .system-notice a:hover {
+            text-decoration: underline;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+            font-weight: bold;
+        }
+        .basic-info {
             width: 100%;
             border-collapse: collapse;
-            border: none;
+            margin-bottom: 20px;
         }
-        .signature-table td {
-            border: none;
-            border-right: 1px solid #0087db;
-            padding: 4px 8px;
-            height: 50px;
+        .basic-info td {
+            border: 1px solid #ccc;
+            padding: 8px 10px;
         }
-        .signature-table td:last-child {
-            border-right: none;
-        }
-        .inner-label {
+        .basic-info td:first-child {
+            background-color: #f0f0f0;
             font-weight: bold;
-            text-align: center;
-            width: 20%;
-            font-size: 14px;
+            width: 120px;
         }
-  
-                            .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">19/38</div></head>
+        .content-title {
+            font-weight: bold;
+            margin: 15px 0 8px 0;
+            font-size: 15px;
+            border-left: 3px solid #000;
+            padding-left: 8px;
+        }
+
+        .content-text {
+            margin: 0 0 10px 0;
+            line-height: 2;
+            padding-left: 0;
+            text-align: justify;
+            display: block;
+            text-indent: 0;
+        }
+        
+        .list-item {
+            text-indent: 0; 
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: right;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .hospital-logo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .hospital-logo img {
+            width: 180px;
+            height: 190px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 10px;
+        }
+        .hospital-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 0;
+            color: #222;
+            word-wrap: break-word;
+            width: 90%;
+            margin: 0 auto;
+        }
+        .progress-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">27/39</div>
+</head>
 <body>
-
-<div class="leave-card-container">
-
-    <!-- 顶部大抬头 -->
-    <div class="header-area">
-        <h1 class="main-title">请假条</h1>
+    <div class="auth-container" id="authBox">
+        <div class="hospital-logo">
+            <img src="hospital.png" alt="青医附院标识" title="青医附院标识">
+            <div class="hospital-name">青州医科大学第一附属医院</div>
+        </div>
+        <div class="auth-title">病历档案验证</div>
+        <div class="auth-form">
+            <div class="form-item">
+                <label for="birthYear">出生年份</label>
+                <input type="number" id="birthYear" placeholder="例如：2000" min="1900" max="2026">
+            </div>
+            <div class="form-item">
+                <label for="birthMonth">出生月份</label>
+                <input type="number" id="birthMonth" placeholder="例如：01" min="1" max="12">
+            </div>
+            <div class="form-item">
+                <label for="birthDay">出生日期</label>
+                <input type="number" id="birthDay" placeholder="例如：01" min="1" max="31">
+            </div>
+            <button class="auth-btn" onclick="verifyBirthday()">验证</button>
+            <div class="error-tip" id="errorTip">个人资料输入错误，请重新输入！</div>
+        </div>
+        <p style="font-size: 12px; color: #666;">© 青医附院 版权所有 | 医疗信息管理</p>
     </div>
 
-    <!-- 顶栏辅助流转信息 -->
-    <div class="meta-top-row">
-        <div>编 号：<span class="handwritten" style="font-size: 14px;">QD-20181023</span></div>
-        <div>
-            <span class="handwritten">2018</span> 年 
-            <span class="handwritten">10</span> 月 
-            <span class="handwritten">23</span> 日填单
+    <div class="medical-record" id="medicalRecord">
+        <!-- 2000年前建档旧系统切换标识 -->
+        <div class="system-notice">
+            <span>提示：2000年前建档病历，请切换至旧系统查看更多历史归档。</span>
+            <a href="system.html" target="_blank">切换至旧系统 &raquo;</a>
+        </div>
+
+        <div class="header">
+            <h1>青医附院门诊病历</h1>
+            <p>就诊日期：2018年07月28日  编号：20180728078</p>
+        </div>
+
+        <table class="basic-info">
+            <tr>
+                <td>姓名</td>
+                <td>段宜廷</td>
+                <td>性别</td>
+                <td>男</td>
+                <td>年龄</td>
+                <td>16岁</td>
+            </tr>
+            <tr>
+                <td>民族</td>
+                <td>汉</td>
+                <td>籍贯</td>
+                <td>临渊省青州市</td>
+                <td>职业</td>
+                <td>学生</td>
+            </tr>
+
+            <tr>
+       <tr>
+                <td>主诉</td>
+                <td colspan="5">申请亲子鉴定及同胞基因亲缘关系检测</td>
+            </tr>
+        </table>
+
+        <div class="content-title">检查项目及结论：</div>
+    <p class="content-text">
+    经对送检样本进行STR基因座分型检测及亲缘关系分析，鉴定结果如下：<br>
+    1. 父子亲缘关系：排除生物学父子关系；<br>
+    2. 全同胞亲缘关系：支持二者具有生物学全同胞关系。
+</p>
+
+
+        <div class="content-title">处理意见：</div>
+        <div class="content-text">1. 已出具DNA基因检测报告并归档；</div>
+        <div class="content-text">2. 如有疑问建议前往司法鉴定中心进行复核。</div>
+
+        <div class="footer">
+            <p>医师签名：张吉惟</p>
+            <p>执业证书编号：110XXXXXXXXXXXXXXX</p>
+            <p>打印日期：2018年07月28日</p>
         </div>
     </div>
 
-    <!-- 主表格结构 -->
-    <table class="leave-table">
-        <!-- 姓名、班级、学号并排栏 -->
-        <tr>
-            <td class="col-label">姓&nbsp;&nbsp;&nbsp;&nbsp;名</td>
-            <td class="handwritten" style="width: 21%;">宋以然</td>
-            <td class="col-label" style="width: 12%;">班&nbsp;&nbsp;&nbsp;&nbsp;级</td>
-            <td class="handwritten" style="width: 21%;">高二（22）班</td>
-        </tr>
+    <script>
+        const correctBirth = {
+            year: 2002,
+            month: 11,
+            day: 2
+        };
 
-        <!-- 请假事由 -->
-        <tr>
-            <td class="col-label">请假事由</td>
-            <td colspan="5" class="handwritten" style="line-height: 1.6; height: 55px; vertical-align: top; padding-top: 8px;">
-               晚自习下楼梯时不慎踩空摔伤腿部。需遵医嘱卧床静养。
-            </td>
-        </tr>
+        function verifyBirthday() {
+            const year = parseInt(document.getElementById('birthYear').value);
+            const month = parseInt(document.getElementById('birthMonth').value);
+            const day = parseInt(document.getElementById('birthDay').value);
+            const errorTip = document.getElementById('errorTip');
+            
+            errorTip.style.display = 'none';
 
-        <!-- 请假类别（精简为符合高中的类别） -->
-        <tr>
-            <td class="col-label">请假类别</td>
-            <td colspan="5">
-                <span class="checkbox-item">☐ 事假</span>
-                <span class="checkbox-item"><span class="handwritten" style="font-weight: bold; font-size: 18px; margin-right:2px;">☑</span> 病假</span>
-                <span class="checkbox-item">☐ 其它</span>
-            </td>
-        </tr>
+            if (isNaN(year) || isNaN(month) || isNaN(day)) {
+                errorTip.textContent = '请输入有效的年月日！';
+                errorTip.style.display = 'block';
+                return;
+            }
 
-        <!-- 请假日期 -->
-        <tr>
-            <td class="col-label">请假日期</td>
-            <td colspan="5">
-                自 <span class="handwritten">10</span> 月 <span class="handwritten">23</span> 日 
-                至 <span class="handwritten">10</span> 月 <span class="handwritten">30</span> 日 
-                共 <span class="handwritten">7</span> 天
-            </td>
-        </tr>
+            if (year === correctBirth.year && month === correctBirth.month && day === correctBirth.day) {
+                document.getElementById('authBox').style.display = 'none';
+                document.getElementById('medicalRecord').style.display = 'block';
+            } else {
+                errorTip.style.display = 'block';
+            }
+        }
 
-        <!-- 对应图中的“工作安排”，改造为“请假期间学习安排” -->
-        <tr>
-            <td class="col-label">学习安排</td>
-            <td colspan="5" class="handwritten" style="line-height: 1.6; height: 55px; vertical-align: top; padding-top: 8px;">
-                离校休养期间，由家长定期到校帮领作业与复习资料，确保功课不落下。
-            </td>
-        </tr>
-
-        <!-- 底部负责人流转栏（无缝融入申请人、班主任、校领导意见） -->
-<!-- 底部负责人流转栏（三个格子完全等宽一致） -->
-        <!-- 底部负责人流转栏（三个组合完全绝对等宽，字迹加粗放大） -->
-        <tr>
-            <td class="col-label" style="padding: 0;">审批流程</td>
-            <td colspan="5" style="padding: 0;">
-                <table class="signature-table" style="table-layout: fixed; width: 100%; border-collapse: collapse; border: none;">
-                    <tr>
-                        <!-- 1. 申请人组合 -->
-                        <td class="inner-label" style="width: 13.33%;">申请人<br>（家长）</td>
-                        <td class="handwritten" style="width: 20%; vertical-align: bottom; padding-bottom: 12px; text-align: center; font-size: 19px; font-weight: bold;">
-                        
-                        </td>
-                        
-                        <!-- 2. 班主任组合 -->
-                        <td class="inner-label" style="width: 13.33%;">班主任<br>意见</td>
-                        <td class="handwritten" style="width: 20%; vertical-align: bottom; padding-bottom: 12px; text-align: center; font-size: 19px; font-weight: bold;">
-                           
-                        </td>
-                        
-                        <!-- 3. 学校领导组合 -->
-                        <td class="inner-label" style="width: 13.34%;">学校领导<br>审批</td>
-                        <td class="handwritten" style="width: 20%; vertical-align: bottom; padding-bottom: 12px; text-align: center; font-size: 19px; font-weight: bold;">
-                   
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-
-</div>
-
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                verifyBirthday();
+            }
+        });
+    </script>
 </body>
 </html>

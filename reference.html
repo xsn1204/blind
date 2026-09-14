@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>临床药理学 - 平喘药与茶碱类药物</title>
+    <style>
+        /* 拟真医学教科书/专业参考书排版 */
+        body {
+            background-color: #e5e5e5;
+            font-family: "SimSun", "Songti SC", "Times New Roman", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .book-page {
+            background: #fffdf9;
+            width: 100%;
+            max-width: 800px;
+            padding: 50px 60px;
+            border: 1px solid #d0c8b8;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            color: #1a1a1a;
+            line-height: 1.6;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* 页眉与页码 */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+            margin-bottom: 30px;
+            font-size: 13px;
+            font-family: "SimHei", "STHeiti", sans-serif;
+            color: #444;
+        }
+
+        .page-footer {
+            margin-top: 40px;
+            border-top: 1px solid #aaa;
+            padding-top: 10px;
+            text-align: center;
+            font-size: 12px;
+            font-family: "Times New Roman", serif;
+            color: #666;
+        }
+
+        /* 章节标题 */
+        .chapter-title {
+            font-family: "SimHei", "STHeiti", sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 0 15px 0;
+            border-left: 4px solid #1a1a1a;
+            padding-left: 10px;
+        }
+
+        .section-title {
+            font-family: "SimHei", "STHeiti", sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            color: #000;
+        }
+
+        p {
+            margin: 0 0 10px 0;
+            text-indent: 2em;
+            text-align: justify;
+            font-size: 14px;
+        }
+
+        /* 图文组合 */
+        .top-content-wrapper {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .top-text {
+            flex: 1;
+        }
+
+        .pharmacology-figure {
+            width: 150px;
+            flex-shrink: 0;
+            border: 1px solid #ccc;
+            padding: 6px;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .pharmacology-figure img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 6px;
+        }
+
+        .figure-caption {
+            font-size: 12px;
+            font-family: "SimHei", "STHeiti", sans-serif;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        /* 临床警示框 */
+        .clinical-note {
+            background-color: #fcf4f4;
+            border: 1px solid #e0b4b4;
+            padding: 12px 15px;
+            margin: 15px 0;
+            font-size: 13.5px;
+        }
+
+        .clinical-note-title {
+            font-family: "SimHei", "STHeiti", sans-serif;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #b22222;
+        }
+
+        /* 药理表格 */
+        .pharmacology-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        .pharmacology-table th, .pharmacology-table td {
+            border: 1px solid #888;
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        .pharmacology-table th {
+            background-color: #eaeaea;
+            font-family: "SimHei", "STHeiti", sans-serif;
+        }
+
+        .drug-highlight {
+            font-family: "SimHei", "STHeiti", sans-serif;
+            font-weight: bold;
+        }
+
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">19/38</div></head>
+<body>
+
+<div class="book-page">
+    <div class="page-header">
+        <span>第二十五章 作用于呼吸系统的药物</span>
+        <span>第二节 平喘药（Antiasthmatic Drugs）</span>
+    </div>
+
+    <div class="chapter-title">茶碱类药物（Theophylline and Derivatives）</div>
+
+    <!-- 上方文字与右侧图片组合 -->
+    <div class="top-content-wrapper">
+        <div class="top-text">
+            <p>茶碱（Theophylline）为甲基黄嘌呤类生物碱，是临床用于缓解支气管哮喘及慢性阻塞性肺疾病（COPD）的经典平喘药。其主要通过非选择性抑制磷酸二酯酶（PDE）、阻断腺苷受体以及促进内源性儿茶酚胺释放，从而使气道平滑肌松弛并发挥抗炎作用。</p>
+            <div class="section-title" style="margin-top: 10px;">一、 药理作用与安全窗口特性</div>
+            <p><span class="drug-highlight">1. 支气管平滑肌松弛：</span>茶碱可舒张痉挛状态下的气道平滑肌，缓解喘息症状。但其治疗有效血药浓度范围极窄（通常为 10～20 μg/mL）。</p>
+        </div>
+        
+        <!-- 右侧插图：茶碱作用机制或血药浓度示意图 -->
+        <div class="pharmacology-figure">
+           <img src="medicine.png" 
+     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400';" 
+     alt="茶碱（Theophylline）">
+
+<div class="figure-caption">茶碱分子结构图</div>
+        </div>
+    </div>
+
+    <p><span class="drug-highlight">2. 心脏与中枢兴奋效应：</span>茶碱能增强心肌收缩力、加快心率，并兴奋大脑皮层。当血药浓度超过 20 μg/mL 时，极易出现严重的中枢与心脏毒性反应。</p>
+
+    <div class="clinical-note">
+        <div class="clinical-note-title">🚨 临床高危警示：剂量精准控制</div>
+        茶碱是典型的“低安全范围”药物。体内有效治疗剂量与中毒剂量极其接近（>20 μg/mL 即出现明显毒性，>40 μg/mL 可致致死性心律失常或抽搐）。有效成分的微量波动即可直接导致疗效失效或严重中毒。临床必须使用国家批准、正规医疗机构或合法药房开具的合格茶碱制剂。<br>
+    </div>
+
+    <div class="section-title">二、 茶碱血药浓度与临床效应/毒性对照</div>
+
+    <table class="pharmacology-table">
+        <thead>
+            <tr>
+                <th>血药浓度 (μg/mL)</th>
+                <th>生理与药理效应</th>
+                <th>心脏与呼吸系统表现</th>
+                <th>临床风险等级</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>5 ～ 10</b></td>
+                <td>轻微气道扩张作用</td>
+                <td>无明显心率异常，哮喘症状缓解有限</td>
+                <td>亚治疗剂量（效果不佳）</td>
+            </tr>
+            <tr>
+                <td><b>10 ～ 20</b></td>
+                <td><b>最佳平喘治疗窗口</b></td>
+                <td>平滑肌充分松弛，呼吸顺畅，心率轻度增加</td>
+                <td><b>安全治疗范围</b></td>
+            </tr>
+            <tr>
+                <td><b>20 ～ 30</b></td>
+                <td>轻度/中度毒性反应</td>
+                <td>恶心、呕吐、心悸、心动过速、不安</td>
+                <td>警告（须立即减量）</td>
+            </tr>
+            <tr>
+                <td><b>> 40</b></td>
+                <td><b>重度急性中毒</b></td>
+                <td><b>心律失常、心室颤动、急性气道反常痉挛、心呼吸骤停</b></td>
+                <td><b>极危重（可致命）</b></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="section-title">三、 诱发致死性发作的协同刺激因素</div>
+    <p><b>1. 烟雾及环境刺激叠加：</b>在茶碱血药浓度偏高或过量时，若患者暴露于香烟、有害粉尘或浓烟刺激环境中，烟雾中的有害化学微粒将急剧激活气道高反应性。</p>
+    <p><b>2. 禁忌与药物相互作用：</b>严重心律失常、急性心肌梗死及活动性溃疡病患者禁用；大环内酯类抗生素（如红霉素）、西咪替丁等药物会抑制茶碱代谢，合用时须大幅减量并监测血药浓度。</p>
+
+    <div class="page-footer">
+        - 286 -
+    </div>
+</div>
+
+</body>
+</html>

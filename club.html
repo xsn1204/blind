@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青州大学附属高中志愿者协会·新学期第一次例会记录</title>
+    <style>
+        /* 引入手写与复古感字体 */
+        @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XianEr&family=Ma+Shan+Zheng&display=swap');
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            background-color: #dcd6cd; /* 模拟木质桌面背景 */
+            display: flex;
+            justify-content: center;
+            font-family: sans-serif;
+        }
+
+        /* 模拟手写便签/会议记录纸张 */
+        .handwritten-note {
+            background-color: #fcfaf2; /* 象牙白偏黄，模拟复古信纸 */
+            width: 100%;
+            max-width: 580px;
+            min-height: 800px;
+            padding: 40px 35px;
+            box-sizing: border-box;
+            box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 2px;
+            position: relative;
+            background-image: linear-gradient(#e6e0d4 1px, transparent 1px); /* 模拟信纸横格线 */
+            background-size: 100% 28px; /* 格线间距 */
+            font-family: "Ma Shan Zheng", "Kaiti", "楷体", serif;
+            color: #2b2b2b;
+            line-height: 28px;
+            font-size: 17px;
+        }
+
+        /* 顶部遮罩胶带修饰 */
+        .handwritten-note::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 35%;
+            width: 130px;
+            height: 30px;
+            background-color: rgba(240, 230, 140, 0.5); /* 半透明手撕胶带效果 */
+            transform: rotate(-1.5deg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        /* 会议记录标题 */
+        .note-title {
+            font-family: "ZCOOL XianEr", "SimHei", "黑体", sans-serif;
+            font-size: 21px;
+            color: #8b1e0f; /* 带有红墨水感的主题色 */
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            letter-spacing: 1.5px;
+        }
+
+        /* 基础元信息区 */
+        .meeting-meta {
+            font-size: 15px;
+            color: #555;
+            border-bottom: 1.5px dashed #8b1e0f;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* 章节标题 */
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #b25d18;
+            margin-top: 18px;
+            margin-bottom: 5px;
+            text-decoration: underline;
+        }
+
+        /* 社员分工表格 */
+        .roster-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+        .roster-table th {
+            font-size: 15px;
+            color: #666;
+            text-align: left;
+            border-bottom: 2px solid #8b1e0f;
+            padding-bottom: 3px;
+        }
+        .roster-table td {
+            padding: 6px 0;
+            font-size: 17px;
+        }
+        .style-tag {
+            font-size: 13px;
+            background-color: #f3ece0;
+            padding: 1px 6px;
+            border-radius: 4px;
+            color: #7c6853;
+        }
+
+        /* 月度计划列表 */
+        .schedule-list {
+            list-style-type: square;
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        .schedule-item {
+            margin-bottom: 8px;
+        }
+        .month-tag {
+            font-weight: bold;
+            color: #005691;
+        }
+
+        /* 涂改修正痕迹（手写记录感） */
+        .scratch-out {
+            text-decoration: line-through;
+            color: #999;
+            opacity: 0.7;
+        }
+
+        /* 底部落款 */
+        .note-footer {
+            margin-top: 35px;
+            text-align: right;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-indicator">24/37</div>
+
+<div class="handwritten-note">
+    <div class="note-title">🤝 青大附中志愿者协会·新学期第一次例会记录 🤝</div>
+
+    <div class="meeting-meta">
+        <strong>时间：</strong>2018年9月10日 17:10-18:00<br>
+        <strong>地点：</strong>校团委多功能活动室（302室）<br>
+        <strong>主持人：</strong>方依卓 &nbsp;&nbsp; <strong>记录人：</strong>李梓豪<br>
+    </div>
+
+
+    <div class="section-title">📅 本学期每月重点活动安排</div>
+    <ul class="schedule-list">
+        <li class="schedule-item">
+            <span class="month-tag">9月：迎新招新与社员基础培训</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*分发志愿者服，安排新社员（徐明远、陈晨、段宜廷）熟悉社团流程与物资盘点。
+        </li>
+        <li class="schedule-item">
+            <span class="month-tag">10月：“秋日拾光”校园爱心跳蚤市场</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*负责：方依卓、段宜廷。图书义卖xxx。
+        </li>
+        <li class="schedule-item">
+            <span class="month-tag">11月：校园绿色环保与文明文明倡导周</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*负责：徐明远，李梓豪。组织社员开展校区落叶清理及废旧电池回收宣讲。
+        </li>
+        <li class="schedule-item">
+            <span class="month-tag">12月：“爱心相伴·热血暖冬”儿童福利院走访</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*负责：段宜廷。联系物资捐赠方，安排现场拍照记录。
+        </li>
+        <li class="schedule-item">
+            <span class="month-tag">1月：学期工作总结与社员表彰例会</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;*整理志愿时长，汇总爱心物资明细，评选学期“优秀志愿者”。
+        </li>
+    </ul>
+
+    <div class="section-title">📌 临时交代事项与备注</div>
+    <p>1. 招新宣传板报下周前需更新完毕，<span class="scratch-out">请李梓豪负责排版</span>（改由段宜廷负责摄影素材和海报设计）。</p>
+    <p>2. 10月图书捐赠的分类箱放在<span class="scratch-out">社团大教室左侧角</span>（更正：借用了器材室第二排底柜）。</p>
+    <p>3. 请新社员本周内按时提交一寸电子版照片，用于统一制作青大附中志愿服务证。</p>
+
+    <div class="note-footer">
+        2018年9月10日 晚
+    </div>
+</div>
+
+</body>
+</html>

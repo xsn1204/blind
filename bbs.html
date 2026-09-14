@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青州本地生活论坛</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: SimSun, "宋体", Tahoma, Arial, sans-serif;
+            font-size: 12px;
+            background-color: #f1f5f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        a {
+            color: #1b578e;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Top Utility Bar */
+        .top-bar {
+            background-color: #f5f8fa;
+            border-bottom: 1px solid #d3e0ec;
+            height: 28px;
+            line-height: 28px;
+            padding: 0 15px;
+            text-align: right;
+            color: #666;
+        }
+
+        /* Forum Main Header - Blue Style */
+        .header-bg {
+            background: linear-gradient(to bottom, #1d6fa5, #144e78);
+            color: white;
+            padding: 15px 20px;
+            border-bottom: 3px solid #0f3957;
+        }
+        .header-bg h1 {
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+            font-size: 26px;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .header-sub {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #d0e4f5;
+        }
+        
+        /* Nav Menu Bar */
+        .nav-bar {
+            background-color: #2b7abc;
+            height: 35px;
+            line-height: 35px;
+            padding: 0 15px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .nav-bar span {
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        .nav-bar span.active {
+            background-color: #1b578e;
+            padding: 8px 12px;
+        }
+
+        /* Main Layout Box */
+        .container {
+            width: 980px;
+            margin: 10px auto;
+            background-color: #fff;
+            border: 1px solid #c5d6e6;
+            padding: 10px;
+        }
+
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            padding: 5px 0 10px 0;
+            color: #666;
+            border-bottom: 1px solid #e1e9f0;
+            margin-bottom: 10px;
+        }
+
+        /* Post Action Bar Header */
+        .post-action-bar {
+            display: table;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-new-topic {
+            display: inline-block;
+            background-color: #ff8a00;
+            color: white;
+            font-weight: bold;
+            padding: 4px 12px;
+            border: 1px solid #e07b00;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .pagination-top {
+            float: right;
+            color: #666;
+        }
+        .pagination-top span, .pagination-top a {
+            border: 1px solid #c5d6e6;
+            padding: 2px 6px;
+            margin-left: 2px;
+            background: #fff;
+        }
+        .pagination-top .current {
+            background: #2b7abc;
+            color: white;
+            border-color: #2b7abc;
+        }
+
+        /* Main Discuz Thread Layout Table Style */
+        .thread-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #c2d5e8;
+        }
+        
+        .thread-header-row {
+            background-color: #e5edf2;
+            border-bottom: 1px solid #c2d5e8;
+            padding: 8px;
+            font-size: 13px;
+        }
+        
+        .thread-title {
+            font-family: "Microsoft YaHei", sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            color: #1b578e;
+        }
+        
+        .stat-count {
+            color: #666;
+            font-weight: normal;
+            font-size: 12px;
+            margin-right: 15px;
+        }
+
+        /* Post Block (Left Author Info + Right Post Content) */
+        .post-row {
+            border-bottom: 4px solid #c2d5e8;
+        }
+
+        .author-cell {
+            width: 170px;
+            background-color: #f9fbfd;
+            border-right: 1px solid #c2d5e8;
+            vertical-align: top;
+            padding: 12px 10px;
+        }
+
+        .author-name {
+            font-weight: bold;
+            font-size: 13px;
+            color: #1b578e;
+            margin-bottom: 5px;
+        }
+
+        .author-avatar {
+            width: 120px;
+            height: 120px;
+            background-color: #e8f1f8;
+            border: 1px solid #b8d2e6;
+            margin: 8px 0;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            color: #6b8fae;
+        }
+
+        .author-stats {
+            color: #666;
+            line-height: 1.6;
+            margin-top: 5px;
+        }
+
+        .content-cell {
+            vertical-align: top;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        .post-meta-header {
+            background-color: #fff;
+            border-bottom: 1px dashed #c2d5e8;
+            padding: 6px 12px;
+            color: #666;
+            display: table;
+            width: 100%;
+        }
+
+        .post-floor {
+            float: right;
+            font-weight: bold;
+            color: #1b578e;
+        }
+
+        .post-text-body {
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.9;
+            color: #222;
+            min-height: 180px;
+        }
+
+        .post-text-body p {
+            margin: 0 0 12px 0;
+            text-indent: 2em;
+        }
+
+        .edit-note {
+            font-size: 11px;
+            color: #999;
+            text-indent: 0 !important;
+            margin-bottom: 15px !important;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .quote-box {
+            background-color: #f3f7fa;
+            border: 1px solid #dbe5ed;
+            padding: 8px 12px;
+            margin: 8px 0 15px 0;
+            color: #555;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .quote-title {
+            font-weight: bold;
+            color: #1b578e;
+            margin-bottom: 3px;
+        }
+
+        .post-footer-actions {
+            border-top: 1px solid #efefef;
+            padding: 6px 12px;
+            background-color: #fafafa;
+            text-align: right;
+            color: #666;
+        }
+
+        .post-footer-actions span {
+            margin-left: 15px;
+            cursor: pointer;
+        }
+
+        /* Forum Bottom Pagination */
+        .bottom-pagination {
+            margin-top: 15px;
+            text-align: right;
+            padding: 5px 0;
+        }
+
+        /* Disclaimer Footer */
+        .forum-footer {
+            margin-top: 20px;
+            border-top: 2px solid #2b7abc;
+            padding-top: 10px;
+            text-align: center;
+            color: #666;
+            line-height: 1.6;
+        }
+ .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">3/38</div></head>
+<body>
+
+<div class="top-bar">
+    <a href="#">登录</a> | <a href="#">快捷注册</a>
+</div>
+
+<div class="header-bg">
+    <h1>青州网事 - 本地生活与民生社区</h1>
+    <div class="header-sub">BBS.QINGZHOU.COM &nbsp;&nbsp; 青州人自己的在线生活家园</div>
+</div>
+
+<div class="nav-bar">
+    <span class="active">论坛首页</span>
+    <span>青州茶馆</span>
+    <span>街坊爆料</span>
+    <span>二手闲置</span>
+</div>
+
+<div class="container">
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="#">青州网事</a> &gt; <a href="#">青州茶馆</a> &gt; <a href="#">八卦闲聊</a> &gt; [吃瓜] 盛廷医药这波捐赠不良药品影响太大了...
+    </div>
+
+    <!-- Action Bar -->
+    <div class="post-action-bar">
+        <div class="btn-new-topic">+ 发布新帖</div>
+        <div class="pagination-top">
+            <span>&lt; 返回列表</span>
+            <span class="current">1</span>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">下一页 &gt;</a>
+        </div>
+    </div>
+
+<!-- Main Discussion Thread Table Structure -->
+<table class="thread-table">
+    <tr>
+        <td colspan="2" class="thread-header-row">
+            <span class="stat-count">查看: <b>9320</b> | 回复: <b>64</b></span>
+            <span class="thread-title">[吃瓜] 盛廷医药这波捐赠不良药品影响太大了...</span>
+            <span style="float: right; color:#999; font-size:11px;">[复制链接]</span>
+        </td>
+    </tr>
+
+    <!-- 1楼 楼主 -->
+    <tr class="post-row">
+        <td class="author-cell">
+            <div class="author-name">青州小灵通</div>
+            <div class="author-avatar">
+                <br><br>[用户头像]
+            </div>
+            <div class="author-stats">
+                主题: 32<br>
+                积分: 1850<br>
+                头衔: 青州老街坊<br>
+                <span style="color:#1b578e;">[关注TA]</span> <span style="color:#1b578e;">[发消息]</span>
+            </div>
+        </td>
+        <td class="content-cell">
+            <div class="post-meta-header">
+                <span class="post-floor">1<sup>#</sup> 楼主</span>
+                发表于 2019-05-11 09:45:12 | <a href="#">只看该作者</a> 
+            </div>
+            <div class="post-text-body">
+                <p class="edit-note">本帖最后由 青州小灵通 于 2019-03-12 09:55 编辑</p>
+
+
+                <p>听说送过去的药有过期的，还有质量有问题的，这个要是真的，那就不是内部监管失误那么简单了。</p>
+
+                <p>盛廷好歹也是咱们青州本地有点名气的药企，平时宣传的时候一口一个本土良心企业，这回出了这种事，丢的可不只是他们自己的人。</p>
+
+                <p>现在就等官方怎么说吧，网上已经有人开始扒以前那些捐赠活动了。</p>
+            </div>
+            <div class="post-footer-actions">
+                <span>回复</span> <span>引用</span> <span>举报</span>
+            </div>
+        </td>
+    </tr>
+
+
+<!-- 2楼 -->
+<tr class="post-row">
+    <td class="author-cell">
+        <div class="author-name">出了名的坏</div>
+        <div class="author-avatar">
+            <br><br>[用户头像]
+        </div>
+        <div class="author-stats">
+            主题: 8<br>
+            积分: 310<br>
+            头衔: 注册会员<br>
+            <span style="color:#1b578e;">[关注TA]</span> <span style="color:#1b578e;">[发消息]</span>
+        </div>
+    </td>
+    <td class="content-cell">
+        <div class="post-meta-header">
+            <span class="post-floor">2<sup>#</sup></span>
+            发表于 2019-05-11 10:35:18 | <a href="#">只看该作者</a>
+        </div>
+        <div class="post-text-body">
+            <div class="quote-box">
+                <div class="quote-title">引用 青州小灵通 发表于 2019-03-11 09:45 的帖子：</div>
+                听说以前还搞过不少爱心捐赠，网上新闻一篇接一篇。
+            </div>
+
+            <p>这个我记得，以前还去过学校搞什么爱心图书角，横幅挂得老大了。</p>
+
+            <p>当时大家都说企业有钱了做点公益挺好的，现在回头看就有点那个了。</p>
+
+            <p>不过不良药这个事情性质可不一样，福利院里的孩子又不是试药的。</p>
+        </div>
+        <div class="post-footer-actions">
+            <span>回复</span> <span>引用</span> <span>举报</span>
+        </div>
+    </td>
+</tr>
+
+<!-- 3楼 -->
+<tr class="post-row">
+    <td class="author-cell">
+        <div class="author-name">奶酸老海青</div>
+        <div class="author-avatar">
+            <br><br>[用户头像]
+        </div>
+        <div class="author-stats">
+            主题: 19<br>
+            积分: 670<br>
+            头衔: 注册会员<br>
+            <span style="color:#1b578e;">[关注TA]</span> <span style="color:#1b578e;">[发消息]</span>
+        </div>
+    </td>
+    <td class="content-cell">
+        <div class="post-meta-header">
+            <span class="post-floor">3<sup>#</sup></span>
+            发表于 2019-05-11 10:48:06 | <a href="#">只看该作者</a>
+        </div>
+        <div class="post-text-body">
+            <p>说句不好听的，我家里以前买过他们家的药，现在看到这个新闻，我妈直接把抽屉里的药全翻出来了。</p>
+
+            <p>有几盒还没过期呢，她都说不敢吃了，让我下班顺路全扔了。</p>
+
+            <p>这下好了，本来图个放心买的药，出了这种新闻以后谁还敢买。</p>
+        </div>
+        <div class="post-footer-actions">
+            <span>回复</span> <span>引用</span> <span>举报</span>
+        </div>
+    </td>
+</tr>
+
+<!-- 4楼 -->
+<tr class="post-row">
+    <td class="author-cell">
+        <div class="author-name">安娜苏</div>
+        <div class="author-avatar">
+            <br><br>[用户头像]
+        </div>
+        <div class="author-stats">
+            主题: 15<br>
+            积分: 840<br>
+            头衔: 社区达人<br>
+            <span style="color:#1b578e;">[关注TA]</span> <span style="color:#1b578e;">[发消息]</span>
+        </div>
+    </td>
+    <td class="content-cell">
+        <div class="post-meta-header">
+            <span class="post-floor">4<sup>#</sup></span>
+            发表于 2019-05-11 11:02:30 | <a href="#">只看该作者</a>
+        </div>
+        <div class="post-text-body">
+            <p>我家亲戚跟他们家孩子一个学校，之前就听说盛廷跟学校董事关系很深。</p>
+
+            <p>前阵子还听人说想给他家公子弄上【<strong>青蓝专项</strong>】名额，我也不知道真假。</p>
+
+            <p>我现在就想知道，这个事情闹成这样，那个名额还算不算数了。</p>
+        </div>
+        <div class="post-footer-actions">
+            <span>回复</span> <span>引用</span> <span>举报</span>
+        </div>
+    </td>
+</tr>
+ <!-- 4楼 -->
+    <tr class="post-row">
+        <td class="author-cell">
+            <div class="author-name">房产出租出售联系</div>
+            <div class="author-avatar">
+                <br><br>[用户头像]
+            </div>
+            <div class="author-stats">
+                主题: 24<br>
+                积分: 1420<br>
+                头衔: 青州老街坊<br>
+                <span style="color:#1b578e;">[关注TA]</span> <span style="color:#1b578e;">[发消息]</span>
+            </div>
+        </td>
+        <td class="content-cell">
+            <div class="post-meta-header">
+                <span class="post-floor">5<sup>#</sup></span>
+                发表于 2019-05-11 11:05:44 | <a href="#">只看该作者</a>
+            </div>
+            <div class="post-text-body">
+                <p>先别急着给人定性，还是看最后调查结果吧。</p>
+
+                <p>不过真要是捐了有问题的药，那肯定要有人负责。至于网上说的什么升学名额，我觉得学校也得出来说句话。</p>
+
+                <p>孩子读书的事情，家长最在意这个，真要有什么内幕，哪个家长能愿意。</p>
+            </div>
+            <div class="post-footer-actions">
+                <span>回复</span> <span>引用</span> <span>举报</span>
+            </div>
+        </td>
+    </tr>
+
+</table>
+
+
+
+    <!-- Bottom Pagination -->
+    <div class="bottom-pagination">
+        <div class="pagination-top">
+            <span>&lt; 返回列表</span>
+            <span class="current">1</span>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">下一页 &gt;</a>
+        </div>
+    </div>
+
+    <!-- Forum Footer -->
+    <div class="forum-footer">
+        <p>青州网事 版权所有 | 青州本地生活论坛</p>
+        <p>声明：本论坛网民言论仅代表作者个人观点，不代表本站立场。</p>
+    </div>
+
+</div>
+
+</body>
+</html>

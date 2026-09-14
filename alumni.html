@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青州大学 - “青蓝专项”历史录取及名录查询</title>
+    <style>
+        :root {
+            /* 青州大学主题色 */
+            --qz-blue: #004c99; 
+            --qz-gold: #c39d67;
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-light: #f5f5f5;
+            --link-hover: #1e88e5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+
+        body {
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            font-size: 16px;
+        }
+
+        /* --- 主导航栏 --- */
+        .navbar {
+            background-color: var(--qz-blue);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-list {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+
+        .nav-list a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--text-light);
+            font-size: 1.1em;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .nav-list a:hover, .nav-list a.active {
+            background-color: var(--qz-gold);
+            color: var(--text-dark);
+        }
+        
+        /* --- 页头结构 --- */
+        .page-header {
+            background-color: var(--qz-blue);
+            color: var(--text-light);
+            padding: 45px 0;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 4px solid var(--qz-gold);
+        }
+        .page-header h1 {
+            font-size: 2.2em;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .page-header p {
+            font-size: 1.05em;
+            color: #d0e1f9;
+            margin-top: 8px;
+            letter-spacing: 2px;
+        }
+        
+        /* --- 主体内容布局 --- */
+        .main-container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px 60px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 30px;
+        }
+
+        /* --- 侧边栏/二级导航 --- */
+        .sidebar {
+            flex: 0 0 220px;
+            padding-top: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95em;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+        
+        .sidebar a:hover, .sidebar .active {
+            background-color: #f0f7ff;
+            color: var(--qz-blue);
+            font-weight: 600;
+        }
+        .sidebar .active {
+            border-left: 4px solid var(--qz-blue);
+            padding-left: 11px;
+        }
+
+        /* --- 内容主体部分 --- */
+        .main-content-body {
+            flex: 1;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: var(--qz-blue);
+            border-bottom: 2px solid var(--qz-blue);
+            padding-bottom: 8px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* --- 筛选表单区域 --- */
+        .filter-card {
+            background-color: #f0f7ff;
+            border: 1px solid #d0e2f7;
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: var(--qz-blue);
+            white-space: nowrap;
+        }
+
+        .form-control {
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.95em;
+            outline: none;
+            background-color: white;
+            min-width: 160px;
+        }
+
+        .form-control:focus {
+            border-color: var(--qz-blue);
+            box-shadow: 0 0 0 2px rgba(0, 76, 153, 0.2);
+        }
+
+        .btn-search {
+            background-color: var(--qz-blue);
+            color: white;
+            border: none;
+            padding: 9px 24px;
+            font-size: 0.95em;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .btn-search:hover {
+            background-color: #003366;
+        }
+
+        /* --- 查询结果表格 --- */
+        .result-container {
+            display: none; /* 默认隐藏 */
+            margin-top: 20px;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .result-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .result-count {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid #e0e0e0;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f5f5f5;
+            color: var(--qz-blue);
+            font-weight: bold;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .data-table tr:hover {
+            background-color: #f0f7ff;
+        }
+
+        .empty-tip {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            background-color: #fafafa;
+            border: 1px dashed #ddd;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        /* 页脚 */
+        .footer {
+            background-color: #333;
+            color: #ccc;
+            padding: 25px;
+            text-align: center;
+            font-size: 0.85em;
+            margin-top: 40px;
+        }
+  .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">5/38</div></head>
+<body>
+    <!-- 主导航栏 -->
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li><a href="#">首页</a></li>
+            <li><a href="#">学校概况</a></li>
+            <li><a href="#">人才培养</a></li>
+            <li><a href="#">科学研究</a></li>
+            <li><a href="#" class="active">招生就业</a></li>
+            <li><a href="#">国际交流</a></li>
+            <li><a href="#">机构设置</a></li>
+            <li><a href="#">公共服务</a></li>
+        </ul>
+    </nav>
+
+    <!-- 页头结构 -->
+    <div class="page-header">
+        <h1>“青蓝专项”录取名录查询</h1>
+        <p>QINGZHOU UNIVERSITY QINGLAN PROGRAM SELECTION LIST</p>
+    </div>
+
+    <!-- 主体内容布局 -->
+    <div class="main-container">
+        <div class="content-wrapper">
+            
+            <!-- 侧边栏 -->
+       <div class="sidebar">
+                <ul>
+                    <li><a href="#">本科生招生</a></li>
+                    <li><a href="#" class="active">强基招生</a></li>
+                    <li><a href="#">研究生招生</a></li>
+                    <li><a href="#">国际学生招生</a></li>
+                </ul>
+            </div>
+
+            <!-- 主体查询区 -->
+            <div class="main-content-body">
+                <h2 class="section-title">录取学员信息查询</h2>
+                
+                <!-- 筛选表单区域 -->
+                <div class="filter-card">
+                    <form id="searchForm" class="filter-form" onsubmit="handleSearch(event)">
+                        <div class="form-group">
+                            <label for="yearSelect">选择年份：</label>
+                            <select id="yearSelect" class="form-control" required>
+                                <option value="">-- 请选择年份 --</option>
+                                                <option value="2017">2017年</option>
+                                <option value="2018">2018年</option>
+                                <option value="2019">2019年</option>
+                                <option value="2020">2020年</option>
+                                <option value="2021">2021年</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="regionSelect">生源地区：</label>
+                            <select id="regionSelect" class="form-control" required>
+                                <option value="">-- 请选择地区 --</option>
+                                <option value="tongzhou">桐州</option>
+                                <option value="linzhou">凛州</option>
+                                <option value="qingzhou">青州</option>
+                                                <option value="changzhou">昌州</option>
+                                <option value="wuzhou">吾州</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-search">查询名单</button>
+                    </form>
+                </div>
+
+                <!-- 查询结果展示区 -->
+                <div id="resultBox" class="result-container">
+                    <div class="result-header">
+                        <span class="result-title" id="resultTitle">2018年【青州地区】“青蓝专项”录取名单</span>
+                        <span class="result-count">共查询到 <b>5</b> 名学员</span>
+                    </div>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>姓名</th>
+                  
+                                <th>入选年份</th>
+                                <th>入选方向</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alumniTableBody">
+                            <!-- 动态注入列表内容 -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 未找到结果提示 -->
+                <div id="emptyTip" class="empty-tip">
+                    暂未查询到符合条件的录取名单，请重新选择【年份】与【生源地区】组合进行查询。
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        青州大学医学部招生办公室 · 拔尖创新人才培养中心 | 青ICP备 19000001号-1
+    </footer>
+
+    <!-- 交互脚本 -->
+    <script>
+        function handleSearch(event) {
+            event.preventDefault();
+
+            const year = document.getElementById('yearSelect').value;
+            const region = document.getElementById('regionSelect').value;
+            const resultBox = document.getElementById('resultBox');
+            const emptyTip = document.getElementById('emptyTip');
+            const tableBody = document.getElementById('alumniTableBody');
+            const resultTitle = document.getElementById('resultTitle');
+
+            // 检查是否选中的是：2018 & 青州
+            if (year === '2018' && region === 'qingzhou') {
+                // 5人名单数据，固定来自青州大学附属高中，包含方依卓
+                const listData = [
+
+                    { name: '林浩然', school: '青州市第一中学', year: '2018年', major: '基础医学' },
+                    { name: '陈思语', school: '青州市第八中学', year: '2018年', major: '预防医学' },
+                    { name: '许泽宇', school: '青州外国语学校', year: '2018年', major: '生物医学工程' },
+                   { name: '方依卓', school: '青州大学附属高中', year: '2018年', major: '临床医学' },
+                    { name: '周扬', school: '青州育才中学', year: '2018年', major: '药学（创新班）' }
+                ];
+
+                // 填充表格
+                tableBody.innerHTML = listData.map((item, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><b>${item.name}</b></td>
+            
+                        <td>${item.year}</td>
+                        <td>${item.major}</td>
+                    </tr>
+                `).join('');
+
+                resultTitle.textContent = `2018年【青州地区】“青蓝专项”录取名录`;
+                resultBox.style.display = 'block';
+                emptyTip.style.display = 'none';
+            } else {
+                // 不满足条件时提示为空
+                resultBox.style.display = 'none';
+                emptyTip.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

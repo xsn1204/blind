@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>青医附院 - 旧版档案查询系统</title>
+    <style>
+        /* 复古旧版系统风格 */
+        body {
+            font-family: "SimSun", "宋体", serif;
+            font-size: 13px;
+            background-color: #d4d0c8;
+            color: #000;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .window {
+            width: 520px;
+            margin: 0 auto;
+            background-color: #d4d0c8;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .title-bar {
+            background-color: #000080;
+            color: #ffffff;
+            padding: 3px 6px;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .window-body {
+            padding: 20px;
+        }
+
+        .system-info {
+            background-color: #ffffcc;
+            border: 1px solid #808080;
+            padding: 8px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #333;
+        }
+
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .form-table td {
+            padding: 8px 4px;
+            vertical-align: middle;
+        }
+
+        .form-table label {
+            font-weight: bold;
+        }
+
+        .form-table input {
+            width: 100%;
+            padding: 4px;
+            border: 2px solid;
+            border-color: #808080 #ffffff #ffffff #808080;
+            background-color: #ffffff;
+            box-sizing: border-box;
+            font-family: "SimSun", "宋体";
+            font-size: 13px;
+        }
+
+        .btn-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .btn-win {
+            padding: 6px 20px;
+            background-color: #d4d0c8;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            font-family: "SimSun", "宋体";
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .btn-win:active {
+            border-color: #808080 #ffffff #ffffff #808080;
+        }
+
+        .error-msg {
+            color: #cc0000;
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .footer-status {
+            margin-top: 20px;
+            border-top: 1px solid #808080;
+            padding-top: 8px;
+            font-size: 11px;
+            color: #555;
+            text-align: center;
+        }
+  .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">28/38</div></head>
+<body>
+
+<div class="window">
+    <div class="title-bar">
+        <span>青州医科大学第一附属医院 - 医疗档案检索 (v1.02)</span>
+    </div>
+    
+    <div class="window-body">
+        <div class="system-info">
+            [系统提示] 本系统仅用于检索 2000 年 1 月 1 日以前建档的纸质数字化病历资料。
+        </div>
+
+       <form id="searchForm" onsubmit="return handleSearch(event)">
+    <table class="form-table">
+        <tr>
+            <td style="width: 80px;"><label for="patientName">患者姓名：</label></td>
+            <td><input type="text" id="patientName" placeholder="请输入完整姓名" required></td>
+        </tr>
+        <tr>
+            <td><label for="birthDate">出生日期：</label></td>
+            <td><input type="text" id="birthDate" placeholder="格式如：19800101" maxlength="8" required></td>
+        </tr>
+    </table>
+
+    <div class="error-msg" id="errorTip">未查询到符合条件的档案，请检查姓名及生日！</div>
+
+    <div class="btn-group">
+        <button type="submit" class="btn-win">查询档案 (Enter)</button>
+        <button type="reset" class="btn-win" onclick="document.getElementById('errorTip').style.display='none'">清空重填</button>
+    </div>
+</form>
+
+
+        <div class="footer-status">
+            数据库状态：在线 | 当前版本：1999-12-31 ARCHIVE BUILD
+        </div>
+    </div>
+</div>
+
+<script>
+    const targetPatient = {
+        name: "方慧君",
+        birth: "19740807"
+    };
+
+    function handleSearch(e) {
+        e.preventDefault();
+        
+        const inputName = document.getElementById('patientName').value.trim();
+        const inputBirth = document.getElementById('birthDate').value.trim();
+        const errorTip = document.getElementById('errorTip');
+
+        if (inputName === targetPatient.name && inputBirth === targetPatient.birth) {
+            errorTip.style.display = 'none';
+            window.open('history.HTML', '_blank');
+        } else if (inputName === "惠君") {
+            errorTip.innerText = "请输入完整姓名";
+            errorTip.style.display = 'block';
+        } else {
+            errorTip.innerText = "未查询到符合条件的档案，请检查姓名及生日！";
+            errorTip.style.display = 'block';
+        }
+
+        return false;
+    }
+</script>
+
+</body>
+</html>

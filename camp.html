@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青州大学 - 2026年“青蓝专项”招生简章</title>
+    <style>
+        :root {
+            /* 青州大学主题色 */
+            --qz-blue: #004c99; 
+            --qz-gold: #c39d67;
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-light: #f5f5f5;
+            --link-hover: #1e88e5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+        }
+
+        body {
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            font-size: 16px;
+        }
+
+        /* --- 主导航栏 --- */
+        .navbar {
+            background-color: var(--qz-blue);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-list {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+
+        .nav-list a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--text-light);
+            font-size: 1.1em;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .nav-list a:hover, .nav-list a.active {
+            background-color: var(--qz-gold);
+            color: var(--text-dark);
+        }
+        
+        /* --- 页头结构 --- */
+        .page-header {
+            background-color: var(--qz-blue);
+            color: var(--text-light);
+            padding: 45px 0;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 4px solid var(--qz-gold);
+        }
+        .page-header h1 {
+            font-size: 2.2em;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .page-header p {
+            font-size: 1.05em;
+            color: #d0e1f9;
+            margin-top: 8px;
+            letter-spacing: 2px;
+        }
+        
+        /* --- 主体内容布局 --- */
+        .main-container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px 60px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-wrapper {
+            display: flex;
+            gap: 30px;
+        }
+
+        /* --- 侧边栏/二级导航 --- */
+        .sidebar {
+            flex: 0 0 220px;
+            padding-top: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95em;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+        
+        .sidebar a:hover, .sidebar .active {
+            background-color: #f0f7ff;
+            color: var(--qz-blue);
+            font-weight: 600;
+        }
+        .sidebar .active {
+            border-left: 4px solid var(--qz-blue);
+            padding-left: 11px;
+        }
+
+        /* --- 内容主体部分 --- */
+        .main-content-body {
+            flex: 1;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: var(--qz-blue);
+            border-bottom: 2px solid var(--qz-blue);
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .main-content-body p {
+            text-indent: 2em;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* 列表样式 */
+        .custom-list {
+            margin: 10px 0 20px 2em;
+            list-style-type: disc;
+        }
+
+        .custom-list li {
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        /* 暗示/强调提示框 */
+        .callout-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--qz-blue);
+            border-top: 1px solid #d0e2f7;
+            border-right: 1px solid #d0e2f7;
+            border-bottom: 1px solid #d0e2f7;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .callout-title {
+            font-size: 1.05em;
+            font-weight: bold;
+            color: var(--qz-blue);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .callout-desc ul {
+            margin: 5px 0 0 1.5em;
+        }
+
+        .callout-desc li {
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .warning-box {
+            background-color: #fff8f8;
+            border-left: 4px solid #d9534f;
+            border-top: 1px solid #f5d6d6;
+            border-right: 1px solid #f5d6d6;
+            border-bottom: 1px solid #f5d6d6;
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .warning-title {
+            font-size: 1.05em;
+            font-weight: bold;
+            color: #c9302c;
+            margin-bottom: 6px;
+        }
+
+        .warning-desc {
+            color: #555;
+            font-size: 0.95em;
+            text-indent: 0 !important;
+        }
+
+        /* 流程表格 */
+        .process-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .process-step {
+            width: 25%;
+            padding: 15px;
+            background-color: var(--bg-light);
+            border: 1px solid #e0e0e0;
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .step-num {
+            font-size: 0.85em;
+            font-weight: bold;
+            color: var(--qz-blue);
+            margin-bottom: 5px;
+        }
+
+        .step-title {
+            font-size: 1.05em;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .step-desc {
+            font-size: 0.88em;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* 往届查询入口卡片样式 */
+        .alumni-link-box {
+            background-color: #f0f7ff;
+            border: 1px solid #d0e2f7;
+            border-radius: 6px;
+            padding: 20px 25px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .alumni-link-box p {
+            margin-bottom: 0;
+            text-indent: 0;
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .btn-alumni {
+            display: inline-block;
+            background-color: var(--qz-blue);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-alumni:hover {
+            background-color: #003366;
+            color: white;
+        }
+
+        /* 页脚 */
+        .footer {
+            background-color: #333;
+            color: #ccc;
+            padding: 25px;
+            text-align: center;
+            font-size: 0.85em;
+            margin-top: 40px;
+        }
+     .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">4/38</div></head>
+<body>
+    <!-- 主导航栏 -->
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li><a href="#">首页</a></li>
+            <li><a href="#">学校概况</a></li>
+            <li><a href="#">人才培养</a></li>
+            <li><a href="#">科学研究</a></li>
+            <li><a href="#" class="active">招生就业</a></li>
+            <li><a href="#">国际交流</a></li>
+            <li><a href="#">机构设置</a></li>
+            <li><a href="#">公共服务</a></li>
+        </ul>
+    </nav>
+
+    <!-- 页头结构 -->
+    <div class="page-header">
+        <h1>2026年“青蓝专项”招生简章</h1>
+<p>2026 QINGZHOU UNIVERSITY QINGLAN PROGRAM</p>
+    </div>
+
+    <!-- 主体内容布局 -->
+    <div class="main-container">
+        <div class="content-wrapper">
+            
+            <!-- 侧边栏 -->
+            <div class="sidebar">
+                <ul>
+                    <li><a href="#">本科生招生</a></li>
+                    <li><a href="#" class="active">强基招生</a></li>
+                    <li><a href="#">研究生招生</a></li>
+                    <li><a href="#">国际学生招生</a></li>
+                </ul>
+            </div>
+
+            <!-- 简章主体内容 -->
+            <div class="main-content-body">
+                
+                <h2 class="section-title">一、 项目背景与培养目标</h2>
+                <p>
+                    “青蓝专项”是由青州大学医学部主办的年度中学生拔尖人才选拔项目。项目旨在贯彻国家“强基计划”政策精神，通过大学顶级医学导师引领、前沿实验室深度体验与多维度综合考核，挖掘并培养具有强烈医学志向、卓越学术潜质与高尚职业道德的未来医学家。
+                </p>
+
+                <h2 class="section-title">二、“优秀营员”评选政策</h2>
+                <p>
+                    体验营期间，专家评审组将对参营学员的学术探究能力、临床思维体验、团队协作及综合素质进行综合评价，择优评选“优秀营员”。
+                </p>
+                <ul class="custom-list">
+                    <li><b>专项录取：</b>优秀营员纳入专项招生评价范围，后续选拔过程中，将综合参考体验营期间的评审结果，符合条件者可适用相应的专项招生政策。</li>
+                    <li><b>学费资助：</b>优秀营员获得专项奖学金评定资格，入学后可申请学费资助，具体资助标准及实施办法以学校相关规定为准。</li>
+                </ul>
+
+                <h2 class="section-title">三、 申报条件与选拔机制</h2>
+                <p><b>基础申报资格：</b></p>
+                <ul class="custom-list">
+                    <li>对医学、生物科学及生命健康领域抱有浓厚兴趣，综合学业成绩优异的高二年级学生。</li>
+                    <li>具有良好的身心素质与道德品质。</li>
+                </ul>
+
+                <!-- 选拔与推荐机制暗示框 -->
+                <div class="callout-box">
+                    <div class="callout-title">评审机制说明</div>
+                    <div class="callout-desc">
+                        <ul>
+                            <li><b>名额限制：</b>每所合作高中学校仅限推荐1名候选人，请各校严格把关、择优推荐。</li>
+                            <li><b>体检要求：</b>凡存在未控制的严重慢性疾病、传染性疾病、特定色觉障碍或不符合医学类专业体检通用标准者，按选拔规定原则上不予录取或直接取消资格。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 class="section-title">四、 报名与选拔流程</h2>
+                <table class="process-table">
+                    <tr>
+                        <td class="process-step">
+                            <div class="step-title">校内遴选</div>
+                            <div class="step-desc">合作高中按照“一校一名额”原则进行校内初审。</div>
+                        </td>
+                        <td class="process-step">
+                            <div class="step-title">专家推荐</div>
+                            <div class="step-desc">提交申请材料。</div>
+                        </td>
+                        <td class="process-step">
+                            <div class="step-title">资格审核</div>
+                            <div class="step-desc">专家组进行综合评审。</div>
+                        </td>
+                        <td class="process-step">
+                            <div class="step-title">入营评优</div>
+                            <div class="step-desc">参加体验营研学与考核。</div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- 新增：五、往届录取名单查询 -->
+                <h2 class="section-title">五、 往届录取名单查询</h2>
+                <div class="alumni-link-box">
+                    <div>
+<strong>青蓝专项学员名录系统</strong>
+                        <p>如需查阅历年“青蓝专项”录取学员名单，请点击下方系统入口查询。</p>
+                    </div>
+                    <a href="alumni.html" target="_blank" class="btn-alumni">前往查询 &raquo;</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        青州大学医学部招生办公室 · 拔尖创新人才培养中心 | 青ICP备 19000001号-1
+    </footer>
+</body>
+</html>

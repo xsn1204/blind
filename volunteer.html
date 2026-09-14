@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>春晖儿童福利院官网</title>
+    <style>
+        /* 官方政务与公益机构风格重构 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            font-family: "SimSun", "宋体", "Microsoft YaHei", sans-serif;
+            color: #333;
+        }
+
+        /* 顶部红头及导航条 */
+        .site-header {
+            background-color: #b81c25;
+            color: #fff;
+            padding: 20px 0;
+            border-bottom: 4px solid #8b0000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* SVG 阳光童趣 Logo */
+        .site-logo {
+            width: 76px;
+            height: 76px;
+            flex-shrink: 0;
+        }
+
+        .header-text h1 {
+            margin: 0;
+            font-size: 28px;
+            font-family: "SimSun", "宋体", serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .header-text p {
+            margin: 5px 0 0 0;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            opacity: 0.85;
+        }
+
+        /* 官方标准导航栏 */
+        .site-nav {
+            background-color: #8b0000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .site-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .site-nav li a {
+            display: block;
+            padding: 11px 22px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .site-nav li a:hover,
+        .site-nav li a.active {
+            background-color: #660000;
+        }
+
+        .site-nav li a.report-link {
+            background-color: #d9534f;
+        }
+        
+        .site-nav li a.report-link:hover {
+            background-color: #c9302c;
+        }
+
+        /* 左右两栏布局页面框架 */
+        .main-wrapper {
+            max-width: 1150px;
+            margin: 25px auto;
+            display: flex;
+            gap: 20px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        /* 左侧文章主体容器 */
+        .container {
+            flex: 1;
+            background: #fff;
+            border: 1px solid #dcdcdc;
+            padding: 40px 45px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+        }
+
+        /* 右侧侧边栏：捐赠联系方式 */
+        .sidebar {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .widget-card {
+            background: #fff;
+            border: 1px solid #dcdcdc;
+            border-top: 3px solid #b81c25;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .widget-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #b81c25;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.9;
+            color: #444;
+        }
+
+        .contact-list strong {
+            color: #222;
+        }
+
+        .donation-notice {
+            background-color: #fff9e6;
+            border: 1px solid #ffe58f;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: #8c6b00;
+            border-radius: 4px;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+
+        /* 面包屑导航 */
+        .breadcrumb {
+            font-size: 13px;
+            color: #666;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        .breadcrumb a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: #b81c25;
+        }
+
+        /* 文章标题及元信息 */
+        .article-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #b81c25;
+            text-align: center;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .article-meta {
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .article-meta span {
+            margin: 0 10px;
+        }
+
+        /* 文章正文 */
+        .article-content {
+            font-size: 15px;
+            line-height: 2;
+            color: #222;
+            text-align: justify;
+        }
+
+        .article-content p {
+            text-indent: 2em;
+            margin-bottom: 20px;
+        }
+
+        .section-h2 {
+            font-size: 17px;
+            font-weight: bold;
+            color: #b81c25;
+            border-left: 4px solid #b81c25;
+            padding-left: 10px;
+            margin: 30px 0 15px 0;
+            text-indent: 0 !important;
+        }
+
+        /* 新增图片预留位样式 */
+        .article-image-placeholder {
+            width: 100%;
+            height: 320px;
+            background-color: #f8f9fa;
+            border: 2px dashed #ccc;
+            border-radius: 6px;
+            margin: 25px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #888;
+        }
+
+        .article-image-placeholder svg {
+            width: 48px;
+            height: 48px;
+            fill: #aaa;
+            margin-bottom: 8px;
+        }
+
+        .article-image-placeholder p {
+            text-indent: 0 !important;
+            margin: 0 !important;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .image-caption {
+            font-size: 13px;
+            color: #777;
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        /* 文章落款 */
+        .article-footer {
+            margin-top: 50px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            text-align: right;
+            font-size: 13px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* 页脚版权 */
+        .site-footer {
+            text-align: center;
+            padding: 25px 0;
+            font-size: 12px;
+            color: #666;
+            background-color: #e9e9e9;
+            border-top: 1px solid #ccc;
+            margin-top: 40px;
+            line-height: 1.8;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="progress-indicator">31/38</div>
+
+    <!-- 顶栏 header -->
+    <div class="site-header">
+        <div class="header-content">
+            <!-- 矢量童趣阳光 Logo -->
+            <svg class="site-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <!-- 太阳光芒 -->
+                <circle cx="50" cy="50" r="44" fill="#FFE082"/>
+                <circle cx="50" cy="50" r="38" fill="#FFB74D"/>
+                <!-- 绿叶/幼苗手势基底 -->
+                <path d="M 20 65 Q 50 90 80 65 Q 50 100 20 65 Z" fill="#81C784"/>
+                <!-- 爱心/春芽核心 -->
+                <path d="M 50 32 C 50 24, 38 20, 34 28 C 30 36, 50 54, 50 54 C 50 54, 70 36, 66 28 C 62 20, 50 24, 50 32 Z" fill="#FF5252"/>
+                <!-- 快乐笑脸弧线 -->
+                <path d="M 40 58 Q 50 66 60 58" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"/>
+            </svg>
+
+            <div class="header-text">
+                <h1>青州市春晖儿童福利院</h1>
+                <p>QINGZHOU CHUNHUI CHILDREN'S WELFARE INSTITUTE</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="site-nav">
+        <ul>
+            <li><a href="#">首页</a></li>
+            <li><a href="#">机构概况</a></li>
+            <li><a href="#" class="active">新闻动态</a></li>
+            <li><a href="#">信息公开</a></li>
+            <li><a href="oa.html" target="_blank">监督举报</a></li>
+        </ul>
+    </nav>
+
+    <!-- 页面主体布局 -->
+    <div class="main-wrapper">
+        <!-- 左侧文章内容区域 -->
+        <div class="container">
+            <!-- 面包屑 -->
+            <div class="breadcrumb">
+                当前位置：<a href="#">首页</a> &gt; <a href="#">新闻动态</a> &gt; <a href="#">院内动态</a> &gt; 正文
+            </div>
+
+            <!-- 标题与信息 -->
+            <div class="article-title">
+                爱心相伴·热血暖冬：青州大学附属高中志愿者走访慰问春晖儿童福利院
+            </div>
+            <div class="article-meta">
+                <span>发布时间：2018-12-15 14:30</span>
+                <span>来源：春晖儿童福利院办公室</span>
+                <span>字号：[ 大 中 小 ]</span>
+            </div>
+
+            <!-- 文章正文 -->
+            <div class="article-content">
+               <p>2018年12月中旬，青州大学附属高中青年志愿者走进春晖儿童福利院，开展“爱心相伴·热血暖冬”慰问活动，为院内儿童送去急需的儿童药品及医疗护理用品。</p>
+
+                <div class="section-h2">温情陪伴 · 关爱孤残儿童成长</div>
+                <p>活动当天，青州大学附属高中志愿者协会走进院内的儿童生活区及儿童康复训练教室。志愿者们不仅带来了精心筹备的儿童常用药品、专科护理物资与益智玩具，还亲切地陪伴孩子们玩游戏、讲故事，了解他们的日常生活与康复训练情况，让原本寒冷的冬天充满了欢声笑语。</p>
+
+                <p>在走访过程中，志愿者注意到院内部分学龄儿童正准备更新档案用照片。为了给孩子们留下一张最灿烂的笑容，他特意带来了专业的摄影器材与便携式背景布，搭建起临时“爱心照相馆”。在段宜廷耐心的引导与欢声笑语的互动下，孩子们纷纷理好衣裳、绽放笑容，顺利完成了标准证件照与定格温馨瞬间的记录照片拍摄。</p>
+                
+                <!-- 文章图片预留位置 -->
+                <div class="article-image-placeholder">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19,5H5C3.89,5 3,5.89 3,7V17A2,2 0 0,0 5,19H19A2,2 0 0,0 21,17V7A2,2 0 0,0 19,5M19,17H5V7H19V17M8.5,13.5L11,16.5L14.5,12L19,18H5M8.5,10.5A1.5,1.5 0 0,0 7,9A1.5,1.5 0 0,0 5.5,10.5A1.5,1.5 0 0,0 7,12A1.5,1.5 0 0,0 8.5,10.5Z"/>
+                    </svg>
+                    <p>【图片预留位置：志愿者段宜廷正耐心为院内儿童调整姿势拍摄标准证件照】</p>
+                </div>
+                <div class="image-caption">图为青州大学附属高中志愿者段宜廷现场为福利院孩子拍摄照片</div>
+
+                <div class="section-h2">热血无偿 · 生命之源传递希望</div>
+                <p>在走访过程中，了解到福利院内部分患有严重贫血及相关血液疾病的孤儿需要定期输血治疗，加之冬季社会血库普遍面临季节性供血紧张的困难，到访的爱心人士与青州大学附属高中的青年志愿者积极响应号召，自发开展了“无偿献血·传递大爱”活动。</p>
+                <p>爱心志愿代表方依卓同学带头走上停靠在福利院内的无偿献血车，完成了400毫升全血的无偿捐献。她表示：“能用自己的血液去延续和保护这些孩子们的生命健康，我觉得这是在这个冬天做过最有意义的事情。”现场多位志愿者也纷纷响应，积极参与献血。</p>
+                <p>据统计，本次活动共计献血逾2400毫升。这批充满温度的热血将优先保障院内特殊患儿及相关医疗救治用血需求，用真情与热血为孤残儿童筑起了一道坚固的健康屏障。</p>
+
+                <div class="section-h2">深化共建 · 联络社会力量延续关爱</div>
+                <p>活动尾声，青州大学附属高中志愿者协会负责人表示，除了本次现场捐赠的儿童药品外，针对院内患儿后续的医疗护理需求，协会已积极对接学校长期合作的社会爱心企业。目前，下一批包含儿童专科护理物资及康复用具的捐赠意向已达成，爱心企业承诺将在近期完成物资筹备并统筹运输至福利院，持续为孤残儿童的健康成长保驾护航。</p>
+            </div>
+            <!-- 文章落款 -->
+            <div class="article-footer">
+                <p>供稿：春晖儿童福利院宣传组</p>
+                <p>审核：青州市春晖儿童福利院 办公室</p>
+            </div>
+        </div>
+
+        <!-- 右侧侧边栏 -->
+        <div class="sidebar">
+            <div class="widget-card">
+                <div class="widget-title">
+                    <span>🎁</span> 捐赠物资联系方式
+                </div>
+                <ul class="contact-list">
+                    <li><strong>接待部门：</strong>春晖儿童福利院 社会捐赠办公室</li>
+                    <li><strong>捐赠热线：</strong>0536-8821XXXX</li>
+                    <li><strong>联系人：</strong>李老师 / 王老师</li>
+                    <li><strong>接收时间：</strong>周一至周日 08:30-17:00</li>
+                </ul>
+                <div class="donation-notice">
+                    <strong>捐赠须知：</strong>药品与食品类捐赠需提供检验合格证明与相关资质；二手衣物需清洗消毒后寄送。感谢您的无私奉献！
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 footer -->
+    <div class="site-footer">
+        <p>主办单位：青州市春晖儿童福利院 | 版权所有 © 2018 Chunhui Children's Welfare Institute</p>
+        <p>地址：临渊省青州市春晖路88号 | 电话：0536-8821XXXX | 临ICP备05011111号</p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>青医附院 - 居民死亡医学证明书及交接单</title>
+    <style>
+        /* 导入手写风格字体 */
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+
+        /* Windows 98 复古外框风格 */
+        body {
+            font-family: "SimSun", "宋体", serif;
+            font-size: 13px;
+            background-color: #d4d0c8;
+            color: #000;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .window {
+            width: 750px;
+            margin: 0 auto;
+            background-color: #d4d0c8;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .title-bar {
+            background-color: #000080;
+            color: #ffffff;
+            padding: 3px 6px;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .window-body {
+            padding: 20px;
+        }
+
+        /* 内部模拟老旧纸张单据 */
+        .record-card {
+            background-color: #f4ede0; /* 泛黄纸张背景 */
+            border: 2px solid;
+            border-color: #808080 #ffffff #ffffff #808080;
+            padding: 30px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(160, 130, 90, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px double #000;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            margin: 0 0 5px 0;
+            letter-spacing: 2px;
+            color: #222;
+            font-weight: bold;
+        }
+
+        .header h2 {
+            font-size: 15px;
+            margin: 0;
+            letter-spacing: 4px;
+            color: #333;
+            font-weight: normal;
+        }
+
+        /* 手写体统一样式：模拟蓝黑墨水感 */
+        .handwriting {
+            font-family: 'Ma Shan Zheng', "Kaiti SC", "KaiTi", "楷体", cursive;
+            color: #1a2a5e; /* 经典钢笔蓝黑墨水色彩 */
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* 证明单内容结构表格 */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .info-table td {
+            border: 1px solid #808080;
+            padding: 8px 10px;
+            font-size: 13px;
+        }
+
+        .info-table td.label {
+            background-color: #eae3d2;
+            font-weight: bold;
+            width: 110px;
+            text-align: center;
+            color: #333;
+        }
+
+        .note-block {
+            margin-top: 15px;
+            line-height: 2;
+        }
+
+        .footer-section {
+            margin-top: 30px;
+            border-top: 1px dashed #aa9d88;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .signature-area p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        /* 太平间/死亡证明专用章 */
+        .hospital-stamp {
+            border: 3px solid #b22222;
+            color: #b22222;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px;
+            border-radius: 50%;
+            width: 95px;
+            height: 95px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transform: rotate(-10deg);
+            opacity: 0.75;
+            box-shadow: 0 0 2px rgba(178, 34, 34, 0.3);
+            font-family: "SimSun", serif;
+            line-height: 1.3;
+        }
+
+        /* 复古按钮与底部状态 */
+        .btn-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .btn-win {
+            padding: 6px 20px;
+            background-color: #d4d0c8;
+            border: 2px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            font-family: "SimSun", "宋体";
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .btn-win:active {
+            border-color: #808080 #ffffff #ffffff #808080;
+        }
+
+        .footer-status {
+            margin-top: 15px;
+            border-top: 1px solid #808080;
+            padding-top: 6px;
+            font-size: 11px;
+            color: #555;
+            text-align: center;
+        }
+  .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">29/38</div></head>
+<body>
+
+<div class="window">
+    <div class="title-bar">
+        <span>青州医科大学第一附属医院 - 死亡证明及档案交接记录</span>
+    </div>
+
+    <div class="window-body">
+        <div class="record-card">
+            <!-- 页眉 -->
+            <div class="header">
+                <h1>青州医科大学第一附属医院</h1>
+                <h2>居民死亡医学证明（推断）书及交接单</h2>
+            </div>
+
+            <!-- 基本信息表 -->
+            <table class="info-table">
+                <tr>
+                    <td class="label">死者姓名</td>
+                    <td><span class="handwriting">方慧君</span></td>
+                    <td class="label">性别</td>
+                    <td><span class="handwriting">女</span></td>
+                    <td class="label">死亡年龄</td>
+                    <td><span class="handwriting">32岁</span></td>
+                </tr>
+                <tr>
+                    <td class="label">出生日期</td>
+                    <td><span class="handwriting">1974年08月07日</span></td>
+                    <td class="label">死亡时间</td>
+                    <td colspan="3"><span class="handwriting">2006年11月20日 03时40分</span></td>
+                </tr>
+                <tr>
+                    <td class="label">死亡地点</td>
+                    <td colspan="5"><span class="handwriting">本院急诊抢救室</span></td>
+                </tr>
+                <tr>
+                    <td class="label">直接死亡原因</td>
+                    <td colspan="5">
+                        <span class="handwriting" style="font-size: 20px; font-weight: bold;">重症哮喘持续状态、急性心律失常（心呼吸骤停）</span>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- 详细记录说明 -->
+            <div class="note-block">
+                <strong>死亡诊断及救治过程摘要：</strong><br>
+                <span class="handwriting">
+                    患者深夜因严重呼吸困难送急诊。送医前曾高剂量服用茶碱类平喘药物，因体内血药浓度过高导致心率剧烈失常，同时受环境中浓烈香烟烟雾刺激引发急性气道闭合。入院时深昏迷，双肺呼吸音极低，呈重度缺氧及心室颤动状态，经静脉复苏、气管插管及电除颤等全力抢救无效，宣告临床死亡。
+                </span>
+            </div>
+
+            <div class="note-block" style="margin-top: 10px;">
+                <strong>遗体及医疗文件交接确认：</strong><br>
+                <span class="handwriting">
+                    今已办理完毕死亡医学证明书、遗体及相关随身物品交接手续，由直系亲属/家属核对确认无误后签收领回。
+                </span>
+            </div>
+
+            <!-- 签字盖章区域 -->
+            <div class="footer-section">
+                <div class="signature-area">
+                    <p>主管医师签名：<span class="handwriting" style="font-size: 20px; margin-left: 10px;">张吉惟</span></p>
+                    <p>遗体交接领取人（家属）：<span class="handwriting" style="font-size: 22px; margin-left: 10px; font-weight: bold;">方兆元</span></p>
+                    <p>与死者关系：<span class="handwriting" style="margin-left: 10px;">家属 / 弟</span></p>
+                    <p style="color: #666; font-size: 12px; margin-top: 10px;">签收日期：2006年11月20日</p>
+                </div>
+
+                <!-- 医院盖章 -->
+                <div class="hospital-stamp">
+                    青医附院<br>死亡证明专用章<br>2006.11.20
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能按钮区域 -->
+        <div class="btn-group">
+            <button class="btn-win" onclick="window.close()">关闭窗口</button>
+        </div>
+
+        <div class="footer-status">
+            档案编号：DEATH-20061120-0042 | 状态：已结案归档
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
