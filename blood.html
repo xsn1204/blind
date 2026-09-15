@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>无偿献血荣誉证书</title>
+    <style>
+        body {
+            margin: 0;
+            background: #0f0f0f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: "SimSun", "STSong", serif;
+            color: #0f0f0f;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        /* 顶部两张献血证明容器 */
+        .cards-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* 献血证明单体卡片 */
+        .certificate-card {
+            width: 440px;
+            height: 270px;
+            background: linear-gradient(135deg, #fff5f5 0%, #fde8e8 100%);
+            border-radius: 12px;
+            padding: 22px 24px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 12px 35px rgba(212, 56, 13, 0.15), 0 4px 15px rgba(0,0,0,0.4);
+            border: 1px solid #f8cece;
+            overflow: hidden;
+        }
+
+        /* 卡片顶栏 */
+        .cert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e8b4b4;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .cert-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #a82020;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cert-title::before {
+            content: '♥';
+            color: #d4380d;
+            font-size: 14px;
+        }
+
+        .cert-no {
+            color: #d4380d;
+            font-size: 14px;
+            font-family: "Courier New", monospace;
+            font-weight: bold;
+        }
+
+        /* 血型与献血量核心区域 */
+        .blood-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: border-box;
+            margin: 10px 0 15px 0;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px dashed #f0b2b2;
+        }
+
+        .blood-type-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blood-type-label {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .blood-type-val {
+            font-size: 32px;
+            font-weight: 900;
+            color: #8c1111;
+            line-height: 1.1;
+        }
+
+        .amount-box {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .amount-val {
+            font-size: 24px;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .amount-unit {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* 个人信息与采样网点 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 8px;
+            font-size: 14px;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .info-item span {
+            color: #777;
+            font-size: 12px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .info-item div {
+            font-weight: bold;
+        }
+
+        /* 页脚印章与备注 */
+        .cert-footer {
+            position: absolute;
+            bottom: 14px;
+            left: 24px;
+            font-size: 11px;
+            color: #888;
+            line-height: 1.3;
+        }
+
+        /* 验真条形码/二维码区域 */
+        .qr-code {
+            position: absolute;
+            bottom: 14px;
+            right: 20px;
+            width: 65px;
+            height: 65px;
+            background: #fff;
+            padding: 4px;
+            box-sizing: border-box;
+            border: 1px solid #ecc0c0;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-placeholder {
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                #333,
+                #333 3px,
+                #fff 3px,
+                #fff 6px
+            );
+            opacity: 0.85;
+        }
+
+        /* 印章效果 */
+        .stamp {
+            position: absolute;
+            top: 65px;
+            right: 45px;
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(180, 20, 20, 0.25);
+            border-radius: 50%;
+            color: rgba(180, 20, 20, 0.25);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transform: rotate(-18deg);
+            font-weight: bold;
+            pointer-events: none;
+            letter-spacing: 1px;
+        }
+
+        /* 歌词区域 */
+        .lyrics-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .poem-wrapper {
+            width: 760px;
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            position: relative;
+        }
+
+        /* 左右对称栏目 */
+        .poem-column {
+            width: 48%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* 左侧粤语栏 */
+        .poem-cantonese {
+            text-align: left;
+            border-right: 1px solid #2a2a2a;
+            padding-right: 35px;
+        }
+
+        /* 右侧国语栏 */
+        .poem-mandarin {
+            text-align: right;
+            padding-left: 35px;
+        }
+
+        /* 每一行歌词的基础样式：全员斜体 */
+        .lyric-line {
+            line-height: 1.8;
+            font-size: 15px;
+            font-style: italic;
+            color: #444;
+            opacity: 0.3;
+            filter: blur(1px);
+            transform: scale(0.97);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .poem-cantonese .lyric-line {
+            transform-origin: left center;
+        }
+
+        .poem-mandarin .lyric-line {
+            transform-origin: right center;
+        }
+
+        /* 左侧高亮激活状态：调整为低饱和度的暗青灰蓝（柔和且不刺眼） */
+        .poem-cantonese .lyric-line.active {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1.03);
+            color: #6a9fb5; 
+            text-shadow: 0 0 8px rgba(106, 159, 181, 0.3);
+            font-weight: bold;
+        }
+
+        /* 右侧高亮激活状态：调整为低饱和度的柔和暗红/砖红色 */
+        .poem-mandarin .lyric-line.active {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1.03);
+            color: #b85c5c;
+            text-shadow: 0 0 8px rgba(184, 92, 92, 0.3);
+            font-weight: bold;
+        }
+
+        /* 普通已读行 */
+        .lyric-line.passed {
+            opacity: 0.7;
+            filter: blur(0);
+            transform: scale(1);
+            color: #a0a0a0;
+        }
+
+        /* 轮播播放完毕后：全文统一银色常亮样式 */
+        .lyric-line.full-show {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1);
+            color: #c0c0c0;
+            text-shadow: 0 0 8px rgba(192, 192, 192, 0.4);
+            font-weight: normal;
+        }
+
+        .poem-author {
+            width: 100%;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #666;
+            letter-spacing: 2px;
+            line-height: 1.6;
+        }
+
+        /* 银色动态音频光波条 */
+        .audio-wave {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 4px;
+            height: 18px;
+            margin-bottom: 25px;
+        }
+
+        .audio-bar {
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, #ffffff 0%, #c0c0c0 100%);
+            border-radius: 3px;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+            animation: pulse 1.2s ease-in-out infinite alternate;
+        }
+
+        .audio-bar:nth-child(1) { animation-delay: 0.0s; }
+        .audio-bar:nth-child(2) { animation-delay: 0.2s; }
+        .audio-bar:nth-child(3) { animation-delay: 0.4s; }
+        .audio-bar:nth-child(4) { animation-delay: 0.1s; }
+        .audio-bar:nth-child(5) { animation-delay: 0.3s; }
+
+        @keyframes pulse {
+            0% { height: 4px; opacity: 0.3; }
+            100% { height: 18px; opacity: 1; }
+        }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">27/31</div>
+</head>
+<body>
+    <!-- 1. 顶部两张献血证明 -->
+    <div class="cards-container">
+        
+        <!-- 证明 1：方 AB型 -->
+        <div class="certificate-card">
+            <div class="cert-header">
+                <div class="cert-title">无偿献血荣誉证书</div>
+                <div class="cert-no">BD-20181212-A01</div>
+            </div>
+            
+            <div class="stamp">青州血站<br>检验合格</div>
+
+            <div class="blood-main">
+                <div class="blood-type-box">
+                    <div class="blood-type-label">血型 / Blood Type</div>
+                    <div class="blood-type-val">AB <small style="font-size:16px; font-weight:normal;">型 (Rh+)</small></div>
+                </div>
+                <div class="amount-box">
+                    <div class="amount-val">400 <span style="font-size:14px;">mL</span></div>
+                    <div class="amount-unit">全血捐献</div>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span>献血者姓名</span>
+                    <div>顾思佳</div>
+                </div>
+                <div class="info-item">
+                    <span>献血日期</span>
+                    <div>2018年12月12日</div>
+                </div>
+                <div class="info-item">
+                    <span>采样地点</span>
+                    <div>春晖福利院流动献血车</div>
+                </div>
+            </div>
+
+            <div class="cert-footer">
+                感谢您的无私奉献<br>
+                每一滴血都是生命的礼物
+            </div>
+
+            <div class="qr-code">
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+
+        <!-- 证明 2：段 O型 -->
+        <div class="certificate-card">
+            <div class="cert-header">
+                <div class="cert-title">无偿献血荣誉证书</div>
+                <div class="cert-no">BD-20181212-B02</div>
+            </div>
+
+            <div class="stamp">青州血站<br>检验合格</div>
+
+            <div class="blood-main">
+                <div class="blood-type-box">
+                    <div class="blood-type-label">血型 / Blood Type</div>
+                    <div class="blood-type-val">O <small style="font-size:16px; font-weight:normal;">型 (Rh+)</small></div>
+                </div>
+                <div class="amount-box">
+                    <div class="amount-val">400 <span style="font-size:14px;">mL</span></div>
+                    <div class="amount-unit">全血捐献</div>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span>献血者姓名</span>
+                    <div>段宜廷</div>
+                </div>
+                <div class="info-item">
+                    <span>献血日期</span>
+                    <div>2018年12月12日</div>
+                </div>
+                <div class="info-item">
+                    <span>采样地点</span>
+                    <div>春晖福利院流动献血车</div>
+                </div>
+            </div>
+
+            <div class="cert-footer">
+                感谢您的无私奉献<br>
+                每一滴血都是生命的礼物
+            </div>
+
+            <div class="qr-code">
+                <div class="qr-placeholder"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 2. 下方对称歌词动态排版 -->
+    <div class="lyrics-section">
+        
+        <!-- 动态银色音浪指示器 -->
+        <div class="audio-wave">
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+            <div class="audio-bar"></div>
+        </div>
+
+        <div class="poem-wrapper">
+            <!-- 左侧：粤语版（《岁月如歌》 - 柔和暗青灰蓝高亮） -->
+            <div class="poem-column poem-cantonese" id="col-cantonese">
+
+                <div class="lyric-line" data-index="0">给我体贴入微</div>
+                <div class="lyric-line" data-index="1">但你手 如明日便要远离</div>
+                <div class="lyric-line" data-index="2">愿你可以</div>
+                                <div class="lyric-line" data-index="3">留下共我曾愉快的忆记</div>
+                <div class="lyric-line" data-index="4">当世事再没完美</div>
+                <div class="lyric-line" data-index="5">可远在岁月如歌中找你</div>
+            </div>
+
+            <!-- 右侧：国语版（《兄妹》 - 柔和暗红高亮） -->
+            <div class="poem-column poem-mandarin" id="col-mandarin">
+                <div class="lyric-line" data-index="0">爱让我们虚伪</div>
+                <div class="lyric-line" data-index="1">我得到 于事无补的安慰</div>
+                <div class="lyric-line" data-index="2">你也得到</div>
+                      <div class="lyric-line" data-index="3">模仿爱上一个人的机会</div>
+                <div class="lyric-line" data-index="4">残忍也不失慈悲</div>
+                <div class="lyric-line" data-index="5">这样的关系你说多完美</div>
+            </div>
+        </div>
+
+        <div class="poem-author">
+            —— 陈奕迅《岁月如歌》 / 《兄妹》
+        </div>
+    </div>
+
+    <!-- 动态高亮及全文银色展示逻辑脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cantoneseLines = document.querySelectorAll('#col-cantonese .lyric-line');
+            const mandarinLines = document.querySelectorAll('#col-mandarin .lyric-line');
+            const totalLines = cantoneseLines.length;
+            let currentIndex = 0;
+            let timer = null;
+
+            function updateLyrics() {
+                // 如果轮播完毕，停止定时器并切换为全员银色展示
+                if (currentIndex >= totalLines) {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        for (let i = 0; i < totalLines; i++) {
+                            cantoneseLines[i].className = 'lyric-line full-show';
+                            mandarinLines[i].className = 'lyric-line full-show';
+                        }
+                    }, 2000); 
+                    return;
+                }
+
+                for (let i = 0; i < totalLines; i++) {
+                    // 左侧控制
+                    cantoneseLines[i].classList.remove('active', 'passed', 'full-show');
+                    if (i < currentIndex) {
+                        cantoneseLines[i].classList.add('passed');
+                    } else if (i === currentIndex) {
+                        cantoneseLines[i].classList.add('active');
+                    }
+
+                    // 右侧控制
+                    mandarinLines[i].classList.remove('active', 'passed', 'full-show');
+                    if (i < currentIndex) {
+                        mandarinLines[i].classList.add('passed');
+                    } else if (i === currentIndex) {
+                        mandarinLines[i].classList.add('active');
+                    }
+                }
+
+                currentIndex++;
+            }
+
+            // 初始高亮第一句
+            updateLyrics();
+
+            // 每 2.8 秒同步切换双侧对称歌词
+            timer = setInterval(updateLyrics, 2000);
+        });
+    </script>
+</body>
+</html>

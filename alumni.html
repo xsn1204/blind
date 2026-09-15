@@ -286,7 +286,7 @@
     font-size: 0.85rem;
     z-index: 9999;
 }
-    </style>                             <div class="progress-indicator">5/38</div></head>
+    </style>                             <div class="progress-indicator">5/31</div></head>
 <body>
     <!-- 主导航栏 -->
     <nav class="navbar">
@@ -335,7 +335,7 @@
                                 <option value="">-- 请选择年份 --</option>
                                                 <option value="2017">2017年</option>
                                 <option value="2018">2018年</option>
-                                <option value="2019">2019年</option>
+                                <option value="2019"><strong>2019</strong>年</option>
                                 <option value="2020">2020年</option>
                                 <option value="2021">2021年</option>
                             </select>
@@ -360,7 +360,7 @@
                 <!-- 查询结果展示区 -->
                 <div id="resultBox" class="result-container">
                     <div class="result-header">
-                        <span class="result-title" id="resultTitle">2018年【青州地区】“青蓝专项”录取名单</span>
+                        <span class="result-title" id="resultTitle">2019年【青州地区】“青蓝专项”录取名单</span>
                         <span class="result-count">共查询到 <b>5</b> 名学员</span>
                     </div>
 
@@ -391,7 +391,7 @@
 
     <!-- 页脚 -->
     <footer class="footer">
-        青州大学医学部招生办公室 · 拔尖创新人才培养中心 | 青ICP备 19000001号-1
+        青州大学医学部招生办公室 · 拔尖创新人才培养中心 | 临ICP备 19000001号-1
     </footer>
 
     <!-- 交互脚本 -->
@@ -408,14 +408,14 @@
 
             // 检查是否选中的是：2018 & 青州
             if (year === '2018' && region === 'qingzhou') {
-                // 5人名单数据，固定来自青州大学附属高中，包含方依卓
+                // 5人名单数据，固定来自青州大学附属高中，包含顾思佳
                 const listData = [
 
-                    { name: '林浩然', school: '青州市第一中学', year: '2018年', major: '基础医学' },
-                    { name: '陈思语', school: '青州市第八中学', year: '2018年', major: '预防医学' },
-                    { name: '许泽宇', school: '青州外国语学校', year: '2018年', major: '生物医学工程' },
-                   { name: '方依卓', school: '青州大学附属高中', year: '2018年', major: '临床医学' },
-                    { name: '周扬', school: '青州育才中学', year: '2018年', major: '药学（创新班）' }
+                    { name: '林浩然', school: '青州市第一中学', year: '2019年', major: '基础医学' },
+                    { name: '陈思语', school: '青州市第八中学', year: '2019年', major: '预防医学' },
+                    { name: '许泽宇', school: '青州外国语学校', year: '2019年', major: '生物医学工程' },
+                   { name: '顾思佳', school: '青州大学附属高中', year: '2019年', major: '临床医学' },
+                    { name: '周扬', school: '青州育才中学', year: '2019年', major: '药学（创新班）' }
                 ];
 
                 // 填充表格

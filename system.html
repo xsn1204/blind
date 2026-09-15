@@ -121,7 +121,7 @@
     font-size: 0.85rem;
     z-index: 9999;
 }
-    </style>                             <div class="progress-indicator">28/38</div></head>
+    </style>                             <div class="progress-indicator">27/31</div></head>
 <body>
 
 <div class="window">
@@ -163,8 +163,8 @@
 
 <script>
     const targetPatient = {
-        name: "方慧君",
-        birth: "19740807"
+        name: "顾惠君",
+        birth: "19740407"
     };
 
     function handleSearch(e) {
@@ -176,7 +176,7 @@
 
         if (inputName === targetPatient.name && inputBirth === targetPatient.birth) {
             errorTip.style.display = 'none';
-            window.open('history.HTML', '_blank');
+         window.open('history.html', '_blank');
         } else if (inputName === "惠君") {
             errorTip.innerText = "请输入完整姓名";
             errorTip.style.display = 'block';

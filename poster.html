@@ -124,15 +124,45 @@
         .meta-text { font-size: 12px; line-height: 1.6; color: #4a4031; font-family: "Microsoft YaHei", sans-serif; }
         .meta-text span { font-weight: bold; color: #c84b31; margin-right: 4px; }
 
+        /* 豆瓣图标跳转按钮样式 */
+        .douban-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 5px;
+            padding: 4px 10px;
+            background-color: #00b51d;
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .douban-link-btn:hover {
+            background-color: #009a18;
+            transform: translateY(-1px);
+        }
+
+        /* 读取 icon.png 的图片样式 */
+        .douban-img-icon {
+            width: 14px;
+            height: 14px;
+            object-fit: contain;
+            display: block;
+        }
+
         .progress-indicator {
             position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.6); color: #fff;
             padding: 6px 10px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; z-index: 9999;
         }
+
     </style>
 </head>
 <body>
 
-<div class="progress-indicator">16/38</div>
+<div class="progress-indicator">15/31</div>
 
 <div class="poster-card">
     <div class="bg-deco-1">🎬</div>
@@ -142,7 +172,7 @@
     <div class="poster-subtitle">24帧电影鉴赏社 · 特别展映</div>
 
     <div class="intro-text">
-         家，是我们最熟悉的地方，却也常常藏着我们最陌生的秘密。我们总以为足够了解家人，直到变故降临。本月电影社特别推出“家庭”主题影展，精选三部经典电影，带你重新审视，那些以“爱”为名的羁绊。
+         家，是我们最熟悉的地方，却也可能藏着最陌生的秘密。有人以爱守护，有人因爱隐瞒。本月电影鉴赏社特别推出“何以为家”主题影展，精选三部经典电影，带你重新解构那些以“家”为名的羁绊。
     </div>
 
     <div class="section-wrapper">
@@ -155,11 +185,11 @@
         <div class="movie-grid">
             <div class="movie-item-box">
                 <div class="movie-title-text">WEEK 1：《网络迷踪》</div>
-                <div class="movie-desc-text">今年最震撼的桌面悬疑神作！全片镜头完全局限在电脑屏幕上。女儿的突然失踪，打破了父亲平静的日常。顺着社交网络碎片寻找真相，在一场网络追寻中重新读懂深沉的父爱。</div>
+                <div class="movie-desc-text">今年最震撼的桌面悬疑神作！女儿的突然失踪，打破了父亲平静的日常。顺着社交网络碎片寻找真相，在一场网络追寻中重新读懂深沉的父爱。</div>
             </div>
             <div class="movie-item-box">
                 <div class="movie-title-text">WEEK 2：《小鞋子》</div>
-                <div class="movie-desc-text">贫困家庭里，哥哥不小心弄丢了妹妹的鞋子。为了不给艰难维持家计的父亲增加负担，兄妹俩决定共用一双鞋，并在纯真与坚韧中诠释最质朴的家庭守护。</div>
+                <div class="movie-desc-text">贫困家庭里，哥哥不小心弄丢了妹妹的鞋子。为了不给艰难维持家计的父亲增加负担，兄妹俩决定共用一双鞋，却在一场长跑比赛中赢得了意外的收获。</div>
             </div>
             <div class="movie-item-box full-width">
                 <div class="movie-title-text">WEEK 3：《看不见的客人》</div>
@@ -184,8 +214,12 @@
         <div class="meta-box">
             <div class="meta-text">
                 <span>放映地点:</span> 综合楼4楼 · 多媒体视听室<br>
-                <span>观影沙龙:</span> 映后特设15分钟自由沙龙讨论<br>
-                <span>社团福利：</span>投稿影评至【豆瓣小组】，优秀作品将选登于校刊。
+                <span>观影沙龙:</span> 映后30分钟自由沙龙讨论<br>
+                <span>影评征集:</span> 观影心得与点评分享<br>
+                <a href="douban.html" target="_blank" class="douban-link-btn">
+                    <img src="icon.png" alt="icon" class="douban-img-icon">
+                    前往豆瓣点评 ↗
+                </a>
             </div>
         </div>
     </div>

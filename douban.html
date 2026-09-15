@@ -2,14 +2,14 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-    <title>豆瓣主页 - edenduan</title>
+    <title>豆瓣主页 - eden duan</title>
 <style>
     * {
         box-sizing: border-box;
     }
     body {
         margin: 0;
-        padding: 20px 0;
+        padding: 0 0 40px 0;
         font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", Arial, sans-serif;
         color: #111111;
         background-color: #f6f6f1;
@@ -17,18 +17,49 @@
         line-height: 1.85;
     }
 
-    /* Page Wrapper - 加宽主布局 */
+    a {
+        color: #37a;
+        text-decoration: none;
+    }
+    a:hover {
+        background-color: #37a;
+        color: #fff;
+    }
+
+    /* 1. 豆瓣顶栏 Top Nav (经典黑/灰色顶栏) */
+    .global-nav {
+        background-color: #545652;
+        height: 28px;
+        line-height: 28px;
+        padding: 0 15px;
+        font-size: 12px;
+        color: #d5d5d5;
+        margin-bottom: 25px;
+    }
+    .global-nav a {
+        color: #d5d5d5;
+        margin-right: 15px;
+    }
+    .global-nav a:hover {
+        background: transparent;
+        color: #fff;
+    }
+    .global-nav .right-user {
+        float: right;
+    }
+
+    /* Page Wrapper */
     .page-wrapper {
         max-width: 960px;
         margin: 0 auto;
         padding: 0 25px;
     }
 
-    /* Douban Header */
+    /* Douban Header Logo & Search */
     .header {
         border-bottom: 1px solid #e0e0e0;
         padding: 0 0 15px 0;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
     }
     .top-nav {
         display: table;
@@ -41,10 +72,10 @@
         width: 120px;
     }
     .logo {
-        font-size: 22px;
+        font-size: 26px;
         font-weight: bold;
         color: #007722;
-        letter-spacing: -0.5px;
+        letter-spacing: -1px;
     }
     .search-cell {
         display: table-cell;
@@ -52,27 +83,40 @@
         text-align: left;
         padding-left: 15px;
     }
-    .search-input {
-        display: inline-block;
+    .search-wrapper {
+        display: inline-flex;
         border: 1px solid #ccc;
         background: #fff;
-        padding: 6px 12px;
         border-radius: 3px;
-        color: #999;
+        overflow: hidden;
+    }
+    .search-input {
+        border: none;
+        padding: 6px 12px;
+        color: #666;
         font-size: 12px;
         width: 260px;
+        outline: none;
+    }
+    .search-btn {
+        background: #c2c2c2;
+        border: none;
+        color: #fff;
+        padding: 0 12px;
+        cursor: pointer;
+        font-size: 12px;
     }
     .nav-items {
-        font-size: 13px;
+        font-size: 14px;
         color: #007722;
-        word-spacing: 14px;
-        padding-top: 6px;
+        padding-top: 10px;
     }
     .nav-items span {
         cursor: pointer;
+        margin-right: 18px;
     }
     .nav-items .active {
-        color: #666666;
+        color: #666;
         font-weight: bold;
     }
 
@@ -80,9 +124,9 @@
     .user-profile-header {
         display: table;
         width: 100%;
-        margin-bottom: 35px;
+        margin-bottom: 30px;
         padding-bottom: 20px;
-        border-bottom: 1px solid #e5e5e5;
+        border-bottom: 1px dashed #e5e5e5;
     }
     .user-avatar-cell {
         display: table-cell;
@@ -102,11 +146,36 @@
         vertical-align: top;
         padding-left: 15px;
     }
+    .user-name-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 4px;
+    }
     .user-name {
-        font-size: 20px;
+        font-size: 22px;
         font-weight: bold;
         color: #111;
-        margin: 0 0 4px 0;
+        margin: 0;
+    }
+    .btn-follow {
+        display: inline-block;
+        background: #007722;
+        color: #fff !important;
+        font-size: 12px;
+        padding: 2px 10px;
+        border-radius: 3px;
+        text-decoration: none;
+    }
+    .btn-follow:hover {
+        background: #005511;
+    }
+    .btn-mail {
+        border: 1px solid #ccc;
+        color: #666 !important;
+        font-size: 12px;
+        padding: 1px 8px;
+        border-radius: 3px;
     }
     .user-signature {
         color: #666;
@@ -118,7 +187,7 @@
         color: #666;
     }
     .user-stats span {
-        margin-left: 15px;
+        margin-left: 10px;
         color: #37a;
     }
 
@@ -130,13 +199,13 @@
     }
     .content-column {
         display: table-cell;
-        width: 70%;
+        width: 68%;
         vertical-align: top;
-        padding-right: 45px;
+        padding-right: 40px;
     }
     .sidebar-column {
         display: table-cell;
-        width: 30%;
+        width: 32%;
         vertical-align: top;
     }
 
@@ -152,12 +221,12 @@
 
     /* Status Broadcast Item */
     .status-item {
-        padding-bottom: 24px;
-        margin-bottom: 24px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
         border-bottom: 1px dashed #e5e5e5;
     }
     .status-header {
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         font-size: 12px;
         color: #666;
     }
@@ -182,7 +251,7 @@
     .status-text {
         font-size: 13px;
         color: #222;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
         line-height: 1.7;
     }
 
@@ -193,19 +262,19 @@
         background: #fff;
         border: 1px solid #e2e2e2;
         border-radius: 4px;
-        padding: 12px;
+        padding: 10px;
         margin-top: 8px;
         text-decoration: none;
         color: inherit;
     }
     .media-thumb {
         display: table-cell;
-        width: 65px;
+        width: 60px;
         vertical-align: top;
     }
     .media-thumb img {
-        width: 55px;
-        height: 78px;
+        width: 50px;
+        height: 70px;
         object-fit: cover;
         border-radius: 2px;
         display: block;
@@ -213,16 +282,16 @@
 
     /* 音乐专辑卡片封面：正方形 */
     .media-card-music .media-thumb {
-        width: 65px;
+        width: 60px;
     }
     .media-card-music .media-thumb img {
-        width: 55px;
-        height: 55px;
+        width: 50px;
+        height: 50px;
         object-fit: cover;
         border-radius: 3px;
     }
 
-    /* 《侧耳倾听》突出样式 */
+    /* 《侧耳倾听》高亮突出样式 */
     .media-card-highlight {
         background: #fffdf5;
         border: 1px solid #e8dec3;
@@ -234,23 +303,14 @@
     .media-card-highlight:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .highlight-badge {
-        position: absolute;
-        top: 10px;
-        right: 12px;
-        background: #fbf0d9;
-        color: #b36b00;
-        font-size: 11px;
-        padding: 1px 6px;
-        border-radius: 3px;
-        font-weight: bold;
+        background: #fffdf5;
+        color: inherit;
     }
 
     .media-info {
         display: table-cell;
         vertical-align: top;
-        padding-left: 12px;
+        padding-left: 10px;
     }
     .media-title {
         font-weight: bold;
@@ -258,30 +318,37 @@
         font-size: 13px;
         margin-bottom: 4px;
     }
-    .media-title a {
-        color: #37a;
-        text-decoration: none;
-    }
-    .media-title a:hover {
-        text-decoration: underline;
-    }
     .media-desc {
         color: #666;
         font-size: 12px;
-        line-height: 1.65;
+        line-height: 1.6;
+    }
+
+    /* 广播底部互动栏 */
+    .status-footer {
+        margin-top: 8px;
+        font-size: 12px;
+        color: #999;
+    }
+    .status-footer span {
+        margin-right: 12px;
+        cursor: pointer;
+    }
+    .status-footer span:hover {
+        color: #37a;
     }
 
     /* Sidebar Blocks */
     .sidebar-block {
-        margin-bottom: 30px;
+        margin-bottom: 28px;
     }
     .sidebar-title {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: bold;
-        color: #111;
+        color: #007722;
         border-bottom: 1px solid #e0e0e0;
         padding-bottom: 5px;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
     }
     .user-tags {
         color: #37a;
@@ -302,207 +369,326 @@
     .movie-stats-list li {
         margin-bottom: 6px;
     }
-    .movie-stats-list a {
-        color: #37a;
-        text-decoration: none;
+
+    /* 关注的用户头像微缩阵列 */
+    .following-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 8px;
+    }
+    .following-item {
+        text-align: center;
+        width: 42px;
+    }
+    .following-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #ddd;
+        display: block;
+        margin: 0 auto 2px;
+    }
+    .following-name {
+        font-size: 11px;
+        color: #666;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* 常去的小组 */
+    .group-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 12px;
+    }
+    .group-list li {
+        margin-bottom: 6px;
+        color: #666;
     }
 
     .douban-footer-note {
-        margin-top: 40px;
+        margin-top: 50px;
         padding-top: 20px;
-        border-top: 1px solid #eee;
+        border-top: 1px solid #e5e5e5;
         color: #999;
         font-size: 12px;
         text-align: center;
     }
 
-                            .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">17/38</div></head>
+    .progress-indicator {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0,0,0,0.6);
+        color: #fff;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 0.85rem;
+        z-index: 9999;
+    }
+</style>
+</head>
 <body>
+
+<div class="progress-indicator">16/31</div>
+
+<!-- 顶栏导航 -->
+<div class="global-nav">
+    <a href="#">豆瓣</a>
+    <a href="#">读书</a>
+    <a href="#">电影</a>
+    <a href="#">音乐</a>
+    <a href="#">同城</a>
+    <a href="#">小组</a>
+    <a href="#">FM</a>
+    <a href="#">东西</a>
+    <a href="#">市集</a>
+    <div class="right-user">
+        <a href="#">我的豆瓣</a>
+        <a href="#">提醒</a>
+        <a href="#">账号设置</a>
+        <a href="#">退出</a>
+    </div>
+</div>
 
 <div class="page-wrapper">
 
-<div class="header">
-    <div class="top-nav">
-        <div class="logo-cell">
-            <span class="logo">豆瓣</span>
+    <div class="header">
+        <div class="top-nav">
+            <div class="logo-cell">
+                <span class="logo">豆瓣</span>
+            </div>
+            <div class="search-cell">
+                <div class="search-wrapper">
+                    <input type="text" class="search-input" value="搜索成员、兴趣、广播...">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
         </div>
-        <div class="search-cell">
-            <div class="search-input">搜索成员、兴趣、广播...</div>
+        <div class="nav-items">
+            <span class="active">首页</span>
+            <span>我的豆瓣</span>
+            <span>广播</span>
+            <span>相册</span>
+            <span>日记</span>
+            <span>豆列</span>
+            <span>档案库</span>
         </div>
     </div>
-    <div class="nav-items">
-        <span class="active">首页</span>
-        <span>我的豆瓣</span>
-        <span>广播</span>
-        <span>相册</span>
-        <span>日记</span>
-        <span>豆列</span>
-        <span>档案库</span>
-    </div>
-</div>
 
-<div class="user-profile-header">
-    <div class="user-avatar-cell">
-        <!-- 留给你的 avatar.png -->
-        <img src="avatar.png" alt="edenduan" class="user-avatar-img">
-    </div>
-    <div class="user-info-cell">
-        <div class="user-stats">
-            关注 <span>42</span>    <span></span>    被关注 <span>12</span>
+    <div class="user-profile-header">
+        <div class="user-avatar-cell">
+            <img src="camera.png" alt="eden duan" class="user-avatar-img">
         </div>
-        <h1 class="user-name">edenduan</h1>
-        <div class="user-signature">换个视角，看见真实。| 电影与生活观察记录</div>
+        <div class="user-info-cell">
+            <div class="user-stats">
+                关注 <a href="#">22</a> &nbsp;&nbsp; 被关注 <a href="#">11</a>
+            </div>
+            <div class="user-name-box">
+                <h1 class="user-name">eden duan</h1>
+                <a href="#" class="btn-follow">+ 关注</a>
+                <a href="#" class="btn-mail">✉ 简信</a>
+            </div>
+            <div class="user-signature">这个人很懒，什么都没留下。</div>
+        </div>
     </div>
-</div>
 
-<div class="main-container">
-    <!-- Left Column: Broadcasts & Reviews -->
-    <div class="content-column">
-        <div class="section-title">edenduan 的广播 (5)</div>
-<!-- Status 2: 评价书籍《厄勒克特拉vs俄狄浦斯》 -->
-<div class="status-item">
+    <div class="main-container">
+        <!-- Left Column: Broadcasts & Reviews -->
+        <div class="content-column">
+            <div class="section-title">eden duan 的广播 (5)</div>
+
+<!-- Status 1: 评价电影《看不见的客人》 -->
+         <!-- Status: 评价电影《看不见的客人》 -->
+            <div class="status-item">
+                <div class="status-header">
+                    <span class="status-author">eden duan</span>
+                    <span class="status-action">看过</span>
+                    <span class="rating-stars">★★★★★</span>
+                    <span class="status-date">2018-11-14 21:09</span>
+                </div>
+                <div class="status-text">
+                </div>
+                <div class="media-card">
+                    <div class="media-thumb">
+                        <img src="story.png" alt="看不见的客人">
+                    </div>
+                    <div class="media-info">
+                        <div class="media-title"><a href="#">看不见的客人 Contratiempo (2016)</a></div>
+                        <div class="media-desc">导演: 奥里奥尔·保罗<br>主演: 马里奥·卡萨斯 / 阿娜·瓦格纳<br>西班牙 / 剧情 / 悬疑 / 惊悚 / 犯罪</div>
+                    </div>
+                </div>
+                <div class="status-footer">
+                    <span>赞 (4)</span> <span>回应</span> <span>转播</span>
+                </div>
+            </div>
+
+                        <!-- Status 5: 评价《小鞋子》 -->
+            <div class="status-item">
+                <div class="status-header">
+                    <span class="status-author">eden duan</span>
+                    <span class="status-action">看过</span>
+                    <span class="rating-stars">★★★★★</span>
+                    <span class="status-date">2018-05-11 21:15</span>
+                </div>
+                <div class="status-text">
+                    再一次看了这部片子，仍然很喜欢。<br>家，到底意味着什么？是呵护吗？是牺牲吗？也许我从未真正明白过。<br>我只知道，一个人来到世上，便从此与另一些人的命运紧紧相连。
+                </div>
+                <div class="media-card">
+                    <div class="media-thumb">
+                        <img src="firm.png" alt="小鞋子">
+                    </div>
+                    <div class="media-info">
+                        <div class="media-title"><a href="#">小鞋子 Children of Heaven (1997)</a></div>
+                        <div class="media-desc">导演: 马基德·马基迪<br>主演: 默罕默德·阿米尔·纳吉 / 阿米尔·法拉赫·哈什安<br>伊朗 / 剧情 / 儿童 / 家庭</div>
+                    </div>
+                </div>
+                <div class="status-footer">
+                    <span>赞 (4)</span> <span>回应</span> <span>转播</span>
+                </div>
+            </div>
+
+
+            <!-- Status 4: 纯文字广播 -->
+            <div class="status-item">
+                <div class="status-header">
+                    <span class="status-author">eden duan</span>
+                    <span class="status-action">说：</span>
+                    <span class="status-date">2018-04-07 21:40</span>
+                </div>
+                <div class="status-text">
+                    很奇怪，明明每年都记得这一天，却越来越想不起你的样子了。前几天做梦，梦见的却是你在病床上的背影。<br>没想到吧，小时候我最怕去医院。后来你不在了，我反而不怕了。<br>
+也许我真的该考虑听爸的话，去做个医生。<br>可这究竟又能挽回些什么呢？<br>我好像一直在想办法离你近一点，又好像一直离你越来越远。
+<br>晚安，妈妈，生日快乐。
+                </div>
+                <div class="status-footer">
+                    <span>赞 (8)</span> <span>回应</span> <span>转播</span>
+                </div>
+            </div>
+
+
+
+            <!-- Status 2: 评价音乐《Take Me Home, Country Roads》 -->
+            <div class="status-item">
+                <div class="status-header">
+                    <span class="status-author">eden duan</span>
+                    <span class="status-action">听过</span>
+                    <span class="rating-stars">★★★★★</span>
+                    <span class="status-date">2018-03-25 22:10</span>
+                </div>
+                <div class="status-text">
+                  
+                </div>
+                <div class="media-card media-card-music">
+                    <div class="media-thumb">
+                        <img src="music.png" alt="Take Me Home, Country Roads">
+                    </div>
+                    <div class="media-info">
+                        <div class="media-title"><a href="#">乡村路带我回家 / Take Me Home, Country Roads</a></div>
+                        <div class="media-desc">表演者: John Denver / 本名阳子<br>流派: 乡村 / 原声带<br>发行时间: 1971 / 1995</div>
+                    </div>
+                </div>
+                <div class="status-footer">
+                    <span>赞 (5)</span> <span>回应</span> <span>转播</span>
+                </div>
+            </div>
+
+            <!-- Status 3: 评价电影《侧耳倾听》（高亮突出 + 点击跳转 library.html） -->
+        <div class="status-item">
     <div class="status-header">
-        <span class="status-author">edenduan</span>
-        <span class="status-action">读过</span>
-        <span class="status-date">2018-10-25 21:30</span>
+        <span class="status-author">eden duan</span>
+        <span class="status-action">看过</span>
+        <span class="rating-stars">★★★★★</span>
+        <span class="status-date">2018-03-25 21:30</span>
     </div>
     <div class="status-text">
-        <!-- 此处可填短评内容 -->
+        “为了让我的名字早点出现在借书卡上，我看了好多书。”
     </div>
     
-    <div class="media-card">
+    <!-- 使用 <a> 标签包裹完整的卡片 -->
+    <a href="library.html" target="_blank" class="media-card media-card-highlight">
         <div class="media-thumb">
-            <img src="story.png" alt="厄勒克特拉vs俄狄浦斯">
+            <img src="listen.png" alt="侧耳倾听">
         </div>
         <div class="media-info">
-            <div class="media-title">厄xxxx俄狄浦斯</div>
-            <div class="media-desc">[荷] 伊基•弗洛伊德 / 2014</div>
+            <div class="media-title">侧耳倾听 耳をすませば (1995)</div>
+            <div class="media-desc">导演: 近藤喜文<br>编剧: 宫崎骏<br>日本 / 剧情 / 爱情 / 动画</div>
         </div>
+    </a>
+
+    <div class="status-footer">
+        <span>赞 (12)</span> <span>回应</span> <span>转播 (1)</span>
     </div>
 </div>
 
-
-        <!-- Status 1: 评价音乐《Take Me Home, Country Roads》 -->
-        <div class="status-item">
-            <div class="status-header">
-                <span class="status-author">edenduan</span>
-                <span class="status-action">听过</span>
-                <span class="rating-stars">★★★★★</span>
-                <span class="status-date">2018-08-25 22:10</span>
-            </div>
-            <div class="status-text">
-                
-            </div>
-            <!-- 正方形音乐封面 -->
-            <div class="media-card media-card-music">
-                <div class="media-thumb">
-                    <img src="music.png" alt="Take Me Home, Country Roads">
-                </div>
-                <div class="media-info">
-                    <div class="media-title">乡村路带我回家 / Take Me Home, Country Roads</div>
-                    <div class="media-desc">表演者: John Denver / 本名阳子<br>流派: 乡村 / 原声带<br>发行时间: 1971 / 1995</div>
-                </div>
-            </div>
         </div>
 
-        <!-- Status 2: 评价电影《侧耳倾听》（高亮突出 + 点击跳转 library.html） -->
-        <div class="status-item">
-            <div class="status-header">
-                <span class="status-author">edenduan</span>
-                <span class="status-action">看过</span>
-                <span class="rating-stars">★★★★★</span>
-                <span class="status-date">2018-08-25 21:30</span>
+        <!-- Right Column: Sidebar -->
+        <div class="sidebar-column">
+            <!-- 档案库统计 -->
+            <div class="sidebar-block">
+                <div class="sidebar-title">eden duan 的档案库</div>
+                <ul class="movie-stats-list">
+                    <li>看过 <a href="#">124 部电影</a> · 想看 <a href="#">35 部</a></li>
+                    <li>读过 <a href="#">48 本书</a> · 想读 <a href="#">12 本</a></li>
+                    <li>听过 <a href="#">84 张唱片</a></li>
+                </ul>
             </div>
-            <div class="status-text">
-                “为了让我的名字早点出现在借书卡上，我看了好多书。”是专属于青春的吉卜力爱情。狂写爱情。
-            </div>
-            
-            <a href="library.html" target="_blank" class="media-card media-card-highlight">
-                <div class="media-thumb">
-                    <img src="listen.png" alt="侧耳倾听">
-                </div>
-                <div class="media-info">
-                    <div class="media-title">侧耳倾听 耳をすませば (1995)</div>
-                    <div class="media-desc">导演: 近藤喜文<br>编剧: 宫崎骏<br>主演: 本名阳子 / 高桥一生<br>日本 / 剧情 / 爱情 / 动画</div>
-                </div>
-            </a>
-        </div>
 
-        <!-- Status 4: 纯文字广播 -->
-        <div class="status-item">
-            <div class="status-header">
-                <span class="status-author">edenduan</span>
-                <span class="status-action">说：</span>
-                <span class="status-date">2018-08-07 19:40</span>
-            </div>
-            <div class="status-text">
-                妈妈的生日，我已经没有什么印象了。只记得在病床最后的时候你抱着我
-            </div>
-        </div>
-
-        <!-- Status 3: 评价《小鞋子》 -->
-        <div class="status-item">
-            <div class="status-header">
-                <span class="status-author">edenduan</span>
-                <span class="status-action">看过</span>
-                <span class="rating-stars">★★★★★</span>
-                <span class="status-date">2018-07-31 21:15</span>
-            </div>
-            <div class="status-text">
-                家庭，究竟意味着什么？是呵护吗？是牺牲吗？好像它是我的一切，我也是它的一切。我们在这个名为“家”的容器里彼此滋养，也彼此承载。
-            </div>
-            <div class="media-card">
-                <div class="media-thumb">
-                    <img src="firm.png" alt="小鞋子">
-                </div>
-                <div class="media-info">
-                    <div class="media-title">小鞋子 Children of Heaven (1997)</div>
-                    <div class="media-desc">导演: 马基德·马基迪<br>主演: 默罕默德·阿米尔·纳吉 / 阿米尔·法拉赫·哈什安<br>伊朗 / 剧情 / 儿童 / 家庭</div>
+            <!-- 常用标签 -->
+            <div class="sidebar-block">
+                <div class="sidebar-title">常用的标签</div>
+                <div class="user-tags">
+                    <a href="#">悬疑 (18)</a>
+                    <a href="#">家庭 (16)</a>
+                    <a href="#">成长 (15)</a>
+                    <a href="#">青春 (15)</a>
+                    <a href="#">人性 (12)</a>
                 </div>
             </div>
-        </div>
 
-    </div>
+            <!-- 关注的人 -->
+            <div class="sidebar-block">
+                <div class="sidebar-title">eden duan 关注的人 (22)</div>
+                <div class="following-grid">
+                    <div class="following-item">
+                        <div class="following-avatar" style="background:#b2c8bb;"></div>
+                        <div class="following-name">阿栗</div>
+                    </div>
+                    <div class="following-item">
+                        <div class="following-avatar" style="background:#d8c3b2;"></div>
+                        <div class="following-name">Milo</div>
+                    </div>
+                    <div class="following-item">
+                        <div class="following-avatar" style="background:#c0b2d8;"></div>
+                        <div class="following-name">木子</div>
+                    </div>
+                    <div class="following-item">
+                        <div class="following-avatar" style="background:#d8b2b2;"></div>
+                        <div class="following-name">西风客</div>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Right Column: Sidebar -->
-    <div class="sidebar-column">
-        <div class="sidebar-block">
-            <div class="sidebar-title">edenduan 的档案</div>
-            <ul class="movie-stats-list">
-                <li>看过 <a href="#">124 部电影</a></li>
-                <li>想看 <a href="#">35 部电影</a></li>
-                <li>听过 <a href="#">84 张唱片</a></li>
-            </ul>
-        </div>
-
-        <div class="sidebar-block">
-            <div class="sidebar-title">常用的标签</div>
-            <div class="user-tags">
-                <span>悬疑 (18)</span>
-                <span>家庭 (16)</span>
-                <span>成长 (15)</span>
-                <span>青春 (15)</span>
-                <span>人性 (12)</span>
+            <!-- 常去的小组 -->
+            <div class="sidebar-block">
+                <div class="sidebar-title">常去的小组</div>
+                <ul class="group-list">
+                    <li><a href="#">佳片推荐</a> (1082048 人)</li>
+                    <li><a href="#">摄影</a> (268502 人)</li>
+                    <li><a href="#">买书如山倒 读书如抽丝</a> (45820 人)</li>
+                </ul>
             </div>
         </div>
     </div>
-</div>
 
-<div class="douban-footer-note">
-    © 2005－2018 douban.com, all rights reserved 豆瓣个人主页
-</div>
+    <div class="douban-footer-note">
+        © 2005－2018 douban.com, all rights reserved 豆瓣个人主页
+    </div>
 
 </div>
 

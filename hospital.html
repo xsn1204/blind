@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>精神科门诊病历记录 - 青医附院</title>
+    <title>门诊病历记录 - 青医附院</title>
     <style>
         /* 基础样式保持医院系统风格 */
         body {
@@ -181,20 +181,20 @@
             width: 90%;
             margin: 0 auto;
         }
-        .progress-indicator {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.6);
-            color: #fff;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            z-index: 9999;
-        }
+  .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
     </style>
-    <div class="progress-indicator">27/39</div>
+    <div class="progress-indicator">28/31</div>
 </head>
 <body>
     <div class="auth-container" id="authBox">
@@ -217,7 +217,7 @@
                 <input type="number" id="birthDay" placeholder="例如：01" min="1" max="31">
             </div>
             <button class="auth-btn" onclick="verifyBirthday()">验证</button>
-            <div class="error-tip" id="errorTip">个人资料输入错误，请重新输入！</div>
+            <div class="error-tip" id="errorTip">404：查无此人</div>
         </div>
         <p style="font-size: 12px; color: #666;">© 青医附院 版权所有 | 医疗信息管理</p>
     </div>
@@ -255,21 +255,25 @@
             <tr>
        <tr>
                 <td>主诉</td>
-                <td colspan="5">申请亲子鉴定及同胞基因亲缘关系检测</td>
+                <td colspan="5">申请亲缘关系检测</td>
             </tr>
         </table>
 
         <div class="content-title">检查项目及结论：</div>
     <p class="content-text">
     经对送检样本进行STR基因座分型检测及亲缘关系分析，鉴定结果如下：<br>
-    1. 父子亲缘关系：排除生物学父子关系；<br>
-    2. 全同胞亲缘关系：支持二者具有生物学全同胞关系。
+    父子亲缘关系：排除生物学父子关系；<br>
 </p>
 
 
         <div class="content-title">处理意见：</div>
-        <div class="content-text">1. 已出具DNA基因检测报告并归档；</div>
-        <div class="content-text">2. 如有疑问建议前往司法鉴定中心进行复核。</div>
+
+            <p class="content-text">
+    经对送检样本进行STR基因座分型检测及亲缘关系分析，鉴定结果如下：<br>
+    1. 已出具DNA基因检测报告并归档；<br>
+    2. 检出父源染色体异常位点，存在生育功能受损风险，建议进一步进行相关专项检测；<br>
+    3. 如有疑问建议前往司法鉴定中心进行复核。
+</p>
 
         <div class="footer">
             <p>医师签名：张吉惟</p>
@@ -282,7 +286,7 @@
         const correctBirth = {
             year: 2002,
             month: 11,
-            day: 2
+            day: 11
         };
 
         function verifyBirthday() {

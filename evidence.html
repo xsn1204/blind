@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百度网盘-全部文件</title>
+    <style>
+        :root {
+            --bd-blue: #06a7ff;
+            --bd-bg-gray: #f7f9fc;
+            --bd-border: #f2f6fc;
+            --text-main: #333333;
+            --text-sub: #666666;
+            --sidebar-width: 194px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Arial", sans-serif;
+            background-color: #fff;
+            color: var(--text-main);
+            font-size: 12px;
+            user-select: none;
+        }
+
+        /* 顶部导航栏 */
+        .bd-header {
+            height: 60px;
+            border-bottom: 1px solid #f2f2f2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .bd-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .logo-dot {
+            width: 16px;
+            height: 16px;
+            background-color: var(--bd-blue);
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+        }
+        .logo-dot::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: #ff4d4f;
+            border-radius: 50%;
+            position: absolute;
+            right: -4px;
+            top: -2px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+        }
+
+        .nav-item {
+            color: var(--text-sub);
+            text-decoration: none;
+            padding: 18px 0;
+        }
+
+        .nav-item.active {
+            color: var(--bd-blue);
+            border-bottom: 3px solid var(--bd-blue);
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .svip-badge {
+            background: linear-gradient(135deg, #fede8a 0%, #f9b828 100%);
+            color: #7c5100;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* 主体布局 */
+        .bd-container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+
+        /* 侧边栏 */
+        .bd-sidebar {
+            width: var(--sidebar-width);
+            background-color: #f7f9fc;
+            padding-top: 15px;
+            border-right: 1px solid #ebedf0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-bottom: 20px;
+        }
+
+        .side-menu-item {
+            height: 38px;
+            display: flex;
+            align-items: center;
+            padding-left: 24px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 14px;
+            gap: 10px;
+        }
+
+        .side-menu-item.active {
+            background-color: #e4f5ff;
+            color: var(--bd-blue);
+            font-weight: bold;
+        }
+
+        .quota-box {
+            padding: 0 20px;
+            color: var(--text-sub);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #e5e5e5;
+            border-radius: 3px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 42%;
+            height: 100%;
+            background-color: var(--bd-blue);
+        }
+
+        /* 右侧文件区域 */
+        .bd-main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* 操作栏 */
+        .action-bar {
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-left {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 0 16px;
+            height: 32px;
+            border-radius: 16px;
+            font-size: 13px;
+            border: 1px solid #dcdfe6;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-primary {
+            background-color: var(--bd-blue);
+            color: #fff;
+            border-color: var(--bd-blue);
+        }
+
+        /* 面包屑导航 */
+        .breadcrumb-path {
+            padding: 4px 20px 10px 20px;
+            color: var(--text-sub);
+            font-size: 12px;
+            border-bottom: 1px solid #f2f6fc;
+        }
+
+        /* 文件列表表格 */
+        .table-wrapper {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .file-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .file-table th {
+            text-align: left;
+            color: var(--text-sub);
+            font-weight: normal;
+            border-bottom: 1px solid #f2f6fc;
+            padding: 10px 20px;
+            font-size: 12px;
+            position: sticky;
+            top: 0;
+            background: #fff;
+        }
+
+        .file-table td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #f2f6fc;
+            font-size: 13px;
+        }
+
+        .file-table tr:hover {
+            background-color: #f4f9ff;
+        }
+
+        /* 百度网盘图标格式 */
+        .icon {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            vertical-align: middle;
+            margin-right: 10px;
+            border-radius: 4px;
+            text-align: center;
+            line-height: 26px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .icon-folder { background-color: #ffca28; color: #b57a00; font-size: 13px; }
+        .icon-pdf { background-color: #f44336; }
+        .icon-doc { background-color: #2196f3; }
+        .icon-xls { background-color: #4caf50; }
+        .icon-img { background-color: #9c27b0; }
+
+        .file-name-txt {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .file-name-txt:hover {
+            color: var(--bd-blue);
+        }
+
+        /* 解密遮罩弹窗 */
+        .crypto-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.4); 
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .crypto-box {
+            width: 380px;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 16px;
+            color: #999;
+            cursor: pointer;
+        }
+
+        .crypto-title {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .crypto-subtitle {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .crypto-input {
+            width: 100%;
+            height: 40px;
+            padding: 0 15px;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            text-align: center;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .crypto-input:focus {
+            border-color: var(--bd-blue);
+        }
+
+        .crypto-btn {
+            width: 100%;
+            height: 40px;
+            background-color: var(--bd-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .crypto-error {
+            color: #ff4d4f;
+            font-size: 12px;
+            margin-top: 8px;
+            display: none;
+        }
+                            .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">29/31</div></head>
+<body>
+
+    <!-- 百度网盘标准 Header -->
+    <div class="bd-header">
+        <div class="header-left">
+            <a href="#" class="bd-logo">
+                <span class="logo-dot"></span>
+                百度网盘
+            </a>
+            <div class="nav-tabs">
+                <a href="#" class="nav-item active">网盘</a>
+                <a href="#" class="nav-item">分享</a>
+                <a href="#" class="nav-item">功能套装</a>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="svip-badge">SVIP 年卡</span>
+            <span style="font-weight: 500;">edenduan</span>
+        </div>
+    </div>
+
+    <!-- 加密弹窗组件 -->
+    <div class="crypto-modal-backdrop" id="pwdModal" onclick="closeModal()">
+        <div class="crypto-box" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal()">✕</span>
+            <div class="crypto-title" id="modalTargetName">提取加密卷宗</div>
+            <div class="crypto-subtitle" id="modalSubTitle">该加密资料库需要授权提取码</div>
+            
+            <input type="password" id="pwdInput" class="crypto-input" placeholder="请输入提取码" maxlength="10">
+            <button class="crypto-btn" onclick="verifyPassword()">确认解密提取</button>
+            <div class="crypto-error" id="errorTip">密码错误，请输入正确的提取码</div>
+        </div>
+    </div>
+
+    <!-- 百度网盘主体 -->
+    <div class="bd-container">
+        <!-- 侧边栏 -->
+        <div class="bd-sidebar">
+            <div>
+                <a href="#" class="side-menu-item active">📁 全部文件</a>
+                <a href="#" class="side-menu-item">🎬 视频</a>
+                <a href="#" class="side-menu-item">🎵 音频</a>
+                <a href="#" class="side-menu-item">🖼️ 图片</a>
+                <a href="#" class="side-menu-item">📄 文档</a>
+        
+            </div>
+            
+            <div class="quota-box">
+                <div>存储空间</div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div style="font-size: 11px; color: #999;">2.1 TB / 5 TB</div>
+            </div>
+        </div>
+
+        <!-- 内容展现区 -->
+        <div class="bd-main-content">
+            <!-- 百度网盘按钮操作栏 -->
+            <div class="action-bar">
+                <div class="action-left">
+                    <button class="btn btn-primary">⬇️ 打包下载</button>
+                    <button class="btn">➕ 上传文件</button>
+                    <button class="btn">新建文件夹</button>
+                    <button class="btn" style="color: #ff4d4f; border-color: #ffa39e;">批量导出目录</button>
+                </div>
+                <div>
+                    <input type="text" placeholder="搜索药品名称、文件或批号" style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 14px; width: 220px; outline: none; font-size: 12px;">
+                </div>
+            </div>
+
+            <div class="breadcrumb-path">
+                全部文件 &gt; <span style="color: #333;">材料汇总</span>
+            </div>
+
+            <!-- 文件列表 -->
+            <div class="table-wrapper">
+                <table class="file-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">文件名</th>
+                            <th style="width: 15%;">大小</th>
+                            <th style="width: 25%;">修改日期</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 文件夹 -->
+  
+
+                        <!-- 文件明细列表 -->
+                        <tr>
+                            <td>
+                                <span class="icon icon-pdf">PDF</span>
+                                <a class="file-name-txt"><strong>春晖福利院</strong>_举报信.pdf</a>
+                            </td>
+                            <td>3.8 MB</td>
+                            <td style="color: #666;">2019-01-14 16:30</td>
+                        </tr>
+                        <tr>
+                                                    <tr>
+                            <td>
+                                <span class="icon icon-img">IMG</span>
+                                <a class="file-name-txt">感冒颗粒_外包装防伪码与实际批号不符记录.jpg</a>
+                            </td>
+                            <td>4.6 MB</td>
+                            <td style="color: #666;">2018-11-12 09:40</td>
+                        </tr>
+                            <td>
+                                <span class="icon icon-pdf">PDF</span>
+                                <a class="file-name-txt">第三方检测机构_对乙酰氨基酚成分检测报告书.pdf</a>
+                            </td>
+                            <td>5.2 MB</td>
+                            <td style="color: #666;">2018-10-14 11:15</td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <span class="icon icon-img">IMG</span>
+                                <a class="file-name-txt">茶碱缓释片_药丸性状异常与沉淀物显微对比图.png</a>
+                            </td>
+                            <td>8.1 MB</td>
+                            <td style="color: #666;">2018-09-12 10:05</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="icon icon-pdf">PDF</span>
+                                <a class="file-name-txt">儿童止咳糖浆_防腐剂成分分析表.pdf</a>
+                            </td>
+                            <td>2.9 MB</td>
+                            <td style="color: #666;">2026-09-11 14:22</td>
+                        </tr>
+                      
+                      
+                      
+                        <tr>
+                            <td>
+                                <span class="icon icon-doc">DOC</span>
+                                <a class="file-name-txt">员工录音转文字.docx</a>
+                            </td>
+                            <td>680 KB</td>
+                            <td style="color: #666;">2026-08-29 20:12</td>
+                        </tr>
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<script>
+const pwdModal = document.getElementById('pwdModal');
+const pwdInput = document.getElementById('pwdInput');
+const errorTip = document.getElementById('errorTip');
+const modalTargetName = document.getElementById('modalTargetName');
+const modalSubTitle = document.getElementById('modalSubTitle');
+
+let currentCorrectPassword = '';
+
+function openModal(folderName, correctPwd, hintText) {
+    currentCorrectPassword = correctPwd;
+    modalTargetName.textContent = `解密：${folderName}`;
+    modalSubTitle.textContent = hintText || "此资源包含重要证据，请输入提取码";
+    pwdModal.style.display = 'flex';
+    pwdInput.focus();
+}
+
+function closeModal() {
+    pwdModal.style.display = 'none';
+    pwdInput.value = '';
+    errorTip.style.display = 'none';
+}
+
+function verifyPassword() {
+    const inputPassword = pwdInput.value.trim();
+    if (inputPassword === currentCorrectPassword) {
+        alert('解密成功！即将为您解压并下载对应药品的完整举报卷宗。');
+        closeModal();
+    } else {
+        errorTip.style.display = 'block';
+        pwdInput.value = '';
+        pwdInput.focus();
+    }
+}
+
+pwdInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        verifyPassword();
+    }
+});
+</script>
+</body>
+</html>
