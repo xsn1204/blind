@@ -11,21 +11,21 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #eef2f5;
-            color: #333;
+            background-color: #121212;
+            color: #e0e0e0;
             font-size: 13px;
         }
 
         /* 顶部导航栏 */
         .mail-header {
             height: 54px;
-            background: linear-gradient(135deg, #1b2a47 0%, #293d63 100%);
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
             color: #fff;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 24px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.5);
         }
         .mail-logo {
             font-size: 16px;
@@ -47,7 +47,7 @@
             align-items: center;
             gap: 12px;
             font-size: 12px;
-            color: #d1d8e0;
+            color: #a0a0a0;
         }
         .user-avatar {
             width: 28px;
@@ -70,13 +70,13 @@
         /* 左侧边栏 */
         .mail-sidebar {
             width: 200px;
-            background-color: #f4f6f9;
-            border-right: 1px solid #dcdfe6;
+            background-color: #181818;
+            border-right: 1px solid #2c2c2c;
             padding-top: 15px;
         }
         .sidebar-category {
             font-size: 11px;
-            color: #909399;
+            color: #808080;
             padding: 6px 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -88,21 +88,21 @@
             justify-content: space-between;
             padding: 0 20px;
             cursor: pointer;
-            color: #606266;
+            color: #b0b0b0;
             font-size: 13px;
             transition: background 0.2s;
         }
         .sidebar-item:hover {
-            background-color: #e4e7ed;
+            background-color: #262626;
         }
         .sidebar-item.active {
-            background-color: #e1f0fd;
-            color: #0078d4;
+            background-color: #1a3a5c;
+            color: #38bdf8;
             font-weight: bold;
-            border-right: 3px solid #0078d4;
+            border-right: 3px solid #38bdf8;
         }
         .mail-count {
-            background: #909399;
+            background: #555555;
             color: #fff;
             padding: 1px 6px;
             border-radius: 10px;
@@ -115,7 +115,7 @@
         /* 右侧邮件阅读区 */
         .mail-main {
             flex: 1;
-            background-color: #ffffff;
+            background-color: #1e1e1e;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -124,29 +124,29 @@
         /* 邮件工具栏 */
         .mail-toolbar {
             padding: 10px 20px;
-            border-bottom: 1px solid #e4e7ed;
-            background-color: #fafbfc;
+            border-bottom: 1px solid #2c2c2c;
+            background-color: #252525;
             display: flex;
             gap: 8px;
             align-items: center;
         }
         .mail-btn {
             padding: 5px 14px;
-            background: #fff;
-            border: 1px solid #dcdfe6;
+            background: #2d2d2d;
+            border: 1px solid #3c3c3c;
             border-radius: 4px;
             cursor: pointer;
             font-size: 12px;
-            color: #606266;
+            color: #cccccc;
             display: flex;
             align-items: center;
             gap: 5px;
             transition: all 0.2s;
         }
         .mail-btn:hover {
-            background-color: #ecf5ff;
-            color: #0078d4;
-            border-color: #c6e2ff;
+            background-color: #333333;
+            color: #38bdf8;
+            border-color: #0078d4;
         }
         .mail-btn-primary {
             background-color: #0078d4;
@@ -169,13 +169,13 @@
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 16px;
-            color: #2c3e50;
+            color: #ffffff;
         }
 
         /* 发件人元数据面板 */
         .mail-meta-card {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
+            background: #252525;
+            border: 1px solid #333333;
             border-radius: 6px;
             padding: 14px 18px;
             margin-bottom: 25px;
@@ -191,35 +191,35 @@
         }
         .meta-label {
             width: 70px;
-            color: #89929b;
+            color: #888888;
         }
         .meta-value {
-            color: #24292e;
+            color: #e0e0e0;
             font-weight: 500;
         }
 
         /* 正文区域（无实际内容） */
         .mail-body-empty {
-            color: #a0aec0;
+            color: #777777;
             font-style: italic;
             padding: 10px 0 30px 0;
-            border-bottom: 1px solid #edf2f7;
+            border-bottom: 1px solid #2c2c2c;
             margin-bottom: 25px;
             font-size: 12px;
         }
 
         /* 附件区域 */
         .attachment-section {
-            background-color: #fdfefe;
-            border: 1px solid #e2e8f0;
+            background-color: #252525;
+            border: 1px solid #333333;
             border-radius: 6px;
             padding: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
         .attachment-header {
             font-weight: bold;
             margin-bottom: 12px;
-            color: #2d3748;
+            color: #e0e0e0;
             font-size: 13px;
             display: flex;
             align-items: center;
@@ -234,15 +234,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #fff;
+            background: #2d2d2d;
             padding: 10px 14px;
-            border: 1px solid #e4e7ed;
+            border: 1px solid #3c3c3c;
             border-radius: 4px;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
         .attachment-item:hover {
-            border-color: #b3d8ff;
-            box-shadow: 0 2px 6px rgba(0,120,212,0.08);
+            border-color: #0078d4;
+            box-shadow: 0 2px 6px rgba(0,120,212,0.2);
         }
         .attachment-info {
             display: flex;
@@ -260,15 +260,15 @@
             font-weight: bold;
             color: white;
         }
-        .icon-pdf { background-color: #f56c6c; }
-        .icon-img { background-color: #e6a23c; }
+        .icon-pdf { background-color: #c53030; }
+        .icon-img { background-color: #b7791f; }
 
         .file-name {
             font-weight: 500;
-            color: #303133;
+            color: #e0e0e0;
         }
         .file-size {
-            color: #909399;
+            color: #888888;
             font-size: 11px;
             margin-left: 8px;
         }
@@ -277,7 +277,7 @@
             gap: 12px;
         }
         .action-link {
-            color: #0078d4;
+            color: #38bdf8;
             text-decoration: none;
             cursor: pointer;
             font-size: 12px;
@@ -343,7 +343,7 @@
                 <button class="mail-btn mail-btn-primary">↩ 回复</button>
                 <button class="mail-btn">⏩ 转发</button>
                 <button class="mail-btn">🗑️ 删除</button>
-                <span style="border-left: 1px solid #dcdfe6; height: 16px; margin: 0 4px;"></span>
+                <span style="border-left: 1px solid #3c3c3c; height: 16px; margin: 0 4px;"></span>
                 <button class="mail-btn">标记为未读</button>
                 <button class="mail-btn">举报垃圾邮件</button>
             </div>
@@ -368,7 +368,7 @@
                     </div>
                     <div class="meta-row">
                         <div class="meta-label">附 件：</div>
-                        <div class="meta-value" style="color: #0078d4;">4 个文件 (21.5 MB)</div>
+                        <div class="meta-value" style="color: #38bdf8;">4 个文件 (21.5 MB)</div>
                     </div>
                 </div>
 
@@ -381,7 +381,7 @@
                <div class="attachment-section">
     <div class="attachment-header">
         <span>附件 (4 个)</span>
-        <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">全部打包下载</span>
+        <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">全部打包下载</span>
     </div>
     <div class="attachment-list">
         
@@ -395,8 +395,8 @@
                 </div>
             </div>
             <div class="attachment-actions">
-                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">预览</span>
-                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">下载</span>
+                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">预览</span>
+                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">下载</span>
             </div>
         </div>
 
@@ -410,8 +410,8 @@
                 </div>
             </div>
             <div class="attachment-actions">
-                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">预览</span>
-                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">下载</span>
+                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">预览</span>
+                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">下载</span>
             </div>
         </div>
 
@@ -425,23 +425,23 @@
                 </div>
             </div>
             <div class="attachment-actions">
-                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">预览</span>
-                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">下载</span>
+                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">预览</span>
+                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">下载</span>
             </div>
         </div>
 
         <!-- 附件 4 -->
         <div class="attachment-item">
             <div class="attachment-info">
-                <div class="file-icon icon-img" style="background-color: #409eff;">PNG</div>
+                <div class="file-icon icon-img" style="background-color: #2b6cb0;">PNG</div>
                 <div>
                     <span class="file-name">茶碱缓释片_药丸性状异常与沉淀物显微对比图.png（已过期）</span>
                     <span class="file-size">8.1 MB</span>
                 </div>
             </div>
             <div class="attachment-actions">
-                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">预览</span>
-                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">下载</span>
+                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">预览</span>
+                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">下载</span>
             </div>
         </div>
 
