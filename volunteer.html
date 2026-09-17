@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>春晖儿童福利院官网</title>
+    <title>青州市春晖儿童福利院</title>
     <style>
         /* 官方政务与公益机构风格重构 */
         body {
@@ -155,17 +155,6 @@
             color: #222;
         }
 
-        .donation-notice {
-            background-color: #fff9e6;
-            border: 1px solid #ffe58f;
-            padding: 10px 12px;
-            font-size: 12px;
-            color: #8c6b00;
-            border-radius: 4px;
-            margin-top: 12px;
-            line-height: 1.6;
-        }
-
         /* 面包屑导航 */
         .breadcrumb {
             font-size: 13px;
@@ -230,7 +219,7 @@
             text-indent: 0 !important;
         }
 
-        /* 新增图片预留位样式 */
+        /* 图片预留位样式 */
         .article-image-placeholder {
             width: 100%;
             height: 320px;
@@ -252,13 +241,6 @@
             margin-bottom: 8px;
         }
 
-        .article-image-placeholder p {
-            text-indent: 0 !important;
-            margin: 0 !important;
-            font-size: 14px;
-            color: #666;
-        }
-
         .image-caption {
             font-size: 13px;
             color: #777;
@@ -268,9 +250,55 @@
             font-style: italic;
         }
 
+        /* 文章底部工具栏（转载、分享、听全文） */
+        .article-footer-toolbar {
+            display: flex;
+            justify-content: flex-end; 
+            align-items: center;
+            gap: 20px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px dashed #e2e8f0;
+        }
+
+        .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: #718096;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+
+        .tool-item:hover {
+            color: #2d3748;
+            background-color: #f7fafc;
+        }
+
+        /* “听全文”特殊高亮 */
+        .highlight-btn {
+            color: #b81c25; 
+            font-weight: bold;
+        }
+        .highlight-btn:hover {
+            color: #8b0000;
+            background-color: #fdf2f2;
+        }
+
+        .tool-icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
         /* 文章落款 */
         .article-footer {
-            margin-top: 50px;
+            margin-top: 30px;
             border-top: 1px solid #eee;
             padding-top: 20px;
             text-align: right;
@@ -314,14 +342,10 @@
         <div class="header-content">
             <!-- 矢量童趣阳光 Logo -->
             <svg class="site-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- 太阳光芒 -->
                 <circle cx="50" cy="50" r="44" fill="#FFE082"/>
                 <circle cx="50" cy="50" r="38" fill="#FFB74D"/>
-                <!-- 绿叶/幼苗手势基底 -->
                 <path d="M 20 65 Q 50 90 80 65 Q 50 100 20 65 Z" fill="#81C784"/>
-                <!-- 爱心/春芽核心 -->
                 <path d="M 50 32 C 50 24, 38 20, 34 28 C 30 36, 50 54, 50 54 C 50 54, 70 36, 66 28 C 62 20, 50 24, 50 32 Z" fill="#FF5252"/>
-                <!-- 快乐笑脸弧线 -->
                 <path d="M 40 58 Q 50 66 60 58" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"/>
             </svg>
 
@@ -339,7 +363,7 @@
             <li><a href="#">机构概况</a></li>
             <li><a href="#" class="active">新闻动态</a></li>
             <li><a href="#">信息公开</a></li>
-            <li><a href="radio.html" target="_blank">监督举报</a></li>
+            <li><a href="#">监督举报</a></li>
         </ul>
     </nav>
 
@@ -364,31 +388,51 @@
 
             <!-- 文章正文 -->
             <div class="article-content">
-               <p>2018年12月中旬，青州大学附属高中“红围巾”志愿者协会走进春晖儿童福利院，开展“爱心相伴·热血暖冬”慰问活动，为院内儿童送去急需的儿童药品及医疗护理用品。</p>
+               <p>2018年12月中旬，青州大学附属高中“红围巾志愿者协会”走进春晖儿童福利院，开展“爱心相伴·热血暖冬”慰问活动，为院内儿童送去急需的儿童药品及医疗护理用品。</p>
 
                 <div class="section-h2">温情陪伴 · 关爱孤残儿童成长</div>
                 <p>活动当天，青大附中的青年志愿者们不仅带来了儿童常用药品与益智玩具，还亲切地陪伴孩子们玩游戏、讲故事，了解他们的日常生活与康复训练情况，让原本寒冷的冬天充满了欢声笑语。</p>
 
-<p>走访中，志愿者段宜廷同学发现部分孩子正准备更新档案照片，便搭起临时“爱心照相馆”，耐心帮孩子们调整表情和姿态。镜头前，孩子们渐渐放松下来，一张张天真明亮的笑脸也被定格在这一刻。
-</p>
-
+                <p>走访中，志愿者段宜廷同学发现部分孩子正准备更新档案照片，便搭起临时“爱心照相馆”，耐心帮孩子们调整表情和姿态。镜头前，孩子们渐渐放松下来，一张张天真明亮的笑脸也被定格在这一刻。</p>
                 
                 <!-- 文章图片预留位置 -->
                 <div class="article-image-placeholder">
-                    <svg viewBox="0 0 24 24">
+                    <svg viewBox="0 0 24 24" width="48" height="48">
                         <path d="M19,5H5C3.89,5 3,5.89 3,7V17A2,2 0 0,0 5,19H19A2,2 0 0,0 21,17V7A2,2 0 0,0 19,5M19,17H5V7H19V17M8.5,13.5L11,16.5L14.5,12L19,18H5M8.5,10.5A1.5,1.5 0 0,0 7,9A1.5,1.5 0 0,0 5.5,10.5A1.5,1.5 0 0,0 7,12A1.5,1.5 0 0,0 8.5,10.5Z"/>
                     </svg>
-                    <p></p>
+                    <p>图片加载中...</p>
                 </div>
                 <div class="image-caption">图为段宜廷为孩子与志愿者们拍摄大合照</div>
 
                 <div class="section-h2">热血无偿 · 生命之源传递希望</div>
                 <p>在走访过程中，了解到福利院内部分患有相关血液疾病的孤儿需要定期输血治疗，加之社会血库普遍面临季节性供血紧张的困难，到访的青年志愿者自发开展了献血活动。</p>
-<p>爱心代表顾思佳同学带头登上停靠在福利院外的无偿献血车，完成了400毫升AB型全血的捐献。现场多位志愿者随后也纷纷响应，用真情与热血为孤残儿童筑起了一道坚固的健康屏障。</p>
+                <p>爱心代表顾思佳同学带头登上停靠在福利院外的无偿献血车，完成了400毫升AB型全血的捐献。现场多位志愿者随后也纷纷响应，用真情与热血为孤残儿童筑起了一道坚固的健康屏障。</p>
 
                 <div class="section-h2">深化共建 · 社会力量延续关爱</div>
-                <p>活动尾声，青州大学附属高中“红围巾”志愿者协会负责人表示，针对院内患儿后续的医疗护理需求，协会已积极对接学校长期合作的社会爱心企业。目前，下一批包含儿童专科护理物资的捐赠意向已达成，爱心企业承诺将在近期完成筹备，持续为孤残儿童的健康成长保驾护航。</p>
+                <p>活动尾声，青州大学附属高中“红围巾志愿者协会”的负责人表示，针对院内患儿后续的医疗护理需求，协会已积极对接学校长期合作的社会爱心企业。目前，下一批包含儿童专科护理物资的捐赠意向已达成，爱心企业承诺将在近期完成筹备，持续为孤残儿童的健康成长保驾护航。</p>
             </div>
+
+            <!-- 文章底部工具栏（转载、分享、听全文） -->
+            <div class="article-footer-toolbar">
+                <!-- 转载按钮 -->
+                <button class="tool-item" onclick="handleReprint()">
+                    <svg class="tool-icon" viewBox="0 0 24 24"><path d="M19 8h-1V3H6v5H5c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h1v3h12v-3h1c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2zM8 5h8v3H8V5zm8 14H8v-3h8v3zm2-6H6v-4h12v4z"/></svg>
+                    <span>打印</span>
+                </button>
+
+                <!-- 分享按钮 -->
+                <button class="tool-item" onclick="handleShare()">
+                    <svg class="tool-icon" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+                    <span>分享</span>
+                </button>
+
+                <!-- 听全文按钮 -> 跳转到 radio.html 并传递标题 -->
+                <button class="tool-item highlight-btn" onclick="goToRadio()">
+                    <svg class="tool-icon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    <span>听全文</span>
+                </button>
+            </div>
+
             <!-- 文章落款 -->
             <div class="article-footer">
                 <p>供稿：春晖儿童福利院宣传组</p>
@@ -408,7 +452,6 @@
                     <li><strong>联系人：</strong>李老师 / 王老师</li>
                     <li><strong>接收时间：</strong>周一至周日 08:30-17:00</li>
                 </ul>
-               
             </div>
         </div>
     </div>
@@ -419,5 +462,13 @@
         <p>地址：临渊省青州市春晖路88号 | 电话：0536-8821XXXX | 临ICP备05011111号</p>
     </div>
 
+    <script>
+        // 点击“听全文”：携带文章标题无缝跳转到 radio.html
+function goToRadio() {
+    const articleTitle = document.querySelector(".article-title").innerText;
+    window.open(`radio.html?title=${encodeURIComponent(articleTitle)}`, '_blank');
+}
+   
+    </script>
 </body>
 </html>
