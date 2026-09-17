@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>居民死亡医学证明（推断）书</title>
+    <style>
+        body {
+            background-color: #161717;
+            padding: 20px 10px;
+            font-family: "KaiTi", "楷体", serif;
+            color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 模拟2002年泛黄的手写/复写纸张效果 */
+        .death-cert-paper {
+            position: relative;
+            width: 100%;
+            max-width: 680px;
+            background-color: #fbf9f1;
+            padding: 35px 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #dcd6c8;
+            box-sizing: border-box;
+            background-image: linear-gradient(rgba(0,0,0,0.01) 95%, rgba(0,0,0,0.04) 95%);
+            background-size: 100% 28px;
+        }
+
+        .header-org {
+            text-align: center;
+            font-size: 14px;
+            letter-spacing: 1px;
+            color: #444;
+            margin-bottom: 5px;
+        }
+
+        .cert-title {
+            font-family: "SimHei", "黑体", sans-serif;
+            font-size: 22px;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            color: #b30000;
+        }
+
+        .cert-subtitle {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 6px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 20px;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .form-row-full {
+            grid-column: span 2;
+        }
+
+        /* 手写体仿真样式 */
+        .handwritten {
+            font-family: "KaiTi", "楷体", serif;
+            color: #0b2545;
+            border-bottom: 1px dashed #666;
+            padding: 0 6px;
+            font-weight: bold;
+        }
+
+        .blurred-name {
+            filter: blur(4px);
+            user-select: none;
+            opacity: 0.6;
+            background-color: #ddd;
+        }
+
+
+        .stamp-box {
+            position: absolute;
+            bottom: 40px;
+            right: 45px;
+            width: 130px;
+            height: 130px;
+            border: 3px solid rgba(180, 0, 0, 0.6);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-10deg);
+            pointer-events: none;
+            opacity: 0.75;
+        }
+
+        .stamp-text-top {
+            font-size: 11px;
+            color: #b30000;
+            font-family: "SimHei", sans-serif;
+            text-align: center;
+            width: 100px;
+        }
+
+        .stamp-text-center {
+            font-size: 15px;
+            font-weight: bold;
+            color: #b30000;
+            font-family: "SimHei", sans-serif;
+            margin: 4px 0;
+            letter-spacing: 1px;
+        }
+
+        .stamp-text-bottom {
+            font-size: 9px;
+            color: #b30000;
+            font-family: monospace;
+        }
+
+        .section-box {
+            border: 1px solid #888;
+            padding: 12px 15px;
+            margin-top: 15px;
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-family: "SimHei", sans-serif;
+        }
+
+        .footer-info {
+            margin-top: 35px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-indicator">extra5/31</div>
+
+<div class="death-cert-paper">
+
+    <!-- 单位与标题 -->
+    <div class="header-org">凛州市民政局</div>
+    <div class="cert-title">居民死亡医学证明（推断）书</div>
+    <div class="cert-subtitle">编号：LZ-2002-0615042</div>
+
+    <!-- 基本信息栏 -->
+    <div class="form-grid">
+        <div>
+            死者姓名：<span class="handwritten blurred-name">某某某</span>
+        </div>
+        <div>
+            性别：<span class="handwritten">男</span>
+        </div>
+        <div>
+            出生日期：<span class="handwritten">1973年09月</span>
+        </div>
+        <div>
+            婚姻状况：<span class="handwritten">已婚</span>
+        </div>
+    </div>
+
+    <!-- 死亡情况栏 -->
+    <div class="section-box">
+        <div class="section-title">一、 死亡时间与地点</div>
+        <div style="font-size: 14px; line-height: 1.8;">
+            死亡时间：<span class="handwritten">2002年06月15日 上午 09时 25分</span><br>
+            死亡地点：<span class="handwritten">凛州市第三人民医院急诊室（送医途中/抢救无效）</span>
+        </div>
+    </div>
+
+    <div class="section-box">
+        <div class="section-title">二、 死亡原因诊断</div>
+        <div style="font-size: 14px; line-height: 1.8;">
+            直接死因（根本死因）：<span class="handwritten">突发高坠意外导致重度颅脑损伤、失血性休克</span><br>
+            诊断单位：<span class="handwritten">凛州市第三人民医院</span>
+        </div>
+    </div>
+
+    <!-- 家属签名字段 -->
+    <div style="margin-top: 20px; font-size: 14px; line-height: 2;">
+        <div>代办人签名：<span class="handwritten blurred-name" style="font-size: 16px;">某某某</span></div>
+        <div>与死者关系：<span class="handwritten">妻子</span></div>
+    </div>
+
+    <!-- 落款日期 -->
+    <div class="footer-info">
+        <div>签发机构（盖章）：凛州市第三人民医院</div>
+        <div>签发日期：2002年06月15日</div>
+    </div>
+
+    <!-- 模拟医院公章 -->
+    <div class="stamp-box">
+        <div class="stamp-text-top">凛州市第三人民医院</div>
+        <div class="stamp-text-center">急 诊 科</div>
+        <div class="stamp-text-bottom">2002.06.15</div>
+    </div>
+
+</div>
+
+</body>
+</html>

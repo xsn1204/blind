@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 系列游戏作品展</title>
+    <!-- 引入 Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <!-- 引入 FontAwesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --bg-base: #000000;
+            --surface-glass: rgba(22, 22, 25, 0.7);
+            --surface-border: rgba(255, 255, 255, 0.12);
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent-gold: #c9a96e;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        /* 静态微弱星空背景参考 */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            width: 2px;
+            height: 2px;
+            background: transparent;
+            box-shadow: 
+                15vw 12vh rgba(255,255,255,0.7), 35vw 25vh rgba(255,255,255,0.3), 75vw 15vh rgba(255,255,255,0.6), 90vw 28vh rgba(255,255,255,0.2),
+                5vw 45vh rgba(255,255,255,0.4), 22vw 58vh rgba(255,255,255,0.7), 55vw 50vh rgba(255,255,255,0.3), 82vw 63vh rgba(255,255,255,0.6),
+                18vw 85vh rgba(255,255,255,0.4), 40vw 78vh rgba(255,255,255,0.7), 68vw 88vh rgba(255,255,255,0.2), 92vw 82vh rgba(255,255,255,0.5),
+                50vw 33vh rgba(255,255,255,0.6), 62vw 20vh rgba(255,255,255,0.4), 28vw 70vh rgba(255,255,255,0.7), 88vw 5vh rgba(255,255,255,0.3);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 流星容器 */
+        .meteor-container {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 70px;
+            background: linear-gradient(0deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 100%);
+            transform: rotate(-45deg); 
+            opacity: 0;
+        }
+        @keyframes meteorPassOne {
+            0% { top: -100px; left: 15%; opacity: 0; }
+            2% { opacity: 1; }
+            6% { top: 60vh; left: 70%; opacity: 0; }
+            100% { top: 60vh; left: 70%; opacity: 0; }
+        }
+        @keyframes meteorPassTwo {
+            0% { top: 5vh; left: -100px; opacity: 0; }
+            3% { opacity: 1; }
+            8% { top: 80vh; left: 60%; opacity: 0; }
+            100% { top: 80vh; left: 60%; opacity: 0; }
+        }
+        .meteor:nth-child(1) { animation: meteorPassOne 24s linear infinite; animation-delay: 3s; }
+        .meteor:nth-child(2) { animation: meteorPassTwo 28s linear infinite; animation-delay: 12s; }
+
+        /* 最上方爱心公告栏 (苹果精简科技风) */
+        .top-notice-bar {
+            position: relative;
+            z-index: 10;
+            background: rgba(20, 20, 23, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 7px 0;
+            text-align: center;
+            font-size: 0.78rem;
+            letter-spacing: 0.3px;
+            color: var(--text-secondary);
+            backdrop-filter: blur(20px);
+        }
+        .top-notice-bar i {
+            color: #ff453a;
+            margin-right: 5px;
+        }
+
+        /* 苹果风格顶部导航栏 (半透明模糊) */
+        .apple-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            height: 48px;
+            display: flex;
+            align-items: center;
+        }
+        .apple-nav .navbar-brand {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #fff !important;
+            letter-spacing: -0.2px;
+        }
+        .apple-nav .nav-link {
+            font-size: 0.8rem;
+            color: var(--text-secondary) !important;
+            padding: 0 16px !important;
+            transition: color 0.2s ease;
+        }
+        .apple-nav .nav-link:hover {
+            color: #fff !important;
+        }
+
+        /* 核心布局区域 */
+        .main-hero {
+            position: relative;
+            z-index: 10;
+            padding: 60px 0 80px;
+        }
+
+        /* 左侧排版：苹果大标题与极简衬托 */
+        .hero-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+        .hero-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        /* 作者信息栏样式 */
+        .author-box {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .author-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-right: 14px;
+            background: #222;
+        }
+        .author-info span {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+        .author-info h6 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+            letter-spacing: -0.2px;
+        }
+
+        /* 作品列表胶囊卡片 (苹果风格细边框与悬浮反馈) */
+        .work-capsule {
+            background: var(--surface-glass);
+            border: 1px solid var(--surface-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            text-decoration: none !important;
+        }
+        .work-capsule:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(30, 30, 35, 0.8);
+            transform: translateY(-2px);
+        }
+        .work-title-group h6 {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 2px 0;
+            letter-spacing: -0.2px;
+        }
+        .work-title-group span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        .apple-badge {
+            font-size: 0.7rem;
+            font-weight: 500;
+            padding: 3px 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border-radius: 20px;
+            letter-spacing: 0.2px;
+        }
+        .apple-badge.upcoming {
+            background: rgba(10, 132, 255, 0.15);
+            color: #5ac8fa;
+        }
+
+        /* 左侧下方：二维码与联系方式面板 */
+        .qr-contact-card {
+            background: var(--surface-glass);
+            border: 1px solid var(--surface-border);
+            backdrop-filter: blur(20px);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-top: 24px;
+            margin-bottom: 24px;
+        }
+        .qr-wrapper img {
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: #fff;
+            padding: 2px;
+            margin-bottom: 6px;
+        }
+        .qr-wrapper span {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+        .contact-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin: 12px 0 8px;
+            padding-top: 10px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+        .contact-divider p {
+            margin-bottom: 0;
+        }
+
+        /* 苹果标志性圆角胶囊按钮 */
+        .btn-apple-primary {
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            border: none;
+            padding: 10px 24px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 980px;
+            transition: all 0.2s ease;
+            display: inline-block;
+            text-align: center;
+            letter-spacing: -0.1px;
+        }
+        .btn-apple-primary:hover {
+            background-color: #ffffff;
+            color: #000000;
+            transform: scale(1.02);
+            text-decoration: none;
+        }
+
+        /* 右侧：高级画廊轮播风格 */
+        .carousel-box {
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            background: #000;
+            display: block;
+            text-decoration: none !important;
+        }
+        .carousel-box:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .carousel-item img {
+            height: 480px;
+            object-fit: cover;
+            filter: brightness(0.9) contrast(1.03);
+            transition: transform 1.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+        }
+        .carousel-item.active img {
+            transform: scale(1.02);
+        }
+        .carousel-caption {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 30px 24px 20px;
+            text-align: left;
+        }
+        .carousel-caption h5 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+        }
+        .carousel-caption p {
+            font-size: 0.83rem;
+            color: var(--text-secondary);
+            margin: 0;
+            font-weight: 400;
+        }
+        .carousel-indicators li {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            margin: 0 4px;
+            border: none;
+        }
+        .carousel-indicators .active {
+            background-color: #fff;
+            width: 18px;
+            border-radius: 3px;
+        }
+
+        /* 页脚 */
+        footer {
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            background: rgba(0, 0, 0, 0.9);
+        }
+   
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+<div class="progress-indicator">extra2/31</div>
+
+    <!-- 星空背景与流星 -->
+    <div class="meteor-container">
+        <div class="meteor"></div>
+        <div class="meteor"></div>
+    </div>
+
+    <!-- 顶部公告栏 -->
+    <div class="top-notice-bar">
+        <div class="container">
+            <i class="fas fa-heart"></i> 感谢您的爱心，当前暂不接受校友外捐赠  <i class="fas fa-heart"></i>
+        </div>
+    </div>
+
+    <!-- 苹果风导航条 -->
+    <nav class="apple-nav navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <span style="font-weight: 600; letter-spacing: -0.5px;">404 STUDIO</span>
+                <span style="color: var(--text-secondary); font-weight: 300; font-size: 0.8rem; margin-left: 6px;">🔔</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#appleNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="appleNav">
+                <ul class="navbar-nav align-items-center">
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主展示区 -->
+    <main class="main-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                
+                <!-- 左侧：精炼排版与内容导引 -->
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <span class="hero-tag">404 EXHIBITION</span>
+                    
+                    <!-- 新增：圆形头像与 @AAA地下党 名称 -->
+                    <div class="author-box">
+                        <img src="qr4.jpg" alt="头像" class="author-avatar">
+                        <div class="author-info">
+                            <span>主创出品</span>
+                            <h6>@AAA地下党</h6>
+                        </div>
+                    </div>
+
+                    <h1 class="hero-title">404 系列<br>网页解密游戏</h1>
+                    <p class="hero-desc">现已收录三部系列作品，全新企划前瞻中。</p>
+                    
+                    <!-- 3部作品 + 1个下作预告胶囊列表（带新标签页跳转） -->
+                    <div class="mb-3">
+                        <a href="https://xsn1204.github.io/qmgame/" target="_blank" class="work-capsule">
+                            <div class="work-title-group">
+                                <h6>404工位消失事件</h6>
+                                <span>沉浸式工位摸鱼，体验半现实的职场阴影</span>
+                            </div>
+                            <span class="apple-badge">1-1.5h</span>
+                        </a>
+                        <a href="https://xsn1204.github.io/qzu/" target="_blank" class="work-capsule">
+                            <div class="work-title-group">
+                                <h6>404工位消失事件2.0:冬假</h6>
+                                <span>博士师兄不告而别，高校实验室悬疑重重</span>
+                            </div>
+                            <span class="apple-badge">1.5-2h</span>
+                        </a>
+                        <a href="https://xsn1204.github.io/dxt/" target="_blank" class="work-capsule">
+                            <div class="work-title-group">
+                                <h6>404婚礼来信事件</h6>
+                                <span>这是来自2012年的婚礼来信，请您准时赴约</span>
+                            </div>
+                            <span class="apple-badge">1.5-2h</span>
+                        </a>
+
+                        <div class="work-capsule" style="border-color: rgba(10, 132, 255, 0.3);">
+                            <div class="work-title-group">
+                                <h6>🔔 新作预告：梅·兰·竹·菊</h6>
+                                <span>全新企划·敬请期待</span>
+                            </div>
+                            <span class="apple-badge upcoming">制作中</span>
+                        </div>
+                    </div>
+
+                    <!-- 二维码与联系方式面板 -->
+                    <div class="qr-contact-card">
+                        <div class="row text-center">
+                            <div class="col-4 qr-wrapper">
+                                <img src="qr1.png" alt="官方微信">
+                                <span>小红书</span>
+                            </div>
+                            <div class="col-4 qr-wrapper">
+                                <img src="qr2.png" alt="校友鉴权">
+                                <span>TapTap</span>
+                            </div>
+                            <div class="col-4 qr-wrapper">
+                                <img src="qr3.png" alt="校友鉴权">
+                                <span>千岛</span>
+                            </div>
+                        </div>
+                        <div class="contact-divider">
+                            <p><i class="fas fa-envelope mr-1 text-light"></i> 联络方式：以上任一平台@<strong>【AAA地下党】</strong>私信或评论即可📲</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧：轮播图及下方“感谢体验游玩愉快”按钮 -->
+                <div class="col-lg-7">
+                    <a id="carouselLink" href="https://xsn1204.github.io/qmgame/" target="_blank" class="carousel-box">
+                        <div id="appleCarousel" class="carousel slide" data-ride="carousel" data-interval="4500">
+                            <!-- 指示器 -->
+                            <ol class="carousel-indicators">
+                                <li data-target="#appleCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#appleCarousel" data-slide-to="1"></li>
+                                <li data-target="#appleCarousel" data-slide-to="2"></li>
+                                <li data-target="#appleCarousel" data-slide-to="3"></li>
+                            </ol>
+                            
+                            <!-- 轮播内容 -->
+                            <div class="carousel-inner">
+                                <!-- 作品1 -->
+                                <div class="carousel-item active" data-href="https://xsn1204.github.io/qmgame/">
+                                    <img src="1.png" class="d-block w-100" alt="404：迷失回廊">
+                                    <div class="carousel-caption">
+                                        <h5>404工位消失事件</h5>
+                                        <p>沉浸式工位摸鱼，体验半现实的职场阴影</p>
+                                    </div>
+                                </div>
+                                <!-- 作品2 -->
+                                <div class="carousel-item" data-href="https://xsn1204.github.io/qzu/">
+                                    <img src="2.png" class="d-block w-100" alt="404-II：虚无之海">
+                                    <div class="carousel-caption">
+                                        <h5>404工位消失事件2.0:冬假</h5>
+                                        <p>博士师兄不告而别，高校实验室悬疑重重</p>
+                                    </div>
+                                </div>
+                                <!-- 作品3 -->
+                                <div class="carousel-item" data-href="https://xsn1204.github.io/dxt/">
+                                    <img src="3.png" class="d-block w-100" alt="404：代号零">
+                                    <div class="carousel-caption">
+                                        <h5>404婚礼来信事件</h5>
+                                        <p>这是来自2012年的婚礼来信，请您准时赴约</p>
+                                    </div>
+                                </div>
+                                <!-- 下作预告（关于青州大学附属高中） -->
+                                <div class="carousel-item" data-href="https://xsn1204.github.io/dxt/">
+                                     <img src="https://sns-img-hw.xhscdn.com/1000g00826f3h65ufu06g4001ma7pc0uurm0aeg0?imageView2/2/h/1080/format/webp" class="d-block w-100" alt="青州大学附属高中">
+                                    <div class="carousel-caption">
+                                        <h5>新作预告：梅·兰·竹·菊</h5>
+                                        <p>这个人很懒，什么都没留下。</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 左右切换箭头 -->
+                            <span class="carousel-control-prev" data-target="#appleCarousel" role="button" data-slide="prev" onclick="event.preventDefault(); event.stopPropagation(); $('#appleCarousel').carousel('prev');">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </span>
+                            <span class="carousel-control-next" data-target="#appleCarousel" role="button" data-slide="next" onclick="event.preventDefault(); event.stopPropagation(); $('#appleCarousel').carousel('next');">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </span>
+                        </div>
+                    </a>
+
+                    <!-- 感谢体验游玩愉快（位于右侧轮播图下方） -->
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-apple-primary shadow-sm">感谢体验 游玩愉快 🎉</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p class="mb-0">&copy; 2026 404 Studio.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS 依赖 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 动态同步轮播图外层包裹链接的 href，确保点击不同轮播项时跳转到对应的新页面
+        $('#appleCarousel').on('slid.bs.carousel', function () {
+            var activeItem = $(this).find('.carousel-item.active');
+            var targetHref = activeItem.attr('data-href');
+            if (targetHref) {
+                $('#carouselLink').attr('href', targetHref);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -2,358 +2,290 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>百度网盘-全部文件</title>
+    <title>邮箱系统 - 收件箱</title>
     <style>
-        :root {
-            --bd-blue: #06a7ff;
-            --bd-bg-gray: #f7f9fc;
-            --bd-border: #f2f6fc;
-            --text-main: #333333;
-            --text-sub: #666666;
-            --sidebar-width: 194px;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-
         body {
-            font-family: "PingFang SC", "Helvetica Neue", Helvetica, "Arial", sans-serif;
-            background-color: #fff;
-            color: var(--text-main);
-            font-size: 12px;
-            user-select: none;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #eef2f5;
+            color: #333;
+            font-size: 13px;
         }
 
         /* 顶部导航栏 */
-        .bd-header {
-            height: 60px;
-            border-bottom: 1px solid #f2f2f2;
+        .mail-header {
+            height: 54px;
+            background: linear-gradient(135deg, #1b2a47 0%, #293d63 100%);
+            color: #fff;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 0 24px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
         }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .bd-logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
-            color: #000;
-            text-decoration: none;
+        .mail-logo {
+            font-size: 16px;
             font-weight: bold;
-        }
-
-        .logo-dot {
-            width: 16px;
-            height: 16px;
-            background-color: var(--bd-blue);
-            border-radius: 50%;
-            display: inline-block;
-            position: relative;
-        }
-        .logo-dot::after {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background-color: #ff4d4f;
-            border-radius: 50%;
-            position: absolute;
-            right: -4px;
-            top: -2px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 30px;
-            font-size: 14px;
-        }
-
-        .nav-item {
-            color: var(--text-sub);
-            text-decoration: none;
-            padding: 18px 0;
-        }
-
-        .nav-item.active {
-            color: var(--bd-blue);
-            border-bottom: 3px solid var(--bd-blue);
-            font-weight: bold;
-        }
-
-        .header-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            letter-spacing: 0.5px;
         }
-
-        .svip-badge {
-            background: linear-gradient(135deg, #fede8a 0%, #f9b828 100%);
-            color: #7c5100;
-            padding: 2px 8px;
-            border-radius: 10px;
+        .mail-logo span.badge-sys {
+            background: #0078d4;
+            padding: 2px 6px;
+            border-radius: 3px;
             font-size: 11px;
+            font-weight: normal;
+        }
+        .mail-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            color: #d1d8e0;
+        }
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            background-color: #0078d4;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
         }
 
         /* 主体布局 */
-        .bd-container {
+        .mail-container {
             display: flex;
-            height: calc(100vh - 60px);
+            height: calc(100vh - 54px);
         }
 
-        /* 侧边栏 */
-        .bd-sidebar {
-            width: var(--sidebar-width);
-            background-color: #f7f9fc;
+        /* 左侧边栏 */
+        .mail-sidebar {
+            width: 200px;
+            background-color: #f4f6f9;
+            border-right: 1px solid #dcdfe6;
             padding-top: 15px;
-            border-right: 1px solid #ebedf0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding-bottom: 20px;
         }
-
-        .side-menu-item {
+        .sidebar-category {
+            font-size: 11px;
+            color: #909399;
+            padding: 6px 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sidebar-item {
             height: 38px;
             display: flex;
             align-items: center;
-            padding-left: 24px;
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 14px;
-            gap: 10px;
-        }
-
-        .side-menu-item.active {
-            background-color: #e4f5ff;
-            color: var(--bd-blue);
-            font-weight: bold;
-        }
-
-        .quota-box {
+            justify-content: space-between;
             padding: 0 20px;
-            color: var(--text-sub);
+            cursor: pointer;
+            color: #606266;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+        .sidebar-item:hover {
+            background-color: #e4e7ed;
+        }
+        .sidebar-item.active {
+            background-color: #e1f0fd;
+            color: #0078d4;
+            font-weight: bold;
+            border-right: 3px solid #0078d4;
+        }
+        .mail-count {
+            background: #909399;
+            color: #fff;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+        }
+        .sidebar-item.active .mail-count {
+            background: #0078d4;
         }
 
-        .progress-bar {
-            height: 6px;
-            background-color: #e5e5e5;
-            border-radius: 3px;
-            margin: 8px 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            width: 42%;
-            height: 100%;
-            background-color: var(--bd-blue);
-        }
-
-        /* 右侧文件区域 */
-        .bd-main-content {
+        /* 右侧邮件阅读区 */
+        .mail-main {
             flex: 1;
+            background-color: #ffffff;
             display: flex;
             flex-direction: column;
             overflow: hidden;
         }
 
-        /* 操作栏 */
-        .action-bar {
-            padding: 14px 20px;
+        /* 邮件工具栏 */
+        .mail-toolbar {
+            padding: 10px 20px;
+            border-bottom: 1px solid #e4e7ed;
+            background-color: #fafbfc;
             display: flex;
-            justify-content: space-between;
+            gap: 8px;
             align-items: center;
         }
-
-        .action-left {
+        .mail-btn {
+            padding: 5px 14px;
+            background: #fff;
+            border: 1px solid #dcdfe6;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #606266;
             display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        .mail-btn:hover {
+            background-color: #ecf5ff;
+            color: #0078d4;
+            border-color: #c6e2ff;
+        }
+        .mail-btn-primary {
+            background-color: #0078d4;
+            color: #fff;
+            border-color: #0078d4;
+        }
+        .mail-btn-primary:hover {
+            background-color: #106ebe;
+            color: #fff;
+            border-color: #106ebe;
+        }
+
+        /* 邮件详细内容滚动面板 */
+        .mail-content-area {
+            padding: 30px 40px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .mail-subject {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #2c3e50;
+        }
+
+        /* 发件人元数据面板 */
+        .mail-meta-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .meta-row {
+            display: flex;
+            margin-bottom: 4px;
+        }
+        .meta-row:last-child {
+            margin-bottom: 0;
+        }
+        .meta-label {
+            width: 70px;
+            color: #89929b;
+        }
+        .meta-value {
+            color: #24292e;
+            font-weight: 500;
+        }
+
+        /* 正文区域（无实际内容） */
+        .mail-body-empty {
+            color: #a0aec0;
+            font-style: italic;
+            padding: 10px 0 30px 0;
+            border-bottom: 1px solid #edf2f7;
+            margin-bottom: 25px;
+            font-size: 12px;
+        }
+
+        /* 附件区域 */
+        .attachment-section {
+            background-color: #fdfefe;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+        .attachment-header {
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #2d3748;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .attachment-list {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
         }
-
-        .btn {
-            padding: 0 16px;
-            height: 32px;
-            border-radius: 16px;
-            font-size: 13px;
-            border: 1px solid #dcdfe6;
-            background: #fff;
-            cursor: pointer;
+        .attachment-item {
             display: flex;
             align-items: center;
-            gap: 4px;
-        }
-
-        .btn-primary {
-            background-color: var(--bd-blue);
-            color: #fff;
-            border-color: var(--bd-blue);
-        }
-
-        /* 面包屑导航 */
-        .breadcrumb-path {
-            padding: 4px 20px 10px 20px;
-            color: var(--text-sub);
-            font-size: 12px;
-            border-bottom: 1px solid #f2f6fc;
-        }
-
-        /* 文件列表表格 */
-        .table-wrapper {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .file-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .file-table th {
-            text-align: left;
-            color: var(--text-sub);
-            font-weight: normal;
-            border-bottom: 1px solid #f2f6fc;
-            padding: 10px 20px;
-            font-size: 12px;
-            position: sticky;
-            top: 0;
+            justify-content: space-between;
             background: #fff;
-        }
-
-        .file-table td {
-            padding: 12px 20px;
-            border-bottom: 1px solid #f2f6fc;
-            font-size: 13px;
-        }
-
-        .file-table tr:hover {
-            background-color: #f4f9ff;
-        }
-
-        /* 百度网盘图标格式 */
-        .icon {
-            display: inline-block;
-            width: 26px;
-            height: 26px;
-            vertical-align: middle;
-            margin-right: 10px;
+            padding: 10px 14px;
+            border: 1px solid #e4e7ed;
             border-radius: 4px;
-            text-align: center;
-            line-height: 26px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .attachment-item:hover {
+            border-color: #b3d8ff;
+            box-shadow: 0 2px 6px rgba(0,120,212,0.08);
+        }
+        .attachment-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .file-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 11px;
             font-weight: bold;
             color: white;
         }
+        .icon-pdf { background-color: #f56c6c; }
+        .icon-img { background-color: #e6a23c; }
 
-        .icon-folder { background-color: #ffca28; color: #b57a00; font-size: 13px; }
-        .icon-pdf { background-color: #f44336; }
-        .icon-doc { background-color: #2196f3; }
-        .icon-xls { background-color: #4caf50; }
-        .icon-img { background-color: #9c27b0; }
-
-        .file-name-txt {
-            color: #333;
+        .file-name {
+            font-weight: 500;
+            color: #303133;
+        }
+        .file-size {
+            color: #909399;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+        .attachment-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .action-link {
+            color: #0078d4;
             text-decoration: none;
             cursor: pointer;
-        }
-        
-        .file-name-txt:hover {
-            color: var(--bd-blue);
-        }
-
-        /* 解密遮罩弹窗 */
-        .crypto-modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.4); 
-            display: none; 
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .crypto-box {
-            width: 380px;
-            padding: 30px;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.15);
-            text-align: center;
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            font-size: 16px;
-            color: #999;
-            cursor: pointer;
-        }
-
-        .crypto-title {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .crypto-subtitle {
             font-size: 12px;
-            color: #777;
-            margin-bottom: 20px;
-            line-height: 1.5;
         }
-
-        .crypto-input {
-            width: 100%;
-            height: 40px;
-            padding: 0 15px;
-            border: 1px solid #dcdfe6;
-            border-radius: 4px;
-            font-size: 14px;
-            outline: none;
-            text-align: center;
-            box-sizing: border-box;
-            margin-bottom: 15px;
+        .action-link:hover {
+            text-decoration: underline;
         }
-
-        .crypto-input:focus {
-            border-color: var(--bd-blue);
-        }
-
-        .crypto-btn {
-            width: 100%;
-            height: 40px;
-            background-color: var(--bd-blue);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .crypto-error {
-            color: #ff4d4f;
-            font-size: 12px;
-            margin-top: 8px;
-            display: none;
-        }
-                            .progress-indicator {
+        .progress-indicator {
     position: fixed;
    bottom: 20px;
     right: 20px;
@@ -365,197 +297,160 @@
     font-size: 0.85rem;
     z-index: 9999;
 }
-    </style>                             <div class="progress-indicator">29/31</div></head>
-<body>
+    </style>                             <div class="progress-indicator">29/31</div></head><body>
 
-    <!-- 百度网盘标准 Header -->
-    <div class="bd-header">
-        <div class="header-left">
-            <a href="#" class="bd-logo">
-                <span class="logo-dot"></span>
-                百度网盘
-            </a>
-            <div class="nav-tabs">
-                <a href="#" class="nav-item active">网盘</a>
-                <a href="#" class="nav-item">分享</a>
-                <a href="#" class="nav-item">功能套装</a>
+
+    <!-- 顶部导航 -->
+    <div class="mail-header">
+        <div class="mail-logo">
+            <span>📮 QMAIL</span>
+         
+        </div>
+        <div class="mail-user-info">
+            <div class="user-avatar">春</div>
+            <span>chunhui_admin@chunhui.org</span>
+        </div>
+    </div>
+
+    <!-- 主体 -->
+    <div class="mail-container">
+        <!-- 左侧边栏 -->
+        <div class="mail-sidebar">
+            <div class="sidebar-category">邮箱文件夹</div>
+            <div class="sidebar-item">
+                <span>📥 收件箱</span>
+
+            </div>
+            <div class="sidebar-item active">
+                <span>⭐ 星标邮件</span>
+            </div>
+            <div class="sidebar-item">
+                <span>📤 已发送</span>
+            </div>
+            <div class="sidebar-item">
+                <span>🗑️ 垃圾箱</span>
+   
+            </div>
+            <div class="sidebar-item" style="margin-top: 15px;">
+                <span>⚙️ 偏好设置</span>
             </div>
         </div>
-        <div class="header-right">
-            <span class="svip-badge">SVIP 年卡</span>
-            <span style="font-weight: 500;">edenduan</span>
-        </div>
-    </div>
 
-    <!-- 加密弹窗组件 -->
-    <div class="crypto-modal-backdrop" id="pwdModal" onclick="closeModal()">
-        <div class="crypto-box" onclick="event.stopPropagation()">
-            <span class="modal-close" onclick="closeModal()">✕</span>
-            <div class="crypto-title" id="modalTargetName">提取加密卷宗</div>
-            <div class="crypto-subtitle" id="modalSubTitle">该加密资料库需要授权提取码</div>
-            
-            <input type="password" id="pwdInput" class="crypto-input" placeholder="请输入提取码" maxlength="10">
-            <button class="crypto-btn" onclick="verifyPassword()">确认解密提取</button>
-            <div class="crypto-error" id="errorTip">密码错误，请输入正确的提取码</div>
-        </div>
-    </div>
+        <!-- 邮件内容区 -->
+        <div class="mail-main">
+            <!-- 工具栏 -->
+            <div class="mail-toolbar">
+                <button class="mail-btn mail-btn-primary">↩ 回复</button>
+                <button class="mail-btn">⏩ 转发</button>
+                <button class="mail-btn">🗑️ 删除</button>
+                <span style="border-left: 1px solid #dcdfe6; height: 16px; margin: 0 4px;"></span>
+                <button class="mail-btn">标记为未读</button>
+                <button class="mail-btn">举报垃圾邮件</button>
+            </div>
 
-    <!-- 百度网盘主体 -->
-    <div class="bd-container">
-        <!-- 侧边栏 -->
-        <div class="bd-sidebar">
-            <div>
-                <a href="#" class="side-menu-item active">📁 全部文件</a>
-                <a href="#" class="side-menu-item">🎬 视频</a>
-                <a href="#" class="side-menu-item">🎵 音频</a>
-                <a href="#" class="side-menu-item">🖼️ 图片</a>
-                <a href="#" class="side-menu-item">📄 文档</a>
+            <!-- 邮件详情 -->
+            <div class="mail-content-area">
+                <div class="mail-subject">收件：<strong>【春晖福利院】</strong>敬启</div>
+                
+                <!-- 发件人卡片 -->
+                <div class="mail-meta-card">
+                    <div class="meta-row">
+                        <div class="meta-label">发件人：</div>
+                        <div class="meta-value">&lt;Anonymous&gt;</div>
+                    </div>
+                    <div class="meta-row">
+                        <div class="meta-label">时 间：</div>
+                        <div class="meta-value">2019年1月15日 晚上 21:42</div>
+                    </div>
+                    <div class="meta-row">
+                        <div class="meta-label">收件人：</div>
+                        <div class="meta-value">chunhui_admin@chunhui.org</div>
+                    </div>
+                    <div class="meta-row">
+                        <div class="meta-label">附 件：</div>
+                        <div class="meta-value" style="color: #0078d4;">4 个文件 (21.5 MB)</div>
+                    </div>
+                </div>
+
+                <!-- 正文（无实际内容） -->
+                <div class="mail-body-empty">
+                    （该邮件正文无任何文本内容，仅包含下方附件）
+                </div>
+
+                <!-- 附件区域 -->
+               <div class="attachment-section">
+    <div class="attachment-header">
+        <span>附件 (4 个)</span>
+        <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">全部打包下载</span>
+    </div>
+    <div class="attachment-list">
         
-            </div>
-            
-            <div class="quota-box">
-                <div>存储空间</div>
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
+        <!-- 附件 1 -->
+        <div class="attachment-item">
+            <div class="attachment-info">
+                <div class="file-icon icon-pdf">PDF</div>
+                <div>
+                    <span class="file-name">春晖福利院_举报信.pdf（已过期）</span>
+                    <span class="file-size">3.8 MB</span>
                 </div>
-                <div style="font-size: 11px; color: #999;">2.1 TB / 5 TB</div>
+            </div>
+            <div class="attachment-actions">
+                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">预览</span>
+                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">下载</span>
             </div>
         </div>
 
-        <!-- 内容展现区 -->
-        <div class="bd-main-content">
-            <!-- 百度网盘按钮操作栏 -->
-            <div class="action-bar">
-                <div class="action-left">
-                    <button class="btn btn-primary">⬇️ 打包下载</button>
-                    <button class="btn">➕ 上传文件</button>
-                    <button class="btn">新建文件夹</button>
-                    <button class="btn" style="color: #ff4d4f; border-color: #ffa39e;">批量导出目录</button>
-                </div>
+        <!-- 附件 2 -->
+        <div class="attachment-item">
+            <div class="attachment-info">
+                <div class="file-icon icon-img">JPG</div>
                 <div>
-                    <input type="text" placeholder="搜索药品名称、文件或批号" style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 14px; width: 220px; outline: none; font-size: 12px;">
+                    <span class="file-name">感冒颗粒_外包装防伪码与实际批号不符记录.jpg（已过期）</span>
+                    <span class="file-size">4.6 MB</span>
                 </div>
             </div>
-
-            <div class="breadcrumb-path">
-                全部文件 &gt; <span style="color: #333;">材料汇总</span>
+            <div class="attachment-actions">
+                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">预览</span>
+                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">下载</span>
             </div>
+        </div>
 
-            <!-- 文件列表 -->
-            <div class="table-wrapper">
-                <table class="file-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 50%;">文件名</th>
-                            <th style="width: 15%;">大小</th>
-                            <th style="width: 25%;">修改日期</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- 文件夹 -->
-  
+        <!-- 附件 3 -->
+        <div class="attachment-item">
+            <div class="attachment-info">
+                <div class="file-icon icon-pdf">PDF</div>
+                <div>
+                    <span class="file-name">第三方检测机构_对乙酰氨基酚成分检测报告书.pdf（已过期）</span>
+                    <span class="file-size">5.2 MB</span>
+                </div>
+            </div>
+            <div class="attachment-actions">
+                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">预览</span>
+                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">下载</span>
+            </div>
+        </div>
 
-                        <!-- 文件明细列表 -->
-                        <tr>
-                            <td>
-                                <span class="icon icon-pdf">PDF</span>
-                                <a class="file-name-txt"><strong>春晖福利院</strong>_举报信.pdf</a>
-                            </td>
-                            <td>3.8 MB</td>
-                            <td style="color: #666;">2019-01-14 16:30</td>
-                        </tr>
-                        <tr>
-                                                    <tr>
-                            <td>
-                                <span class="icon icon-img">IMG</span>
-                                <a class="file-name-txt">感冒颗粒_外包装防伪码与实际批号不符记录.jpg</a>
-                            </td>
-                            <td>4.6 MB</td>
-                            <td style="color: #666;">2018-11-12 09:40</td>
-                        </tr>
-                            <td>
-                                <span class="icon icon-pdf">PDF</span>
-                                <a class="file-name-txt">第三方检测机构_对乙酰氨基酚成分检测报告书.pdf</a>
-                            </td>
-                            <td>5.2 MB</td>
-                            <td style="color: #666;">2018-10-14 11:15</td>
-                        </tr>
+        <!-- 附件 4 -->
+        <div class="attachment-item">
+            <div class="attachment-info">
+                <div class="file-icon icon-img" style="background-color: #409eff;">PNG</div>
+                <div>
+                    <span class="file-name">茶碱缓释片_药丸性状异常与沉淀物显微对比图.png（已过期）</span>
+                    <span class="file-size">8.1 MB</span>
+                </div>
+            </div>
+            <div class="attachment-actions">
+                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">预览</span>
+                <span class="action-link" style="color: #999; cursor: not-allowed; pointer-events: none;">下载</span>
+            </div>
+        </div>
 
+    </div>
+</div>
 
-                        <tr>
-                            <td>
-                                <span class="icon icon-img">IMG</span>
-                                <a class="file-name-txt">茶碱缓释片_药丸性状异常与沉淀物显微对比图.png</a>
-                            </td>
-                            <td>8.1 MB</td>
-                            <td style="color: #666;">2018-09-12 10:05</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="icon icon-pdf">PDF</span>
-                                <a class="file-name-txt">儿童止咳糖浆_防腐剂成分分析表.pdf</a>
-                            </td>
-                            <td>2.9 MB</td>
-                            <td style="color: #666;">2026-09-11 14:22</td>
-                        </tr>
-                      
-                      
-                      
-                        <tr>
-                            <td>
-                                <span class="icon icon-doc">DOC</span>
-                                <a class="file-name-txt">员工录音转文字.docx</a>
-                            </td>
-                            <td>680 KB</td>
-                            <td style="color: #666;">2026-08-29 20:12</td>
-                        </tr>
-                      
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
 
-<script>
-const pwdModal = document.getElementById('pwdModal');
-const pwdInput = document.getElementById('pwdInput');
-const errorTip = document.getElementById('errorTip');
-const modalTargetName = document.getElementById('modalTargetName');
-const modalSubTitle = document.getElementById('modalSubTitle');
-
-let currentCorrectPassword = '';
-
-function openModal(folderName, correctPwd, hintText) {
-    currentCorrectPassword = correctPwd;
-    modalTargetName.textContent = `解密：${folderName}`;
-    modalSubTitle.textContent = hintText || "此资源包含重要证据，请输入提取码";
-    pwdModal.style.display = 'flex';
-    pwdInput.focus();
-}
-
-function closeModal() {
-    pwdModal.style.display = 'none';
-    pwdInput.value = '';
-    errorTip.style.display = 'none';
-}
-
-function verifyPassword() {
-    const inputPassword = pwdInput.value.trim();
-    if (inputPassword === currentCorrectPassword) {
-        alert('解密成功！即将为您解压并下载对应药品的完整举报卷宗。');
-        closeModal();
-    } else {
-        errorTip.style.display = 'block';
-        pwdInput.value = '';
-        pwdInput.focus();
-    }
-}
-
-pwdInput.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        verifyPassword();
-    }
-});
-</script>
 </body>
 </html>

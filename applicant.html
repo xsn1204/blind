@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>2018-2019学年<STRONG>青州大学附属高中</STRONG>“青蓝专项”校级遴选名单</title>
+    <title>2018-2019学年青州大学附属高中“青蓝专项”校级遴选名单</title>
     <style>
         body {
             background-color: #e5e9f0;
@@ -11,39 +11,19 @@
             color: #111;
             display: flex;
             justify-content: center;
+            box-sizing: border-box;
         }
 
         /* 模拟标准打印文件纸张 */
         .report-paper {
             position: relative;
             width: 100%;
-            max-width: 760px;
+            max-width: 820px;
             background-color: #ffffff;
             padding: 40px 45px;
             box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.12);
             border: 1px solid #d0d0d0;
             box-sizing: border-box;
-        }
-
-        /* 角落便签 */
-        .sticky-note {
-            position: absolute;
-            top: -12px;
-            right: 20px;
-            width: 220px;
-            background-color: #fff8a3;
-            padding: 12px 15px;
-            box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.18);
-            transform: rotate(2.5deg);
-            border-left: 2px solid #e2d765;
-            z-index: 10;
-        }
-
-        .sticky-note-text {
-            font-family: "SimSun", "宋体", serif;
-            color: #0d3b66;
-            font-size: 13px;
-            line-height: 1.5;
         }
 
         .header-title {
@@ -71,8 +51,62 @@
             line-height: 1.6;
             margin-bottom: 15px;
             background-color: #f8f9fa;
-            padding: 10px 12px;
+            padding: 12px 14px;
             border: 1px dashed #888;
+        }
+
+        /* 嵌入提示中的红字样式 */
+        .notice-tip .red-secret {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        /* 千岛下载与查找指引区块 */
+        .qiandao-guide-box {
+            background: linear-gradient(135deg, #fff9f9 0%, #fff0f0 100%);
+            border: 1px solid #f2bcbc;
+            border-radius: 6px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .qiandao-text {
+            flex: 1;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .qiandao-text b {
+            color: #b85c5c;
+        }
+
+        /* 二维码容器样式（红线框及大小限制） */
+        .qr-code-box {
+            width: 90px;
+            height: 90px;
+            background: #fff;
+            padding: 4px;
+            border: 1.5px solid #d8a0a0;
+            border-radius: 4px;
+            text-align: center;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        /* 确保二维码图片完全贴合在红线框内 */
+        .qr-code-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
         }
 
         /* 表格样式 */
@@ -97,15 +131,13 @@
             font-weight: bold;
         }
 
-        /* 模糊化的其他学生数据 */
-        .blurred-text {
-            filter: blur(4px);
+        /* 全表格模糊化处理 */
+        .fully-blurred-table {
+            filter: blur(5px);
             user-select: none;
-            opacity: 0.55;
-        }
-
-        .highlight-row {
-            background-color: #f0f7ff;
+            opacity: 0.45;
+            pointer-events: none;
+            transition: filter 0.3s;
         }
 
         .footer-info {
@@ -116,197 +148,204 @@
             line-height: 1.8;
         }
 
-                            .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">extra3/31</div></head>
-
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">extra3/31</div>
+</head>
 <body>
 
 <div class="report-paper">
 
     <!-- 标题区 -->
     <div class="header-title">2018-2019学年青州大学附属高中“青蓝专项”校级遴选名单</div>
+    <div class="header-sub">内部公示文档（已加密模糊处理）</div>
 
-
-    <!-- 规则说明 -->
+    <!-- 规则说明（已融入红字） -->
     <div class="notice-tip">
-<strong>上报说明：</strong>本表汇总全校各班自主申报“青蓝专项”的候选学生信息与班级推荐意见。最终评分将围绕<b>学业素养</b>、<b>集体协作</b>、<b>志愿公益</b>、<b>社会责任</b>与<b>知行实践</b>五个维度进行综合评估。最终入选名单将于<strong>2019年5月</strong>公布。
-
+        <strong>资料说明：</strong>这份名单原本只在校内流传，后来不知是哪位同学手比较快，顺手把它发布在了【千岛·解谜岛】中。<span class="red-secret">那里还保留着一些当年没来得及删掉的东西。</span>
     </div>
 
-    <!-- 完整20行数据表格（仅保留指定列） -->
-    <table class="report-table">
-        <thead>
-            <tr>
-                <th style="width: 15%;">序号</th>
-                <th style="width: 25%;">班级</th>
-                <th style="width: 20%;">姓名</th>
-                <th style="width: 15%;">性别</th>
-                <th style="width: 25%;">班级推荐意见</th>
-            </tr>
-        </thead>
-        <tbody>
-<tr>
-                <td><strong>01</strong></td>
-                <td><strong>高一火箭班</strong></td>
-  <td><span class="blurred-text">段段段</span></td>
-                <td>男</td>
-                <td>优先推荐</td>
-            </tr>
-            <tr>
-                <td><strong>02</strong></td>
-                <td><strong>高一火箭班</strong></td>
-                <td><strong>顾思佳</strong></td>
-                <td>女</td>
-                <td>推荐</td>
-            </tr>
-            <tr>
-                <td>03</td>
-                <td><span class="blurred-text">高一（01）班</span></td>
-                <td><span class="blurred-text">张晓明</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>04</td>
-                <td><span class="blurred-text">高一（02）班</span></td>
-                <td><span class="blurred-text">李若曦</span></td>
-                <td><span class="blurred-text">女</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>05</td>
-                <td><span class="blurred-text">高一（03）班</span></td>
-                <td><span class="blurred-text">陈宇航</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">备选</span></td>
-            </tr>
-            <tr>
-                <td>06</td>
-                <td><span class="blurred-text">高一（04）班</span></td>
-                <td><span class="blurred-text">王嘉豪</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>07</td>
-                <td><span class="blurred-text">高一（05）班</span></td>
-                <td><span class="blurred-text">周思琪</span></td>
-                <td><span class="blurred-text">女</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>08</td>
-                <td><span class="blurred-text">高一（06）班</span></td>
-                <td><span class="blurred-text">赵浩然</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">备选</span></td>
-            </tr>
-            <tr>
-                <td>09</td>
-                <td><span class="blurred-text">高一（07）班</span></td>
-                <td><span class="blurred-text">孙敏</span></td>
-                <td><span class="blurred-text">女</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td><span class="blurred-text">高一（08）班</span></td>
-                <td><span class="blurred-text">吴之强</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">备选</span></td>
-            </tr>
-            <tr>
-                <td>11</td>
-                <td><span class="blurred-text">高一（09）班</span></td>
-                <td><span class="blurred-text">郑之杰</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>12</td>
-                <td><span class="blurred-text">高一（10）班</span></td>
-                <td><span class="blurred-text">冯雪</span></td>
-                <td><span class="blurred-text">女</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>13</td>
-                <td><span class="blurred-text">高一（11）班</span></td>
-                <td><span class="blurred-text">陈静</span></td>
-                <td><span class="blurred-text">女</span></td>
-                <td><span class="blurred-text">备选</span></td>
-            </tr>
-            <tr>
-                <td>14</td>
-                <td><span class="blurred-text">高一（12）班</span></td>
-                <td><span class="blurred-text">褚之卫</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">备选</span></td>
-            </tr>
-            <tr>
-                <td>15</td>
-                <td><span class="blurred-text">高一（13）班</span></td>
-                <td><span class="blurred-text">卫之婷</span></td>
-                <td><span class="blurred-text">女</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>16</td>
-                <td><span class="blurred-text">高一（14）班</span></td>
-                <td><span class="blurred-text">蒋之勇</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>17</td>
-                <td><span class="blurred-text">高一（15）班</span></td>
-                <td><span class="blurred-text">沈之云</span></td>
-                <td><span class="blurred-text">女</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>18</td>
-                <td><span class="blurred-text">高一（16）班</span></td>
-                <td><span class="blurred-text">韩冰</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">备选</span></td>
-            </tr>
-            <tr>
-                <td>19</td>
-                <td><span class="blurred-text">高一（20）班</span></td>
-                <td><span class="blurred-text">杨之乐</span></td>
-                <td><span class="blurred-text">男</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <tr>
-                <td>20</td>
-                <td><span class="blurred-text">高一（20）班</span></td>
-                <td><span class="blurred-text">林悦悦</span></td>
-                <td><span class="blurred-text">女</span></td>
-                <td><span class="blurred-text">推荐</span></td>
-            </tr>
-            <!-- 19：高一（22）班 顾思佳 -->
-          
-        </tbody>
-    </table>
+    <!-- 千岛下载与查找指引区块 -->
+    <div class="qiandao-guide-box">
+        <div class="qr-code-box">
+            <img src="qr.png" alt="千岛二维码">
+        </div>
+        <div class="qiandao-text">
+            <b>获取完整线索：</b>若想查看完整 <b>extra3 页面</b>及<b>隐藏结局</b>线索，可扫描左侧二维码下载千岛App，并在【解谜岛】搜索<b>【青大附中】</b>寻找相关讨论。
+        </div>
+    </div>
 
-    <!-- 落款区域 --
+    <!-- 完全模糊化的表格数据 -->
+    <div class="fully-blurred-table">
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th style="width: 15%;">序号</th>
+                    <th style="width: 25%;">班级</th>
+                    <th style="width: 20%;">姓名</th>
+                    <th style="width: 15%;">性别</th>
+                    <th style="width: 25%;">班级推荐意见</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>01</td>
+                    <td>高一（x）班</td>
+                    <td>某某某</td>
+                    <td>男</td>
+                    <td>优先推荐</td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td>高一（x）班</td>
+                    <td>某某某</td>
+                    <td>女</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>03</td>
+                    <td>高一（02）班</td>
+                    <td>张晓明</td>
+                    <td>男</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>04</td>
+                    <td>高一（02）班</td>
+                    <td>李若曦</td>
+                    <td>女</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>05</td>
+                    <td>高一（03）班</td>
+                    <td>陈宇航</td>
+                    <td>男</td>
+                    <td>备选</td>
+                </tr>
+                <tr>
+                    <td>06</td>
+                    <td>高一（04）班</td>
+                    <td>王嘉豪</td>
+                    <td>男</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>07</td>
+                    <td>高一（05）班</td>
+                    <td>周思琪</td>
+                    <td>女</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>08</td>
+                    <td>高一（06）班</td>
+                    <td>赵浩然</td>
+                    <td>男</td>
+                    <td>备选</td>
+                </tr>
+                <tr>
+                    <td>09</td>
+                    <td>高一（07）班</td>
+                    <td>孙敏</td>
+                    <td>女</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>高一（08）班</td>
+                    <td>吴之强</td>
+                    <td>男</td>
+                    <td>备选</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>高一（09）班</td>
+                    <td>郑之杰</td>
+                    <td>男</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>高一（10）班</td>
+                    <td>冯雪</td>
+                    <td>女</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>高一（11）班</td>
+                    <td>陈静</td>
+                    <td>女</td>
+                    <td>备选</td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>高一（12）班</td>
+                    <td>褚之卫</td>
+                    <td>男</td>
+                    <td>备选</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>高一（13）班</td>
+                    <td>卫之婷</td>
+                    <td>女</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>高一（14）班</td>
+                    <td>蒋之勇</td>
+                    <td>男</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>高一（15）班</td>
+                    <td>沈之云</td>
+                    <td>女</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>高一（16）班</td>
+                    <td>韩冰</td>
+                    <td>男</td>
+                    <td>备选</td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>高一（20）班</td>
+                    <td>杨之乐</td>
+                    <td>男</td>
+                    <td>推荐</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>高一（20）班</td>
+                    <td>林悦悦</td>
+                    <td>女</td>
+                    <td>推荐</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<!-- 落款区域 -->
+    <!-- 落款区域 -->
     <div class="footer-info">
         <div>
-
             上报单位：高一年级组
         </div>
         <div style="text-align: right;">

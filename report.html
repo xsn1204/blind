@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>门诊病历记录 - 青医附院</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", SimSun, "黑体", SimHei;
+            font-size: 14px;
+            line-height: 1.8;
+            background-color: #f5f5f5;
+            margin: 0;
+            color: #333;
+            padding: 20px;
+        }
+        /* 病历内容样式 */
+        .medical-record {
+            width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 5px #eee;
+        }
+        .system-notice {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #8c8c8c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .system-notice a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .system-notice a:hover {
+            text-decoration: underline;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+            font-weight: bold;
+        }
+        .basic-info {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .basic-info td {
+            border: 1px solid #ccc;
+            padding: 8px 10px;
+        }
+        .basic-info td:first-child {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            width: 120px;
+        }
+        .content-title {
+            font-weight: bold;
+            margin: 15px 0 8px 0;
+            font-size: 15px;
+            border-left: 3px solid #000;
+            padding-left: 8px;
+        }
+        .content-text {
+            margin: 0 0 10px 0;
+            line-height: 2;
+            padding-left: 0;
+            text-align: justify;
+            display: block;
+            text-indent: 0;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: right;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+    .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">26/31</div></head>
+<body>
+    <div class="medical-record" id="medicalRecord">
+        <!-- 2000年前建档旧系统切换标识 -->
+        <div class="system-notice">
+            <span>提示：2000年前建档病历，请切换至旧系统查看更多历史归档。</span>
+            <a href="system.html" target="_blank">切换至旧系统 &raquo;</a>
+        </div>
+
+        <div class="header">
+            <h1>青医附院门诊病历</h1>
+            <p>就诊日期：2018年07月28日  编号：20180728078</p>
+        </div>
+
+        <table class="basic-info">
+            <tr>
+                <td>姓名</td>
+                <td>段宜廷</td>
+                <td>性别</td>
+                <td>男</td>
+                <td>年龄</td>
+                <td>16岁</td>
+            </tr>
+            <tr>
+                <td>民族</td>
+                <td>汉</td>
+                <td>籍贯</td>
+                <td>临渊省青州市</td>
+                <td>职业</td>
+                <td>学生</td>
+            </tr>
+            <tr>
+                <td>主诉</td>
+                <td colspan="5">申请亲缘关系检测</td>
+            </tr>
+        </table>
+
+        <div class="content-title">检查项目及结论：</div>
+        <p class="content-text">
+            经对送检样本进行STR基因座分型检测及亲缘关系分析，鉴定结果如下：<br>
+            父子亲缘关系：排除生物学父子关系；<br>
+        </p>
+
+        <div class="content-title">处理意见：</div>
+        <p class="content-text">
+            经对送检样本进行STR基因座分型检测及亲缘关系分析，鉴定结果如下：<br>
+            1. 已出具DNA基因检测报告并归档；<br>
+            2. 检出父源染色体异常位点，存在生育功能受损风险，建议进一步进行相关专项检测；<br>
+            3. 如有疑问建议前往司法鉴定中心进行复核。
+        </p>
+
+        <div class="footer">
+            <p>医师签名：张吉惟</p>
+            <p>执业证书编号：110XXXXXXXXXXXXXXX</p>
+            <p>打印日期：2018年07月28日</p>
+        </div>
+    </div>
+</body>
+</html>

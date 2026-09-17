@@ -833,11 +833,6 @@
         </div>
     
 
-                       <div class="icon">
-            <img src="meeting.png" alt="wangpan">
-            <span>腾讯会议</span>
-        </div>
-    
 
  
 
@@ -1013,11 +1008,11 @@
 
     <div class="sticky-note">
       <h4>🔑 备忘</h4>
-        <p>无需使用外部搜索（真实互联网）以获取信息。</p>
-        
+        <p>无需使用外部搜索（真实互联网）以获取信息。</p>       
         <p>菜单栏最左侧可查看搜索记录，便于快速访问历史查询。</p>
-        <p>共设置10个extra页面，extra页面不包含关键词，不影响线索推进。</p>
+        <p>共设置8个extra页面，extra页面不包含关键词，不影响线索推进。</p>
         <p>若点击无响应，则表示该信息无关，无需使用F12或查看源码以获取线索。</p>
+         <p>本游戏涉及的药物、医学知识及诊疗内容均服务于剧情创作，不构成任何医疗建议。</p> 
         <p>部分素材来源自网络，如涉侵权请联系删除。</p>
         <p style="font-size:10px; color:#666;">AAA地下党 2026/9</p>
     </div>
@@ -1043,6 +1038,11 @@
         </div>
     </div>
 </div>
+<div class="task-icons">
+    <div class="task-icon" title="Outlook 邮件" onclick="window.open('email.html', '_blank')">
+        <img src="https://img.icons8.com/color/48/ms-outlook.png" alt="Outlook">
+    </div>
+</div>
 <div id="historyWindow" class="history-window">
     <div style="padding: 10px; font-size: 12px; font-weight: bold; background: #f0f0f0; border-bottom: 1px solid #ddd; color: #333;">
         最近搜索历史
@@ -1052,16 +1052,11 @@
 </div>
 
 
-<div class="task-icons">
-    <div class="task-icon" onclick="toggleApp('wechatWin')">
-        <img src="wechat.svg">
-    </div>
 
-</div>
         <div class="tray-area">
             <div class="clock">
                 <div id="time">20:17</div>
-                <div id="date">2026/8/22</div>
+                <div id="date">2026/9/15</div>
             </div>
         </div>
     </div>
@@ -1077,8 +1072,8 @@ const SEARCH_MAP = {
     '顾思佳': ['certificate.html'],
     '青州大学附属高中': ['applicant.html'],
         '青大附中': ['applicant.html'],
-                '青医附院': ['medicine.html'],
-                                '青医附院店': ['medicine.html'],
+       '青医附院': ['medicine.html'],
+        '青医附院店': ['medicine.html'],
    '惠君': ['feiye.html'],
      '青蓝专项': ['camp.html'],
     '李梓豪': ['club.html'] ,
@@ -1086,13 +1081,11 @@ const SEARCH_MAP = {
     '凛州': ['trippage.html'],
     '凛州线': ['trippage.html'],
     '归陵山': ['police.html'],
-    '青蓝专项': ['camp.html'],
     '茶碱缓释片': ['evidence.html'],
     '春晖福利院': ['volunteer.html'],
-
     '秋日拾光': ['market.html'],
      '24帧电影鉴赏社': ['poster.html'],
-        '志愿者协会': ['club.html'] ,
+      '红围巾': ['club.html'] ,
       '康民大药房': ['ad.html'],
     '邓育明': ['punishment.html'],
     '盛廷医药': ['sousuo.html'],
@@ -1405,7 +1398,7 @@ function updateClock() {
     
     // 2. 固定日期为 2025/01/09
     // 不再使用 now.getFullYear()，直接写死日期
-    document.getElementById('date').innerText = "2026/8/22";
+    document.getElementById('date').innerText = "2026/9/15";
 }
 document.addEventListener('mousedown', function () {
     if (UIState.startMenuOpen) {

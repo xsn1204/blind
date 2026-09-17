@@ -161,7 +161,7 @@
         <div class="verify-card" id="verifyCard">
             <div class="star-icon"></div>
             <div class="verify-desc">
-                主人设置了权限，您可通过以下方式访问<br>
+                主人（青大附中表白墙）设置了权限，您可通过以下方式访问<br>
                 <span style="color: #0066cc;">回答问题后访问</span>
             </div>
 
@@ -169,12 +169,12 @@
                 <div class="form-item">
                     <label>问题：</label>
                     <select class="form-select" disabled>
-                        <option>附中校训</option>
+                        <option>FLZX3000cY4yhx9day</option>
                     </select>
                 </div>
                 <div class="form-item">
                     <label>答案：</label>
-                    <input type="text" class="form-input" id="pwdInput" placeholder="请输入对应中文" maxlength="16">
+                    <input type="text" class="form-input" id="pwdInput" placeholder="请输入对应诗句（14字）" maxlength="16">
                 </div>
                 <button class="form-btn" onclick="checkPwd()">确定</button>
             </div>
@@ -190,12 +190,12 @@
     function checkPwd() {
         const inputPwd = document.getElementById("pwdInput").value.trim();
 
-        if (inputPwd === "明德遵规，严纪慎行") {
+        if (inputPwd === "飞流直下三千尺疑是银河落九天") {
             // 验证通过：跳转到 qzone1.html
             window.location.href = "bbq.html"; 
         } else {
             // 密码错误：提示并清空输入框
-            alert("答案错误，请重新输入！");
+            alert("答案错误，请重新输入！🔔要是能重来，我要选__.");
             document.getElementById("pwdInput").value = "";
         }
     }

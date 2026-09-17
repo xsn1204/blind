@@ -2,432 +2,409 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>图书借阅卡 - 叠放翻页效果</title>
-    <!-- 加载 Google 手写字体以呈现不同笔迹 -->
-    <link rel="stylesheet" href="https://fonts.geekzu.org/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=Long+Cang&display=swap">
+    <title>初遇</title>
+    <!-- 引入Google Fonts的马善政手写体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        /* 修改外部大背景为柔和的政务内网灰蓝色调，消除下方突兀的亮蓝色 */
+        body {
+            font-family: "宋体", SimSun, Arial, sans-serif;
+            background-color: #66788a;
+            background-image: linear-gradient(to bottom, #728599, #54667a);
+            padding: 20px 10px;
+            color: #000;
         }
 
-        body {
-            background-color: #2b2b2b;
-            font-family: "SimSun", "宋体", serif;
+        /* 浏览器外壳窗口：宽度设为940px，居中显示 */
+        .browser-window {
+            width: 940px;
+            margin: 0 auto;
+            background-color: #d4d0c8;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            box-shadow: 3px 3px 15px rgba(0,0,0,0.3);
+        }
+
+        /* 浏览器标题栏 (模拟 IE6 / 早期政务浏览器) */
+        .browser-titlebar {
+            background-color: #000080;
+            color: white;
+            padding: 4px 8px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .browser-titlebar-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .browser-buttons {
+            display: flex;
+            gap: 2px;
+        }
+        .browser-btn {
+            width: 16px;
+            height: 14px;
+            background-color: #d4d0c8;
+            border: 1px solid;
+            border-color: #fff #808080 #808080 #fff;
+            font-size: 9px;
+            text-align: center;
+            line-height: 12px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* 菜单栏 */
+        .browser-menu {
+            background-color: #d4d0c8;
+            padding: 2px 6px;
+            font-size: 11px;
+            border-bottom: 1px solid #808080;
+            display: flex;
+            gap: 15px;
+        }
+        .browser-menu span {
+            cursor: pointer;
+        }
+        .browser-menu span u {
+            text-decoration: underline;
+        }
+
+        /* 工具栏地址栏 */
+        .browser-toolbar {
+            background-color: #d4d0c8;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #808080;
+            font-size: 11px;
+        }
+        .address-bar {
+            flex-grow: 1;
+            background-color: #fff;
+            border: 1px solid;
+            border-color: #808080 #fff #fff #808080;
+            padding: 2px 5px;
+            font-size: 11px;
+            color: #000;
+        }
+
+        /* 网页内网主体 */
+        .intranet-body {
+            background-color: #ece9d8;
+            padding: 15px;
+            min-height: 520px;
+        }
+
+        /* 内网顶栏面包屑与状态 */
+        .intranet-header {
+            border-bottom: 2px solid #000080;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .system-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #000080;
+        }
+
+        /* 电子档案表单纸张 */
+        .form-container {
+            width: 100%;
+            background-color: #f7f3e9;
+            border: 1px solid #7d6b52;
+            padding: 20px 25px;
+            box-shadow: inset 0 0 10px rgba(139, 119, 101, 0.15);
+            position: relative;
+            background-image: linear-gradient(rgba(255,255,255,0.1) 50%, rgba(0,0,0,0.02) 50%);
+            background-size: 100% 4px;
+        }
+
+        /* 电子红印章 */
+        .stamp-watermark {
+            position: absolute;
+            right: 30px;
+            bottom: 100px;
+            width: 115px;
+            height: 115px;
+            border: 3px solid rgba(180, 40, 40, 0.45);
+            border-radius: 50%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            overflow: hidden;
-        }
-
-        /* 堆叠容器 */
-        .stack-container {
-            position: relative;
-            width: 360px;
-            height: 480px;
-            perspective: 1000px;
-        }
-
-        /* 借阅卡卡片主体 */
-        .card {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #f7f3e8;
-            border: 1px solid #c8bfae;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            padding: 24px 20px;
-            border-radius: 6px;
-            background-image: radial-gradient(#e3dac9 5%, transparent 5%);
-            background-size: 16px 16px;
-            cursor: pointer;
-            user-select: none;
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, z-index 0.6s;
-            will-change: transform, opacity;
-        }
-
-        /* 卡片被抽走翻下时的动画类 */
-        .card.swiping {
-            transform: translateY(120%) rotate(-10deg) scale(0.95) !important;
-            opacity: 0;
-        }
-
-        /* 印章效果 */
-        .stamp {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            border: 2px solid #b23b3b;
-            color: #b23b3b;
-            font-size: 13px;
+            justify-content: center;
+            color: rgba(180, 40, 40, 0.45);
             font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 3px;
-            transform: rotate(-12deg);
-            opacity: 0.85;
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+        .stamp-watermark .stamp-text-top {
+            font-size: 11px;
             letter-spacing: 1px;
-            user-select: none;
+            margin-bottom: 2px;
+        }
+        .stamp-watermark .stamp-text-center {
+            font-size: 13px;
+            border-top: 1px solid rgba(180, 40, 40, 0.45);
+            border-bottom: 1px solid rgba(180, 40, 40, 0.45);
+            padding: 2px 4px;
+            margin: 2px 0;
+            letter-spacing: 1px;
+        }
+        .stamp-watermark .stamp-text-bottom {
+            font-size: 9px;
         }
 
-        /* 图书馆头标题 */
-        .header-title {
+        .doc-title {
             text-align: center;
-            font-size: 16px;
+            font-size: 17px;
             font-weight: bold;
+            margin-bottom: 3px;
             letter-spacing: 2px;
+            color: #1a1a1a;
+        }
+        .doc-sub {
+            text-align: center;
+            font-size: 12px;
             margin-bottom: 12px;
             color: #333;
-            border-bottom: 2px solid #333;
-            padding-bottom: 4px;
         }
-
-        /* 书名与作者栏 */
-        .book-info {
-            margin-bottom: 12px;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .book-info div {
+        .meta-bar {
             display: flex;
-            border-bottom: 1px solid #666;
-            padding-bottom: 2px;
-            margin-bottom: 6px;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #7d6b52;
+            padding-bottom: 5px;
+            color: #2c2c2c;
         }
-
-        .info-label {
-            width: 55px;
-            font-weight: bold;
-            color: #444;
-        }
-
-        .info-value {
-            flex-grow: 1;
-            font-weight: bold;
-            color: #111;
-        }
-
-        /* 表格样式 */
-        .borrow-table {
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            background-color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 10px;
+            font-size: 12px;
         }
-
-        .borrow-table th, .borrow-table td {
-            border: 1px solid #777;
+        table, th, td {
+            border: 1px solid #554a3b;
+        }
+        th, td {
+            padding: 5px 8px;
+            text-align: left;
+            vertical-align: middle;
+            color: #111;
+        }
+        th {
+            background-color: #e6dec5;
             text-align: center;
-            height: 28px;
-            font-size: 13px;
+            width: 18%;
+            font-weight: normal;
         }
-
-        .borrow-table th {
-            background-color: #eae3d2;
+        .section-header {
+            font-size: 12px;
             font-weight: bold;
-            color: #333;
+            background-color: #e6dec5;
+            padding: 3px 6px;
+            border: 1px solid #554a3b;
+            border-bottom: none;
+            margin-top: 10px;
+            color: #222;
         }
-
-        /* 手写体与特定名字的高亮笔迹 */
-        .handwritten {
-            font-size: 16px;
-            color: #1d2026;
+        .content-box {
+            border: 1px solid #554a3b;
+            padding: 6px 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            text-indent: 2em;
+            text-align: justify;
+            color: #1a1a1a;
+            background-color: #fcf9f2;
         }
-
-        /* 不同手写风格 */
-        .font-a { font-family: 'Ma Shan Zheng', cursive; }
-        .font-b { font-family: 'Ma Shan Zheng', cursive; font-size: 18px; }
-        .font-c { font-family: 'Long Cang', cursive; font-size: 18px; }
-        .font-d { font-family: "Kaiti", "楷体", serif; font-weight: bold; }
-
-        /* 男主笔迹 - 段宜廷（深蓝水笔） */
-        .duan {
-            font-family: 'Ma Shan Zheng', cursive;
-            color: #1a365d;
-            font-size: 19px;
-            font-weight: bold;
-        }
-
-        /* 女主笔迹 - 顾思佳 */
-        .song {
-            font-family: 'Ma Shan Zheng', cursive;
-            color: #2b4c7e;
-            font-size: 17px;
-        }
-
-        /* 模糊效果样式 */
-        .blurred-char {
-            filter: blur(4px);
-            display: inline-block;
-            user-select: none;
-        }
-
-        .progress-indicator {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.6);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.85rem;
-            z-index: 9999;
-            user-select: none;
-        }
-    </style>                             <div class="progress-indicator">extra4/31</div></head>
-
-<body>
-
-<div class="stack-container" id="stackContainer">
-
-    <!-- 借阅卡 1 -->
-    <div class="card">
-        <div class="stamp">青大附中</div>
-        <div class="header-title">图书借阅记录卡</div>
-        <div class="book-info">
-            <div><span class="info-label">书名：</span><span class="info-value">《风从海上来》</span></div>
-        </div>
-        <table class="borrow-table">
-            <thead>
-                <tr>
-                    <th width="25%">借出日期</th>
-                    <th width="50%">借书人</th>
-                    <th width="25%">还书日期</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="handwritten font-a">03.12</td>
-                    <td class="handwritten font-a">陈小舟</td>
-                    <td class="handwritten font-a">03.25</td>
-                </tr>
-                <tr>
-                    <td class="handwritten font-b">04.05</td>
-                    <td class="handwritten font-b">张浩宇</td>
-                    <td class="handwritten font-b">04.18</td>
-                </tr>
-                <tr>
-                    <td class="handwritten song">04.20</td>
-                    <td class="handwritten song">许嘉怡</td>
-                    <td class="handwritten song">05.02</td>
-                </tr>
-                <tr>
-                    <td class="handwritten duan">05.10</td>
-                    <td class="handwritten duan">段<span class="blurred-char">宜</span>廷</td>
-                    <td class="handwritten duan">05.22</td>
-                </tr>
-                <tr>
-                    <td class="handwritten font-c">06.01</td>
-                    <td class="handwritten font-c">顾思佳</td>
-                    <td class="handwritten font-c">06.15</td>
-                </tr>
-                <tr><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 借阅卡 2 -->
-    <div class="card">
-        <div class="stamp">青大附中</div>
-        <div class="header-title">图书借阅记录卡</div>
-        <div class="book-info">
-            <div><span class="info-label">书名：</span><span class="info-value">《山那边的夏天》</span></div>
-        </div>
-        <table class="borrow-table">
-            <thead>
-                <tr>
-                    <th width="25%">借出日期</th>
-                    <th width="50%">借书人</th>
-                    <th width="25%">还书日期</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="handwritten song">09.08</td>
-                    <td class="handwritten song">林思琪</td>
-                    <td class="handwritten song">09.20</td>
-                </tr>
-                <tr>
-                    <td class="handwritten duan">10.12</td>
-                    <td class="handwritten duan">段<span class="blurred-char">宜</span>廷</td>
-                    <td class="handwritten duan">10.25</td>
-                </tr>
-                <tr>
-                    <td class="handwritten font-a">11.02</td>
-                    <td class="handwritten font-a">周子昂</td>
-                    <td class="handwritten font-a">11.15</td>
-                </tr>
-                <tr>
-                    <td class="handwritten font-c">11.18</td>
-                    <td class="handwritten font-c">顾思佳</td>
-                    <td class="handwritten font-c">12.01</td>
-                </tr>
-                <tr><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 借阅卡 3 -->
-    <div class="card">
-        <div class="stamp">青大附中</div>
-        <div class="header-title">图书借阅记录卡</div>
-        <div class="book-info">
-            <div><span class="info-label">书名：</span><span class="info-value">《云知道答案》</span></div>
-        </div>
-        <table class="borrow-table">
-            <thead>
-                <tr>
-                    <th width="25%">借出日期</th>
-                    <th width="50%">借书人</th>
-                    <th width="25%">还书日期</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="handwritten font-b">04.02</td>
-                    <td class="handwritten font-b">高语涵</td>
-                    <td class="handwritten font-b">04.15</td>
-                </tr>
-                <tr>
-                    <td class="handwritten font-a">04.20</td>
-                    <td class="handwritten font-a">齐天磊</td>
-                    <td class="handwritten font-a">05.03</td>
-                </tr>
-                <tr>
-                    <td class="handwritten duan">05.18</td>
-                    <td class="handwritten duan">段<span class="blurred-char">宜</span>廷</td>
-                    <td class="handwritten duan">05.30</td>
-                </tr>
-                <tr>
-                    <td class="handwritten song">06.01</td>
-                    <td class="handwritten song">沈妙妙</td>
-                    <td class="handwritten song">06.14</td>
-                </tr>
-                <tr>
-                    <td class="handwritten font-c">06.15</td>
-                    <td class="handwritten font-c">顾思佳</td>
-                    <td class="handwritten font-c">06.28</td>
-                </tr>
-                <tr><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- 借阅卡 4 -->
-    <div class="card">
-        <div class="stamp">青大附中</div>
-        <div class="header-title">图书借阅记录卡</div>
-        <div class="book-info">
-            <div><span class="info-label">书名：</span><span class="info-value">《萤火之秋》</span></div>
-        </div>
-        <table class="borrow-table">
-            <thead>
-                <tr>
-                    <th width="25%">借出日期</th>
-                    <th width="50%">借书人</th>
-                    <th width="25%">还书日期</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="handwritten font-d">09.15</td>
-                    <td class="handwritten font-d">方文杰</td>
-                    <td class="handwritten font-d">09.28</td>
-                </tr>
-                <tr>
-                    <td class="handwritten duan">10.08</td>
-                    <td class="handwritten duan">段<span class="blurred-char">宜</span>廷</td>
-                    <td class="handwritten duan">10.20</td>
-                </tr>
-                <tr>
-                    <td class="handwritten font-c">10.22</td>
-                    <td class="handwritten font-c">顾思佳</td>
-                    <td class="handwritten font-c">11.03</td>
-                </tr>
-                <tr><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td></tr>
-                <tr><td></td><td></td><td></td></tr>
-            </tbody>
-        </table>
-    </div>
-
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const container = document.getElementById('stackContainer');
-        const cards = Array.from(container.querySelectorAll('.card'));
-        const progressIndicator = document.getElementById('progressIndicator');
-        const totalCards = cards.length;
         
-        const rotations = [-2.5, 1.8, -1.2, 2.2, -0.8];
-        let isAnimating = false;
-
-        // 初始化卡片编号
-        cards.forEach((card, idx) => {
-            card.setAttribute('data-index', idx + 1);
-        });
-
-        // 重新排布叠放层级与偏移度
-        function updateStackLayout() {
-            cards.forEach((card, index) => {
-                const zIndex = totalCards - index;
-                const translateY = index * 4;
-                const scale = 1 - index * 0.02;
-                const rot = rotations[index % rotations.length];
-
-                card.style.zIndex = zIndex;
-                
-                if (!card.classList.contains('swiping')) {
-                    card.style.transform = `translateY(${translateY}px) scale(${scale}) rotate(${rot}deg)`;
-                    card.style.opacity = index > 3 ? '0' : '1';
-                }
-            });
-
-            // 更新右下角序号指示
-            if (cards.length > 0) {
-                const currentNum = cards[0].getAttribute('data-index') || '1';
-                progressIndicator.textContent = `${currentNum} / ${totalCards}`;
-            }
+        /* 签名区域：保持右侧延长比例 */
+        .signature-area {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #1a1a1a;
+        }
+        .signature-box-left {
+            width: 38%;
+        }
+        .signature-box-right {
+            width: 58%;
+            text-align: right;
+        }
+        .signature-box-left p, .signature-box-right p {
+            margin: 3px 0;
         }
 
-        updateStackLayout();
-
-        // 翻页逻辑：最上面的卡片滑出并移到底部
-        function flipNextCard() {
-            if (isAnimating || cards.length <= 1) return;
-            isAnimating = true;
-
-            const topCard = cards.shift();
-            topCard.classList.add('swiping');
-
-            setTimeout(() => {
-                cards.push(topCard);
-                topCard.classList.remove('swiping');
-                updateStackLayout();
-                
-                setTimeout(() => {
-                    isAnimating = false;
-                }, 100);
-            }, 550);
+        /* 审批意见手写体样式：不换行、适配加宽后的右侧区域 */
+        .handwritten-opinion {
+            font-family: 'Ma Shan Zheng', 'STKaiti', cursive;
+            font-size: 15px;
+            color: #132238; 
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            text-shadow: 0.3px 0.3px 0.5px rgba(19, 34, 56, 0.25);
         }
 
-        // 直接点击卡片堆叠区域即可触发翻页
-        container.addEventListener('click', flipNextCard);
-    });
-</script>
+        /* 底部操作按钮栏 */
+        .action-bar {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #b5b29f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sys-btn {
+            font-family: "宋体", SimSun, sans-serif;
+            font-size: 12px;
+            padding: 3px 12px;
+            background-color: #d4d0c8;
+            border: 1px solid;
+            border-color: #fff #808080 #808080 #fff;
+            cursor: pointer;
+        }
+        .pagination-tip {
+            font-size: 11px;
+            color: #555;
+        }
+     .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">finalX2️⃣</div></head><body>
+
+<div class="browser-window">
+    <!-- 浏览器标题栏 -->
+    <div class="browser-titlebar">
+        <div class="browser-titlebar-left">
+            <span>🌐</span>
+            <span>全国民政业务内网查询系统 - Microsoft Internet Explorer</span>
+        </div>
+        <div class="browser-buttons">
+            <div class="browser-btn">-</div>
+            <div class="browser-btn">□</div>
+            <div class="browser-btn">×</div>
+        </div>
+    </div>
+
+    <!-- 菜单栏 -->
+    <div class="browser-menu">
+        <span><u>F</u>ile(文件)</span>
+        <span><u>E</u>dit(编辑)</span>
+        <span><u>V</u>iew(查看)</span>
+        <span><u>F</u>avorites(收藏)</span>
+        <span><u>T</u>ools(工具)</span>
+        <span><u>H</u>elp(帮助)</span>
+    </div>
+
+    <!-- 地址栏 -->
+    <div class="browser-toolbar">
+        <span>地址(<u>D</u>):</span>
+        <div class="address-bar">http://10.14.88.205/mz_archives/query_result.jsp?id=2008-019</div>
+        <button class="sys-btn">转到</button>
+    </div>
+
+    <!-- 内网页面主体 -->
+    <div class="intranet-body">
+        
+        <div class="intranet-header">
+            <div class="system-title">▌收养档案检索</div>
+        </div>
+
+        <div class="form-container">
+
+            <!-- 电子红印章 -->
+            <div class="stamp-watermark">
+                <span class="stamp-text-top">临渊凛州福利院</span>
+                <span class="stamp-text-center">审批专用</span>
+                <span class="stamp-text-bottom">2008.10.16</span>
+            </div>
+
+            <div class="doc-title">收养审批档案</div>
+            <div class="doc-sub">（特别呈批件）</div>
+
+            <div class="meta-bar">
+                <span>填报单位：临渊凛州福利院收养登记处</span>
+                <span>档案编号：凛收字〔2008〕第019号</span>
+            </div>
+
+            <table>
+                <tr>
+                    <th>收养人</th>
+                    <td>顾兆元</td>
+                    <th>年龄</th>
+                    <td>55岁</td>
+                </tr>
+                <tr>
+                    <th>家庭状况</th>
+                    <td colspan="3">无子女（失独）</td>
+                </tr>
+                <tr>
+                    <th>被收养人</th>
+                    <td>女童（隐去）</td>
+                    <th>年龄</th>
+                    <td>5岁</td>
+                </tr>
+                <tr>
+                    <th>原所在地</th>
+                    <td colspan="3">临渊凛州福利院</td>
+                </tr>
+            </table>
+
+            <div class="section-header">经办人记事</div>
+            <div class="content-box">
+                2008年某日，申请收养人于本院图书阅览区与该儿童首次接触。经工作人员现场了解，双方接触过程中互动自然，儿童对顾兆元表现出较强的亲近意愿。此后，顾兆元曾多次来院探视，双方相处融洽。
+            </div>
+
+            <div class="section-header">特别呈批说明</div>
+            <div class="content-box">
+                按常规条例，申请人年龄偏大且属失独家庭，原不予优先考虑。经工作人员持续观察，该儿童已明确表达希望随其共同生活的想法，双方亦已形成较为稳定的情感联系。鉴于儿童本人意愿明确，并结合其后续成长及安置需要，现对申请人提出的收养申请进行呈报。恳请上级领导结合实际情况予以审议，并酌情批准。
+            </div>
+
+            <div class="signature-area">
+                <div class="signature-box-left">
+                    <p>经办工作人员：周明</p>
+                    <p>填表日期：2008年10月14日</p>
+                </div>
+                <div class="signature-box-right">
+                    <p class="handwritten-opinion">审批意见：情况属实，同意特批。<br><br>愿其此后有所依、有所归，得以共同生活，安心成长。</p>
+                    <p style="margin-top: 6px;">负责人（签章）：<u> 孙怀民 </u></p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 底部查询网页控制栏 -->
+        <div class="action-bar">
+            <span class="pagination-tip">记录条数：1 / 1 (检索耗时: 0.03秒)</span>
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>

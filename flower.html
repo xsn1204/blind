@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>青州大学 - 校友名录</title>
+    <title>杜鹃</title>
     <style>
         :root {
             --qz-blue: #004c99; 
@@ -365,7 +365,7 @@
 
         .popup-number {
             position: absolute;
-            color: #c0392b; /* 调暗红色，更加深沉不刺眼 */
+            color: #c0392b; 
             font-weight: 800;
             font-family: Impact, "Arial Black", sans-serif;
             user-select: none;
@@ -382,14 +382,14 @@
             }
         }
 
-        /* 全屏极缓黑屏过渡层 */
+        /* 全屏极缓暗夜山谷过渡层 */
         .dark-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(5, 8, 18, 1);
+            background: radial-gradient(circle at center, #0a1424 0%, #03060c 100%);
             z-index: 10000;
             opacity: 0;
             pointer-events: none;
@@ -397,6 +397,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         .dark-overlay.active {
@@ -404,7 +405,43 @@
             pointer-events: auto;
         }
 
+        /* 萤火虫微光粒子效果 */
+        .firefly {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffe680;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 2px rgba(255, 220, 100, 0.6), 0 0 15px 4px rgba(255, 180, 50, 0.3);
+            opacity: 0;
+            pointer-events: none;
+            animation: floatFirefly 6s infinite ease-in-out;
+        }
+
+        @keyframes floatFirefly {
+            0% {
+                transform: translate(0, 0) scale(0.5);
+                opacity: 0;
+            }
+            30% {
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(var(--move-x, 40px), var(--move-y, -60px)) scale(1.2);
+                opacity: 0.4;
+            }
+            80% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(var(--end-x, 80px), var(--end-y, -120px)) scale(0.3);
+                opacity: 0;
+            }
+        }
+
         .ethereal-text {
+            position: relative;
+            z-index: 2;
             font-style: italic;
             font-family: "STKaiti", "Kaiti", "PingFang SC", serif;
             font-size: 1.7em;
@@ -459,7 +496,7 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 1.5s ease, visibility 1.5s ease;
-            z-index: 10001; /* 确保置于暗屏层之上 */
+            z-index: 10001; 
         }
         
         .floating-signature.show {
@@ -476,13 +513,15 @@
         <img src="signature.jpg" alt="关键签名">
     </div>
     
-    <div class="progress-indicator">5/31</div>
+    <div class="progress-indicator">finalX3️⃣</div>
 
     <!-- 弹窗容器 -->
     <div id="popupContainer" class="popup-404-container"></div>
 
     <!-- 暗屏全屏遮罩及特效文本容器 -->
     <div id="darkOverlay" class="dark-overlay">
+        <!-- 动态生成的萤火虫容器 -->
+        <div id="firefliesContainer" style="position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none;"></div>
         <div id="typewriterText" class="ethereal-text"></div>
     </div>
 
@@ -513,7 +552,7 @@
                 <ul>
                     <li><a href="#">教学动态</a></li>
                     <li><a href="#">师资队伍</a></li>
-                             <li><a href="#">创新创业</a></li>
+                    <li><a href="#">创新创业</a></li>
                     <li><a href="#">职业培训</a></li>
                     <li><a href="#" class="active">校友名录</a></li>
                 </ul>
@@ -614,7 +653,6 @@
 
             // 特殊匹配逻辑：2020 + 顾思佳
             if (year === '2020' && name === '顾思佳') {
-                // 1. 立刻禁用页面文本选中 & 查询按钮置灰
                 document.body.classList.add('locked');
                 const searchBtn = document.querySelector('.btn-search-adv');
                 if (searchBtn) {
@@ -626,7 +664,6 @@
                 container.innerHTML = '';
                 document.getElementById('signatureBox').classList.remove('show');
 
-                // 2. 点击搜索后先静默等待 2 秒，再开始喷刷 404
                 setTimeout(() => {
                     const baseWidth = 80;
                     const baseHeight = 50;
@@ -646,18 +683,19 @@
                     basePoints.sort(() => Math.random() - 0.5);
 
                     let currentIdx = 0;
-                    // 由慢到快：初始延迟 350ms，逐渐加速
                     let delay = 350;
 
                     function spawnRedNumbers() {
                         if (currentIdx >= basePoints.length) {
-                            // 铺满全屏后，暗屏过渡
                             setTimeout(() => {
                                 const darkOverlay = document.getElementById('darkOverlay');
                                 darkOverlay.classList.add('active');
 
+                                // 生成山谷微弱萤火虫粒子
+                                initFireflies();
+
                                 setTimeout(() => {
-                                    container.innerHTML = ''; // 清除底层 404
+                                    container.innerHTML = ''; 
                                     setTimeout(() => {
                                         startTypewriting();
                                     }, 2000);
@@ -674,7 +712,6 @@
                         const randomOffsetX = (Math.random() - 0.5) * 50;
                         const randomOffsetY = (Math.random() - 0.5) * 40;
                         const rotateDeg = (Math.random() - 0.5) * 60;
-                        // 缩小字体：1.4rem ~ 2.8rem
                         const fontSize = 1.4 + Math.random() * 1.4;
 
                         num.style.left = (point.x + randomOffsetX) + 'px';
@@ -686,13 +723,12 @@
                         container.appendChild(num);
                         currentIdx++;
 
-                        // 逐渐加快间隔时间（最低降至 3ms）
                         delay = Math.max(3, delay * 0.85);
                         setTimeout(spawnRedNumbers, delay);
                     }
 
                     spawnRedNumbers();
-                }, 2000); // 搜索后延迟 2s 启动
+                }, 2000);
 
                 return;
             }
@@ -716,6 +752,42 @@
             }
         }
 
+        // 初始化山谷微暗萤火虫微光点点
+        function initFireflies() {
+            const firefliesContainer = document.getElementById('firefliesContainer');
+            firefliesContainer.innerHTML = '';
+            const count = 45; // 萤火虫数量
+
+            for (let i = 0; i < count; i++) {
+                const firefly = document.createElement('div');
+                firefly.className = 'firefly';
+                
+                // 随机初始位置
+                const posX = Math.random() * window.innerWidth;
+                const posY = Math.random() * window.innerHeight;
+                firefly.style.left = posX + 'px';
+                firefly.style.top = posY + 'px';
+
+                // 随机飘动轨迹与动画时长
+                const moveX = (Math.random() - 0.5) * 150;
+                const moveY = (Math.random() - 0.5) * -120 - 40;
+                const endX = moveX + (Math.random() - 0.5) * 100;
+                const endY = moveY + (Math.random() - 0.5) * -100;
+
+                firefly.style.setProperty('--move-x', moveX + 'px');
+                firefly.style.setProperty('--move-y', moveY + 'px');
+                firefly.style.setProperty('--end-x', endX + 'px');
+                firefly.style.setProperty('--end-y', endY + 'px');
+
+                const duration = 4 + Math.random() * 5;
+                const delay = Math.random() * 5;
+                firefly.style.animationDuration = duration + 's';
+                firefly.style.animationDelay = delay + 's';
+
+                firefliesContainer.appendChild(firefly);
+            }
+        }
+
         // 打字逻辑与签名延迟控制
         function startTypewriting() {
             const textContainer = document.getElementById('typewriterText');
@@ -729,7 +801,6 @@
             let p2Index = 0;
             let sIndex = 0;
 
-            // 打第一部分：“或许”
             const p1Interval = setInterval(() => {
                 if (p1Index < part1.length) {
                     textContainer.innerText += part1.charAt(p1Index);
@@ -737,9 +808,7 @@
                 } else {
                     clearInterval(p1Interval);
 
-                    // “或许” 打完后停顿 600ms
                     setTimeout(() => {
-                        // 打第二部分：“你在找的是：”
                         const p2Interval = setInterval(() => {
                             if (p2Index < part2.length) {
                                 textContainer.innerText += part2.charAt(p2Index);
@@ -747,9 +816,7 @@
                             } else {
                                 clearInterval(p2Interval);
 
-                                // “你在找的是：” 打完后停顿 800ms
                                 setTimeout(() => {
-                                    // 打第三部分：“杜鹃花？”（慢速）
                                     const slowInterval = setInterval(() => {
                                         if (sIndex < slowText.length) {
                                             textContainer.innerText += slowText.charAt(sIndex);
@@ -757,7 +824,6 @@
                                         } else {
                                             clearInterval(slowInterval);
 
-                                            // 打印完成后 3 秒显示关键签名
                                             setTimeout(() => {
                                                 document.getElementById('signatureBox').classList.add('show');
                                             }, 3000);
@@ -776,7 +842,6 @@
             document.getElementById('resultBox').style.display = 'none';
             document.getElementById('emptyTip').style.display = 'none';
 
-            // 解除锁屏与按钮置灰
             document.body.classList.remove('locked');
             const searchBtn = document.querySelector('.btn-search-adv');
             if (searchBtn) {
@@ -789,6 +854,7 @@
 
             const darkOverlay = document.getElementById('darkOverlay');
             darkOverlay.classList.remove('active');
+            document.getElementById('firefliesContainer').innerHTML = '';
             document.getElementById('typewriterText').innerText = '';
             document.getElementById('signatureBox').classList.remove('show');
         }

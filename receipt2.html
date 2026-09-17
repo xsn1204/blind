@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>康民大药房（青医附院店） POS销售小票</title>
-    <!-- 引入网络字体：
-         女生：Long Cang (龙仓体 - 第二盒第三个字体)
-         段奕廷：Ma Shan Zheng (马善政体 - 第一版男生的字体)
-    -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
@@ -81,15 +77,17 @@
             color: #222;
         }
 
-        .receipt-back {
+        /* 背面快递单样式适配调整 */
+        .receipt-back.waybill-back {
             transform: rotateY(180deg);
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            text-align: left;
-            padding: 24px 20px;
-            background: #fdfbf7;
+            justify-content: space-between;
+            background: #fff;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            color: #000;
         }
 
         .receipt-front::after, .receipt-back::after {
@@ -187,40 +185,36 @@
             color: #444;
         }
 
-        /* 女生手写字迹：第二盒第3个字体 (Long Cang 龙仓体，红/蓝墨水风格) */
-        .female-handwriting {
-            font-family: 'Long Cang', cursive;
-            font-size: 20px;
-            color: #040a63; /* 沿用第二盒第3个风格的红色圆珠笔/蓝黑墨水风格 */
-            line-height: 1.4;
-            letter-spacing: 0.5px;
-            margin-bottom: 15px;
-            transform: rotate(-1.5deg);
+        /* 快递单内部微型样式 */
+        .wb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 3px;
         }
+        .wb-logo { font-size: 12px; font-weight: bold; font-style: italic; }
+        .wb-type { border: 1px solid #000; padding: 1px 4px; font-weight: bold; font-size: 9px; }
+        .wb-barcode { text-align: center; font-size: 11px; font-weight: bold; letter-spacing: 1px; border-bottom: 1px solid #000; padding: 2px 0; }
+        .wb-sec { border-bottom: 1px dashed #999; padding: 3px 0; }
+        .wb-title { font-size: 8px; color: #555; }
+        .wb-addr { font-size: 11px; font-weight: bold; line-height: 1.2; }
+        .wb-contact { font-size: 9px; color: #333; margin-top: 1px; }
+        .wb-grid { display: flex; justify-content: space-between; align-items: center; }
+        .wb-code-box { font-size: 13px; font-weight: bold; background: #000; color: #fff; padding: 1px 4px; display: inline-block; }
+        .wb-footer { font-size: 8.5px; color: #444; display: flex; justify-content: space-between; border-top: 1px solid #000; padding-top: 2px; }
 
-        /* 男生手写字迹：切回之前的马善政体 (Ma Shan Zheng) */
-        .handwriting {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 21px;
-            color: #2b303a;
-            line-height: 1.4;
-            letter-spacing: 1px;
-            margin-top: 5px;
-            align-self: flex-end;
-            transform: rotate(1deg);
+        .row.clickable {
+            cursor: pointer;
+            transition: color 0.2s, background-color 0.2s;
         }
-        /* 新增的可点击行样式 */
-    .row.clickable {
-        cursor: pointer;
-        transition: color 0.2s, background-color 0.2s;
-    }
-    .row.clickable:hover {
-        color: #0066cc;
-        background-color: #f0f7ff;
-    }
-    .row.clickable:hover span:last-child {
-        text-decoration: underline;
-    }
+        .row.clickable:hover {
+            color: #0066cc;
+            background-color: #f0f7ff;
+        }
+        .row.clickable:hover span:last-child {
+            text-decoration: underline;
+        }
 
         .progress-indicator {
             position: fixed;
@@ -234,6 +228,9 @@
             font-size: 0.85rem;
             z-index: 9999;
         }
+        .receipt:not(#receipt-2) .receipt-back {
+    display: none;
+}
     </style>                             
 </head>
 <body>
@@ -270,7 +267,7 @@
             </div>
         </div>
 
-        <!-- 小票 2 (带有背面手写对话：女生Long Cang + 男生Ma Shan Zheng) -->
+        <!-- 小票 2 (正面为药房小票，背面已替换为快递单) -->
         <div class="receipt" id="receipt-2" onclick="this.classList.toggle('flipped')">
             <div class="receipt-inner">
                 <div class="receipt-front">
@@ -283,7 +280,7 @@
                         <table class="item-table">
                             <tr><th>品名/规格</th><th>数量</th><th>金额</th></tr>
                             <tr><td>同仁堂破壁灵芝孢子粉</td><td>2盒</td><td>¥1,520.00</td></tr>
-                            <tr><td>进口辅酶Q10胶囊</td><td>2瓶</td><td>¥1,320.00</td></tr>
+                            <tr><td>极地深海鱼油软胶囊</td><td>2瓶</td><td>¥1,320.00</td></tr>
                         </table>
                         <div class="pay-tag">[ 银联刷卡支付 - 交易成功 ]</div>
                         <div class="row"><span>卡号：</span><span>622202****8819</span></div>
@@ -295,12 +292,38 @@
                         <p>收银员：0812 | 凭票退换 祝您健康</p>
                     </div>
                 </div>
-                <div class="receipt-back">
-                    <div class="female-handwriting">
-                        你不用为了照顾生意买这么多。
+                <div class="receipt-back waybill-back">
+                    <!-- 快递单内容 -->
+                    <div class="wb-header">
+                        <div class="wb-logo">顺达快递 SD</div>
+                        <div class="wb-type">特快</div>
                     </div>
-                    <div class="handwriting">
-                        寄回家给外公喝。
+                    <div class="wb-barcode">
+                        *SD20180803234549*
+                    </div>
+                    <div class="wb-sec">
+                        <div class="wb-title">寄件 (FROM)</div>
+                        <div class="wb-addr">临渊青州 康民大药房（青医附院）</div>
+                        <div class="wb-contact">发货处 电话：0532-8877XXXX</div>
+                    </div>
+                    <div class="wb-sec">
+                        <div class="wb-title">收件 (TO)</div>
+                        <div class="wb-addr">临渊凛州 干部退休小区</div>
+                        <div class="wb-contact">住户代收 电话：136xxxx0729</div>
+                    </div>
+                    <div class="wb-sec wb-grid">
+                        <div>
+                            <div class="wb-title">目的地代码</div>
+                            <div class="wb-code-box">LZ-053</div>
+                        </div>
+                        <div>
+                            <div class="wb-title">托寄物品</div>
+                            <div style="font-weight: bold; font-size: 10px;">药品</div>
+                        </div>
+                    </div>
+                    <div class="wb-footer">
+                        <div>寄件日期：2018-08-03</div>
+                        <div>签收：_______</div>
                     </div>
                 </div>
             </div>
@@ -319,7 +342,7 @@
                         <table class="item-table">
                             <tr><th>品名/规格</th><th>数量</th><th>金额</th></tr>
                             <tr><td>同仁堂高纯度海参胶囊</td><td>1盒</td><td>¥1,380.00</td></tr>
-                            <tr><td>极地深海鱼油软胶囊</td><td>2瓶</td><td>¥960.00</td></tr>
+                            <tr><td>进口辅酶Q10胶囊</td><td>2瓶</td><td>¥960.00</td></tr>
                         </table>
                         <div class="pay-tag">[ 银联刷卡支付 - 交易成功 ]</div>
                         <div class="row"><span>卡号：</span><span>622202****8819</span></div>
@@ -409,10 +432,10 @@
                             <tr><td>高纯度西洋参含片</td><td>2盒</td><td>¥680.00</td></tr>
                         </table>
                         <div class="pay-tag">[ 银联刷卡支付 - 交易成功 ]</div>
-                      <div class="row clickable" onclick="window.open('test.html', '_blank')">
-    <span>卡号：</span>
-    <span style="color: blue;">622202****8819</span>
-</div>
+                        <div class="row clickable" onclick="window.open('test.html', '_blank')">
+                            <span>卡号：</span>
+                            <span style="color: blue;">622202****8819</span>
+                        </div>
                         <div class="row total-price"><span>合计应付：</span><span>¥718.00</span></div>
                         <div class="row"><span>实收刷卡：</span><span>¥718.00</span></div>
                     </div>

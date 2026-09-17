@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404心动失明事件</title>
+<title>404药案重启事件</title>
 <style>
 *{
     margin:0;
@@ -17,6 +17,7 @@ body{
     overflow:hidden;
     position:relative;
     cursor:pointer;
+    color:#ffffff;
 }
 /* 底层壁纸容器 + 毛玻璃模糊层 */
 .bg-wallpaper{
@@ -28,14 +29,10 @@ body{
 .bg-blur-mask{
     position:fixed;
     inset:0;
-    /* 毛玻璃模糊底层壁纸 */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     background: rgba(0,0,0,0.15);
     z-index:-1;
-}
-body{
-    color:#ffffff;
 }
 /* 右上角 喜欢吗 小标识 */
 .like-tip{
@@ -105,7 +102,7 @@ body{
 .user-name{
     font-size:16px;
     font-weight:300;
-    margin: 0 auto 32px;
+    margin: 0 auto 24px;
     width: 600px;
     line-height: 1.7;
     text-align:center;
@@ -151,16 +148,6 @@ body{
     opacity:0.8;
     text-align:center;
 }
-.reset-text{
-    margin-top:20px;
-    font-size:16px;
-    opacity:0.7;
-    cursor:pointer;
-}
-.reset-text:hover{
-    opacity:1;
-    text-decoration:underline;
-}
 /* 左下角时间日期 */
 .time-box{
     position:absolute;
@@ -180,34 +167,31 @@ body{
     margin-top:8px;
     opacity:0.9;
 }
-      .floating-signature {
-            position: fixed;
-            right: 48px;
-            bottom:  36px; /* 挪到了上方，避免遮挡系统图标 */
-            width: 200px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            opacity: 0.6;
-            transition: 0.3s;
-        }
-        .floating-signature:hover { opacity: 1; }
-        .floating-signature img { width: 100%; display: block; }
-         /* ********************************************* */
-                .next-chapter-teaser {
-            margin-top: 60px;
-            padding: 30px;
-            background: linear-gradient(180deg, rgba(192, 57, 43, 0.1) 0%, rgba(0,0,0,0.4) 100%);
-            border: 1px solid var(--blood-red-color);
-            border-radius: 8px;
-            text-align: center;
-        }
-
- </style>
-       <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+/* 浮动签名 */
+.floating-signature {
+    position: fixed;
+    right: 48px;
+    bottom: 36px;
+    width: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    opacity: 0.6;
+    transition: 0.3s;
+}
+.floating-signature:hover { 
+    opacity: 1; 
+}
+.floating-signature img { 
+    width: 100%; 
+    display: block; 
+}
+</style>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </head>
 <body>
-  <div style="display: none;">
+
+<div style="display: none;">
     <span id="busuanzi_container_site_pv">
         <span id="busuanzi_value_site_pv"></span>
     </span>
@@ -215,22 +199,23 @@ body{
         <span id="busuanzi_value_page_pv"></span>
     </span>
 </div>
+
 <!-- 底层壁纸 + 全局毛玻璃模糊层 -->
 <div class="bg-wallpaper"></div>
 <div class="bg-blur-mask"></div>
 
 <!-- 右上角相机提示 -->
 <div class="like-tip">
-<svg viewBox="0 0 24 24">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
-</svg>
-喜欢吗？
+    <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+    </svg>
+    喜欢吗？
 </div>
 
 <!-- 左下角固定时间日期 -->
 <div class="time-box">
     <div class="time-num" id="timeText">20:17</div>
-    <div class="date-text" id="dateText">8月22日, 星期六</div>
+    <div class="date-text" id="dateText">9月15日, 星期二</div>
 </div>
 
 <!-- 右下角WiFi电池图标 -->
@@ -250,10 +235,18 @@ body{
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
         </svg>
     </div>
-    <!-- 新增用户名 -->
-    <div class="user-title">404心动失明事件</div>
-    <div class="user-name">你是<strong>【顾思佳】</strong>。高中好友忽然发来消息，托你找一份多年前的广播台退台稿。<br>你登录进这台早已闲置的设备，翻找着网盘与零散文档。<br>循着花名册和回忆的碎片，你恍然发觉——
-    <br>青春留给你的最后一页，是一场旷日持久的视而不见……</div>
+    
+    <div class="user-title">404药案重启事件</div>
+    
+    <div class="user-name">
+        你是私家侦探<strong>X404</strong>。一封来自律师的加密邮件，重启一桩轰动一时的劣药捐赠案。<br>
+        2019年，本地药企曾向福利院捐赠一批药品，却因质量问题引发调查。<br>
+        公司董事长最终获刑。<br>
+        多年后，辩护团队再次上诉，委托你重新调查案件被忽略的蜘丝马迹。<br>
+        循着一张张过期网页和旧新闻，你渐渐发现——<br>
+        那场看似意外的事故背后，似乎掩盖着一个更大的秘密……
+    </div>
+
     <div class="input-box">
         <input class="pwd-input" id="pwdInput" placeholder="已知信息 -> 发现关键词 -> 搜索 -> 获得新信息" type="password">
         <button class="submit-btn" id="enterBtn">
@@ -262,11 +255,13 @@ body{
             </svg>
         </button>
     </div>
-    <div class="tip-text">密码提示: 🔔第一步，不妨试着从搜搜【你自己的名字】开始，祝你好运。</div>
+    <div class="tip-text">密码提示: 🔔第一步，不妨从查看你的新邮件开始，祝你好运。</div>
 </div>
- <div class="floating-signature">
-        <img src="signature.jpg" alt="关键签名">
-    </div>
+
+<!-- 右下角悬浮签名 -->
+<div class="floating-signature">
+    <img src="signature.jpg" alt="关键签名">
+</div>
 
 <script>
 const loginPanel = document.getElementById('loginPanel');
@@ -278,28 +273,20 @@ document.body.addEventListener('click', function(e){
     if(loginPanel.contains(e.target)) return;
     loginPanel.classList.add('show');
     pwdInput.focus();
-})
+});
 
 // 跳转桌面逻辑
 function toDesktop(){
     window.location.href = "desk.html";
 }
+
 // 点击箭头按钮进入桌面
 enterBtn.addEventListener('click', toDesktop);
+
 // 按下回车键直接登录
 pwdInput.addEventListener('keydown', e=>{
     if(e.key === 'Enter') toDesktop();
-})
-</script>
-<script>
-    // 捕获整个屏幕的点击事件，包括子元素
-    document.querySelector('.screen').addEventListener('click', function() {
-        // 跳转到下一个页面
-        window.location.href = 'desk.html'; // 替换为你的目标页面
-    });
-
-    // 可选：改变鼠标指针，提示用户可点击
-    document.querySelector('.screen').style.cursor = 'pointer';
+});
 </script>
 </body>
 </html>

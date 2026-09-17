@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>成分检测收据单</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 15mm 18mm;
+            background-color: #fcfbf9;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Songti SC", SimSun, "Microsoft YaHei", sans-serif;
+            background-color: #fcfbf9;
+            color: #2b2b2b;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .receipt-container {
+            width: 100%;
+            max-width: 740px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 35px 45px;
+            border: 1px solid #dcd6cd;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            position: relative;
+        }
+        .header-top {
+            display: table;
+            width: 100%;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #555;
+            padding-bottom: 10px;
+        }
+        .header-top-left {
+            display: table-cell;
+            vertical-align: middle;
+            font-size: 14px;
+            color: #555;
+        }
+        .header-top-right {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: right;
+            font-size: 14px;
+            color: #555;
+        }
+        h2 {
+            text-align: center;
+            color: #1a1a1a;
+            margin: 10px 0 6px 0;
+            font-size: 24px;
+            letter-spacing: 3px;
+        }
+        .receipt-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 22px;
+            letter-spacing: 1.5px;
+        }
+        .info-grid {
+            display: table;
+            width: 100%;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        .info-row {
+            display: table-row;
+        }
+        .info-cell {
+            display: table-cell;
+            padding: 6px 0;
+            vertical-align: top;
+        }
+        .info-cell span {
+            color: #444;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        th, td {
+            border: 1px solid #b5b0a8;
+            padding: 10px 12px;
+            font-size: 14px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0ede6;
+            color: #333;
+            font-weight: bold;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .total-row td {
+            background-color: #f8f6f0;
+            font-weight: bold;
+        }
+        .payment-section {
+            margin-top: 16px;
+            font-size: 14px;
+            border-top: 1px dashed #dcd6cd;
+            padding-top: 12px;
+        }
+        .payment-row {
+            margin: 6px 0;
+        }
+        .footer-section {
+            margin-top: 30px;
+            display: table;
+            width: 100%;
+            font-size: 14px;
+        }
+        .footer-col {
+            display: table-cell;
+            width: 50%;
+        }
+        .footer-col.right {
+            text-align: right;
+        }
+        .note {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #e8e4dc;
+            padding-top: 8px;
+            line-height: 1.5;
+        }
+        .stamp-area {
+            position: absolute;
+            right: 50px;
+            bottom: 75px;
+            width: 120px;
+            height: 120px;
+            border: 2px dashed #d4c5b9;
+            border-radius: 50%;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 120px;
+            color: #c5b5a8;
+            font-size: 13px;
+            transform: rotate(-10deg);
+            pointer-events: none;
+        }
+     .progress-indicator {
+    position: fixed;
+   bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 0.85rem;
+    z-index: 9999;
+}
+    </style>                             <div class="progress-indicator">extra7/31</div></head>
+<body>
+
+<div class="receipt-container">
+    <div class="header-top">
+        <div class="header-top-left"><strong>出具机构：</strong>青州华测分析检测中心</div>
+        <div class="header-top-right"><strong>No.</strong> REC-20180813-01</div>
+    </div>
+
+    <h2>成 分 检 测 收 据 单</h2>
+    <div class="receipt-subtitle">QINGZHOU COMPONENT TESTING RECEIPT</div>
+
+    <div class="info-grid">
+        <div class="info-row">
+            <div class="info-cell" style="width: 50%;"><strong>委托单位/个人：</strong> 个人</div>
+            <div class="info-cell" style="width: 50%;"><strong>开票日期：</strong> 2018年8月13日</div>
+        </div>
+    
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 35%;">收费项目</th>
+                <th style="width: 35%;">规格 / 描述</th>
+                <th style="width: 15%; text-align: center;">数量</th>
+                <th style="width: 15%; text-align: right;">金额 (元)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>成分分析与显微对比检测</td>
+                <td>药丸性状及沉淀物专项分析</td>
+                <td class="text-center">1项</td>
+                <td class="text-right">¥ 1,500.00</td>
+            </tr>
+            <tr class="total-row">
+                <td colspan="3" class="text-right">合计金额（大写）：人民币 壹仟伍佰元整</td>
+                <td class="text-right">¥1,500.00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="payment-section">
+        <div class="payment-row"><strong>支付方式：</strong> 银行卡转账</div>
+        <div class="payment-row"><strong>收款账号（卡号）：</strong> <span style="font-family: monospace; font-size: 14px; letter-spacing: 0.5px;">622202****8819</span></div>
+        <div class="payment-row"><strong>财务状态：</strong> 款项已核收 / 交易成功</div>
+    </div>
+
+    <div class="footer-section">
+        <div class="footer-col">
+            <strong>收款单位（盖章）：</strong> 青州华测分析检测中心
+        </div>
+        <div class="footer-col right">
+            <strong>财务审核/经办人：</strong> _______________
+        </div>
+    </div>
+
+    <div class="note">
+        <strong>备注说明：</strong> 本收据仅作为本次成分检测服务的结算凭证与费用收讫证明，检测结果以正式出具的《成分检测报告》为准。
+    </div>
+
+    <div class="stamp-area">
+        青州华测检测中心
+    </div>
+</div>
+
+</body>
+</html>

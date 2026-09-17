@@ -65,11 +65,12 @@
         /* 证书头部标题 */
         .header {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 5px;
+            flex-shrink: 0;
         }
 
         .title-cn {
-            font-size: 42px;
+            font-size: 38px;
             font-weight: bold;
             color: #cc1111;
             letter-spacing: 12px;
@@ -78,7 +79,7 @@
         }
 
         .title-en {
-            font-size: 13px;
+            font-size: 12px;
             color: #cc1111;
             letter-spacing: 2px;
             font-weight: bold;
@@ -90,25 +91,32 @@
             width: 80px;
             height: 2px;
             background-color: #cc1111;
-            margin: 6px auto 0 auto;
+            margin: 4px auto 0 auto;
         }
 
         /* 证书主体文字 */
         .content {
             width: 100%;
-            margin-top: 15px;
-            font-size: 21px;
-            line-height: 2.2;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: 19px;
+            line-height: 1.8;
             color: #111;
+            margin: 10px 0;
+        }
+
+        .recipient-line {
+            margin-bottom: 2px;
         }
 
         .recipient {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             border-bottom: 2px solid #111;
-            padding: 0 15px 2px 15px;
+            padding: 0 15px 1px 15px;
             display: inline-block;
-            margin-right: 5px;
         }
 
         .award-text {
@@ -118,10 +126,10 @@
 
         .award-name {
             font-family: "Kaiti", "STKaiti", "楷体", serif;
-            font-size: 38px;
+            font-size: 32px;
             font-weight: bold;
             text-align: center;
-            margin: 15px 0;
+            margin: 10px 0;
             color: #000;
             letter-spacing: 4px;
         }
@@ -133,25 +141,25 @@
         /* 盖章及落款区域 */
         .seal-area {
             position: absolute;
-            bottom: 35px;
-            right: 60px;
-            width: 130px;
-            height: 130px;
+            bottom: 25px;
+            right: 50px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             border: 3px solid rgba(220, 20, 60, 0.7);
             display: flex;
             justify-content: center;
             align-items: center;
             color: rgba(220, 20, 60, 0.7);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
             transform: rotate(-12deg);
             pointer-events: none;
         }
 
         .seal-inner {
-            width: 118px;
-            height: 118px;
+            width: 108px;
+            height: 108px;
             border: 1px solid rgba(220, 20, 60, 0.7);
             border-radius: 50%;
             display: flex;
@@ -163,8 +171,8 @@
         }
 
         .seal-star {
-            font-size: 18px;
-            margin: 2px 0;
+            font-size: 16px;
+            margin: 1px 0;
         }
 
         @media print {
@@ -172,20 +180,22 @@
             .certificate-container { box-shadow: none; }
         }
 
-                            .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">6/31</div></head>
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+</head>
 <body>
+<div class="progress-indicator">7/31</div>
 
 <div class="certificate-container">
     <div class="certificate-inner">
@@ -203,21 +213,21 @@
         </div>
 
         <!-- 主体内容 -->
-     <div class="content">
-    <div>
-        <span class="recipient">顾思佳</span>
-        <small style="font-size: 13px; color: #666; margin-left: 8px;">（学号：20171940323）</small>：
-    </div>
-    <div class="award-text">
-        在青州大学附属高中第十一届生活节之【秋日拾光】活动中，表现突出，荣获
-    </div>
-    <div class="award-name">
-        “最佳爱心奖”
-    </div>
-    <div class="footer-text">
-        特发此证，以资鼓励。
-    </div>
-</div>
+        <div class="content">
+            <div class="recipient-line">
+                <span class="recipient">顾思佳</span>：
+            </div>
+            <div class="award-text">
+                在青州大学附属高中第十一届生活节之【秋日拾光】活动中，表现突出，荣获
+            </div>
+            <div class="award-name">
+                “最佳爱心奖”
+            </div>
+            <div class="footer-text">
+                特发此证，以资鼓励。
+            </div>
+        </div>
+
         <!-- 模拟公章 -->
         <div class="seal-area">
             <div class="seal-inner">
