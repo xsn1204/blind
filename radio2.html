@@ -85,7 +85,7 @@ body::before {
     transform-origin: center top;
     position: relative;
     z-index: 2;
-    margin-top: 20px;
+    margin-top: 20px; /* 整体往下偏移，避免离上方太近 */
 }
 
 /* 隐藏在稿件背后的背景图层 */
@@ -121,7 +121,7 @@ body::before {
     100% { background-position: 0% 50%; }
 }
 
-/* ================= 图书卡与歌词联动专属样式 ================= */
+/* ================= 图书卡与歌词联动专属样式（整体缩小为 0.8） ================= */
 .zoom-wrapper {
     display: flex;
     justify-content: center;
@@ -189,9 +189,10 @@ body::before {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 15px;
+    padding-top: 15px; /* 额外增加内边距，让图书卡及上方返回按钮离顶部更舒适 */
 }
 
+/* 图书卡正上方的返回按钮容器 */
 .back-btn-container {
     margin-bottom: 12px;
     opacity: 0;
@@ -361,6 +362,7 @@ body::before {
     text-align: center;
     margin-top: 4px;
 }
+/* ================================================================= */
 
 /* 稿件页面主层 */
 .page {
@@ -409,7 +411,7 @@ body::before {
 .tape-tl { top: -10px; left: -35px; transform: rotate(-35deg); }
 .tape-tr { top: -10px; right: -35px; transform: rotate(35deg); }
 .tape-bl { bottom: -10px; left: -35px; transform: rotate(35deg); }
-.tape-br { bottom: -10px; right: -35px; transform: rotate(-36deg); }
+.tape-br { bottom: -10px; right: -35px; transform: rotate(-35deg); }
 
 .header { text-align: center; padding-bottom: 20px; margin-bottom: 26px; }
 .header:after { content: ""; display: block; width: 170px; height: 2px; background: #7c1d1d; margin: 18px auto 0; }
@@ -573,108 +575,13 @@ audio { width: 100%; margin-top: 8px; }
 
 .outlook-btn:hover { background-color: #edebe9; border-color: #323130; color: #201f1e; }
 .outlook-btn:active { background-color: #c8c6c4; }
-
-/* ================= 修复后：精简间距并完美呈现的九宫格验证码样式（带背景模糊） ================= */
-.captcha-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px); /* 新增：背景模糊效果 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-}
-.captcha-box {
-    width: 320px;
-    background: #ffffff;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
-    overflow: hidden;
-    box-sizing: border-box;
-    text-align: left;
-}
-.captcha-header { 
-    background-color: #1a73e8; 
-    color: #ffffff; 
-    padding: 14px 16px 12px 16px;
-}
-.captcha-title-small { font-size: 12px; margin: 0; opacity: 0.9; }
-
-.captcha-title-main-wrap {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-    margin: 3px 0 3px 0;
-}
-.captcha-title-prefix {
-    font-size: 14px;
-    font-weight: normal;
-}
-.captcha-title-main { 
-    font-size: 20px; 
-    font-weight: bold; 
-}
-.captcha-title-desc { font-size: 11px; margin: 0; opacity: 0.85; line-height: 1.3; }
-
-.captcha-grid { 
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 6px; 
-    background-color: #ffffff; 
-    padding: 12px 16px 16px 16px; 
-    margin-top: 0px; 
-}
-.grid-item { position: relative; width: 92px; height: 92px; cursor: pointer; background-color: #ddd; overflow: hidden; user-select: none; border-radius: 2px; }
-.grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s; }
-.grid-number { position: absolute; bottom: 4px; left: 4px; background: rgba(0, 0, 0, 0.6); color: white; font-size: 11px; padding: 1px 5px; border-radius: 2px; }
-.grid-item.selected img { transform: scale(0.85); }
-.grid-item::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 4px solid transparent; box-sizing: border-box; transition: border-color 0.2s; }
-.grid-item.selected::after { border-color: #1a73e8; }
-.checkmark { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; background-color: #1a73e8; color: white; border-radius: 50%; display: none; justify-content: center; align-items: center; font-size: 12px; }
-.grid-item.selected .checkmark { display: flex; }
-.captcha-footer { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-top: 1px solid #e0e0e0; background: #fff; }
-.footer-icons { display: flex; gap: 16px; }
-.icon-btn { background: none; border: none; cursor: pointer; color: #555; padding: 0; font-size: 16px; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; }
-.icon-btn:hover { color: #1a73e8; }
-.verify-btn { background-color: #1a73e8; color: white; border: none; padding: 8px 20px; font-size: 14px; font-weight: bold; border-radius: 2px; cursor: pointer; }
-.verify-btn:hover { background-color: #1557b0; }
 </style>
 </head>
 <body>
 <div class="progress-indicator">31/31</div>
 
-<!-- 标准的安全验证提示框 -->
 <div class="overlay" id="ov">
-    <div style="background: #ffffff; padding: 32px 40px; border-radius: 8px; box-shadow: 0 12px 40px rgba(0,0,0,0.4); text-align: center; max-width: 380px; width: 90%;">
-        <div style="font-size: 36px; margin-bottom: 12px;">🛡️</div>
-        <h3 style="margin-bottom: 8px; color: #202124; font-size: 18px; font-family: sans-serif; font-weight: 600;">安全验证</h3>
-        <p style="margin-bottom: 24px; color: #5f6368; font-size: 13.5px; font-family: sans-serif; line-height: 1.5; text-indent: 0;">为保护内容安全，请完成人机身份验证以继续访问。</p>
-        <button class="btn" onclick="openCaptcha()" style="background: #1a73e8; color: #fff; border: none; padding: 11px 28px; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; transition: background 0.2s; box-shadow: 0 2px 4px rgba(26,115,232,0.3);">检查您是人类</button>
-    </div>
-</div>
-
-<!-- 九宫格验证码弹窗结构 (默认隐藏) -->
-<div class="captcha-overlay" id="captchaOverlay" style="display: none;">
-    <div class="captcha-box">
-<div class="captcha-header">
-            <div class="captcha-title-main-wrap" style="display: flex; align-items: baseline; flex-wrap: nowrap; gap: 4px;">
-                <span class="captcha-title-prefix">请选择包含</span>
-                <span class="captcha-title-main">杜鹃花元素</span>
-                <span class="captcha-title-prefix" style="margin: 0;">的所有图片。</span>
-            </div>
-        </div>
-        <div class="captcha-grid" id="captchaGrid"></div>
-        <div class="captcha-footer">
-            <div class="footer-icons">
-                <button class="icon-btn" title="刷新" onclick="refreshImages()">🔄</button>
-                <button class="icon-btn" title="语音" onclick="alert('请选择第 1、3、5、7、9 张图片')">🎧</button>
-                <button class="icon-btn" title="帮助" onclick="alert('请严格点击 1、3、5、7、9 号图片')">ℹ️</button>
-            </div>
-            <button class="verify-btn" onclick="verifyCaptcha()">验证</button>
-        </div>
-    </div>
+    <button class="btn" onclick="start()" style="background: #7c1d1d; color: #fff; border: none; padding: 14px 34px; border-radius: 999px; font-size: 16px; cursor: pointer;">🎙️ 进入校园广播站</button>
 </div>
 
 <div class="meteor-container">
@@ -684,10 +591,12 @@ audio { width: 100%; margin-top: 8px; }
 
 <div class="page-wrap" id="pageWrap">
     
+    <!-- 隐藏在稿件背后的新交互层：整体缩放为 0.8 -->
     <div class="secret-background" id="secretBg">
         <div class="zoom-wrapper">
             <div class="main-layout">
 
+                <!-- 左侧歌词：粤语版（《岁月如歌》） -->
                 <div class="side-lyrics poem-cantonese" id="col-cantonese">
                     <div class="lyric-line" data-index="0">給我體貼入微</div>
                     <div class="lyric-line" data-index="1">但你手 如明日便要遠離</div>
@@ -698,8 +607,10 @@ audio { width: 100%; margin-top: 8px; }
                     <div class="lyric-line lyric-title" data-index="6">《歲月如歌》</div>
                 </div>
 
+                <!-- 中间堆叠卡片区 -->
                 <div class="center-container">
                     
+                    <!-- 调整到图书卡正上方的返回按钮 -->
                     <div class="back-btn-container">
                         <button class="back-to-front-btn" onclick="resetTapes()">
                             <span>返回正面</span>
@@ -708,6 +619,7 @@ audio { width: 100%; margin-top: 8px; }
 
                     <div class="stack-container" id="stackContainer">
 
+                        <!-- 借阅卡 1 -->
                         <div class="card">
                             <div class="stamp">青大附中</div>
                             <div class="header-title">图书借阅记录卡</div>
@@ -755,6 +667,7 @@ audio { width: 100%; margin-top: 8px; }
                             </table>
                         </div>
 
+                        <!-- 借阅卡 2 -->
                         <div class="card">
                             <div class="stamp">青大附中</div>
                             <div class="header-title">图书借阅记录卡</div>
@@ -798,6 +711,7 @@ audio { width: 100%; margin-top: 8px; }
                             </table>
                         </div>
 
+                        <!-- 借阅卡 3 -->
                         <div class="card">
                             <div class="stamp">青大附中</div>
                             <div class="header-title">图书借阅记录卡</div>
@@ -845,6 +759,7 @@ audio { width: 100%; margin-top: 8px; }
                             </table>
                         </div>
 
+                        <!-- 借阅卡 4 -->
                         <div class="card">
                             <div class="stamp">青大附中</div>
                             <div class="header-title">图书借阅记录卡</div>
@@ -885,6 +800,7 @@ audio { width: 100%; margin-top: 8px; }
 
                     </div>
 
+                    <!-- 音频光波与卡片页码指示 -->
                     <div class="audio-wave">
                         <div class="audio-bar"></div>
                         <div class="audio-bar"></div>
@@ -895,6 +811,7 @@ audio { width: 100%; margin-top: 8px; }
                     <div class="card-progress-indicator" id="cardProgressIndicator">1 / 4</div>
                 </div>
 
+                <!-- 右侧歌词：国语版（《兄妹》） -->
                 <div class="side-lyrics poem-mandarin" id="col-mandarin">
                     <div class="lyric-line" data-index="0">爱让我们虚伪</div>
                     <div class="lyric-line" data-index="1">我得到 于事无补的安慰</div>
@@ -914,6 +831,7 @@ audio { width: 100%; margin-top: 8px; }
     <div class="tape tape-br" id="tape-br" onclick="tearTape('br', event)"></div>
     <div class="tape tape-tl" id="tape-tl" onclick="tearTape('tl', event)"></div>
 
+    <!-- 第一页 -->
     <div class="page show" id="page1">
         <div class="header">
             <div class="meta">CAMPUS RADIO STATION</div>
@@ -941,6 +859,7 @@ audio { width: 100%; margin-top: 8px; }
         <div class="footer">青附之声广播站 · 第1页</div>
     </div>
 
+    <!-- 第二页 -->
     <div class="page show" id="page2">
         <div class="header">
             <div class="meta">CAMPUS RADIO STATION</div>
@@ -958,7 +877,7 @@ audio { width: 100%; margin-top: 8px; }
             <p>别害怕走得太远。</p>
             <p>要相信，无论去了哪里，家永远在那。</p>
             <p><strong>也一直有人会等你回家</strong>。</p>
-            <p>她没有来得及说的话，现在应该由我告诉你：</p>
+            <p>她没来得及说出口的话，现在应该由我告诉你：</p>
             <p>她这一生，曾因你而感到无比幸福。</p>
             <p>生日快乐。</p>
         </div>
@@ -967,6 +886,7 @@ audio { width: 100%; margin-top: 8px; }
         <p>这首歌，送给你，送给他，也送给那个一直在等我们回家的人。</p>
         <p>今天的校园广播到这里就结束了，感谢大家的收听。我们下期再见！</p>
 
+        <!-- 播放器 -->
         <div class="player">
             <audio id="ambient-bgm" loop style="display: none;">
                 <source src="1.mp3" type="audio/mp4">
@@ -984,6 +904,7 @@ audio { width: 100%; margin-top: 8px; }
 
 </div>
 
+<!-- 右下角悬浮摇晃铃铛与张律师邮件面板 -->
 <div class="floating-mail-container">
     <div class="lawyer-popup-card" id="lawyerPopup">
         <div class="popup-header">
@@ -1010,80 +931,6 @@ audio { width: 100%; margin-top: 8px; }
 </div>
 
 <script>
-// --- 九宫格验证码相关逻辑 ---
-const sampleImages = [
-    "f1.png", // 1
-    "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=200&auto=format&fit=crop&q=80", // 2
-    "f3.png", // 3
-    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200&auto=format&fit=crop&q=80", // 4
-    "f5.png", // 5
-    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=200&auto=format&fit=crop&q=80", // 6
-    "f7.png", // 7
-    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=200&auto=format&fit=crop&q=80", // 8
-    "f9.png"  // 9
-];
-
-function initGrid() {
-    const gridContainer = document.getElementById('captchaGrid');
-    gridContainer.innerHTML = '';
-    
-    sampleImages.forEach((url, index) => {
-        const itemNumber = index + 1; 
-        const item = document.createElement('div');
-        item.className = 'grid-item';
-        item.dataset.index = itemNumber; 
-        item.innerHTML = `
-            <img src="${url}" alt="验证图片">
-            <div class="grid-number">${itemNumber}</div>
-            <div class="checkmark">✓</div>
-        `;
-        item.onclick = function() {
-            item.classList.toggle('selected');
-        };
-        gridContainer.appendChild(item);
-    });
-}
-
-function openCaptcha() {
-    // 点击“检查您是人类”后，关闭当前安全验证提示，并打开九宫格弹窗
-    document.getElementById("ov").style.display = "none";
-    document.getElementById('captchaOverlay').style.display = 'flex';
-    initGrid();
-}
-
-function refreshImages() {
-    initGrid();
-}
-
-function verifyCaptcha() {
-    const selectedItems = document.querySelectorAll('.captcha-box .grid-item.selected');
-    const selectedIndices = Array.from(selectedItems)
-        .map(item => parseInt(item.dataset.index))
-        .sort((a, b) => a - b);
-
-    const correctAnswers = [1, 3, 5, 7, 9];
-
-    const isMatch = selectedIndices.length === correctAnswers.length &&
-                    selectedIndices.every((val, index) => val === correctAnswers[index]);
-
-    if (isMatch) {
-        alert("验证成功！通过人机校验。");
-        document.getElementById('captchaOverlay').style.display = 'none';
-        start(); // 验证成功后直接进入校园广播站背景音及主程序
-    } else {
-        alert("验证错误！共5张图片。");
-        document.querySelectorAll('.captcha-box .grid-item').forEach(item => item.classList.remove('selected'));
-    }
-}
-
-// 点击背景遮罩关闭验证弹窗
-document.getElementById('captchaOverlay').onclick = function(e) {
-    if (e.target === this) {
-        this.style.display = 'none';
-    }
-};
-// ------------------------------------------------
-
 function togglePopup() {
     const popup = document.getElementById('lawyerPopup');
     if (popup.classList.contains('show')) {
@@ -1099,6 +946,8 @@ let isUnlocked = false;
 let lyricTimer = null;
 
 function start(){
+    document.getElementById("ov").style.display = "none";
+    
     const ambientAudio = document.getElementById("ambient-bgm");
     if (ambientAudio) {
         ambientAudio.loop = false;
@@ -1130,6 +979,7 @@ function tearTape(position, event) {
         if (currentStep === correctOrder.length) {
             isUnlocked = true;
             document.getElementById('pageWrap').classList.add('unlocked');
+            // 解锁后才正式开始启动歌词滚动
             startLyricsAnimation();
         }
     } else {
@@ -1153,6 +1003,7 @@ function resetTapes() {
     });
 }
 
+// 歌词同步轮播逻辑（抽离为独立函数，在撕完胶带后触发）
 function startLyricsAnimation() {
     const cantoneseLines = document.querySelectorAll('#col-cantonese .lyric-line');
     const mandarinLines = document.querySelectorAll('#col-mandarin .lyric-line');
@@ -1198,6 +1049,7 @@ function startLyricsAnimation() {
     lyricTimer = setInterval(updateLyrics, 2000);
 }
 
+// 图书卡翻页逻辑
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('stackContainer');
     if (!container) return;
@@ -1236,7 +1088,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateStackLayout();
 
     function flipNextCard(event) {
-        event.stopPropagation();
+        event.stopPropagation(); // 阻止事件冒泡，防止触发外层重置
         if (isAnimating || cards.length <= 1) return;
         isAnimating = true;
 
