@@ -106,6 +106,8 @@
             display: block;
             border-bottom: 1px solid #eee;
             margin-bottom: 6px;
+            cursor: pointer; /* 提示可点击 */
+            transition: transform 0.3s ease;
         }
 
         .figure-caption {
@@ -155,19 +157,58 @@
             font-weight: bold;
         }
 
-                            .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">extra6/31</div></head>
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+
+        /* 全屏灯箱样式 (Modal) */
+        .image-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .image-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-modal-overlay img {
+            max-width: 40vw; /* 限制最大宽度，避免图片过大 */
+            max-height: 40vh; /* 限制最大高度 */
+            object-fit: contain;
+            transform: scale(0.8) rotate(0deg);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            background: #fff;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .image-modal-overlay.active img {
+            transform: scale(1) rotate(90deg); /* 适度大小并右转 90 度 */
+        }
+    </style>
+</head>
 <body>
 
 <div class="book-page">
@@ -188,11 +229,11 @@
         
         <!-- 右侧插图：茶碱作用机制或血药浓度示意图 -->
         <div class="pharmacology-figure">
-           <img src="medicine.png" 
+           <img id="target-image" src="medicine.png" 
      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400';" 
      alt="茶碱（Theophylline）">
 
-<div class="figure-caption">茶碱分子结构图</div>
+            <div class="figure-caption">茶碱分子结构图</div>
         </div>
     </div>
 
@@ -250,6 +291,30 @@
         - 286 -
     </div>
 </div>
+
+<!-- 全屏放大查看容器 -->
+<div id="imageModal" class="image-modal-overlay">
+    <img id="modalImage" src="" alt="放大图片">
+</div>
+
+<div class="progress-indicator">extra6/31</div>
+
+<script>
+    const imgElement = document.getElementById('target-image');
+    const modalOverlay = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+
+    // 点击图片时触发放大并旋转
+    imgElement.addEventListener('click', () => {
+        modalImage.src = imgElement.src;
+        modalOverlay.classList.add('active');
+    });
+
+    // 点击遮罩层或图片自身可关闭
+    modalOverlay.addEventListener('click', () => {
+        modalOverlay.classList.remove('active');
+    });
+</script>
 
 </body>
 </html>

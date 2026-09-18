@@ -266,6 +266,12 @@
         margin-top: 8px;
         text-decoration: none;
         color: inherit;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .media-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
     .media-thumb {
         display: table-cell;
@@ -289,22 +295,6 @@
         height: 50px;
         object-fit: cover;
         border-radius: 3px;
-    }
-
-    /* 《侧耳倾听》高亮突出样式 */
-    .media-card-highlight {
-        background: #fffdf5;
-        border: 1px solid #e8dec3;
-        border-left: 4px solid #007722;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
-        position: relative;
-    }
-    .media-card-highlight:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        background: #fffdf5;
-        color: inherit;
     }
 
     .media-info {
@@ -434,7 +424,7 @@
 </head>
 <body>
 
-<div class="progress-indicator">16/31</div>
+<div class="progress-indicator">17/31</div>
 
 <!-- 顶栏导航 -->
 <div class="global-nav">
@@ -450,7 +440,7 @@
     <div class="right-user">
         <a href="#">我的豆瓣</a>
         <a href="#">提醒</a>
-        <a href="#">账号设置</a>
+        <a href="#">edenduan@qmail.com</a>
         <a href="#">退出</a>
     </div>
 </div>
@@ -500,10 +490,9 @@
     <div class="main-container">
         <!-- Left Column: Broadcasts & Reviews -->
         <div class="content-column">
-            <div class="section-title">eden duan 的广播 (5)</div>
+            <div class="section-title">eden duan的广播 (5)</div>
 
-<!-- Status 1: 评价电影《看不见的客人》 -->
-         <!-- Status: 评价电影《看不见的客人》 -->
+            <!-- Status 1: 评价电影《看不见的客人》 -->
             <div class="status-item">
                 <div class="status-header">
                     <span class="status-author">eden duan</span>
@@ -527,7 +516,7 @@
                 </div>
             </div>
 
-                        <!-- Status 5: 评价《小鞋子》 -->
+            <!-- Status 5: 评价《小鞋子》 -->
             <div class="status-item">
                 <div class="status-header">
                     <span class="status-author">eden duan</span>
@@ -552,7 +541,6 @@
                 </div>
             </div>
 
-
             <!-- Status 4: 纯文字广播 -->
             <div class="status-item">
                 <div class="status-header">
@@ -561,26 +549,23 @@
                     <span class="status-date">2018-04-07 21:40</span>
                 </div>
                 <div class="status-text">
-很奇怪，明明每年都记得这一天，却越来越想不起你的样子了。<br>
-前几天做梦，梦见的却是你躺在病床上的背影。<br> <br>
-没想到吧，小时候我最怕去医院。后来你不在了，我反而不怕了。<br>
-一个人去医院，一个人面对很多事情，好像什么都可以了。<br> <br>
-也许我真的不该总跟爸对着干。<br>
-该考虑听他的话，读个医学院，再接管家里的事。<br>
-<br>
-可我想不明白，这样做究竟又能挽回些什么呢？<br> <br>
-我好像一直在想办法离你近一点，<br>
-却不知不觉，已经离你越来越远了。<br> <br>
-晚安，妈妈。<br>
-生日快乐🎂
-
+                    很奇怪，明明每年都记得这一天，却越来越想不起你的样子了。<br>
+                    前几天做梦，梦见的却是你躺在病床上的背影。<br> <br>
+                    没想到吧，小时候我最怕去医院。后来你不在了，我反而不怕了。<br>
+                    一个人去医院，一个人面对很多事情，好像什么都可以了。<br> <br>
+                    也许我真的不该总跟爸对着干。<br>
+                    该考虑听他的话，读个医学院，再接管家里的事。<br>
+                    <br>
+                    可我想不明白，这样做究竟又能挽回些什么呢？<br> <br>
+                    我好像一直在想办法离你近一点，<br>
+                    却不知不觉，已经离你越来越远了。<br> <br>
+                    晚安，妈妈。<br>
+                    生日快乐🎂
                 </div>
                 <div class="status-footer">
                     <span>赞 (8)</span> <span>回应</span> <span>转播</span>
                 </div>
             </div>
-
-
 
             <!-- Status 2: 评价音乐《Take Me Home, Country Roads》 -->
             <div class="status-item">
@@ -591,7 +576,6 @@
                     <span class="status-date">2018-03-25 22:10</span>
                 </div>
                 <div class="status-text">
-                  
                 </div>
                 <div class="media-card media-card-music">
                     <div class="media-thumb">
@@ -607,42 +591,38 @@
                 </div>
             </div>
 
-            <!-- Status 3: 评价电影《侧耳倾听》（高亮突出 + 点击跳转 library.html） -->
-        <div class="status-item">
-    <div class="status-header">
-        <span class="status-author">eden duan</span>
-        <span class="status-action">看过</span>
-        <span class="rating-stars">★★★★★</span>
-        <span class="status-date">2018-03-25 21:30</span>
-    </div>
-    <div class="status-text">
-        “为了让我的名字早点出现在借书卡上，我看了好多书。”
-
-
-    </div>
-     <div class="media-card">
-                     <div class="media-thumb">
-            <img src="listen.png" alt="侧耳倾听">
-        </div>
-        <div class="media-info">
-            <div class="media-title">侧耳倾听 耳をすませば (1995)</div>
-            <div class="media-desc">导演: 近藤喜文<br>编剧: 宫崎骏<br>日本 / 剧情 / 爱情 / 动画</div>
-        </div>
+            <!-- Status 3: 评价电影《侧耳倾听》 -->
+            <div class="status-item">
+                <div class="status-header">
+                    <span class="status-author">eden duan</span>
+                    <span class="status-action">看过</span>
+                    <span class="rating-stars">★★★★★</span>
+                    <span class="status-date">2018-03-25 21:30</span>
                 </div>
+                <div class="status-text">
+                    “为了让我的名字早点出现在借书卡上，我看了好多书。”
+                </div>
+                <div class="media-card" onclick="window.open('https://movie.douban.com/subject/1297052/', '_blank')">
+                    <div class="media-thumb">
+                        <img src="listen.png" alt="侧耳倾听">
+                    </div>
+                    <div class="media-info">
+                        <div class="media-title">侧耳倾听 耳/をすませば (1995)</div>
+                        <div class="media-desc">导演: 近藤喜文<br>编剧: 宫崎骏<br>日本 / 剧情 / 爱情 / 动画</div>
+                    </div>
+                </div>
+                <div class="status-footer">
+                    <span>赞 (12)</span> <span>回应</span> <span>转播 (1)</span>
+                </div>
+            </div>
 
-
-    <div class="status-footer">
-        <span>赞 (12)</span> <span>回应</span> <span>转播 (1)</span>
-    </div>
-</div>
-
-        </div>
+        </div> <!-- /.content-column (已正确补全闭合标签) -->
 
         <!-- Right Column: Sidebar -->
         <div class="sidebar-column">
             <!-- 档案库统计 -->
             <div class="sidebar-block">
-                <div class="sidebar-title">eden duan 的档案库</div>
+                <div class="sidebar-title">eden duan的档案库</div>
                 <ul class="movie-stats-list">
                     <li>看过 <a href="#">124 部电影</a> · 想看 <a href="#">35 部</a></li>
                     <li>读过 <a href="#">48 本书</a> · 想读 <a href="#">12 本</a></li>
@@ -664,7 +644,7 @@
 
             <!-- 关注的人 -->
             <div class="sidebar-block">
-                <div class="sidebar-title">eden duan 关注的人 (22)</div>
+                <div class="sidebar-title">eden duan关注的人 (22)</div>
                 <div class="following-grid">
                     <div class="following-item">
                         <div class="following-avatar" style="background:#b2c8bb;"></div>
@@ -694,14 +674,15 @@
                     <li><a href="#">买书如山倒 读书如抽丝</a> (45820 人)</li>
                 </ul>
             </div>
-        </div>
-    </div>
+        </div> <!-- /.sidebar-column -->
+
+    </div> <!-- /.main-container -->
 
     <div class="douban-footer-note">
         © 2005－2018 douban.com, all rights reserved 豆瓣个人主页
     </div>
 
-</div>
+</div> <!-- /.page-wrapper -->
 
 </body>
 </html>

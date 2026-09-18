@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>青州大学 - 2026年“青蓝专项”招生简章</title>
+    <title>青州大学 - 2026年“青蓝专项”招生与录取查询</title>
     <style>
         :root {
             /* 青州大学主题色 */
@@ -116,14 +116,16 @@
             font-size: 0.95em;
             color: var(--text-dark);
             text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
         }
         
-        .sidebar a:hover, .sidebar .active {
+        .sidebar a:hover, .sidebar a.active {
             background-color: #f0f7ff;
             color: var(--qz-blue);
             font-weight: 600;
         }
-        .sidebar .active {
+        .sidebar a.active {
             border-left: 4px solid var(--qz-blue);
             padding-left: 11px;
         }
@@ -131,6 +133,14 @@
         /* --- 内容主体部分 --- */
         .main-content-body {
             flex: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .section-title {
@@ -195,30 +205,6 @@
             color: #333;
         }
 
-        .warning-box {
-            background-color: #fff8f8;
-            border-left: 4px solid #d9534f;
-            border-top: 1px solid #f5d6d6;
-            border-right: 1px solid #f5d6d6;
-            border-bottom: 1px solid #f5d6d6;
-            padding: 16px 20px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .warning-title {
-            font-size: 1.05em;
-            font-weight: bold;
-            color: #c9302c;
-            margin-bottom: 6px;
-        }
-
-        .warning-desc {
-            color: #555;
-            font-size: 0.95em;
-            text-indent: 0 !important;
-        }
-
         /* 流程表格 */
         .process-table {
             width: 100%;
@@ -233,13 +219,6 @@
             border: 1px solid #e0e0e0;
             vertical-align: top;
             text-align: left;
-        }
-
-        .step-num {
-            font-size: 0.85em;
-            font-weight: bold;
-            color: var(--qz-blue);
-            margin-bottom: 5px;
         }
 
         .step-title {
@@ -284,11 +263,135 @@
             font-weight: bold;
             transition: background-color 0.3s;
             white-space: nowrap;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-alumni:hover {
             background-color: #003366;
             color: white;
+        }
+
+        /* --- 筛选表单区域 --- */
+        .filter-card {
+            background-color: #f0f7ff;
+            border: 1px solid #d0e2f7;
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: var(--qz-blue);
+            white-space: nowrap;
+        }
+
+        .form-control {
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.95em;
+            outline: none;
+            background-color: white;
+            min-width: 160px;
+        }
+
+        .form-control:focus {
+            border-color: var(--qz-blue);
+            box-shadow: 0 0 0 2px rgba(0, 76, 153, 0.2);
+        }
+
+        .btn-search {
+            background-color: var(--qz-blue);
+            color: white;
+            border: none;
+            padding: 9px 24px;
+            font-size: 0.95em;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .btn-search:hover {
+            background-color: #003366;
+        }
+
+        /* --- 查询结果表格 --- */
+        .result-container {
+            display: none; 
+            margin-top: 20px;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .result-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #222;
+        }
+
+        .result-count {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid #e0e0e0;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f5f5f5;
+            color: var(--qz-blue);
+            font-weight: bold;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .data-table tr:hover {
+            background-color: #f0f7ff;
+        }
+
+        .empty-tip {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            background-color: #fafafa;
+            border: 1px dashed #ddd;
+            border-radius: 4px;
+            margin-top: 20px;
         }
 
         /* 页脚 */
@@ -300,19 +403,22 @@
             font-size: 0.85em;
             margin-top: 40px;
         }
-     .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">4/31</div></head>
+
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">5/31</div>
+</head>
 <body>
     <!-- 主导航栏 -->
     <nav class="navbar">
@@ -330,8 +436,8 @@
 
     <!-- 页头结构 -->
     <div class="page-header">
-        <h1>2026年青州大学“青蓝专项”招生简章</h1>
-<p>2026 QINGZHOU UNIVERSITY QINGLAN PROGRAM</p>
+        <h1 id="headerTitle">2026年青州大学“青蓝专项”招生简章</h1>
+        <p id="headerSub">2026 QINGZHOU UNIVERSITY QINGLAN PROGRAM</p>
     </div>
 
     <!-- 主体内容布局 -->
@@ -341,75 +447,138 @@
             <!-- 侧边栏 -->
             <div class="sidebar">
                 <ul>
-                    <li><a href="#">本科生招生</a></li>
-                    <li><a href="#" class="active">强基招生</a></li>
-                    <li><a href="#">研究生招生</a></li>
-                    <li><a href="#">国际学生招生</a></li>
+                    <li><a onclick="switchTab('camp', this)">本科生招生</a></li>
+                    <li><a onclick="switchTab('camp', this)" class="active" id="sidebarCamp">强基招生</a></li>
+                    <li><a onclick="switchTab('camp', this)">研究生招生</a></li>
+                    <li><a onclick="switchTab('camp', this)">国际学生招生</a></li>
                 </ul>
             </div>
 
-            <!-- 简章主体内容 -->
+            <!-- 主体内容区域 -->
             <div class="main-content-body">
                 
-                <h2 class="section-title">一、 项目背景与培养目标</h2>
-                <p>
-                    “青蓝专项”体验营是由青州大学医学部主办的中学生拔尖人才选拔项目。项目旨在贯彻国家“强基计划”政策精神，挖掘并培养具有强烈医学志向与卓越学术潜质的未来医学家。
-                </p>
+                <!-- 模块一：招生简章 (camp.html 内容) -->
+                <div id="tab-camp" class="tab-content active">
+                    <h2 class="section-title">一、 项目背景与培养目标</h2>
+                    <p>
+                        “青蓝专项”体验营是由青州大学医学部主办的中学生拔尖人才选拔项目。项目旨在贯彻国家“强基计划”政策精神，挖掘并培养具有强烈医学志向与卓越学术潜质的未来医学家。
+                    </p>
 
-                <h2 class="section-title">二、“优秀营员”评选政策</h2>
-                <p>
-                    体验营期间，专家评审组将对参营学员的学术思维、临床素质及团队协作进行综合评价，择优评选“优秀营员”。
-                </p>
-                <ul class="custom-list">
-<li><b>专项录取：</b>优秀营员可纳入专项招生评价范围，符合条件者可享受相应招生政策。</li>
-<li><b>学费资助：</b>优秀营员可申请专项奖学金及学费资助，具体标准以学校规定为准。</li>                </ul>
+                    <h2 class="section-title">二、“优秀营员”评选政策</h2>
+                    <p>
+                        体验营期间，专家评审组将对参营学员的学术思维、临床素质及团队协作进行综合评价，择优评选“优秀营员”。
+                    </p>
+                    <ul class="custom-list">
+                        <li><b>专项录取：</b>优秀营员可纳入专项招生评价范围，符合条件者可享受相应招生政策。</li>
+                        <li><b>学费资助：</b>优秀营员可申请专项奖学金及学费资助，具体标准以学校规定为准。</li>                
+                    </ul>
 
-                <h2 class="section-title">三、 申报条件与选拔机制</h2>
-                <p><b>基础申报资格：</b></p>
-                <ul class="custom-list">
-                    <li>对医学、生物科学及生命健康领域抱有浓厚兴趣，综合学业成绩优异的高二年级学生。</li>
-                    <li>具有良好的身心素质与道德品质。</li>
-                </ul>
+                    <h2 class="section-title">三、 申报条件与选拔机制</h2>
+                    <p><b>基础申报资格：</b></p>
+                    <ul class="custom-list">
+                        <li>对医学、生物科学及生命健康领域抱有浓厚兴趣，综合学业成绩优异的高二年级学生。</li>
+                        <li>具有良好的身心素质与道德品质。</li>
+                    </ul>
 
-                <!-- 选拔与推荐机制暗示框 -->
-                <div class="callout-box">
-                    <div class="callout-title">评审机制说明</div>
-                    <div class="callout-desc">
-                        <ul>
-                            <li><b>名额限制：</b>每所合作高中学校仅限推荐1名候选人，请各校严格把关、择优推荐。</li>                        </ul>
+                    <div class="callout-box">
+                        <div class="callout-title">评审机制说明</div>
+                        <div class="callout-desc">
+                            <ul>
+                                <li><b>名额限制：</b>每所合作高中学校仅限推荐1名候选人，请各校严格把关、择优推荐。</li>                        
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h2 class="section-title">四、 报名与选拔流程</h2>
+                    <table class="process-table">
+                        <tr>
+                            <td class="process-step">
+                                <div class="step-title">校内遴选</div>
+                                <div class="step-desc">合作高中按照“一校一名额”原则进行校内初审。</div>
+                            </td>
+                            <td class="process-step">
+                                <div class="step-title">材料提交</div>
+                                <div class="step-desc">提交本人申请材料。</div>
+                            </td>
+                            <td class="process-step">
+                                <div class="step-title">资格审核</div>
+                                <div class="step-desc">专家组进行综合评审。</div>
+                            </td>
+                            <td class="process-step">
+                                <div class="step-title">入营评优</div>
+                                <div class="step-desc">参加体验营与考核。</div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2 class="section-title">五、 往届录取名单查询</h2>
+                    <div class="alumni-link-box">
+                        <div>
+                            <strong>往学员名录系统</strong>
+                            <p>如需查阅历年“青蓝专项”录取学员名单，请点击下方系统入口查询。</p>
+                        </div>
+                        <button class="btn-alumni" onclick="switchTabToAlumni()">前往查询 &raquo;</button>
                     </div>
                 </div>
 
-                <h2 class="section-title">四、 报名与选拔流程</h2>
-                <table class="process-table">
-                    <tr>
-                        <td class="process-step">
-                            <div class="step-title">校内遴选</div>
-                            <div class="step-desc">合作高中按照“一校一名额”原则进行校内初审。</div>
-                        </td>
-                        <td class="process-step">
-                            <div class="step-title">材料提交</div>
-                            <div class="step-desc">提交本人申请材料。</div>
-                        </td>
-                        <td class="process-step">
-                            <div class="step-title">资格审核</div>
-                            <div class="step-desc">专家组进行综合评审。</div>
-                        </td>
-                        <td class="process-step">
-                            <div class="step-title">入营评优</div>
-                            <div class="step-desc">参加体验营与考核。</div>
-                        </td>
-                    </tr>
-                </table>
+                <!-- 模块二：历史录取查询 (alumni.html 内容) -->
+                <div id="tab-alumni" class="tab-content">
+                    <h2 class="section-title">录取学员信息查询</h2>
+                    
+                    <div class="filter-card">
+                        <form id="searchForm" class="filter-form" onsubmit="handleSearch(event)">
+                            <div class="form-group">
+                                <label for="yearSelect">选择年份：</label>
+                                <select id="yearSelect" class="form-control" required>
+                                    <option value="">-- 请选择年份 --</option>
+                                    <option value="2017">2017年</option>
+                                    <option value="2018">2018年</option>
+                                    <option value="2019">2019年</option>
+                                    <option value="2020">2020年</option>
+                                    <option value="2021">2021年</option>
+                                </select>
+                            </div>
 
-                <!-- 新增：五、往届录取名单查询 -->
-                <h2 class="section-title">五、 往届录取名单查询</h2>
-                <div class="alumni-link-box">
-                    <div>
-<strong>往届学员名录系统</strong>
-                        <p>如需查阅历年“青蓝专项”录取学员名单，请点击下方系统入口查询。</p>
+                            <div class="form-group">
+                                <label for="regionSelect">生源地区：</label>
+                                <select id="regionSelect" class="form-control" required>
+                                    <option value="">-- 请选择地区 --</option>
+                                    <option value="tongzhou">桐州</option>
+                                    <option value="linzhou">凛州</option>
+                                    <option value="qingzhou">青州</option>
+                                    <option value="changzhou">昌州</option>
+                                    <option value="wuzhou">吾州</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn-search">查询名单</button>
+                        </form>
                     </div>
-                    <a href="alumni.html" target="_blank" class="btn-alumni">前往查询 &raquo;</a>
+
+                    <div id="resultBox" class="result-container">
+                        <div class="result-header">
+                            <span class="result-title" id="resultTitle">2019年【青州地区】“青蓝专项”录取名单</span>
+                            <span class="result-count">共查询到 <b>5</b> 名学员</span>
+                        </div>
+
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>姓名</th>
+                                    <th>入选年份</th>
+                                    <th>入选方向</th>
+                                </tr>
+                            </thead>
+                            <tbody id="alumniTableBody">
+                                <!-- 动态注入列表内容 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="emptyTip" class="empty-tip">
+                        暂未查询到符合条件的录取名单，请重新选择【年份】与【生源地区】组合进行查询。
+                    </div>
                 </div>
 
             </div>
@@ -420,5 +589,75 @@
     <footer class="footer">
         青州大学医学部招生办公室 · 拔尖创新人才培养中心 | 临ICP备 19000001号-1
     </footer>
+
+    <!-- 交互脚本 -->
+    <script>
+        function switchTab(tabName, element) {
+            // 切换标签显示
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            // 侧边栏高亮切换
+            document.querySelectorAll('.sidebar a').forEach(el => el.classList.remove('active'));
+            if (element) {
+                element.classList.add('active');
+            }
+
+            // 动态修改页头信息
+            const headerTitle = document.getElementById('headerTitle');
+            const headerSub = document.getElementById('headerSub');
+            if (tabName === 'alumni') {
+                headerTitle.textContent = '“青蓝专项”录取名录查询';
+                headerSub.textContent = 'QINGZHOU UNIVERSITY QINGLAN PROGRAM SELECTION LIST';
+            } else {
+                headerTitle.textContent = '2026年青州大学“青蓝专项”招生简章';
+                headerSub.textContent = '2026 QINGZHOU UNIVERSITY QINGLAN PROGRAM';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchTabToAlumni() {
+            const alumniSidebarLink = document.getElementById('sidebarAlumni');
+            switchTab('alumni', alumniSidebarLink);
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+
+            const year = document.getElementById('yearSelect').value;
+            const region = document.getElementById('regionSelect').value;
+            const resultBox = document.getElementById('resultBox');
+            const emptyTip = document.getElementById('emptyTip');
+            const tableBody = document.getElementById('alumniTableBody');
+            const resultTitle = document.getElementById('resultTitle');
+
+            // 检查是否选中的是：2018 & 青州 (或者根据原逻辑适配)
+            if (year === '2019' && region === 'qingzhou') {
+                const listData = [
+                    { name: '林浩然', school: '青州市第一中学', year: '2019年', major: '基础医学' },
+                    { name: '陈思语', school: '青州市第八中学', year: '2019年', major: '预防医学' },
+                    { name: '许泽宇', school: '青州外国语学校', year: '2019年', major: '生物医学工程' },
+                    { name: '顾思佳', school: '青州大学附属高中', year: '2019年', major: '临床医学' },
+                    { name: '周扬', school: '青州育才中学', year: '2019年', major: '药学（创新班）' }
+                ];
+
+                tableBody.innerHTML = listData.map((item, index) => `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><b>${item.name}</b></td>
+                        <td>${item.year}</td>
+                        <td>${item.major}</td>
+                    </tr>
+                `).join('');
+
+                resultTitle.textContent = `2019年【青州地区】“青蓝专项”录取名录`;
+                resultBox.style.display = 'block';
+                emptyTip.style.display = 'none';
+            } else {
+                resultBox.style.display = 'none';
+                emptyTip.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -2,23 +2,20 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>青州大学附属高中 - 校友天地</title>
+    <title>青州大学附属高中 - 校友天地（查询前）</title>
     <style>
-        /* ==================== 【色彩体系：全面与主页/公告页保持一致】 ==================== */
         :root {
-            --school-blue: #003366;       /* 核心学术深海蓝 */
-            --school-accent: #0056b3;     /* 次级活力科技蓝 */
-            --school-light-blue: #e6f2ff; /* 亮蓝色点缀/高亮背景 */
-            --ink-blue: #002244;          /* 沉稳公文墨蓝 */
-            --alert-blue: #0066cc;        /* 重点提示蓝 */
-            --bg-gray: #f4f7fa;           /* 现代学术淡蓝灰背景 */
-            --text-dark: #1a2530;         /* 深蓝偏黑色文字 */
+            --school-blue: #003366;       
+            --school-accent: #0056b3;     
+            --school-light-blue: #e6f2ff; 
+            --ink-blue: #002244;          
+            --bg-gray: #f4f7fa;           
+            --text-dark: #1a2530;         
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #e2e7ec; font-family: "PingFang SC", "Microsoft YaHei", sans-serif; color: var(--text-dark); }
 
-        /* 全屏视图容器 */
         .safari-view {
             width: 100vw;
             height: 100vh;
@@ -28,7 +25,6 @@
             overflow: hidden;
         }
 
-        /* 网页主体滚动区 */
         .page-content {
             flex: 1;
             overflow-y: auto;
@@ -38,7 +34,6 @@
             background-position: 0 0, 12px 12px;
         }
 
-        /* ==================== 【头部 Logo 区】 ==================== */
         .school-header {
             background: #fff;
             padding: 20px 10%;
@@ -63,12 +58,10 @@
         .logo-image-container img { width: 100%; height: 100%; object-fit: cover; }
         .school-name-img { height: 75px; width: auto; object-fit: contain; display: block; }
 
-        /* 导航菜单 */
         .nav-menu { display: flex; gap: 25px; font-size: 16px; font-weight: 600; }
         .nav-menu a { color: var(--text-dark); text-decoration: none; padding-bottom: 5px; transition: color 0.2s; }
         .nav-menu a:hover, .nav-menu a.active { color: var(--school-accent); border-bottom: 2px solid var(--school-accent); }
 
-        /* Banner & 核心搜索区 */
         .hero-section {
             padding: 45px 20px;
             background: linear-gradient(rgba(0, 51, 102, 0.75), rgba(26, 37, 48, 0.85)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1200&q=80');
@@ -91,39 +84,16 @@
         .search-btn {
             position: absolute; right: 5px; top: 5px; bottom: 5px; width: 110px;
             background: var(--school-blue); color: white; border: none; border-radius: 18px; font-size: 14px; cursor: pointer;
-            font-weight: bold; transition: background 0.2s;
+            font-weight: bold; transition: background 0.2s; text-decoration: none; display: flex; align-items: center; justify-content: center;
         }
         .search-btn:hover { background: var(--school-accent); }
 
-        /* ==================== 【搜索结果弹窗 / 卡片展示】 ==================== */
-        .search-result-modal {
-            max-width: 640px; margin: 30px auto 40px auto; padding: 0 20px; display: none;
+        /* 错误提示小红条样式 */
+        .error-tip {
+            color: #ffcccc; font-size: 12px; margin-top: 8px; text-align: center; height: 18px; font-weight: 500;
         }
-        .alumni-card {
-            background: #fff; border: 1px solid #cce0ff; border-top: 4px solid var(--school-blue);
-            border-radius: 6px; padding: 20px 25px; box-shadow: 0 6px 20px rgba(0,51,102,0.1); position: relative;
-        }
-        .alumni-card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #d0daf0; padding-bottom: 12px; margin-bottom: 15px; }
-        .alumni-name { font-size: 20px; font-weight: bold; color: var(--ink-blue); display: flex; align-items: center; gap: 10px; }
-        .alumni-tag { font-size: 12px; background: var(--school-light-blue); color: var(--school-accent); padding: 2px 8px; border-radius: 4px; font-weight: normal; }
-        .close-card-btn { cursor: pointer; color: #999; font-size: 18px; border: none; background: none; }
-        .close-card-btn:hover { color: #333; }
-        
-        .alumni-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 14.5px; }
-        .alumni-item { display: flex; align-items: center; }
-        .alumni-label { color: #64748b; width: 110px; flex-shrink: 0; }
-        .alumni-value { color: var(--text-dark); font-weight: 500; }
 
-        /* 通用标题格式 */
-        .main-section-title {
-            text-align: center; font-size: 22px; color: var(--ink-blue); margin: 35px 0 25px 0; position: relative; display: flex; align-items: center; justify-content: center; gap: 15px;
-        }
-        .main-section-title::before, .main-section-title::after { content: "══★══"; color: var(--school-accent); font-size: 13px; opacity: 0.7; }
-
-        /* 布局主体 */
         .alumni-body-container { max-width: 1300px; margin: 0 auto; padding: 0 40px; }
-
-        /* 两栏模块：校友动态 & 捐赠/回忆 */
         .alumni-two-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; margin: 40px 0; }
         .col-block { background: #fff; padding: 25px; border-radius: 4px; border: 1px solid #d0daf0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
         .block-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--school-blue); padding-bottom: 10px; margin-bottom: 18px; }
@@ -138,12 +108,10 @@
         .news-item a:hover { color: var(--school-accent); }
         .news-date { color: #94a3b8; font-family: monospace; font-size: 13px; }
 
-        /* 捐赠芳名录滚屏表格 */
         .donate-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 5px; }
         .donate-table th, .donate-table td { padding: 9px 12px; text-align: left; border-bottom: 1px solid #edf2f7; }
         .donate-table th { background: var(--bg-gray); color: var(--ink-blue); font-weight: 600; }
 
-        /* 页脚 */
         .school-footer { background: #0f172a; color: #94a3b8; padding: 30px 10%; text-align: center; font-size: 13px; line-height: 1.8; border-top: 5px solid var(--school-blue); }
         .footer-links { margin-bottom: 10px; color: #64748b; }
 
@@ -151,26 +119,19 @@
             .alumni-two-col { grid-template-columns: 1fr; }
             .alumni-body-container { padding: 0 20px; }
         }
-
-                            .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">6/31</div></head>
+        .progress-indicator {
+            position: fixed; bottom: 20px; right: 20px;
+            background: rgba(0,0,0,0.6); color: #fff; padding: 6px 10px;
+            border-radius: 8px; font-family: monospace; font-size: 0.85rem; z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">8/31</div>
+</head>
 <body>
 
 <div class="safari-view">
     <div class="page-content">
         
-        <!-- 头部导航 -->
         <header class="school-header">
             <div class="school-logo">
                 <div class="logo-image-container">
@@ -187,44 +148,20 @@
             </nav>
         </header>
 
-        <!-- 主视觉 Banner 与校友档案查询系统 -->
         <div class="hero-section">
             <h2 class="hero-title">青水长流，木铎起思 —— 欢迎广大校友回家</h2>
             <p class="hero-subtitle">校友通讯录查询系统</p>
             <div class="search-container">
                 <input type="text" id="alumniSearchInput" class="search-input" placeholder="输入学号检索联系方式...">
-                <button id="alumniSearchBtn" class="search-btn">联络查询</button>
+                <!-- 绑定点击事件，通过 JS 动态拦截 -->
+                <button type="button" id="searchSubmitBtn" class="search-btn">联络查询</button>
             </div>
+            <!-- 错误提示文本 -->
+            <div id="errorTip" class="error-tip"></div>
         </div>
 
-        <!-- 动态查询结果弹窗 -->
-        <div id="searchResultArea" class="search-result-modal">
-            <div class="alumni-card">
-                <div class="alumni-card-header">
-                    <div class="alumni-name">
-                        <span id="resName">--</span>
-                        <span class="alumni-tag" id="resTag">认证校友档案</span>
-                    </div>
-                    <button class="close-card-btn" id="closeCardBtn">✕</button>
-                </div>
-                <div class="alumni-grid">
-                    <div class="alumni-item"><span class="alumni-label">学号：</span><span class="alumni-value" id="resStudentId">--</span></div>
-                    <div class="alumni-item"><span class="alumni-label">生源地：</span><span class="alumni-value" id="resHome">--</span></div>
-                                        <div class="alumni-item"><span class="alumni-label">联系电话：</span><span class="alumni-value" id="resPhone">--</span></div>
-                    <div class="alumni-item"><span class="alumni-label">紧急联系人：</span><span class="alumni-value" id="resContact">--</span></div>
-                    <div class="alumni-item"><span class="alumni-label">关系：</span><span class="alumni-value" id="resRelation">--</span></div>
-                    <div class="alumni-item"><span class="alumni-label">紧急联系电话：</span><span class="alumni-value" id="resContactPhone">--</span></div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- 页面核心主体区（搜索成功后隐藏） -->
-        <div class="alumni-body-container" id="alumniBodyContainer">
-            
-            <!-- 两栏功能区：校友动态 & 捐赠回忆 -->
+        <div class="alumni-body-container">
             <div class="alumni-two-col">
-                <!-- 左：校友会新闻动态 -->
                 <div class="col-block">
                     <div class="block-header">
                         <span class="block-title">校友动态</span>
@@ -239,11 +176,10 @@
                     </ul>
                 </div>
 
-                <!-- 右：校友捐赠芳名录 -->
                 <div class="col-block">
                     <div class="block-header">
                         <span class="block-title">校友捐赠</span>
-             <a href="404.html" class="more-link" target="_blank" style="color: rgb(152, 131, 92);">我要捐赠 ⊕</a>
+                        <a href="404.html" class="more-link" target="_blank" style="color: rgb(152, 131, 92);">我要捐赠 ⊕</a>
                     </div>
                     <table class="donate-table">
                         <thead>
@@ -278,10 +214,8 @@
                     </table>
                 </div>
             </div>
-
         </div>
 
-        <!-- 底部落款 -->
         <footer class="school-footer">
             <div class="footer-links">
                 <span>校友会联系电话：0312-XXXXXXX</span> | <span>地址：中国·临渊·青州市勤学路1号 校友楼302室</span>
@@ -292,63 +226,32 @@
 </div>
 
 <script>
-    // 校友通讯录模拟数据库
-    const alumniDatabase = {
-        "20171940323": {
-            name: "顾思佳",
-            studentId: "20171940323",
-            home: "凛州",
-            contact: "顾兆元",
-            relation: "外公",
-            contactPhone: "136xxxx0729",
-            phone: "138xxxx2923",
-            tag: "2020届 认证校友"
-        }
-    };
-
+    // 学号校验逻辑
+    const correctStudentId = "20171940323";
     const searchInput = document.getElementById('alumniSearchInput');
-    const searchBtn = document.getElementById('alumniSearchBtn');
-    const resultArea = document.getElementById('searchResultArea');
-    const bodyContainer = document.getElementById('alumniBodyContainer');
-    const closeBtn = document.getElementById('closeCardBtn');
+    const searchBtn = document.getElementById('searchSubmitBtn');
+    const errorTip = document.getElementById('errorTip');
 
-    function searchAlumni() {
-        const query = searchInput.value.trim();
-        if (!query) {
-            alert('请输入学号进行查询！');
-            return;
-        }
-
-        const data = alumniDatabase[query];
-        if (data) {
-            document.getElementById('resName').textContent = data.name;
-            document.getElementById('resStudentId').textContent = data.studentId;
-            document.getElementById('resHome').textContent = data.home;
-            document.getElementById('resContact').textContent = data.contact;
-            document.getElementById('resRelation').textContent = data.relation;
-            document.getElementById('resContactPhone').textContent = data.contactPhone;
-            document.getElementById('resPhone').textContent = data.phone;
-            document.getElementById('resTag').textContent = data.tag;
-            
-            // 显示卡片并隐藏底部新闻主体
-            resultArea.style.display = 'block';
-            bodyContainer.style.display = 'none';
-            resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    searchBtn.addEventListener('click', function() {
+        const val = searchInput.value.trim();
+        if (val === "") {
+            errorTip.textContent = "请输入要查询的学号！";
+            searchInput.focus();
+        } else if (val === correctStudentId) {
+            errorTip.textContent = "";
+            // 正确则跳转到 alumni2.html
+            window.location.href = "alumni2.html";
         } else {
-            resultArea.style.display = 'none';
-            bodyContainer.style.display = 'block';
-            alert('未查询到学号 [' + query + '] 对应的校友档案信息。请确认学号输入是否正确。');
+            errorTip.textContent = "未找到该学号对应的校友档案，请核对后重试。";
+            searchInput.focus();
         }
-    }
-
-    searchBtn.addEventListener('click', searchAlumni);
-    searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') { searchAlumni(); }
     });
 
-    closeBtn.addEventListener('click', function() {
-        resultArea.style.display = 'none';
-        bodyContainer.style.display = 'block'; // 点击关闭图标恢复显示底部新闻
+    // 支持回车键直接触发查询
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchBtn.click();
+        }
     });
 </script>
 

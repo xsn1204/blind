@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>404药案重启事件 - 游戏攻略与剧情解答</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #e6e6e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Noto Serif SC', 'Songti SC', SimSun, serif;
+        }
+
+        /* 封面主容器，整体背景改为干净的白色/米白色 */
+        .book-cover {
+            width: 420px;
+            height: 594px;
+            background-color: #fbfbfb;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .cover-header, .cover-body {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 上半部分区域：放置 dujuan.jpg 插图，比例加大至 48% */
+        .cover-header {
+            height: 48%;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        /* dujuan.jpg 插图样式 */
+        .cover-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 下半部分：文字与排版区域 */
+        .cover-body {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+        }
+
+        /* 英文副标：深色 */
+        .german-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333333;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        /* 中间树叶小插图：深色 */
+        .leaves-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .leaves-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: #444444;
+        }
+
+        /* 中文主书名区域 */
+        .main-title {
+            text-align: center;
+            line-height: 1.35;
+        }
+
+        .title-line-1 {
+            font-family: 'Noto Serif SC', 'Songti SC', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: #1a1a1a;
+            letter-spacing: 6px;
+            margin-left: 6px;
+            margin-bottom: 4px;
+        }
+
+        .title-line-2 {
+            font-family: 'Noto Serif SC', 'Songti SC', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #444444;
+            letter-spacing: 6px;
+            margin-left: 6px;
+        }
+
+        /* 左右两侧竖排文字：深色 */
+        .side-text {
+            position: absolute;
+            writing-mode: vertical-rl;
+            font-size: 11px;
+            color: #555555;
+            letter-spacing: 3px;
+            line-height: 1.8;
+        }
+
+        .side-text.left {
+            top: 60px;
+            left: 30px;
+        }
+
+        .side-text.right {
+            top: 60px;
+            right: 30px;
+        }
+
+        /* 底部系列丛书名与英文作者：深色 */
+        .cover-footer {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .series-name {
+            font-size: 11px;
+            color: #666666;
+            letter-spacing: 4px;
+        }
+
+        .author-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333333;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="book-cover">
+        <!-- 上半部分区域：加载 dujuan.jpg 插图（占比扩宽） -->
+        <div class="cover-header">
+            <img src="dujuan.jpg" alt="杜鹃插图">
+        </div>
+
+        <!-- 下半部分排版 -->
+        <div class="cover-body">
+            <!-- 英文副标题 -->
+            <div class="german-title">The 404 Pharma Case</div>
+
+            <!-- 树叶小插图 -->
+            <div class="leaves-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17.5,2C17.5,2 14,5 14,9.5C14,13 16,15 16,18C16,21 14,22 14,22C14,22 19,20 20,15C21,10 17.5,2 17.5,2Z" opacity="0.9"/>
+                    <path d="M9.5,4C9.5,4 6,7 6,11.5C6,15 8,17 8,20C8,23 6,24 6,24C6,24 11,22 12,17C13,12 9.5,4 9.5,4Z"/>
+                </svg>
+            </div>
+
+            <!-- 中文主书名 -->
+            <div class="main-title">
+                <div class="title-line-1">404药案<br>重启事件</div>
+                <div class="title-line-2">游戏攻略及剧情解答</div>
+            </div>
+
+            <!-- 左侧竖排引言 -->
+            <div class="side-text left">
+                全结局达成条件&<br>隐藏线索提示。
+            </div>
+
+            <!-- 右侧竖排作者信息 -->
+            <div class="side-text right">
+                AAA地下党 著<br>
+                404系列从书
+            </div>
+
+            <!-- 底部系列与英文作者 -->
+            <div class="cover-footer">
+                <div class="series-name">侦探自传式小说</div>
+                <div class="author-name">AAA Underground Guide</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
