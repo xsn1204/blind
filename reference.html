@@ -3,21 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>临床药理学 - 平喘药与茶碱类药物</title>
+    <title>青州大学附属高中 - 图书借阅与文献档案馆</title>
     <style>
-        /* 拟真医学教科书/专业参考书排版 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #e5e5e5;
-            font-family: "SimSun", "Songti SC", "Times New Roman", serif;
+            background-color: #1a1a1e;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
+            padding: 40px 20px;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            color: #2c2c2c;
         }
 
+        /* 隐藏/显示页面视图的通用控制类 */
+        .view-section {
+            display: none;
+            width: 100%;
+            justify-content: center;
+        }
+        .view-section.active {
+            display: flex;
+        }
+
+        /* ================= 视图一：借阅电子记录样式 ================= */
+        .record-container {
+            width: 720px;
+            background: #fdfbf7;
+            border-radius: 8px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 0 2px #d4af37;
+            overflow: hidden;
+            border: 1px solid #e2d9c2;
+        }
+
+        .record-header {
+            background: #003366;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .record-header h2 {
+            font-size: 18px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        .record-header span {
+            font-size: 12px;
+            color: #b3d9ff;
+            font-family: "Georgia", serif;
+        }
+
+        .record-body {
+            padding: 30px;
+        }
+
+        .user-info-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #cbd5e1;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .user-info-bar strong {
+            color: #003366;
+        }
+
+        .record-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 13.5px;
+        }
+
+        .record-table th {
+            background-color: #f1ede4;
+            color: #1d3557;
+            padding: 12px 14px;
+            font-weight: 600;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        .record-table td {
+            padding: 14px;
+            border-bottom: 1px solid #e2d9c2;
+            color: #333;
+        }
+
+        .record-table tr:hover {
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+
+        .book-link {
+            color: #003366;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .book-link:hover {
+            color: #d4af37;
+        }
+
+        .book-normal {
+            color: #555;
+            cursor: default;
+        }
+
+        .donor-tag {
+            display: inline-block;
+            background: rgba(0, 51, 102, 0.06);
+            color: #003366;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            border: 1px solid rgba(0, 51, 102, 0.15);
+        }
+
+        .record-footer {
+            padding: 20px 30px;
+            background: #f4f0e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e2d9c2;
+        }
+
+        .back-btn {
+            background: #003366;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: #002244;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #777;
+            font-style: italic;
+        }
+
+
+        /* ================= 视图二：《药理学》教科书内页样式 ================= */
         .book-page {
             background: #fffdf9;
             width: 100%;
@@ -29,9 +180,9 @@
             line-height: 1.6;
             box-sizing: border-box;
             position: relative;
+            font-family: "SimSun", "Songti SC", "Times New Roman", serif;
         }
 
-        /* 页眉与页码 */
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -47,13 +198,14 @@
             margin-top: 40px;
             border-top: 1px solid #aaa;
             padding-top: 10px;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 12px;
             font-family: "Times New Roman", serif;
             color: #666;
         }
 
-        /* 章节标题 */
         .chapter-title {
             font-family: "SimHei", "STHeiti", sans-serif;
             font-size: 20px;
@@ -71,14 +223,13 @@
             color: #000;
         }
 
-        p {
+        .book-page p {
             margin: 0 0 10px 0;
             text-indent: 2em;
             text-align: justify;
             font-size: 14px;
         }
 
-        /* 图文组合 */
         .top-content-wrapper {
             display: flex;
             gap: 20px;
@@ -106,7 +257,7 @@
             display: block;
             border-bottom: 1px solid #eee;
             margin-bottom: 6px;
-            cursor: pointer; /* 提示可点击 */
+            cursor: pointer;
             transition: transform 0.3s ease;
         }
 
@@ -117,7 +268,6 @@
             line-height: 1.4;
         }
 
-        /* 临床警示框 */
         .clinical-note {
             background-color: #fcf4f4;
             border: 1px solid #e0b4b4;
@@ -133,7 +283,6 @@
             color: #b22222;
         }
 
-        /* 药理表格 */
         .pharmacology-table {
             width: 100%;
             border-collapse: collapse;
@@ -191,10 +340,12 @@
             opacity: 1;
             visibility: visible;
         }
-
+.record-table td:first-child {
+    white-space: nowrap;
+}
         .image-modal-overlay img {
-            max-width: 40vw; /* 限制最大宽度，避免图片过大 */
-            max-height: 40vh; /* 限制最大高度 */
+            max-width: 40vw;
+            max-height: 40vh;
             object-fit: contain;
             transform: scale(0.8) rotate(0deg);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -205,116 +356,206 @@
         }
 
         .image-modal-overlay.active img {
-            transform: scale(1) rotate(90deg); /* 适度大小并右转 90 度 */
+            transform: scale(1) rotate(90deg);
         }
+
+        .hand-drawn-wavy {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 16' width='50' height='10'%3E%3Cpath d='M0,10 Q12,2 25,10 T50,10 T75,10 T100,10' fill='none' stroke='%23d93838' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' opacity='0.85'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: bottom;
+            padding-bottom: 5px;
+        }
+        .book-link {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
 
-<div class="book-page">
-    <div class="page-header">
-        <span>第二十五章 作用于呼吸系统的药物</span>
-        <span>第二节 平喘药（Antiasthmatic Drugs）</span>
-    </div>
+    <!-- ================= 视图一：图书借阅电子记录 ================= -->
+    <div id="viewRecord" class="view-section active">
+        <div class="record-container">
+            <div class="record-header">
+                <h2>图书借阅电子记录档案馆</h2>
+                <span>Archive ID: 2017-QDFZ1940323</span>
+            </div>
 
-    <div class="chapter-title">茶碱类药物（Theophylline and Derivatives）</div>
+            <div class="record-body">
+                <div class="user-info-bar">
+                    <div>借阅证号：<strong>20171940323</strong></div>
+                    <div>持卡人：<strong>顾思佳</strong></div>
+                    <div>统计时段：<strong>2017.11 - 2018.05</strong></div>
+                </div>
 
-    <!-- 上方文字与右侧图片组合 -->
-    <div class="top-content-wrapper">
-        <div class="top-text">
-            <p>茶碱（Theophylline）为甲基黄嘌呤类生物碱，是临床用于缓解支气管哮喘及慢性阻塞性肺疾病（COPD）的经典平喘药。其主要通过非选择性抑制磷酸二酯酶（PDE）、阻断腺苷受体以及促进内源性儿茶酚胺释放，从而使气道平滑肌松弛并发挥抗炎作用。</p>
-            <div class="section-title" style="margin-top: 10px;">一、 药理作用与安全窗口特性</div>
-            <p><span class="drug-highlight">1. 支气管平滑肌松弛：</span>茶碱可舒张痉挛状态下的气道平滑肌，缓解喘息症状。但其治疗有效血药浓度范围极窄（通常为 10～20 μg/mL）。</p>
+                <table class="record-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">借阅日期</th>
+                            <th style="width: 35%;">书名</th>
+                            <th style="width: 25%;">出版社</th>
+                            <th style="width: 25%;">捐赠来源</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2017-11-12</td>
+                            <td><span class="book-normal">《云知道答案》</span></td>
+                            <td>作家出版社</td>
+                            <td><span class="donor-tag">盛廷医药捐赠</span></td>
+                        </tr>
+                        <tr>
+                            <td>2017-12-05</td>
+                            <td><span class="book-normal">《山那边的夏天》</span></td>
+                            <td>青年文艺出版社</td>
+                            <td><span class="donor-tag">盛廷医药捐赠</span></td>
+                        </tr>
+                        <tr>
+                            <td>2018-01-18</td>
+                            <td><span class="book-normal">《萤火之秋》</span></td>
+                            <td>青州海燕出版社</td>
+                            <td><span class="donor-tag">盛廷医药捐赠</span></td>
+                        </tr>
+                        <tr>
+                            <td>2018-03-22</td>
+                            <td><span class="book-normal">《风从海上来》</span></td>
+                            <td>东方出版集团</td>
+                            <td><span class="donor-tag">盛廷医药捐赠</span></td>
+                        </tr>
+                        <tr>
+                            <td>2018-04-15</td>
+                            <td><a class="book-link" onclick="switchToBook()">《药理学》</a></td>
+                            <td>人民卫生出版社</td>
+                            <td><span class="donor-tag">盛廷医药捐赠</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="record-footer">
+                <span class="note">注：部分馆藏设有访问权限，仅特定书籍可点击查阅。</span>
+            </div>
         </div>
-        
-        <!-- 右侧插图：茶碱作用机制或血药浓度示意图 -->
-        <div class="pharmacology-figure">
-           <img id="target-image" src="medicine.png" 
-     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400';" 
-     alt="茶碱（Theophylline）">
+    </div>
 
-            <div class="figure-caption">茶碱分子结构图</div>
+
+    <!-- ================= 视图二：《药理学》书籍内页 ================= -->
+    <div id="viewBook" class="view-section">
+        <div class="book-page">
+            <div class="page-header">
+                <span>第二十五章 作用于呼吸系统的药物</span>
+                <span>第二节 平喘药（Antiasthmatic Drugs）</span>
+            </div>
+
+            <div class="chapter-title">茶碱类药物（Theophylline and Derivatives）</div>
+
+            <div class="top-content-wrapper">
+                <div class="top-text">
+                    <p>茶碱（Theophylline）为甲基黄嘌呤类生物碱，是临床用于缓解支气管哮喘及慢性阻塞性肺疾病（COPD）的经典平喘药。其主要通过非选择性抑制磷酸二酯酶（PDE）、阻断腺苷受体以及促进内源性儿茶酚胺释放，从而使气道平滑肌松弛并发挥抗炎作用。</p>
+                    <div class="section-title" style="margin-top: 10px;">一、 药理作用与安全窗口特性</div>
+                    <p><span class="drug-highlight">1. 支气管平滑肌松弛：</span>茶碱可舒张痉挛状态下的气道平滑肌，缓解喘息症状。但其治疗有效血药浓度范围极窄（通常为 10～20 μg/mL）。</p>
+                </div>
+                
+                <div class="pharmacology-figure">
+                   <img id="target-image" src="medicine.png" 
+             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400';" 
+             alt="茶碱（Theophylline）">
+                    <div class="figure-caption">茶碱分子结构图</div>
+                </div>
+            </div>
+
+            <p><span class="drug-highlight">2. 心脏与中枢兴奋效应：</span>茶碱能增强心肌收缩力、加快心率，并兴奋大脑皮层。当血药浓度超过 20 μg/mL 时，极易出现严重的中枢与心脏毒性反应。</p>
+
+            <div class="clinical-note">
+                <div class="clinical-note-title">🚨 临床高危警示：剂量精准控制</div>
+                茶碱是典型的“低安全范围”药物。体内有效治疗剂量与中毒剂量极其接近（>20 μg/mL 即出现明显毒性，>40 μg/mL 可致致死性心律失常或抽搐）。有效成分的微量波动即可直接导致疗效失效或严重中毒。临床必须使用正规医疗机构开具的茶碱制剂。<br>
+            </div>
+
+            <div class="section-title">二、 茶碱血药浓度与临床效应/毒性对照</div>
+
+            <table class="pharmacology-table">
+                <thead>
+                    <tr>
+                        <th>血药浓度 (μg/mL)</th>
+                        <th>生理与药理效应</th>
+                        <th>心脏与呼吸系统表现</th>
+                        <th>临床风险等级</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>5 ～ 10</b></td>
+                        <td>轻微气道扩张作用</td>
+                        <td>无明显心率异常，哮喘症状缓解有限</td>
+                        <td>亚治疗剂量（效果不佳）</td>
+                    </tr>
+                    <tr>
+                        <td><b>10 ～ 20</b></td>
+                        <td><b>最佳平喘治疗窗口</b></td>
+                        <td>平滑肌充分松弛，呼吸顺畅，心率轻度增加</td>
+                        <td><b>安全治疗范围</b></td>
+                    </tr>
+                    <tr>
+                        <td><b>20 ～ 30</b></td>
+                        <td>轻度/中度毒性反应</td>
+                        <td>恶心、呕吐、心悸、心动过速、不安</td>
+                        <td>警告（须立即减量）</td>
+                    </tr>
+                    <tr>
+                        <td><b>> 40</b></td>
+                        <td><b>重度急性中毒</b></td>
+                        <td><b>心律失常、心室颤动、急性气道反常痉挛、心呼吸骤停</b></td>
+                        <td><b>极危重（可致命）</b></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="section-title">三、 诱发致死性发作的协同刺激因素</div>
+            <p><span class="hand-drawn-wavy"><b>1. 烟雾及环境刺激叠加：</b>在茶碱血药浓度偏高或过量时，若患者暴露于香烟、有害粉尘或浓烟刺激环境中，烟雾中的有害化学微粒将急剧激活气道高反应性。</span></p>
+            <p><b>2. 禁忌与药物相互作用：</b>严重心律失常、急性心肌梗死及活动性溃疡病患者禁用；大环内酯类抗生素（如红霉素）、西咪替丁等药物会抑制茶碱代谢，合用时须大幅减量并监测血药浓度。</p>
+
+            <div class="page-footer">
+                <button class="back-btn" onclick="switchToRecord()">← 返回借阅记录</button>
+                <span>- 286 -</span>
+            </div>
         </div>
     </div>
 
-    <p><span class="drug-highlight">2. 心脏与中枢兴奋效应：</span>茶碱能增强心肌收缩力、加快心率，并兴奋大脑皮层。当血药浓度超过 20 μg/mL 时，极易出现严重的中枢与心脏毒性反应。</p>
-
-    <div class="clinical-note">
-        <div class="clinical-note-title">🚨 临床高危警示：剂量精准控制</div>
-        茶碱是典型的“低安全范围”药物。体内有效治疗剂量与中毒剂量极其接近（>20 μg/mL 即出现明显毒性，>40 μg/mL 可致致死性心律失常或抽搐）。有效成分的微量波动即可直接导致疗效失效或严重中毒。临床必须使用正规医疗机构开具的茶碱制剂。<br>
+    <!-- 全屏放大查看容器 -->
+    <div id="imageModal" class="image-modal-overlay">
+        <img id="modalImage" src="" alt="放大图片">
     </div>
 
-    <div class="section-title">二、 茶碱血药浓度与临床效应/毒性对照</div>
+    <div class="progress-indicator">extra8/31</div>
 
-    <table class="pharmacology-table">
-        <thead>
-            <tr>
-                <th>血药浓度 (μg/mL)</th>
-                <th>生理与药理效应</th>
-                <th>心脏与呼吸系统表现</th>
-                <th>临床风险等级</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><b>5 ～ 10</b></td>
-                <td>轻微气道扩张作用</td>
-                <td>无明显心率异常，哮喘症状缓解有限</td>
-                <td>亚治疗剂量（效果不佳）</td>
-            </tr>
-            <tr>
-                <td><b>10 ～ 20</b></td>
-                <td><b>最佳平喘治疗窗口</b></td>
-                <td>平滑肌充分松弛，呼吸顺畅，心率轻度增加</td>
-                <td><b>安全治疗范围</b></td>
-            </tr>
-            <tr>
-                <td><b>20 ～ 30</b></td>
-                <td>轻度/中度毒性反应</td>
-                <td>恶心、呕吐、心悸、心动过速、不安</td>
-                <td>警告（须立即减量）</td>
-            </tr>
-            <tr>
-                <td><b>> 40</b></td>
-                <td><b>重度急性中毒</b></td>
-                <td><b>心律失常、心室颤动、急性气道反常痉挛、心呼吸骤停</b></td>
-                <td><b>极危重（可致命）</b></td>
-            </tr>
-        </tbody>
-    </table>
+    <script>
+        // 视图切换控制逻辑
+        function switchToBook() {
+            document.getElementById('viewRecord').classList.remove('active');
+            document.getElementById('viewBook').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-    <div class="section-title">三、 诱发致死性发作的协同刺激因素</div>
-    <p><b>1. 烟雾及环境刺激叠加：</b>在茶碱血药浓度偏高或过量时，若患者暴露于香烟、有害粉尘或浓烟刺激环境中，烟雾中的有害化学微粒将急剧激活气道高反应性。</p>
-    <p><b>2. 禁忌与药物相互作用：</b>严重心律失常、急性心肌梗死及活动性溃疡病患者禁用；大环内酯类抗生素（如红霉素）、西咪替丁等药物会抑制茶碱代谢，合用时须大幅减量并监测血药浓度。</p>
+        function switchToRecord() {
+            document.getElementById('viewBook').classList.remove('active');
+            document.getElementById('viewRecord').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-    <div class="page-footer">
-        - 286 -
-    </div>
-</div>
+        // 图片点击放大灯箱交互
+        const imgElement = document.getElementById('target-image');
+        const modalOverlay = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
 
-<!-- 全屏放大查看容器 -->
-<div id="imageModal" class="image-modal-overlay">
-    <img id="modalImage" src="" alt="放大图片">
-</div>
+        imgElement.addEventListener('click', () => {
+            modalImage.src = imgElement.src;
+            modalOverlay.classList.add('active');
+        });
 
-<div class="progress-indicator">extra6/31</div>
-
-<script>
-    const imgElement = document.getElementById('target-image');
-    const modalOverlay = document.getElementById('imageModal');
-    const modalImage = document.getElementById('modalImage');
-
-    // 点击图片时触发放大并旋转
-    imgElement.addEventListener('click', () => {
-        modalImage.src = imgElement.src;
-        modalOverlay.classList.add('active');
-    });
-
-    // 点击遮罩层或图片自身可关闭
-    modalOverlay.addEventListener('click', () => {
-        modalOverlay.classList.remove('active');
-    });
-</script>
-
+        modalOverlay.addEventListener('click', () => {
+            modalOverlay.classList.remove('active');
+        });
+    </script>
 </body>
 </html>
