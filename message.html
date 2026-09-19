@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国联信通信 - 客户通信历史明细查询系统 (机密调取视窗)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cmcc: {
+                            blue: '#0085d0',
+                            darkblue: '#005a9e',
+                            lightbg: '#f4f7fa',
+                            border: '#dcdfe6',
+                            header: '#303133',
+                            green: '#67c23a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', 'sans-serif'],
+                        mono: ['"Roboto Mono"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .telecom-table th {
+            background-color: #eef1f6;
+            color: #475669;
+            font-weight: 600;
+            border-bottom: 2px solid #d3dce6;
+        }
+        .telecom-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 4rem;
+            color: rgba(0, 0, 0, 0.03);
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 1000;
+            user-select: none;
+        }
+            .progress-indicator {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0,0,0,0.6);
+        color: #fff;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 0.85rem;
+        z-index: 9999;
+    }
+</style>
+</head>
+<div class="progress-indicator">extra6/31</div>
+<body class="min-h-screen flex flex-col">
+
+    <!-- 水印背景 -->
+    <div class="watermark font-mono font-bold">
+        密件 / 顾兆元
+    </div>
+
+    <!-- 顶部页眉 -->
+    <header class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="bg-cmcc-blue text-white text-xs py-1 px-4">
+            <div class="max-w-7xl mx-auto flex justify-between items-center font-mono">
+                <div class="flex items-center space-x-4">
+                    <span><i class="fa-solid fa-building-shield mr-1"></i>中国联信通信集团 综合网管与客户详单查询系统 v4.8</span>
+                    <span class="hidden md:inline">| 权限级别: [L3级 特定授权调取]</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-cmcc-blue flex items-center justify-center text-white font-bold text-xl shadow">
+                    <i class="fa-solid fa-signal"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800 tracking-tight flex items-center gap-2">
+                        <span>联信终端通信明细（短信/彩信）查询</span>
+                        <span class="text-xs font-normal px-2 py-0.5 rounded bg-blue-100 text-cmcc-blue border border-blue-300">调取成功</span>
+                    </h1>
+                    <p class="text-xs text-gray-500 font-mono mt-0.5">档案流水号: CMCC-CDR-20180513-901248 | 业务代码: SMS_MMS_QUERY_P2P</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主体内容 -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-5 space-y-4">
+        
+        <!-- 查询参数 -->
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-4 text-xs font-sans">
+            <div class="flex items-center justify-between border-b border-gray-100 pb-2 mb-3">
+                <div class="font-bold text-gray-700 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-cmcc-blue"></i>
+                    <span>查询参数与目标信息</span>
+                </div>
+                <span class="text-xs text-gray-400 font-mono">查询耗时: 0.124s</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="text-gray-500 block mb-1">主叫/被查询目标号码:</label>
+                    <div class="font-mono text-sm font-bold text-gray-900 bg-gray-50 border border-gray-200 rounded px-2.5 py-1.5 flex justify-between items-center">
+              <span>136****0729</span>  
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-gray-500 block mb-1">对端/对打电话或短信号码:</label>
+                    <div class="font-mono text-sm font-bold text-gray-900 bg-gray-50 border border-gray-200 rounded px-2.5 py-1.5 flex justify-between items-center">
+                         <span>138****2923</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-gray-500 block mb-1">查询时间区间:</label>
+                    <div class="font-mono text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded px-2.5 py-1.5">
+                        2017-09-01 至 2018-05-31
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 通信数据表格视图 -->
+        <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+            <div class="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center text-xs">
+                <span class="font-bold text-gray-700">短信/彩信下发及接收原始 CDR 报文记录表 (共 <span class="text-cmcc-blue font-mono font-bold">22</span> 条)</span>
+                <span class="text-gray-500 font-mono">编号(CGI): 460-00-10294-582*</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs font-sans telecom-table">
+                    <thead>
+                        <tr>
+                            <th class="py-2.5 px-3 border-r border-gray-200 w-12 text-center">序号</th>
+                            <th class="py-2.5 px-3 border-r border-gray-200 w-36 font-mono">通信时间 (Timestamp)</th>
+                            <th class="py-2.5 px-3 border-r border-gray-200 w-20 text-center">类型</th>
+                            <th class="py-2.5 px-3 border-r border-gray-200 w-32 font-mono">对方号码</th>
+                            <th class="py-2.5 px-3 border-r border-gray-200">短信/彩信内容预览</th>
+                            <th class="py-2.5 px-3 border-r border-gray-200 w-24 text-center">状态</th>
+                            <th class="py-2.5 px-3 w-40 font-mono">位置标识</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 font-mono text-gray-700">
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">1</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-09-01 19:24:12</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【入学.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-01</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">2</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-09-01 19:24:45</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">今天开学典礼。</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-01</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">3</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-09-08 17:40:05</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【班级合照.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-04</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">4</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-09-08 17:40:30</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">您等我，放学和您电话说！</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-04</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">5</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-09-15 18:12:30</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【上车背影.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-02</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">6</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-09-22 21:05:19</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【自习室侧脸.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-02</td>
+                        </tr>
+                                                                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">7</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-09-29 17:33:41</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">今天也不太开心。</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-05</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">8</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-10-07 12:15:30</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【阅览室侧脸.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-03</td>
+                        </tr>
+
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">9</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-10-08 12:15:02</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【吃饭背影.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-05</td>
+                        </tr>
+
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">10</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-10-08 22:10:44</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[11px]">接收</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">小佳，不必天天都发，还是要以学习为重。</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功接收</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310101-2019-08</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">11</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-10-09 09:45:30</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">收到，只是怕您挂念嘛。</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-02</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">12</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-12-22 10:02:11</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【热身背影.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5822-09</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">13</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-12-22 17:55:40</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">今天运动会还好我发现得及时，没出什么大事。</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-03</td>
+                        </tr>
+                                              <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">14</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2017-12-22 18:10:44</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 text-[11px]">接收</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">小佳，你一个人在外，最要紧的是照顾好自己。</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功接收</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310101-2019-08</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">15</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2018-03-16 16:05:22</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【放学背影.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-01</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">16</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2018-04-13 18:22:04</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+      <td class="py-2 px-3 border-r border-gray-200 text-gray-900">下个月有机会回来看您啦。</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310104-5821-03</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">17</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2018-05-12 10:40:22</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【出发.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">310115-8911-02</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">18</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2018-05-12 14:40:50</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【大巴到站.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">330102-1022-04</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">19</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2018-05-13 10:41:15</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900"><span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-blue-50 text-cmcc-blue border border-blue-200"><i class="fa-solid fa-file-image text-cmcc-blue"></i><span class="font-bold">【祠堂参观.jpg】</span></span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">330102-1022-08</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">20</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2018-05-13 15:42:00</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">山上的花开得和往年一样好，您放心。</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">330102-1022-08</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">21</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2018-05-13 22:12:08</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">糟了！</td>
+<td class="py-2 px-3 border-r border-gray-200 text-center">
+    <span class="text-red-600 font-medium">成功撤回</span>
+</td>                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">330102-1022-12</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center font-mono">22</td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono text-gray-800">2018-05-13 23:56:45</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 text-[11px]">发送</span></td>
+                            <td class="py-2 px-3 border-r border-gray-200 font-mono">138****2923</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-gray-900">对不起……我还是告诉他了。</td>
+                            <td class="py-2 px-3 border-r border-gray-200 text-center"><span class="text-emerald-600 font-medium">成功送达</span></td>
+                            <td class="py-2 px-3 text-gray-500 font-mono text-[11px]">330102-1022-12</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

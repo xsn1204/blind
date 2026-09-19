@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>手写日记</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&family=Noto+Serif+SC:wght@400;600&display=swap');
+
+  :root {
+    --paper-bg: #f2ede4;
+    --paper-edge: #dfd7c6;
+    --line-color: #d8cebe;
+    
+    /* 手写墨水色彩 */
+    --ink-black: #1a1a1b;
+    --ink-faded: #4d463e;
+    --ink-blue: #22334d;
+    --ink-brown: #3d2b1f;
+    --ink-grey: #5c5955;
+    --note-red: #8c1d1d;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #161513;
+    background-image: radial-gradient(#262320 1px, transparent 0);
+    background-size: 28px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 30px 20px;
+    font-family: 'Noto Serif SC', serif;
+    color: var(--ink-black);
+    overflow-x: hidden;
+  }
+
+  /* 3D 视口 */
+  .scene {
+    width: 1000px;
+    height: 640px;
+    perspective: 2500px;
+    position: relative;
+    margin-bottom: 25px;
+  }
+
+  /* 双页摊开日记本实体 */
+  .book {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+  }
+
+  /* 中央书脊光影 */
+  .book-spine {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      to right,
+      rgba(0,0,0,0.22) 0%,
+      rgba(0,0,0,0.03) 40%,
+      rgba(0,0,0,0.35) 50%,
+      rgba(0,0,0,0.03) 60%,
+      rgba(0,0,0,0.22) 100%
+    );
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  /* 底层左页（最底下的第1页） */
+  .base-left {
+    position: absolute;
+    width: 500px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--paper-bg);
+    background-image: 
+      radial-gradient(circle at 15% 20%, rgba(139, 90, 43, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(242, 237, 228, 0.8) 0%, rgba(215, 200, 175, 0.6) 100%);
+    box-shadow: 
+      0 0 0 1px var(--paper-edge),
+      -10px 12px 25px rgba(0, 0, 0, 0.4),
+      inset 15px 0 25px -15px rgba(0, 0, 0, 0.22);
+    padding: 40px 35px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  /* 底层右页（翻开后露出的第4页） */
+  .base-right {
+    position: absolute;
+    width: 500px;
+    height: 100%;
+    top: 0;
+    left: 500px;
+    background-color: var(--paper-bg);
+    background-image: 
+      radial-gradient(circle at 85% 80%, rgba(100, 60, 20, 0.1) 0%, transparent 45%),
+      radial-gradient(circle at 50% 50%, rgba(242, 237, 228, 0.8) 0%, rgba(215, 200, 175, 0.6) 100%);
+    box-shadow: 
+      0 0 0 1px var(--paper-edge),
+      10px 12px 25px rgba(0, 0, 0, 0.4),
+      inset -15px 0 25px -15px rgba(0, 0, 0, 0.22);
+    padding: 40px 35px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  /* 动态翻动的中页（正面是第2页，背面是第3页） */
+  .flipping-paper {
+    position: absolute;
+    width: 500px;
+    height: 100%;
+    top: 0;
+    left: 500px;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  /* 翻页正反面通用样式 */
+  .page-front, .page-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--paper-bg);
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(242, 237, 228, 0.8) 0%, rgba(215, 200, 175, 0.6) 100%);
+    box-shadow: 
+      0 0 0 1px var(--paper-edge),
+      8px 12px 25px rgba(0, 0, 0, 0.35);
+    backface-visibility: hidden;
+    padding: 40px 35px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .page-front {
+    z-index: 2;
+    box-shadow: inset 15px 0 20px -15px rgba(0, 0, 0, 0.2);
+  }
+
+  .page-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+    box-shadow: inset -15px 0 20px -15px rgba(0, 0, 0, 0.2);
+  }
+
+  /* 翻转后的 CSS 类 */
+  .flipping-paper.flipped {
+    transform: rotateY(-180deg);
+  }
+
+  /* 信纸横线底纹 */
+  .journal-content {
+    background: linear-gradient(transparent 31px, var(--line-color) 32px);
+    background-size: 100% 32px;
+    line-height: 32px;
+    font-family: 'Ma Shan Zheng', 'Zhi Mang Xing', cursive, serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.5px;
+  }
+
+  .entry {
+    position: relative;
+  }
+
+  /* 墨水色彩与随性倾斜 */
+  .ink-black  { color: var(--ink-black); }
+  .ink-faded  { color: var(--ink-faded); }
+  .ink-blue   { color: var(--ink-blue); }
+  .ink-brown  { color: var(--ink-brown); }
+  .ink-grey   { color: var(--ink-grey); }
+
+  .gap-sm { margin-bottom: 8px; }
+  .gap-md { margin-bottom: 18px; }
+
+  .tilt-left  { transform: rotate(-0.3deg); }
+  .tilt-right { transform: rotate(0.4deg); }
+
+  .date {
+    font-weight: bold;
+    display: inline-block;
+    font-size: 1.05rem;
+    border-bottom: 1px dashed rgba(140, 60, 40, 0.25);
+    padding-right: 8px;
+    margin-bottom: 2px;
+    opacity: 0.9;
+  }
+
+  .text {
+    text-indent: 2em;
+    word-break: break-all;
+    margin: 0;
+  }
+
+  .heavy-entry {
+    font-weight: 600;
+  }
+
+  /* 底部后辈手写留言 */
+  .bottom-note {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 2px dashed rgba(140, 29, 29, 0.35);
+    font-family: 'Zhi Mang Xing', cursive, sans-serif;
+    font-size: 1.25rem;
+    color: var(--note-red);
+    line-height: 1.4;
+    letter-spacing: 1px;
+    text-align: right;
+  }
+
+  /* 水渍印 */
+  .stain {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(90, 55, 20, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .tip {
+    font-size: 0.82rem;
+    color: #888;
+    user-select: none;
+  }
+
+  /* 控制按钮 */
+  .controls {
+    display: flex;
+    gap: 20px;
+    z-index: 100;
+  }
+
+  .btn {
+    background-color: #2b2825;
+    color: #d1c7b7;
+    border: 1px solid #4a433c;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+
+  .btn:hover {
+    background-color: #3d3834;
+    color: #fff;
+    border-color: #6e6459;
+  }
+
+  @media (max-width: 1040px) {
+    .scene {
+      width: 100%;
+      height: auto;
+      perspective: none;
+    }
+    .book {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .base-left, .base-right, .flipping-paper {
+      position: relative;
+      width: 100%;
+      height: auto;
+      left: 0;
+      transform: none !important;
+    }
+    .page-front, .page-back {
+      position: relative;
+      transform: none !important;
+      backface-visibility: visible;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      margin-bottom: 15px;
+    }
+    .book-spine, .controls {
+      display: none;
+    }
+  }
+ .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+    <div class="progress-indicator">extra10/31</div>
+</head>
+<body>
+
+<div class="scene">
+  <div class="book">
+    <div class="book-spine"></div>
+
+    <!-- 【第 1 页】静态底图（左半侧） -->
+    <div class="base-left">
+      <div class="stain" style="top: 20px; left: 20px; width: 70px; height: 70px;"></div>
+      <div class="journal-content">
+        <div class="entry gap-sm ink-faded tilt-left">
+          <span class="date">二〇〇六年五月二十二日</span>
+          <p class="text">与惠君回家。</p>
+        </div>
+
+        <div class="entry gap-sm ink-blue">
+          <span class="date">二〇〇六年十月十二日</span>
+          <p class="text">寄信及童衣至惠君旧址。</p>
+        </div>
+
+        <div class="entry gap-md ink-black tilt-right">
+          <span class="date">二〇〇六年十一月二日</span>
+          <p class="text">信退。拒收。</p>
+        </div>
+
+        <div class="entry gap-sm ink-brown">
+          <span class="date">二〇〇七年六月八日</span>
+          <p class="text">托同乡回旧址探访。</p>
+          <p class="text">回复说拆迁搬空，去向不知。</p>
+        </div>
+
+        <div class="entry gap-sm ink-grey tilt-left">
+          <span class="date">二〇〇八年三月十二日</span>
+          <p class="text">获一电话，已停用。</p>
+        </div>
+        <div class="entry gap-sm ink-blue">
+            <span class="date">二〇〇八年九月二十八日</span>
+            <p class="text">又收拾得新衣数件，无处可寄。</p>
+          </div>
+
+      </div>
+      <div class="tip">第 1 页</div>
+    </div>
+
+    <!-- 【第 4 页】静态底图（右半侧，被第2页盖住，翻过去后露出） -->
+    <div class="base-right">
+      <div class="stain" style="top: 30px; right: 30px; width: 60px; height: 60px;"></div>
+      <div class="journal-content">
+        
+
+        <div class="entry gap-sm ink-faded heavy-entry tilt-right">
+          <span class="date">二〇一五年五月十三日</span>
+          <p class="text">耳背眼残，腿脚更不利索。托小佳代为献花。</p>
+                    <p class="text">思及惠君，心中愧疚难消。</p>
+        </div>
+
+        <div class="entry gap-sm ink-black heavy-entry">
+          <span class="date">二〇一六年五月十三日</span>
+          <p class="text">隔了两年，心有不甘，今日硬要小佳扶我上山。</p>
+                <p class="text">登山颇为艰难，途中摔了一跤。</p>
+          <p class="text">小佳吓得直哭，劝我回头。我不愿折返。</p>
+          <p class="text">到了墓前，呆坐许久。</p>
+
+        </div>
+
+        <div class="entry gap-sm ink-black heavy-entry tilt-left">
+          <span class="date">二〇一七年五月十三日</span>
+          <p class="text">最后一次与小佳同往。</p>
+                    <p class="text">年岁大了，行一步歇一步。往后亲自来看惠君的机会，怕是再无。</p>
+                    <p class="text">女儿，父亲已尽力。</p>
+                         <p class="text">可这一生，终究是我亏欠你。</p>
+<p class="text" style="color: #c30c46;"> 来年杜鹃若开，只盼她能替我，再去看你。</p>
+        </div>
+      </div>
+
+    
+      <div class="tip" style="text-align: right;">第 4 页</div>
+    </div>
+
+    <!-- 【翻页纸张】正面：第 2 页 | 背面：第 3 页 -->
+    <div class="flipping-paper" id="flippingPaper" onclick="togglePage()">
+      
+      <!-- 【第 2 页】（初始在右侧，盖在第4页上方） -->
+      <div class="page-front">
+        <div class="stain" style="bottom: 40px; right: 30px; width: 80px; height: 80px;"></div>
+        <div class="journal-content">
+          
+          <div class="entry gap-md ink-black">
+            <span class="date">二〇〇八年十月十四日</span>
+            <p class="text">复拨旧号，依然停用。</p>
+          </div>
+
+          <div class="entry gap-md ink-brown tilt-right">
+            <span class="date">二〇〇九年三月四日</span>
+            <p class="text">今年杜鹃花开得早。</p>
+            <p class="text">忆及惠君幼时，最喜往山中跑。</p>
+          </div>
+
+          <div class="entry gap-sm ink-faded">
+            <span class="date">二〇一〇年六月四日</span>
+            <p class="text">托侄儿打听新址。</p>
+            <p class="text">对方不愿多说，只教莫要再打扰。</p>
+          </div>
+
+          <div class="entry gap-sm ink-blue tilt-left">
+            <span class="date">二〇一一年十月三日</span>
+            <p class="text">同乡告知，段晟廷家业做大，日子过得安稳。</p>
+            <p class="text">托侄儿走了一趟，寻人无果。</p>
+            <p class="text">问得办公地址。</p>
+          </div>
+           <div class="entry gap-sm ink-grey">
+            <span class="date">二〇一二年三月十五日</span>
+ <p class="text">新置了几件衣裳，寄往办公地址处。</p>
+          </div>
+          
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span class="tip">第 2 页</span>
+          <span class="tip">点击翻页 ➔</span>
+        </div>
+      </div>
+
+      <!-- 【第 3 页】（翻到左侧后呈现，盖在第1页上方） -->
+      <div class="page-back">
+        <div class="journal-content">
+         
+
+          <div class="entry gap-sm ink-black tilt-right">
+            <span class="date">二〇一二年四月十日</span>
+            <p class="text">今日收到退件，另有回信：</p>
+            <p class="text">“往后不要再寄，孩子已经有了新生活。”</p>
+            <p class="text">想来是不愿再联系。孩子安好，一切便好。</p>
+          </div>
+
+
+          <div class="entry gap-sm ink-brown tilt-left">
+            <span class="date">二〇一三年三月十日</span>
+            <p class="text">天气好，小佳去墓前除草，带回几枝杜鹃。</p>
+            <p class="text">见花如故，心中稍得安慰。</p>
+            <p class="text">惠君长眠于此，幸而有人时时惦念。</p>
+          </div>
+          <div class="entry gap-sm ink-black heavy-entry">
+          <span class="date">二〇一四年一月二日</span>
+          <p class="text">肺炎入院。大夫不许再出门，终日卧床。</p>
+        </div>
+           <div class="entry gap-sm ink-black heavy-entry">
+          <span class="date">二〇一四年三月一日</span>
+          <p class="text">小佳多日来借阅医院图册，大夫夸她有悟性。我向大夫问起惠君当年的病，他看过病历面露难色，似是不愿多提。</p>
+           <p class="text">想来时日已久，再说这些，也没有什么意义。</p>
+         <p class="text">见小佳与他谈得认真，甚感欣慰。</p>
+        </div>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span class="tip">⬅ 点击合上</span>
+          <span class="tip">第 3 页</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<script>
+  const paper = document.getElementById('flippingPaper');
+
+  function togglePage() {
+    paper.classList.toggle('flipped');
+  }
+
+  function showFirstHalf() {
+    paper.classList.remove('flipped');
+  }
+
+  function showSecondHalf() {
+    paper.classList.add('flipped');
+  }
+</script>
+
+</body>
+</html>

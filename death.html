@@ -2,150 +2,310 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>居民死亡医学证明（推断）书</title>
+    <title>退信信封</title>
+    <!-- 引入毛笔/书法手写字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #161717;
-            padding: 20px 10px;
-            font-family: "KaiTi", "楷体", serif;
-            color: #1a1a1a;
+            font-family: "SimSun", "Songti SC", "STSong", serif;
+            background-color: #121212;
+            margin: 0;
+            padding: 40px 0;
             display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 2002年标准牛皮纸信封 */
+        .envelope-card {
+            width: 220mm;
+            height: 110mm;
+            background-color: #c7a776;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%),
+                repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 2px, transparent 4px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.7),
+                inset 0 0 20px rgba(80, 45, 10, 0.35),
+                inset 0 0 2px rgba(255, 255, 255, 0.5);
+            border-radius: 2px;
+            padding: 12mm 15mm;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #9e8055;
+        }
+
+        /* 邮政编码框 */
+        .zip-container {
+            position: absolute;
+            top: 10mm;
+            left: 12mm;
+            display: flex;
+            gap: 2mm;
+        }
+
+        .zip-box {
+            width: 6.5mm;
+            height: 8.5mm;
+            border: 1.5px solid #c82424;
+            color: #c82424;
+            font-family: "Courier New", monospace;
+            font-size: 17px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
             justify-content: center;
         }
 
-        /* 模拟2002年泛黄的手写/复写纸张效果 */
-        .death-cert-paper {
-            position: relative;
-            width: 100%;
-            max-width: 680px;
-            background-color: #fbf9f1;
-            padding: 35px 40px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border: 1px solid #dcd6c8;
-            box-sizing: border-box;
-            background-image: linear-gradient(rgba(0,0,0,0.01) 95%, rgba(0,0,0,0.04) 95%);
-            background-size: 100% 28px;
-        }
-
-        .header-org {
-            text-align: center;
-            font-size: 14px;
-            letter-spacing: 1px;
-            color: #444;
-            margin-bottom: 5px;
-        }
-
-        .cert-title {
-            font-family: "SimHei", "黑体", sans-serif;
-            font-size: 22px;
-            text-align: center;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            color: #b30000;
-        }
-
-        .cert-subtitle {
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #333;
-            padding-bottom: 6px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px 20px;
-            font-size: 15px;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .form-row-full {
-            grid-column: span 2;
-        }
-
-        /* 手写体仿真样式 */
-        .handwritten {
-            font-family: "KaiTi", "楷体", serif;
-            color: #0b2545;
-            border-bottom: 1px dashed #666;
-            padding: 0 6px;
-            font-weight: bold;
-        }
-
-        .blurred-name {
-            filter: blur(4px);
-            user-select: none;
-            opacity: 0.6;
-            background-color: #ddd;
-        }
-
-
+        /* 邮票区 */
         .stamp-box {
             position: absolute;
-            bottom: 40px;
-            right: 45px;
-            width: 130px;
-            height: 130px;
-            border: 3px solid rgba(180, 0, 0, 0.6);
+            top: 10mm;
+            right: 12mm;
+            width: 26mm;
+            height: 32mm;
+            background: #fbf8f0;
+            border: 1px dashed #b5a48b;
+            padding: 2px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .stamp-border {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #a02020;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3px 2px;
+            box-sizing: border-box;
+        }
+
+        .stamp-head {
+            font-size: 8px;
+            color: #a02020;
+            font-family: "SimSun", serif;
+            letter-spacing: 1px;
+        }
+
+        .stamp-main {
+            font-size: 15px;
+            color: #22422b;
+            font-weight: bold;
+        }
+
+        .stamp-val {
+            font-size: 11px;
+            color: #a02020;
+            font-weight: bold;
+            font-family: "Courier New", monospace;
+        }
+
+        /* 邮局投递邮戳 */
+        .postmark {
+            position: absolute;
+            top: 12mm;
+            right: 22mm;
+            width: 38mm;
+            height: 38mm;
+            border: 1.5px solid #a82424;
+            border-radius: 50%;
+            color: #a82424;
+            opacity: 0.85;
+            transform: rotate(-18deg);
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: "SimSun", serif;
+            font-size: 10px;
+        }
+
+        .postmark-inner {
+            width: 92%;
+            height: 92%;
+            border: 1px solid #a82424;
             border-radius: 50%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transform: rotate(-10deg);
-            pointer-events: none;
-            opacity: 0.75;
         }
 
-        .stamp-text-top {
-            font-size: 11px;
-            color: #b30000;
-            font-family: "SimHei", sans-serif;
-            text-align: center;
-            width: 100px;
+        .postmark-line {
+            width: 100%;
+            border-top: 1px solid #a82424;
+            margin: 2px 0;
         }
 
-        .stamp-text-center {
-            font-size: 15px;
-            font-weight: bold;
-            color: #b30000;
-            font-family: "SimHei", sans-serif;
-            margin: 4px 0;
+        /* 信封原寄件抬头 */
+        .original-address {
+            position: absolute;
+            top: 25mm;
+            left: 20mm;
+            font-family: 'Ma Shan Zheng', "KaiTi", cursive;
+            font-size: 18px;
+            color: #5c4a37;
+            letter-spacing: 2px;
+            opacity: 0.6;
+        }
+
+        /* 顾兆元直接用朱墨批在信封正面的手写字体 */
+        .father-handwriting {
+            position: absolute;
+            top: 18mm;
+            left: 30mm;
+            width: 145mm;
+            height: 75mm;
+            color: #580606; /* 浓重的朱墨色 */
+            font-family: 'Ma Shan Zheng', 'Zhi Mang Xing', 'KaiTi', cursive;
+            font-size: 22px;
+            line-height: 1.5;
+            transform: rotate(-1.8deg);
+            text-shadow: 0.3px 0.3px 0px #580606;
+            box-sizing: border-box;
+            z-index: 5;
+        }
+
+        .hand-line-1 {
+            font-size: 25px;
+            margin-bottom: 4px;
+            letter-spacing: 3px;
+        }
+
+        .hand-line-2 {
+            text-indent: 1.8em;
+            margin-bottom: 4px;
             letter-spacing: 1px;
         }
 
-        .stamp-text-bottom {
-            font-size: 9px;
-            color: #b30000;
-            font-family: monospace;
-        }
-
-        .section-box {
-            border: 1px solid #888;
-            padding: 12px 15px;
-            margin-top: 15px;
-            background-color: rgba(255,255,255,0.5);
-        }
-
-        .section-title {
-            font-weight: bold;
-            font-size: 14px;
+        .hand-line-3 {
+            text-indent: 1.8em;
             margin-bottom: 8px;
-            font-family: "SimHei", sans-serif;
+            letter-spacing: 1px;
         }
 
-        .footer-info {
-            margin-top: 35px;
+        .hand-line-4 {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: right;
+            letter-spacing: 4px;
+            padding-right: 8mm;
+        }
+
+        /* 核心修改：邮局【拒收退回】双圈圆形印章 */
+        .round-return-stamp {
+            position: absolute;
+            bottom: 8mm;
+            left: 15mm;
+            width: 42mm;
+            height: 42mm;
+            border: 2px solid #b81c1c;
+            border-radius: 50%;
+            color: #b81c1c;
+            transform: rotate(12deg);
+            background: rgba(199, 167, 118, 0.4);
+            pointer-events: none;
+            box-sizing: border-box;
+            padding: 2px;
+            z-index: 10;
+        }
+
+        .round-stamp-inner {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #b81c1c;
+            border-radius: 50%;
             display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: space-between;
-            font-size: 14px;
+            padding: 4px 0;
+            box-sizing: border-box;
+            font-family: "SimSun", "Songti SC", serif;
         }
 
-        .progress-indicator {
+        .stamp-top-text {
+            font-size: 9px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .stamp-center-text {
+            font-family: "SimHei", "STHeiti", sans-serif;
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            border-top: 1px solid #b81c1c;
+            border-bottom: 1px solid #b81c1c;
+            width: 90%;
+            text-align: center;
+            padding: 1px 0;
+            color: #b81c1c;
+        }
+
+        .stamp-bottom-text {
+            font-size: 9px;
+            transform: scale(0.9);
+        }
+
+        /* 折痕 */
+        .crease-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.06), transparent);
+            pointer-events: none;
+        }
+
+        /* 操作按钮 */
+        .btn-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+
+        .btn-print {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #666;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .btn-print:hover {
+            background-color: #555;
+        }
+
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .btn-container {
+                display: none;
+            }
+            .envelope-card {
+                box-shadow: none;
+            }
+        }
+   .progress-indicator {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -158,71 +318,71 @@
             z-index: 9999;
         }
     </style>
+    <div class="progress-indicator">extra5/31</div>
 </head>
 <body>
 
-<div class="progress-indicator">extra5/31</div>
-
-<div class="death-cert-paper">
-
-    <!-- 单位与标题 -->
-    <div class="header-org">凛州市民政局</div>
-    <div class="cert-title">居民死亡医学证明（推断）书</div>
-    <div class="cert-subtitle">编号：LZ-2002-0615042</div>
-
-    <!-- 基本信息栏 -->
-    <div class="form-grid">
-        <div>
-            死者姓名：<span class="handwritten blurred-name">某某某</span>
-        </div>
-        <div>
-            性别：<span class="handwritten">男</span>
-        </div>
-        <div>
-            出生日期：<span class="handwritten">1973年09月</span>
-        </div>
-        <div>
-            婚姻状况：<span class="handwritten">已婚</span>
-        </div>
+    <div class="btn-container">
     </div>
 
-    <!-- 死亡情况栏 -->
-    <div class="section-box">
-        <div class="section-title">一、 死亡时间与地点</div>
-        <div style="font-size: 14px; line-height: 1.8;">
-            死亡时间：<span class="handwritten">2002年06月15日 上午 09时 25分</span><br>
-            死亡地点：<span class="handwritten">凛州市第三人民医院急诊室（送医途中/抢救无效）</span>
+    <!-- 2002年牛皮纸信封 -->
+    <div class="envelope-card">
+        
+        <div class="crease-line"></div>
+
+        <!-- 邮政编码框 -->
+        <div class="zip-container">
+            <div class="zip-box">4</div>
+            <div class="zip-box">0</div>
+            <div class="zip-box">4</div>
+            <div class="zip-box">4</div>
+            <div class="zip-box">0</div>
+            <div class="zip-box">4</div>
         </div>
-    </div>
 
-    <div class="section-box">
-        <div class="section-title">二、 死亡原因诊断</div>
-        <div style="font-size: 14px; line-height: 1.8;">
-            直接死因（根本死因）：<span class="handwritten">突发高坠意外导致重度颅脑损伤、失血性休克</span><br>
-            诊断单位：<span class="handwritten">凛州市第三人民医院</span>
+        <!-- 80分邮票 -->
+        <div class="stamp-box">
+            <div class="stamp-border">
+                <span class="stamp-head">中国邮政</span>
+                <span class="stamp-main">黄山迎客松</span>
+                <span class="stamp-val">80分</span>
+            </div>
         </div>
-    </div>
 
-    <!-- 家属签名字段 -->
-    <div style="margin-top: 20px; font-size: 14px; line-height: 2;">
-        <div>代办人签名：<span class="handwritten blurred-name" style="font-size: 16px;">某某某</span></div>
-        <div>与死者关系：<span class="handwritten">妻子</span></div>
-    </div>
+        <!-- 2002年邮局投递邮戳 -->
+        <div class="postmark">
+            <div class="postmark-inner">
+                <div>临渊 凛州</div>
+                <div class="postmark-line"></div>
+                <div>2003.4.18</div>
+                <div class="postmark-line"></div>
+                <div>投递 04</div>
+            </div>
+        </div>
 
-    <!-- 落款日期 -->
-    <div class="footer-info">
-        <div>签发机构（盖章）：凛州市第三人民医院</div>
-        <div>签发日期：2002年06月15日</div>
-    </div>
+        <!-- 信封原寄件抬头 -->
+        <div class="original-address">
+            寄：顾兆元 父亲尊启
+        </div>
 
-    <!-- 模拟医院公章 -->
-    <div class="stamp-box">
-        <div class="stamp-text-top">凛州市第三人民医院</div>
-        <div class="stamp-text-center">急 诊 科</div>
-        <div class="stamp-text-bottom">2002.06.15</div>
-    </div>
+        <!-- 顾兆元直接用朱墨写在信封正面的手写体批语 -->
+        <div class="father-handwriting">
+            <div class="hand-line-1">立身以贞为本。</div>
+            <div class="hand-line-2">夫亡未久，既已改嫁，便安心过自己的日子，不必再以家事为念。</div>
+            <div class="hand-line-3">你既已作此选择，往后的路，便好自珍重。求生易，求名难。望你日后自守，莫负自己。</div>
+            <div class="hand-line-4">原信退回。</div>
+        </div>
 
-</div>
+        <!-- 圆形【收件人拒收·原件退回】邮局戳章 -->
+        <div class="round-return-stamp">
+            <div class="round-stamp-inner">
+                <div class="stamp-top-text">中国邮政投递</div>
+                <div class="stamp-center-text">拒 收</div>
+                <div class="stamp-bottom-text">退回寄件人</div>
+            </div>
+        </div>
+
+    </div>
 
 </body>
 </html>
