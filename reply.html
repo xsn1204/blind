@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft Outlook - 加密即时沟通</title>
+    <title>下次一定</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -76,7 +76,7 @@
             border-width: 10px 10px 0 0;
             border-color: #0078d4 transparent transparent transparent;
         }
- .progress-indicator {
+        .progress-indicator {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -88,9 +88,38 @@
             font-size: 0.85rem;
             z-index: 9999;
         }
+
+        /* 关键签名（默认隐藏，动画后期出现） */
+        .floating-signature {
+            position: fixed;
+            right: 48px;
+            bottom: 36px;
+            width: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease, visibility 1.5s ease;
+            z-index: 10001; 
+        }
+        
+        .floating-signature.show {
+            opacity: 0.85;
+            visibility: visible;
+        }
+
+        .floating-signature:hover { opacity: 1; }
+        .floating-signature img { width: 100%; display: block; }
     </style>
-    <div class="progress-indicator">finalX3️⃣/31</div>
+</head>
 <body class="h-screen w-screen overflow-hidden flex flex-col bg-[#f3f2f1]">
+
+    <div class="floating-signature" id="signatureBox">
+        <img src="signature.jpg" alt="关键签名">
+    </div>
+
+    <div class="progress-indicator">finalX3️⃣/31</div>
 
 <!-- Top Title Bar / Search Bar (Outlook 365 style) -->
 <header class="h-12 bg-[#0078d4] text-white flex items-center justify-between px-3 shrink-0 shadow-sm">
@@ -125,12 +154,11 @@
 
 <div class="flex-1 flex overflow-hidden">
     
-    <!-- Left Navigation Bar (Mail, Calendar, Contacts, Teams Chat) -->
+    <!-- Left Navigation Bar -->
     <nav class="w-12 bg-[#f3f2f1] border-r border-[#e1dfdd] flex flex-col items-center py-2 gap-4 shrink-0 text-[#605e5c]">
         <button class="p-2 hover:bg-[#edebe9] text-[#605e5c] rounded transition"><i class="fa-regular fa-envelope text-lg"></i></button>
         <button class="p-2 hover:bg-[#edebe9] text-[#605e5c] rounded transition"><i class="fa-regular fa-calendar text-lg"></i></button>
         <button class="p-2 hover:bg-[#edebe9] text-[#605e5c] rounded transition"><i class="fa-regular fa-address-book text-lg"></i></button>
-        <!-- Active Tab: Embedded Encryption Chat -->
         <button class="p-2 bg-white text-[#0078d4] shadow-sm rounded-md transition relative">
             <i class="fa-regular fa-comments text-lg"></i>
             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -142,7 +170,6 @@
 
     <!-- Message Folders & Thread List Pane -->
     <div class="w-80 bg-white border-r border-[#e1dfdd] flex flex-col shrink-0">
-        <!-- List Header -->
         <div class="p-3 border-b border-[#f3f2f1] flex justify-between items-center bg-gray-50">
             <div class="font-semibold text-gray-700 text-sm flex items-center gap-2">
                 <i class="fa-solid fa-shield-halved text-[#0078d4]"></i> 加密会话 (Teams/Outlook)
@@ -150,9 +177,7 @@
             <button class="text-xs text-[#0078d4] font-medium hover:underline">全部已读</button>
         </div>
 
-        <!-- Chat Conversations List -->
         <div class="flex-1 overflow-y-auto">
-            <!-- Active Selected Thread -->
             <div class="p-3 bg-[#eff6fc] border-l-4 border-[#0078d4] cursor-pointer flex gap-3 hover:bg-[#e5f1fb] transition">
                 <div class="relative shrink-0">
                     <div class="w-10 h-10 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-sm shadow-sm">
@@ -170,7 +195,6 @@
                 </div>
             </div>
 
-            <!-- Inactive Dummy Threads for Visual Realism -->
             <div class="p-3 border-b border-gray-100 cursor-pointer flex gap-3 hover:bg-gray-50 transition opacity-60">
                 <div class="w-10 h-10 rounded-full bg-indigo-700 text-white font-bold flex items-center justify-center text-sm">
                     安
@@ -189,7 +213,6 @@
     <!-- Main Reading Pane / Chat Canvas -->
     <main class="flex-1 flex flex-col bg-[#f5f7f9] relative overflow-hidden">
         
-        <!-- Thread Ribbon / Toolbar Header -->
         <div class="h-14 bg-white border-b border-[#e1dfdd] px-6 flex justify-between items-center shrink-0 shadow-sm">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-sm">
@@ -203,7 +226,6 @@
                 </div>
             </div>
 
-            <!-- Header Right Status Badge -->
             <div class="flex items-center gap-2">
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -214,8 +236,6 @@
 
         <!-- Chat Bubble Viewport -->
         <div id="chatViewport" class="flex-1 overflow-y-auto p-6 space-y-4 bg-[#f0f4f8]">
-            
-            <!-- Security / Date Stamp Banner -->
             <div class="flex justify-center my-2">
                 <span class="bg-gray-200 text-gray-600 text-[11px] px-3 py-1 rounded-full shadow-inner flex items-center gap-1.5">
                     <i class="fa-solid fa-lock text-gray-500 text-[10px]"></i>
@@ -223,10 +243,8 @@
                 </span>
             </div>
 
-            <!-- Dynamic Messages will be injected here -->
             <div id="messageFeed" class="space-y-4"></div>
 
-            <!-- Animated Typing Indicator Container -->
             <div id="typingIndicator" class="hidden flex items-end gap-2.5 max-w-lg animate-pop-in">
                 <div class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-xs shrink-0 shadow">
                     张
@@ -242,7 +260,7 @@
             </div>
         </div>
 
-        <!-- Outlook/Teams Styled Bottom Action Bar (Read-only for simulation) -->
+        <!-- Outlook/Teams Styled Bottom Action Bar -->
         <div class="p-4 bg-white border-t border-[#e1dfdd] flex items-center gap-3 shrink-0">
             <button class="text-gray-400 hover:text-gray-600 p-1.5"><i class="fa-solid fa-paperclip text-lg"></i></button>
             <div class="flex-1 relative">
@@ -258,7 +276,6 @@
 </div>
 
 <script>
-    // Sequence Data Definition
     const conversationScript = [
         {
             id: 1,
@@ -298,7 +315,7 @@
             id: 5,
             sender: "detective",
             name: "侦探X404",
-            text: "这倒也不是不行……但我已经用最快的速度在调查了，居然还是有同行更卷吗？",
+            text: "这倒也不是不行……但我已经用最快的速度在调查了，居然还是有同行更卷吗？！",
             time: "23:17",
             delay: 3000
         },
@@ -328,7 +345,7 @@
             typingTime: 5600,
             delay: 3000
         },
-                {
+        {
             id: 9,
             sender: "lawyer",
             name: "张律师",
@@ -336,8 +353,8 @@
             time: "23:18",
             typingTime: 2600,
             delay: 1000
-},
-                {
+        },
+        {
             id: 10,
             sender: "lawyer",
             name: "张律师",
@@ -346,16 +363,16 @@
             typingTime: 2600,
             delay: 2000
         },
-                {
+        {
             id: 11,
             sender: "detective",
             name: "侦探X404",
             text: "原来如此，真是个不错的结局啊。",
             time: "23:19",
-            delay: 3000
+            delay: 3000,
+                  typingTime: 2600
         },
-
-                        {
+        {
             id: 12,
             sender: "detective",
             name: "侦探X404",
@@ -363,7 +380,7 @@
             time: "23:19",
             delay: 3000
         },
-                {
+        {
             id: 13,
             sender: "lawyer",
             name: "张律师",
@@ -371,13 +388,9 @@
             time: "23:19",
             typingTime: 2600,
             delay: 2000
-        },
-        
-        
-
+        }
     ];
 
-    // State Variables
     let currentStep = 0;
     let timeoutId = null;
 
@@ -386,7 +399,6 @@
     const chatViewport = document.getElementById('chatViewport');
     const threadPreview = document.getElementById('threadPreview');
 
-    // Utility: Scroll Viewport to Bottom
     function scrollToBottom() {
         chatViewport.scrollTo({
             top: chatViewport.scrollHeight,
@@ -394,14 +406,12 @@
         });
     }
 
-    // Render Single Message Bubble
     function appendMessage(item) {
         const isDetective = item.sender === "detective";
         const messageWrapper = document.createElement('div');
         messageWrapper.className = `flex gap-2.5 max-w-xl animate-pop-in ${isDetective ? 'ml-auto flex-row-reverse' : ''}`;
 
         if (isDetective) {
-            // Detective Message Bubble
             messageWrapper.innerHTML = `
                 <div class="w-8 h-8 rounded-full bg-amber-600 text-white font-bold flex items-center justify-center text-xs shrink-0 shadow">
                     X4
@@ -416,7 +426,6 @@
                 </div>
             `;
         } else {
-            // Lawyer Message Bubble
             messageWrapper.innerHTML = `
                 <div class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center text-xs shrink-0 shadow">
                     张
@@ -436,14 +445,19 @@
         scrollToBottom();
     }
 
-    // Main Sequential Controller (Slowed down to 0.5x speed)
     function processNextStep() {
-        if (currentStep >= conversationScript.length) return;
+        // 对话全部播放结束，显示悬浮签名图片
+        if (currentStep >= conversationScript.length) {
+            const signatureBox = document.getElementById('signatureBox');
+            if (signatureBox) {
+                signatureBox.classList.add('show');
+            }
+            return;
+        }
 
         const item = conversationScript[currentStep];
 
         if (item.sender === "lawyer") {
-            // Show Typing animation first for Lawyer
             typingIndicator.classList.remove('hidden');
             scrollToBottom();
 
@@ -456,7 +470,6 @@
             }, item.typingTime);
 
         } else {
-            // Detective sends message directly
             appendMessage(item);
             currentStep++;
 
@@ -464,7 +477,6 @@
         }
     }
 
-    // Auto-start on load
     window.onload = () => {
         processNextStep();
     };
