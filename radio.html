@@ -23,6 +23,14 @@ body {
     color: #2d2d2d;
     overflow-x: hidden;
     position: relative;
+    opacity: 1;
+    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 渐隐淡出效果 */
+body.fade-out {
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* 静态微弱星空 */
@@ -88,280 +96,6 @@ body::before {
     margin-top: 20px;
 }
 
-/* 隐藏在稿件背后的背景图层 */
-.secret-background {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(125deg, #050814, #0d1b2a, #1b263b, #2c1654, #050814);
-    background-size: 400% 400%;
-    animation: nebulaMove 15s ease infinite;
-    border-radius: 4px;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
-    overflow: hidden;
-}
-
-.page-wrap.unlocked .secret-background {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-@keyframes nebulaMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* ================= 图书卡与歌词联动专属样式 ================= */
-.zoom-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform: scale(1.5);
-    transform-origin: center center;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-}
-
-.main-layout {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    max-width: 1100px;
-    width: 100%;
-}
-
-.side-lyrics {
-    width: 260px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.poem-cantonese { text-align: right; }
-.poem-mandarin { text-align: left; }
-
-.lyric-line {
-    line-height: 1.6;
-    font-size: 14px;
-    font-style: italic;
-    color: #777;
-    opacity: 0.45;
-    filter: blur(0.5px);
-    transform: scale(0.97);
-    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.poem-cantonese .lyric-line.active {
-    opacity: 1;
-    filter: blur(0);
-    transform: scale(1.03);
-    color: #4a89a0; 
-    text-shadow: 0 0 10px rgba(74, 137, 160, 0.5);
-    font-weight: bold;
-}
-
-.poem-mandarin .lyric-line.active {
-    opacity: 1;
-    filter: blur(0);
-    transform: scale(1.03);
-    color: #c94040;
-    text-shadow: 0 0 10px rgba(201, 64, 64, 0.5);
-    font-weight: bold;
-}
-
-.lyric-line.passed { opacity: 0.85; filter: blur(0); transform: scale(1); color: #bcbcbc; }
-.lyric-line.full-show { opacity: 1; filter: blur(0); transform: scale(1); color: #e5e5e5; text-shadow: 0 0 10px rgba(229, 229, 229, 0.6); font-weight: normal; }
-.lyric-title { margin-top: 6px; }
-
-.center-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 15px;
-}
-
-.back-btn-container {
-    margin-bottom: 12px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-}
-
-.page-wrap.unlocked .back-btn-container {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.back-to-front-btn {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: #e2e8f0;
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-family: inherit;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    transition: all 0.2s ease;
-}
-
-.back-to-front-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    color: #fff;
-    transform: translateY(-1px);
-}
-
-.stack-container {
-    position: relative;
-    width: 340px;
-    height: 450px;
-    perspective: 1000px;
-    margin-bottom: 12px;
-}
-
-.card {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #f7f3e8;
-    border: 1px solid #c8bfae;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    padding: 20px 18px;
-    border-radius: 6px;
-    background-image: radial-gradient(#e3dac9 5%, transparent 5%);
-    background-size: 16px 16px;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, z-index 0.6s;
-    will-change: transform, opacity;
-}
-
-.card.swiping {
-    transform: translateY(120%) rotate(-10deg) scale(0.95) !important;
-    opacity: 0;
-}
-
-.stamp {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    border: 2px solid #b23b3b;
-    color: #b23b3b;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 3px;
-    transform: rotate(-12deg);
-    opacity: 0.85;
-    letter-spacing: 1px;
-}
-
-.header-title {
-    text-align: center;
-    font-size: 15px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-    color: #333;
-    border-bottom: 2px solid #333;
-    padding-bottom: 4px;
-}
-
-.book-info {
-    margin-bottom: 8px;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.book-info div {
-    display: flex;
-    border-bottom: 1px solid #666;
-    padding-bottom: 2px;
-    margin-bottom: 4px;
-}
-
-.info-label { width: 50px; font-weight: bold; color: #444; }
-.info-value { flex-grow: 1; font-weight: bold; color: #111; }
-
-.borrow-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 4px;
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-.borrow-table th, .borrow-table td {
-    border: 1px solid #777;
-    text-align: center;
-    height: 26px;
-    font-size: 12px;
-}
-
-.borrow-table th { background-color: #eae3d2; font-weight: bold; color: #333; }
-.handwritten { font-size: 15px; color: #1d2026; }
-
-.font-a { font-family: 'Ma Shan Zheng', cursive; }
-.font-b { font-family: 'Ma Shan Zheng', cursive; font-size: 17px; }
-.font-c { font-family: 'Long Cang', cursive; font-size: 17px; }
-.font-d { font-family: "Kaiti", "楷体", serif; font-weight: bold; }
-.duan { font-family: 'Ma Shan Zheng', cursive; color: #1a365d; font-size: 18px; font-weight: bold; }
-.song { font-family: 'Ma Shan Zheng', cursive; color: #2b4c7e; font-size: 16px; }
-
-.audio-wave {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 4px;
-    height: 16px;
-    margin-top: 8px;
-}
-
-.audio-bar {
-    width: 3px;
-    height: 100%;
-    background: linear-gradient(180deg, #ffffff 0%, #c0c0c0 100%);
-    border-radius: 3px;
-    box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
-    animation: pulse 1.2s ease-in-out infinite alternate;
-}
-
-.audio-bar:nth-child(1) { animation-delay: 0.0s; }
-.audio-bar:nth-child(2) { animation-delay: 0.2s; }
-.audio-bar:nth-child(3) { animation-delay: 0.4s; }
-.audio-bar:nth-child(4) { animation-delay: 0.1s; }
-.audio-bar:nth-child(5) { animation-delay: 0.3s; }
-
-@keyframes pulse {
-    0% { height: 4px; opacity: 0.3; }
-    100% { height: 16px; opacity: 1; }
-}
-
-.card-progress-indicator {
-    font-family: monospace;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-    margin-top: 4px;
-}
-
 /* 稿件页面主层 */
 .page {
     width: 210mm; 
@@ -376,11 +110,6 @@ body::before {
 }
 
 .page.show { opacity: 1; }
-
-.page-wrap.unlocked .page {
-    opacity: 0.05 !important;
-    pointer-events: none;
-}
 
 /* 胶带样式设计 */
 .tape {
@@ -574,13 +303,13 @@ audio { width: 100%; margin-top: 8px; }
 .outlook-btn:hover { background-color: #edebe9; border-color: #323130; color: #201f1e; }
 .outlook-btn:active { background-color: #c8c6c4; }
 
-/* ================= 修复后：精简间距并完美呈现的九宫格验证码样式（带背景模糊） ================= */
+/* ================= 九宫格验证码样式 ================= */
 .captcha-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px); /* 新增：背景模糊效果 */
+    backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -658,7 +387,7 @@ audio { width: 100%; margin-top: 8px; }
 <!-- 九宫格验证码弹窗结构 (默认隐藏) -->
 <div class="captcha-overlay" id="captchaOverlay" style="display: none;">
     <div class="captcha-box">
-<div class="captcha-header">
+        <div class="captcha-header">
             <div class="captcha-title-main-wrap" style="display: flex; align-items: baseline; flex-wrap: nowrap; gap: 4px;">
                 <span class="captcha-title-prefix">请选择包含</span>
                 <span class="captcha-title-main">杜鹃花元素</span>
@@ -683,231 +412,6 @@ audio { width: 100%; margin-top: 8px; }
 </div>
 
 <div class="page-wrap" id="pageWrap">
-    
-    <div class="secret-background" id="secretBg">
-        <div class="zoom-wrapper">
-            <div class="main-layout">
-
-                <div class="side-lyrics poem-cantonese" id="col-cantonese">
-                    <div class="lyric-line" data-index="0">給我體貼入微</div>
-                    <div class="lyric-line" data-index="1">但你手 如明日便要遠離</div>
-                    <div class="lyric-line" data-index="2">願你可以</div>
-                    <div class="lyric-line" data-index="3">留下共我曾愉快的憶記</div>
-                    <div class="lyric-line" data-index="4">當世事再沒完美</div>
-                    <div class="lyric-line" data-index="5">可遠在歲月如歌中找你</div>
-                    <div class="lyric-line lyric-title" data-index="6">《歲月如歌》</div>
-                </div>
-
-                <div class="center-container">
-                    
-                    <div class="back-btn-container">
-                        <button class="back-to-front-btn" onclick="resetTapes()">
-                            <span>返回正面</span>
-                        </button>
-                    </div>
-
-                    <div class="stack-container" id="stackContainer">
-
-                        <div class="card">
-                            <div class="stamp">青大附中</div>
-                            <div class="header-title">图书借阅记录卡</div>
-                            <div class="book-info">
-                                <div><span class="info-label">书名：</span><span class="info-value">《风从海上来》</span></div>
-                                <div><span class="info-label">作者：</span><span class="info-value">惠君</span></div>
-                            </div>
-                            <table class="borrow-table">
-                                <thead>
-                                    <tr>
-                                        <th width="25%">借出日期</th>
-                                        <th width="50%">借书人</th>
-                                        <th width="25%">还书日期</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="handwritten font-a">03.12</td>
-                                        <td class="handwritten font-a">陈小舟</td>
-                                        <td class="handwritten font-a">03.25</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten font-b">04.05</td>
-                                        <td class="handwritten font-b">张浩宇</td>
-                                        <td class="handwritten font-b">04.18</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten song">04.20</td>
-                                        <td class="handwritten song">许嘉怡</td>
-                                        <td class="handwritten song">05.02</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten duan">05.10</td>
-                                        <td class="handwritten duan">段宜廷</td>
-                                        <td class="handwritten duan">05.22</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten font-c">06.01</td>
-                                        <td class="handwritten font-c">顾思佳</td>
-                                        <td class="handwritten font-c">06.15</td>
-                                    </tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="card">
-                            <div class="stamp">青大附中</div>
-                            <div class="header-title">图书借阅记录卡</div>
-                            <div class="book-info">
-                                <div><span class="info-label">书名：</span><span class="info-value">《山那边的夏天》</span></div>
-                                <div><span class="info-label">作者：</span><span class="info-value">惠君</span></div>
-                            </div>
-                            <table class="borrow-table">
-                                <thead>
-                                    <tr>
-                                        <th width="25%">借出日期</th>
-                                        <th width="50%">借书人</th>
-                                        <th width="25%">还书日期</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="handwritten song">09.08</td>
-                                        <td class="handwritten song">林思琪</td>
-                                        <td class="handwritten song">09.20</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten duan">10.12</td>
-                                        <td class="handwritten duan">段宜廷</td>
-                                        <td class="handwritten duan">10.25</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten font-a">11.02</td>
-                                        <td class="handwritten font-a">周子昂</td>
-                                        <td class="handwritten font-a">11.15</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten font-c">11.18</td>
-                                        <td class="handwritten font-c">顾思佳</td>
-                                        <td class="handwritten font-c">12.01</td>
-                                    </tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="card">
-                            <div class="stamp">青大附中</div>
-                            <div class="header-title">图书借阅记录卡</div>
-                            <div class="book-info">
-                                <div><span class="info-label">书名：</span><span class="info-value">《云知道答案》</span></div>
-                                <div><span class="info-label">作者：</span><span class="info-value">惠君</span></div>
-                            </div>
-                            <table class="borrow-table">
-                                <thead>
-                                    <tr>
-                                        <th width="25%">借出日期</th>
-                                        <th width="50%">借书人</th>
-                                        <th width="25%">还书日期</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="handwritten font-b">04.02</td>
-                                        <td class="handwritten font-b">高语涵</td>
-                                        <td class="handwritten font-b">04.15</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten font-a">04.20</td>
-                                        <td class="handwritten font-a">齐天磊</td>
-                                        <td class="handwritten font-a">05.03</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten duan">05.18</td>
-                                        <td class="handwritten duan">段宜廷</td>
-                                        <td class="handwritten duan">05.30</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten song">06.01</td>
-                                        <td class="handwritten song">沈妙妙</td>
-                                        <td class="handwritten song">06.14</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten font-c">06.15</td>
-                                        <td class="handwritten font-c">顾思佳</td>
-                                        <td class="handwritten font-c">06.28</td>
-                                    </tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="card">
-                            <div class="stamp">青大附中</div>
-                            <div class="header-title">图书借阅记录卡</div>
-                            <div class="book-info">
-                                <div><span class="info-label">书名：</span><span class="info-value">《萤火之秋》</span></div>
-                                <div><span class="info-label">作者：</span><span class="info-value">惠君</span></div>
-                            </div>
-                            <table class="borrow-table">
-                                <thead>
-                                    <tr>
-                                        <th width="25%">借出日期</th>
-                                        <th width="50%">借书人</th>
-                                        <th width="25%">还书日期</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="handwritten font-d">09.15</td>
-                                        <td class="handwritten font-d">方文杰</td>
-                                        <td class="handwritten font-d">09.28</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten duan">10.08</td>
-                                        <td class="handwritten duan">段宜廷</td>
-                                        <td class="handwritten duan">10.20</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="handwritten font-c">10.22</td>
-                                        <td class="handwritten font-c">顾思佳</td>
-                                        <td class="handwritten font-c">11.03</td>
-                                    </tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                    <tr><td></td><td></td><td></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-
-                    <div class="audio-wave">
-                        <div class="audio-bar"></div>
-                        <div class="audio-bar"></div>
-                        <div class="audio-bar"></div>
-                        <div class="audio-bar"></div>
-                        <div class="audio-bar"></div>
-                    </div>
-                    <div class="card-progress-indicator" id="cardProgressIndicator">1 / 4</div>
-                </div>
-
-                <div class="side-lyrics poem-mandarin" id="col-mandarin">
-                    <div class="lyric-line" data-index="0">爱让我们虚伪</div>
-                    <div class="lyric-line" data-index="1">我得到 于事无补的安慰</div>
-                    <div class="lyric-line" data-index="2">你也得到</div>
-                    <div class="lyric-line" data-index="3">模仿爱上一个人的机会</div>
-                    <div class="lyric-line" data-index="4">残忍也不失慈悲</div>
-                    <div class="lyric-line" data-index="5">这样的关系你说多完美</div>
-                    <div class="lyric-line lyric-title" data-index="6">《兄妹》</div>
-                </div>
-
-            </div>
-        </div>
-    </div>
 
     <div class="tape tape-tr" id="tape-tr" onclick="tearTape('tr', event)"></div>
     <div class="tape tape-bl" id="tape-bl" onclick="tearTape('bl', event)"></div>
@@ -953,8 +457,6 @@ audio { width: 100%; margin-top: 8px; }
         </div>
 
         <div class="letter-content">
-
-
              <p>我们总在成长中，慢慢知晓着新的谎言。</p>
              <p>哪怕是最亲的人，也难免有过失言之时，有过难言之隐。</p>
             <p>可唯独给过的爱，不会因为这些就变得虚假。</p>
@@ -1004,7 +506,7 @@ audio { width: 100%; margin-top: 8px; }
         <div class="popup-actions">
             <a href="home.html" class="outlook-btn" target="_blank"><span></span> 删除</a>
             <a href="library.html" class="outlook-btn" target="_blank"><span></span> 不再显示</a>
-            <a href="flower.html" class="outlook-btn" target="_blank"><span></span> 回复</a>
+            <a href="reply.html" class="outlook-btn" target="_blank"><span></span> 回复</a>
         </div>
     </div>
 
@@ -1049,7 +551,6 @@ function initGrid() {
 }
 
 function openCaptcha() {
-    // 点击“检查您是人类”后，关闭当前安全验证提示，并打开九宫格弹窗
     document.getElementById("ov").style.display = "none";
     document.getElementById('captchaOverlay').style.display = 'flex';
     initGrid();
@@ -1073,20 +574,18 @@ function verifyCaptcha() {
     if (isMatch) {
         alert("验证成功！通过人机校验。");
         document.getElementById('captchaOverlay').style.display = 'none';
-        start(); // 验证成功后直接进入校园广播站背景音及主程序
+        start();
     } else {
         alert("验证错误！共5张图片。");
         document.querySelectorAll('.captcha-box .grid-item').forEach(item => item.classList.remove('selected'));
     }
 }
 
-// 点击背景遮罩关闭验证弹窗
 document.getElementById('captchaOverlay').onclick = function(e) {
     if (e.target === this) {
         this.style.display = 'none';
     }
 };
-// ------------------------------------------------
 
 function togglePopup() {
     const popup = document.getElementById('lawyerPopup');
@@ -1100,7 +599,6 @@ function togglePopup() {
 const correctOrder = ['tr', 'bl', 'br', 'tl'];
 let currentStep = 0;
 let isUnlocked = false;
-let lyricTimer = null;
 
 function start(){
     const ambientAudio = document.getElementById("ambient-bgm");
@@ -1133,8 +631,11 @@ function tearTape(position, event) {
         
         if (currentStep === correctOrder.length) {
             isUnlocked = true;
-            document.getElementById('pageWrap').classList.add('unlocked');
-            startLyricsAnimation();
+            // 撕完胶带后页面慢慢淡出并直接跳转到 flower.html
+            document.body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = 'flower.html';
+            }, 1500);
         }
     } else {
         resetTapes();
@@ -1144,122 +645,12 @@ function tearTape(position, event) {
 function resetTapes() {
     currentStep = 0;
     isUnlocked = false;
-    document.getElementById('pageWrap').classList.remove('unlocked');
-    
-    if (lyricTimer) {
-        clearInterval(lyricTimer);
-        lyricTimer = null;
-    }
     
     const tapes = document.querySelectorAll('.tape');
     tapes.forEach(tape => {
         tape.classList.remove('torn');
     });
 }
-
-function startLyricsAnimation() {
-    const cantoneseLines = document.querySelectorAll('#col-cantonese .lyric-line');
-    const mandarinLines = document.querySelectorAll('#col-mandarin .lyric-line');
-    const totalLines = cantoneseLines.length;
-    let currentIndex = 0;
-
-    function updateLyrics() {
-        if (currentIndex >= totalLines) {
-            if (lyricTimer) {
-                clearInterval(lyricTimer);
-                lyricTimer = null;
-            }
-            setTimeout(() => {
-                for (let i = 0; i < totalLines; i++) {
-                    cantoneseLines[i].className = 'lyric-line full-show';
-                    mandarinLines[i].className = 'lyric-line full-show';
-                }
-            }, 2000); 
-            return;
-        }
-
-        for (let i = 0; i < totalLines; i++) {
-            cantoneseLines[i].classList.remove('active', 'passed', 'full-show');
-            if (i < currentIndex) {
-                cantoneseLines[i].classList.add('passed');
-            } else if (i === currentIndex) {
-                cantoneseLines[i].classList.add('active');
-            }
-
-            mandarinLines[i].classList.remove('active', 'passed', 'full-show');
-            if (i < currentIndex) {
-                mandarinLines[i].classList.add('passed');
-            } else if (i === currentIndex) {
-                mandarinLines[i].classList.add('active');
-            }
-        }
-
-        currentIndex++;
-    }
-
-    updateLyrics();
-    if (lyricTimer) clearInterval(lyricTimer);
-    lyricTimer = setInterval(updateLyrics, 2000);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('stackContainer');
-    if (!container) return;
-    
-    const cards = Array.from(container.querySelectorAll('.card'));
-    const cardProgress = document.getElementById('cardProgressIndicator');
-    const totalCards = cards.length;
-    const rotations = [-2.5, 1.8, -1.2, 2.2, -0.8];
-    let isAnimating = false;
-
-    cards.forEach((card, idx) => {
-        card.setAttribute('data-index', idx + 1);
-    });
-
-    function updateStackLayout() {
-        cards.forEach((card, index) => {
-            const zIndex = totalCards - index;
-            const translateY = index * 4;
-            const scale = 1 - index * 0.02;
-            const rot = rotations[index % rotations.length];
-
-            card.style.zIndex = zIndex;
-            
-            if (!card.classList.contains('swiping')) {
-                card.style.transform = `translateY(${translateY}px) scale(${scale}) rotate(${rot}deg)`;
-                card.style.opacity = index > 3 ? '0' : '1';
-            }
-        });
-
-        if (cards.length > 0 && cardProgress) {
-            const currentNum = cards[0].getAttribute('data-index') || '1';
-            cardProgress.textContent = `${currentNum} / ${totalCards}`;
-        }
-    }
-
-    updateStackLayout();
-
-    function flipNextCard(event) {
-        event.stopPropagation();
-        if (isAnimating || cards.length <= 1) return;
-        isAnimating = true;
-
-        const topCard = cards.shift();
-        topCard.classList.add('swiping');
-
-        setTimeout(() => {
-            cards.push(topCard);
-            topCard.classList.remove('swiping');
-            updateStackLayout();
-            
-            setTimeout(() => {
-                isAnimating = false;
-            }, 100);
-        }, 550);
-    }
-
-    container.addEventListener('click', flipNextCard);
-});
 </script>
 </body>
 </html>

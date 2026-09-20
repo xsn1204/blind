@@ -264,7 +264,7 @@
             width: 100vw;
             height: 100vh;
             background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(12px); /* 背景高斯模糊效果 */
+            backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             display: flex;
             justify-content: center;
@@ -285,13 +285,6 @@
             font-weight: bold;
             color: #fff;
             margin-bottom: 12px;
-        }
-        .quiz-img-preview {
-            width: 90px;
-            height: auto;
-            margin-bottom: 12px;
-            border: 1px solid #444;
-            border-radius: 4px;
         }
         
         /* 横向序号排列容器 */
@@ -315,7 +308,7 @@
         .horizontal-text {
             font-family: monospace;
             font-size: 13px;
-            color: #ffffff; /* 纯白色数字 */
+            color: #ffffff;
             letter-spacing: 3px;
             white-space: nowrap;
         }
@@ -350,6 +343,82 @@
             display: none;
         }
 
+        /* 拟真 PDF 预览弹窗样式 */
+        #pdfModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 30000;
+        }
+        .pdf-viewer-container {
+            width: 800px;
+            max-width: 90vw;
+            height: 85vh;
+            background: #323639;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+        .pdf-viewer-header {
+            height: 48px;
+            background: #2a2a2e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            color: #f1f1f1;
+            font-size: 14px;
+            border-bottom: 1px solid #1c1c1e;
+        }
+        .pdf-viewer-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        .pdf-close-btn {
+            background: transparent;
+            border: none;
+            color: #aaa;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .pdf-close-btn:hover {
+            background: #444;
+            color: #fff;
+        }
+        .pdf-viewer-body {
+            flex: 1;
+            background: #525659;
+            padding: 30px;
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+        }
+        .pdf-page {
+            width: 100%;
+            max-width: 680px;
+            min-height: 800px;
+            background: #ffffff;
+            color: #222222;
+            padding: 50px 60px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            font-family: "SimSun", "Songti SC", STSong, serif;
+            line-height: 1.8;
+            font-size: 15px;
+            white-space: pre-wrap;
+        }
+
         .progress-indicator {
             position: fixed;
             bottom: 20px;
@@ -363,34 +432,34 @@
             z-index: 9999;
         }
         .custom-tooltip {
-    position: relative;
-    cursor: pointer;
-    display: inline-block;
-}
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+        }
 
-.custom-tooltip::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease-in-out;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    border: 1px solid #444;
-    z-index: 10;
-}
+        .custom-tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease-in-out;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            border: 1px solid #444;
+            z-index: 10;
+        }
 
-.custom-tooltip:hover::after {
-    opacity: 1;
-}
+        .custom-tooltip:hover::after {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -399,8 +468,6 @@
     <div id="passwordModal">
         <div class="modal-box">
             <div class="modal-title">🔒 安全验证：请输入邮箱访问密码</div>
-            
-            <!-- 附带的 quiz.png 照片 -->
 
             <!-- 横向排列的四行数字容器 -->
             <div class="horizontal-quiz-container">
@@ -414,6 +481,36 @@
             <br>
             <button class="modal-btn" onclick="checkPassword()">确认进入</button>
             <div id="errorTip" class="error-tip">密码错误，请重新输入 <br>💡：💊📚</div>
+        </div>
+    </div>
+
+    <!-- 拟真 PDF 预览弹窗 -->
+    <div id="pdfModal">
+        <div class="pdf-viewer-container">
+            <div class="pdf-viewer-header">
+                <div class="pdf-viewer-title">
+                    <span>📄 春晖福利院_举报信.pdf</span>
+                </div>
+                <button class="pdf-close-btn" onclick="closePdfModal()">✕</button>
+            </div>
+            <div class="pdf-viewer-body">
+                <div class="pdf-page">你们好。
+
+写这封信的时候，我下了很大的决心。
+如果不是已经没有别的办法，我不会用这样的方式来提醒：
+<strong>立刻停止使用盛廷医药最近的这批捐赠药品。</strong>
+我曾在仓库见过这批药。它们虽然和公司对外销售的同名药品名称一样，但在成分和质检记录上存在明显异常。
+我怀疑，这是部分滞销、过期或生产不良的药品，经重新包装后，以慈善捐赠的名义对外流出。
+请你们不要怀疑我的动机。
+<strong>药效看似只有微小的差异，落到一个具体的人身上，可能就是一次无法挽回的后果。</strong>
+我曾经历过这样的痛苦，所以不愿看到同样的事情再发生在这些无辜的孩子身上。
+请先把这批药单独封存，保留包装和批号。同时立刻联系专业人员重新确认。
+在一切确认清楚之前，请不要让任何孩子服用。
+最后附上我手里的检验结果。
+<strong>请你们务必认真核查。</strong>
+
+一名内部员工</div>
+            </div>
         </div>
     </div>
 
@@ -470,7 +567,7 @@
                 <div class="mail-meta-card">
                     <div class="meta-row">
                         <div class="meta-label">发件人：</div>
-                    <div class="meta-value custom-tooltip" data-tooltip="edenduan@qmail.com">&lt;Anonymous&gt;</div>
+                        <div class="meta-value custom-tooltip" data-tooltip="edenduan@qmail.com">&lt;Anonymous&gt;</div>
                     </div>
                     <div class="meta-row">
                         <div class="meta-label">时 间：</div>
@@ -495,7 +592,7 @@
                 <div class="attachment-section">
                     <div class="attachment-header">
                         <span>附件 (4 个)</span>
-                        <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">全部打包下载</span>
+                        <span class="action-link">全部打包下载</span>
                     </div>
                     <div class="attachment-list">
                         
@@ -504,13 +601,13 @@
                             <div class="attachment-info">
                                 <div class="file-icon icon-pdf">PDF</div>
                                 <div>
-                                    <span class="file-name">春晖福利院_举报信.pdf（已过期）</span>
+                                    <span class="file-name">春晖福利院_举报信.pdf</span>
                                     <span class="file-size">3.8 MB</span>
                                 </div>
                             </div>
                             <div class="attachment-actions">
-                                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">预览</span>
-                                <span class="action-link" style="color: #555555; cursor: not-allowed; pointer-events: none;">下载</span>
+                                <span class="action-link" onclick="openPdfModal()">预览</span>
+                                <span class="action-link" onclick="openPdfModal()">下载</span>
                             </div>
                         </div>
 
@@ -570,16 +667,24 @@
 
     <script>
       function checkPassword() {
-    const pwd = document.getElementById('pwdInput').value;
-    const errorTip = document.getElementById('errorTip');
+        const pwd = document.getElementById('pwdInput').value;
+        const errorTip = document.getElementById('errorTip');
 
-    if (pwd.toLowerCase() === 'clue') {
-        document.getElementById('passwordModal').style.display = 'none';
-    } else {
-        errorTip.style.display = 'block';
-        document.getElementById('pwdInput').value = '';
-    }
-}
+        if (pwd.toLowerCase() === 'clue') {
+            document.getElementById('passwordModal').style.display = 'none';
+        } else {
+            errorTip.style.display = 'block';
+            document.getElementById('pwdInput').value = '';
+        }
+      }
+
+      function openPdfModal() {
+        document.getElementById('pdfModal').style.display = 'flex';
+      }
+
+      function closePdfModal() {
+        document.getElementById('pdfModal').style.display = 'none';
+      }
     </script>
 </body>
 </html>
