@@ -1,369 +1,436 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Long+Cang&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
-
 <head>
     <meta charset="UTF-8">
-    <title>违纪学生思想认识材料</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>盛廷医药OA协同办公系统</title>
     <style>
+        /* 2018年前后典型政企/医药企业OA风格：重表格、传统配色、明显状态印章 */
         body {
+            background-color: #eef2f5;
+            font-family: "SimSun", "PMingLiU", "Microsoft YaHei", Arial, sans-serif;
+            font-size: 13px;
+            color: #333;
             margin: 0;
-            padding: 40px 20px;
-            background-color: #334155; /* 深色桌面背景，突显纸张 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
+            padding: 20px 0;
         }
 
-        /* 桌面容器，统一承载两张尺寸严格一致的纸张 */
-        .desk-container {
-            position: relative;
-            width: 100%;
-            max-width: 680px;
-            height: 880px; /* 预留底部层叠展开空间 */
-        }
-
-        /* ================= 模拟两张独立的稿纸（结构与尺寸完全一致） ================= */
-        .letter-paper {
-            position: absolute;
-            width: 100%;
-            height: 820px; /* 严格固定高度，确保两张纸尺寸完全一致 */
-            box-sizing: border-box;
-            background-color: #fffefb; /* 还原略微泛黄的手写纸张质感 */
-            padding: 40px 45px;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            outline: none; /* 移除点击时的蓝色边框 */
-            cursor: pointer;
-        }
-
-        /* 第一页（李梓豪）：默认在上方，带轻微左倾斜 */
-        .page-1 {
-            z-index: 2;
-            transform: translate(0, 0) rotate(-1.5deg);
-        }
-
-        /* 第二页（段宜廷）：默认在下方，通过平移露出一截，带轻微右倾斜 */
-        .page-2 {
-            z-index: 1;
-            transform: translate(15px, 35px) rotate(1.5deg);
-        }
-
-        /* 【核心点击交互】被点击获得焦点的纸张上浮放正，另一张自动被压在下方 */
-        .letter-paper:focus {
-            z-index: 10;
-            transform: translate(0, -10px) rotate(0deg) !important; /* 抽出来放正 */
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
-        }
-
-        /* ================= 顶部：学校官方红头 ================= */
-        .letter-header {
-            border-bottom: 2px solid #b91c1c;
-            padding-bottom: 6px;
-            margin-bottom: 15px;
+        .oa-paper {
+            width: 820px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #b5c6d8;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px 40px;
             position: relative;
         }
 
-        .letter-header::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 0;
+        .oa-header-table {
             width: 100%;
-            height: 1px;
-            background-color: #b91c1c;
+            border-collapse: collapse;
+            margin-bottom: 10px;
         }
 
-        .header-main {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .title-cn {
-            font-family: "STXingkai", "华文行楷", "KaiTi", "楷体", serif;
-            font-size: 24px;
-            color: #b91c1c;
+        .oa-logo-title {
+            color: #004080;
+            font-family: "Microsoft YaHei", sans-serif;
+            font-size: 22px;
             font-weight: bold;
-        }
-
-        .title-en {
-            text-align: right;
-            font-family: "Times New Roman", serif;
-            font-size: 9px;
-            color: #78716c;
-            line-height: 1.2;
-        }
-
-        .header-sub {
-            margin-top: 6px;
-            font-size: 11px;
-            color: #b91c1c;
-            font-family: "SimSun", "宋体", sans-serif;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* ================= 中部：严格对齐的横线正文区 ================= */
-        .letter-body {
-            background: linear-gradient(to bottom, transparent 34px, #e2e8f0 35px);
-            background-size: 100% 35px; 
-            line-height: 35px;
-            font-size: 16px;            
-            padding-top: 5px;
-            margin-bottom: 25px;
-            height: 525px; /* 固定的正文格高度 */
-        }
-
-        /* 【优化】强制两张纸的字体系列、粗细、颜色完全一致，解决一深一浅的问题 */
-        .font-style-a, .font-style-b {
-            font-family: "KaiTi", "楷体", "STKaiti", serif; 
-            font-weight: normal; /* 统一为常规粗细 */
-            color: #1e293b;      /* 统一文字颜色 */
             letter-spacing: 1px;
         }
 
-        .salutation {
-            font-weight: bold;
-        }
-
-        .text-p {
-            text-indent: 2em;
-            text-align: justify;
-            margin: 0;
-        }
-
-        .closing {
-            text-indent: 2em;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        /* ================= 落款与签名区 ================= */
-        .sign-block {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start; /* 核心修改：改为左对齐 */
-            line-height: 40px;
-            font-size: 16px;
-            padding-left: 400px;      /* 左侧留出适当间距，使其对齐看起来更美观 */
-            margin-top: -50px;       /* 核心修改：往上挪动，紧贴正文区域 */
-        }
-
-        /* 统一的手写体签名样式基类 */
-        .handwritten-sign {
-            font-family: "STXingkai", "华文行楷", "KaiTi", "楷体", cursive;
-            font-size: 22px;         
-            font-style: italic;       
-            color: #09232b;           
-            display: inline-block;
-            transform: rotate(-2deg); 
-            letter-spacing: 2px;
-            padding-left: 5px;
-            height: 40px; /* 固定高度防止撑开行高 */
-            vertical-align: bottom;
-        }
-        .handwritten-sign-1 {
-            font-family: 'Ma Shan Zheng', cursive;
-            font-size: 22px;         
- 
-            color: #09192b;           
-            display: inline-block;
-            transform: rotate(-2deg); 
-            letter-spacing: 2px;
-            padding-left: 5px;
-            height: 40px; /* 固定高度防止撑开行高 */
-            vertical-align: bottom;
-        }
-
-        .letter-footer {
-            position: absolute;
-            bottom: 30px;
-            left: 45px;
-            right: 45px;
-            border-top: 1px solid #cbd5e1;
-            padding-top: 8px;
-            font-size: 11px;
-            color: #64748b;
-            font-family: "SimSun", "宋体", sans-serif;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* ================= 新增：班主任手写便签样式 ================= */
-        .sticky-note {
-            position: absolute;
-            top: 180px;
-            right: -30px; /* 让便签稍微探出信纸边缘，增加错落的立体感 */
-            width: 200px;
-            height: 150px;
-            background-color: #fef08a; /* 经典的3M淡黄色便签 */
-            padding: 15px;
-            box-shadow: -5px 8px 15px rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.1);
-            transform: rotate(4deg); /* 轻微旋转，模拟随意贴上去的效果 */
-            z-index: 5;
-            border-left: 2px solid #facc15; /* 模拟左侧折痕或厚度 */
-            transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; /* 增加平滑消失的过渡动画 */
-            cursor: pointer; /* 提醒用户这是可以点击的 */
-        }
-
-        .sticky-note:hover {
-            transform: rotate(1deg) scale(1.03); /* 鼠标悬停时动态反馈 */
-        }
-
-        /* ================= [新增] 隐藏便签的样式 ================= */
-        .sticky-note.hidden {
-            opacity: 0;              /* 完全透明 */
-            visibility: hidden;     /* 彻底隐藏，不占位置，不可点击 */
-            transform: rotate(10deg) scale(0.8) translateY(20px); /* 增加向下滑落并缩小的消失动画 */
-        }
-
-        .sticky-note-content {
-            font-family: "KaiTi", "楷体", "STKaiti", serif;
-            font-size: 14px;
-            line-height: 1.5;
-            color: #b45309; /* 深琥珀色模拟中性笔或圆珠笔蓝色/深色墨水在黄纸上的手写感 */
-            font-weight: bold;
-        }
-
-        .sticky-note-header {
+        .oa-sub-title {
+            color: #666;
             font-size: 12px;
-            border-bottom: 1px dashed #facc15;
-            padding-bottom: 5px;
-            margin-bottom: 8px;
-            color: #ca8a04;
+            text-align: right;
+            vertical-align: bottom;
         }
 
-        @media (max-width: 768px) {
-            .desk-container { height: 900px; }
-            .letter-paper { padding: 30px 25px; height: 800px; }
-            .letter-footer { left: 25px; right: 25px; bottom: 20px; }
-            .sign-block { padding-left: 20px; }
-            .sticky-note { right: 10px; top: 140px; width: 160px; } /* 移动端适配 */
+        .sys-bar {
+            background: #4a77ac;
+            color: #fff;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-radius: 2px;
         }
-  
-                            .progress-indicator {
-    position: fixed;
-   bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-family: monospace;
-    font-size: 0.85rem;
-    z-index: 9999;
-}
-    </style>                             <div class="progress-indicator">23/31</div></head>
+
+        /* 传统OA核心：高密度表单格 */
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #99bbe8;
+            margin-bottom: 15px;
+        }
+
+        .form-table td, .form-table th {
+            border: 1px solid #a3bad6;
+            padding: 7px 10px;
+            vertical-align: middle;
+        }
+
+        .field-label {
+            background-color: #e8f1f7;
+            color: #15428b;
+            font-weight: bold;
+            text-align: right;
+            width: 15%;
+            white-space: nowrap;
+        }
+
+        .field-content {
+            background-color: #fff;
+            width: 35%;
+        }
+
+        .table-section-header {
+            background-color: #d0e0f4;
+            color: #15428b;
+            font-weight: bold;
+            font-size: 13px;
+            padding: 6px 10px;
+            border: 1px solid #99bbe8;
+            border-bottom: none;
+        }
+
+        /* 门禁日志明细子表 */
+        .grid-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #99bbe8;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        .grid-table th {
+            background: #e0ecff;
+            color: #0e2d5f;
+            border: 1px solid #99bbe8;
+            padding: 6px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .grid-table td {
+            border: 1px solid #ccc;
+            padding: 6px 8px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .highlight-row {
+            background-color: #fef8ed; /* 重点高亮敏感行为记录 */
+        }
+
+        /* 拟真电子印章 (2018年OA特征) */
+        .stamp-box {
+            position: absolute;
+            top: 45px;
+            right: 50px;
+            width: 110px;
+            height: 110px;
+            border: 3px double #c00;
+            border-radius: 50%;
+            color: #c00;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1.2;
+            transform: rotate(-15deg);
+            opacity: 0.85;
+            pointer-events: none;
+            box-sizing: border-box;
+            padding-top: 18px;
+        }
+
+        .stamp-box .stamp-title {
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .stamp-box .stamp-status {
+            font-size: 16px;
+            border-top: 1px dashed #c00;
+            border-bottom: 1px dashed #c00;
+            padding: 2px 0;
+            margin: 2px 0;
+        }
+
+        /* 审批意见栏 */
+        .opinion-box {
+            border: 1px solid #a3bad6;
+            background: #fafafa;
+            padding: 8px 12px;
+            min-height: 50px;
+            line-height: 1.6;
+        }
+
+        .opinion-signer {
+            text-align: right;
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .opinion-signer b {
+            color: #333;
+        }
+
+        /* 底部操作按钮栏 */
+        .action-bar {
+            margin-top: 25px;
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px dashed #ccc;
+        }
+
+        .btn-oa {
+            background: linear-gradient(to bottom, #7da5d8 0%, #4a77ac 100%);
+            border: 1px solid #3b5e8c;
+            color: #fff;
+            padding: 6px 18px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 3px;
+            margin: 0 5px;
+        }
+
+        .btn-oa:hover {
+            background: #3b5e8c;
+        }
+
+        .watermark-text {
+            position: absolute;
+            bottom: 120px;
+            left: 150px;
+            font-size: 38px;
+            color: rgba(0, 86, 179, 0.05);
+            font-family: "Microsoft YaHei";
+            transform: rotate(-20deg);
+            font-weight: bold;
+            pointer-events: none;
+        }
+        .progress-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            z-index: 9999;
+        }
+    </style>
+</head>
 <body>
 
-    <div class="desk-container">
+    <div class="progress-indicator">23/31</div>
 
-        <!-- ==================== 上层/第一页：李梓豪 检讨书 ==================== -->
-        <!-- [新增] 为 page-1 增加 ID，方便 JavaScript 处理 -->
-        <div id="page1" class="letter-paper page-1 font-style-b" tabindex="1">
-            
+<div class="oa-paper">
+    <!-- 水印 -->
+    <div class="watermark-text">盛廷医药集团 内部电子流转单</div>
 
-
-            <div class="letter-header">
-                <div class="header-main">
-                    <div class="school-info">
-                        <div class="title-cn">青州大学附属高中信笺</div>
-                    </div>
-                    <div class="title-en">
-                        QINGZHOU UNIVERSITY  <br> AFFILIATED HIGH SCHOOL
-                    </div>
-                </div>
-                <div class="header-sub">
-                    <span>学生处材料</span>
-                    <span>编号：2018-1118A</span>
-                </div>
-            </div>
-
-<div class="letter-body">
-                <p class="salutation">尊敬的学校领导、班主任老师：</p>
-                <p class="text-p">就我在本次事件中所负有的责任，向学校做出深刻的自我检查。</p>
-                <p class="text-p">反思错误源头，根源在于我不该主观故意地在同学之间编造、传播涉及私人关系的言论与是非，严重破坏了校园的纯洁风气，也给当事同学带来了极大的精神困扰与伤害。</p>
-                <p class="text-p">经过老师的批评教育，我深刻体会到我的错误。</p>
-                <p class="text-p">我愿意承担相应的责任，诚恳向顾思佳、段宜廷及其班集体道歉，并在今后全面规范日常言行，做到不造谣、不传谣，确保绝不再发生类似事件。</p>
-                <p class="closing">此致</p>
-                <p class="closing" style="text-indent: 4em;">敬礼！</p>
-            </div>
-
-            <div class="sign-block">
-                <div>检查人：<span class="handwritten-sign">李梓豪</span></div>
-                <div>班级：高二（15）</div>
-                <div>日期：2018年11月18日</div>
-            </div>
-
-            <div class="letter-footer">
-                <span>青州大学附属高中学生处</span>
-                <span>第 1 页</span>
-            </div>
-        </div>
-
-
-        <!-- ==================== 下层/第二页：检讨书 ==================== -->
-        <div class="letter-paper page-2 font-style-a" tabindex="2">
-            <div class="letter-header">
-                <div class="header-main">
-                    <div class="school-info">
-                        <div class="title-cn">青州大学附属高中信笺</div>
-                    </div>
-                    <div class="title-en">
-                        QINGZHOU UNIVERSITY  <br> AFFILIATED HIGH SCHOOL
-                    </div>
-                </div>
-                <div class="header-sub">
-                    <span>学生处材料</span>
-                    <span>编号：2018-1118B</span>
-                </div>
-            </div>
-
-            <div class="letter-body">
-                <p class="salutation"></p>
-                <p class="text-p"></p>
-                <p class="text-p"></p>
-        </div>
-
-            <div class="sign-block">
-                         <div>检查人：<span class="handwritten-sign-1"></span></div>
-                <div>班级：</div>
-                <div>日期：</div>
-            </div>
-
-            <div class="letter-footer">
-                <span>青州大学附属高中学生处</span>
-                <span>第 2 页</span>
-            </div>
-        </div>
-        
+    <!-- 拟真电子印章 -->
+    <div class="stamp-box">
+        <div class="stamp-title">盛廷医药OA</div>
+        <div class="stamp-status">归档完成</div>
+        <div class="stamp-title">2018-09-01</div>
     </div>
 
-    <!-- ==================== [新增] JavaScript 代码 ==================== -->
-    <script>
-        function hideNote() {
-            // 1. 获取便签元素
-            var note = document.getElementById('teacherNote');
-            
-            // 2. 为其添加 'hidden' 类，触发 CSS 定义的隐藏和动画效果
-            if (note) {
-                note.classList.add('hidden');
-            }
-            
-            // 3. [可选] 为了防止点击便签时也触发信纸的聚焦(focus)事件，
-            // 我们可以让信纸暂时失去焦点。
-            var page1 = document.getElementById('page1');
-            if (page1) {
-                page1.blur();
-            }
-        }
-    </script>
+    <!-- 页头 -->
+    <table class="oa-header-table">
+        <tr>
+            <td class="oa-logo-title">盛廷医药集团协同办公平台 (v8.2)</td>
+            <td class="oa-sub-title">单据编号：OA-20180901-0819<br>保密级别：机密 (安保复核)</td>
+        </tr>
+    </table>
+
+    <div class="sys-bar">
+        位置：工作流 &gt; 安保与综合治理 &gt; 内部人员敏感区域通行审计调阅单
+    </div>
+
+    <!-- 申请/调阅人与调阅目标基本信息 -->
+    <table class="form-table">
+        <tr>
+            <td class="field-label">被查询目标</td>
+            <td class="field-content"><b>段宜廷</b></td>
+            <td class="field-label">人员编号</td>
+            <td class="field-content">ST-8042</td>
+        </tr>
+        <tr>
+            <td class="field-label">部门 / 岗位</td>
+            <td class="field-content">董事长助理</td>
+            <td class="field-label">调阅时段</td>
+            <td class="field-content">2018年06月01日 - 08月31日</td>
+        </tr>
+       
+    </table>
+
+    <!-- 门禁与通行日志表格 -->
+    <div class="table-section-header">一、 内部区域通行及门禁日志数据汇总</div>
+    <table class="grid-table">
+        <thead>
+            <tr>
+                <th style="width: 8%;">序号</th>
+                <th style="width: 15%;">日期</th>
+                <th style="width: 12%;">时间</th>
+                <th style="width: 25%;">通行区域</th>
+                <th style="width: 15%;">进入方式</th>
+                <th style="width: 25%;">备注说明</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>06.27</td>
+                <td>08:41</td>
+                <td>办公区</td>
+                <td>人脸识别</td>
+              <td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>06.27</td>
+                <td>14:16</td>
+                <td>仓库区</td>
+                <td>人脸识别</td>
+                <td></td>
+            </tr>
+            <tr class="highlight-row">
+                <td>3</td>
+                <td>06.28</td>
+                <td>16:52</td>
+                <td>仓库区</td>
+                <td>人脸识别</td>
+             <td><span style="color:#d9534f; font-weight:bold;">非日常工作时段</span></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>07.03</td>
+                <td>09:18</td>
+                <td>特殊药品管理区</td>
+                <td>人脸识别</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>07.05</td>
+                <td>15:27</td>
+                <td>仓库区</td>
+                <td>人脸识别</td>
+                 <td></td>
+            </tr>
+            <tr class="highlight-row">
+                <td>6</td>
+                <td>07.09</td>
+                <td>17:43</td>
+                <td>公益捐赠物资暂存区</td>
+                <td>人脸识别</td>
+                <td><span style="color:#d9534f; font-weight:bold;">非日常工作时段</span></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>07.16</td>
+                <td>11:06</td>
+                <td>仓库区</td>
+                <td>人脸识别</td>
+                  <td></td>
+            </tr>
+            <tr class="highlight-row">
+                <td>8</td>
+                <td>07.18</td>
+                <td>18:21</td>
+                <td>特殊药品管理区</td>
+                <td>人脸识别</td>
+                <td><span style="color:#d9534f; font-weight:bold;">非日常工作时段</span></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>07.26</td>
+                <td>13:54</td>
+                <td>公益捐赠物资暂存区</td>
+                <td>人脸识别</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>08.02</td>
+                <td>09:47</td>
+                <td>仓库区</td>
+                <td>人脸识别</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>08.08</td>
+                <td>16:35</td>
+                <td>特殊药品管理区</td>
+                <td>人脸识别</td>
+                <td></td>
+            </tr>
+            <tr class="highlight-row">
+                <td>12</td>
+                <td>08.17</td>
+                <td>17:56</td>
+                <td>公益捐赠物资暂存区</td>
+                <td>人脸识别</td>
+               <td><span style="color:#d9534f; font-weight:bold;">非日常工作时段</span></td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>08.23</td>
+                <td>10:12</td>
+                <td>仓库区</td>
+                <td>人脸识别</td>
+           <td></td>
+            </tr>
+            <tr class="highlight-row">
+                <td>14</td>
+                <td>08.31</td>
+                <td>18:09</td>
+                <td>资料室</td>
+                <td>人脸识别</td>
+                <td><span style="color:#d9534f; font-weight:bold;">非日常工作时段</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+    <!-- 审批/流转意见栏 -->
+    <div class="table-section-header">二、 部门审核与签决意见</div>
+    <table class="form-table">
+    <tr>
+        <td class="field-label">安保部<br>复核意见</td>
+        <td class="field-content" colspan="3">
+            <div class="opinion-box">
+                经核实，相关人员因业务学习及<strong>【红围巾】</strong>志愿服务需要，在授权范围内进入相关区域。鉴于人员情况特殊，按一般门禁记录归档。
+                <div class="opinion-signer">签名：<b>陈国强 (安保部主管)</b>&nbsp;&nbsp;&nbsp;&nbsp;日期：2018-09-01 09:30</div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="field-label">合规风控部<br>审核意见</td>
+        <td class="field-content" colspan="3">
+            <div class="opinion-box">
+                经复核，未发现账物不符情形，不纳入异常上报流程。
+                <div class="opinion-signer">签名：<b>张亚玲 (合规专员)</b>&nbsp;&nbsp;&nbsp;&nbsp;日期：2018-09-01 10:15</div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+    <!-- 操作按钮 -->
+    <div class="action-bar">
+        <button class="btn-oa">同意并归档</button>
+        <button class="btn-oa">导出PDF凭证</button>
+        <button class="btn-oa">打印日志单</button>
+    </div>
+</div>
 
 </body>
 </html>
